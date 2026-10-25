@@ -1,5 +1,7 @@
 # Архитектура и правила развития
 
+Дополнение этапа 3, 2026-10-25: Bank и Node TDD Evaluator вошли в `main@cc8df28`. Ветка `codex/metrics-collector` добавляет [метрики и общий admission ledger](metrics.md), миграцию 3 и наблюдение событий Harness. Полный охват всех provider requests и автоматический hard-budget enforcement внутри Harness не заявлены; ограничения описаны в ADR 0003. Ниже сохранены исторические снимки с указанием их базы.
+
 Дополнение 2026-10-25 для рабочей ветки `codex/tdd-evaluator`: новые инструкции из main@aa75488 синхронизированы; Strategy Bank дополнен timeout и EvaluationResult v2 в commit 48eb5e2. Локальный Node TDD Evaluator описан в [tdd-evaluator.md](tdd-evaluator.md) и ADR 0002. Это возможности feature-веток, не заявление об их слиянии в main. Остальной раздел ниже сохраняет явно указанную историческую базу проверки.
 
 ## Проверенная база и целевое состояние

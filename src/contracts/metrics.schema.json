@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:dsh-metaaco:metrics:v1",
+  "oneOf": [
+    { "$ref": "#/$defs/call" }, { "$ref": "#/$defs/price" },
+    { "$ref": "#/$defs/budget" }, { "$ref": "#/$defs/reservation" }, { "$ref": "#/$defs/settlement" }
+  ],
+  "$defs": {
+    "text": { "type": "string", "pattern": "\\S" },
+    "integer": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+    "nullableCount": { "oneOf": [{ "$ref": "#/$defs/integer" }, { "type": "null" }] },
+    "nullableText": { "oneOf": [{ "$ref": "#/$defs/text" }, { "type": "null" }] },
+    "currency": { "type": "string", "pattern": "^[A-Z]{3}$" },
+    "usage": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "inputTokens": { "$ref": "#/$defs/nullableCount" }, "outputTokens": { "$ref": "#/$defs/nullableCount" },
+        "cacheReadTokens": { "$ref": "#/$defs/nullableCount" }, "cacheWriteTokens": { "$ref": "#/$defs/nullableCount" },
+        "reasoningTokens": { "$ref": "#/$defs/nullableCount" }, "totalTokens": { "$ref": "#/$defs/nullableCount" }
+      },
+      "$comment": "Runtime normalizes missing fields to null, verifies disjoint totals when known, and requires reasoningTokens <= outputTokens."
+    },
+    "billing": {
+      "type": "object", "additionalProperties": false, "required": ["currency", "microunits", "source"],
+      "properties": { "currency": { "$ref": "#/$defs/currency" }, "microunits": { "$ref": "#/$defs/integer" }, "source": { "$ref": "#/$defs/text" } }
+    },
+    "price": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schemaVersion", "id", "provider", "model", "modelRevision", "currency", "effectiveAt", "source", "rates"],
+      "properties": {
+        "schemaVersion": { "const": 1 }, "id": { "$ref": "#/$defs/text" }, "provider": { "$ref": "#/$defs/text" },
+        "model": { "$ref": "#/$defs/text" }, "modelRevision": { "$ref": "#/$defs/text" },
+        "currency": { "$ref": "#/$defs/currency" }, "effectiveAt": { "type": "string", "format": "date-time" },
+        "source": { "$ref": "#/$defs/text" },
+        "rates": {
+          "type": "object", "additionalProperties": false,
+          "required": ["inputTokens", "outputTokens", "cacheReadTokens", "cacheWriteTokens"],
+          "properties": {
+            "inputTokens": { "$ref": "#/$defs/integer" }, "outputTokens": { "$ref": "#/$defs/integer" },
+            "cacheReadTokens": { "$ref": "#/$defs/integer" }, "cacheWriteTokens": { "$ref": "#/$defs/integer" }
+          }, "description": "Microunits per million tokens; reasoning is included in output."
+        }
+      }
+    },
+    "call": {
+      "type": "object", "additionalProperties": false,
+      "required": ["callId", "provider", "model", "modelRevision", "requestId", "status", "kind", "latencyMs", "usage", "pricing", "billing", "source"],
+      "properties": {
+        "callId": { "$ref": "#/$defs/text" }, "provider": { "$ref": "#/$defs/nullableText" }, "model": { "$ref": "#/$defs/nullableText" },
+        "modelRevision": { "$ref": "#/$defs/nullableText" }, "requestId": { "$ref": "#/$defs/nullableText" },
+        "status": { "enum": ["completed", "failed", "cancelled", "timeout", "interrupted"] },
+        "kind": { "$ref": "#/$defs/text" }, "latencyMs": { "type": ["number", "null"], "minimum": 0 },
+        "usage": { "oneOf": [{ "$ref": "#/$defs/usage" }, { "type": "null" }] },
+        "pricing": { "oneOf": [{ "$ref": "#/$defs/price" }, { "type": "null" }] },
+        "billing": { "oneOf": [{ "$ref": "#/$defs/billing" }, { "type": "null" }] },
+        "source": { "$ref": "#/$defs/text" }
+      }, "$comment": "Runtime verifies exact route/modelRevision equality with the pricing snapshot."
+    },
+    "budget": {
+      "type": "object", "additionalProperties": false, "required": ["budgetId", "currency", "limitMicrounits"],
+      "properties": { "budgetId": { "$ref": "#/$defs/text" }, "currency": { "$ref": "#/$defs/currency" }, "limitMicrounits": { "$ref": "#/$defs/integer" } }
+    },
+    "reservation": {
+      "type": "object", "additionalProperties": false, "required": ["budgetId", "reservationId", "attemptId", "upperBoundMicrounits"],
+      "properties": {
+        "budgetId": { "$ref": "#/$defs/text" }, "reservationId": { "$ref": "#/$defs/text" },
+        "attemptId": { "$ref": "#/$defs/text" }, "upperBoundMicrounits": { "$ref": "#/$defs/integer" }
+      }
+    },
+    "settlement": {
+      "type": "object", "additionalProperties": false,
+      "required": ["budgetId", "reservationId", "settlementId", "actualMicrounits", "source"],
+      "properties": {
+        "budgetId": { "$ref": "#/$defs/text" }, "reservationId": { "$ref": "#/$defs/text" },
+        "settlementId": { "$ref": "#/$defs/text" }, "actualMicrounits": { "$ref": "#/$defs/nullableCount" }, "source": { "$ref": "#/$defs/text" }
+      }
+    }
+  }
+}

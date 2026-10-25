@@ -6,7 +6,9 @@
     ".": "./index.js",
     "./planner": "./planner.js",
     "./bank": "./src/bank/index.js",
-    "./evaluation": "./src/evaluation/index.js"
+    "./evaluation": "./src/evaluation/index.js",
+    "./metrics": "./src/metrics/index.js",
+    "./metrics/harness": "./src/adapters/harness/metrics.js"
   },
   "engines": {
     "node": ">=24.9",
@@ -22,7 +24,7 @@
     "src"
   ],
   "scripts": {
-    "test": "node --test test/unit.test.js test/planner.test.js test/bank/*.test.js test/evaluation/*.test.js",
+    "test": "node --test test/unit.test.js test/planner.test.js test/bank/*.test.js test/evaluation/*.test.js test/metrics/*.test.js",
     "test:integration": "node --test test/integration.test.js"
   },
   "devDependencies": {

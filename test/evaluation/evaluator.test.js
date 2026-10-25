@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { TDDEvaluator } from '../../src/evaluation/index.js'
 import { StrategyBank } from '../../src/bank/index.js'
+import { MetricsCollector } from '../../src/metrics/index.js'
 
 const spec = () => ({ schemaVersion: 1, id: 'addition-v1', acceptanceCriteria: ['Add two numbers without breaking identity'],
   timeoutMs: 3000, maxOutputBytes: 100000,
@@ -141,9 +142,13 @@ test('evaluator pins the bank request, persists its own evidence and finalizes i
   } })
   assert.throws(() => new TDDEvaluator({ spec: { ...pinned, id: 'replacement' }, bank, attemptId: 'attempt' }), /pinned/)
   const evaluator = new TDDEvaluator({ spec: pinned, bank, attemptId: 'attempt' })
+  const metrics = new MetricsCollector({ bank, attemptId: 'attempt' })
   const result = await runAll(evaluator)
-  evaluator.finalize({ measured: { cost: null }, estimates: {} })
+  metrics.finish('completed', { coverageComplete: true })
+  evaluator.finalize(metrics.snapshot())
   assert.equal(bank.getAttempt('attempt').state, 'succeeded')
+  assert.equal(bank.getAttempt('attempt').outcome.measured.testing.observedRuns, 6)
+  assert.ok(bank.getAttempt('attempt').outcome.measured.testing.runnerMsSum > 0)
   assert.deepEqual(bank.getAttempt('attempt').evaluation, result)
   assert.equal(bank.getEvents('attempt').filter(e => e.kind === 'evaluation-phase').length, 4)
   const exportRecords = bank.exportJsonl().trim().split('\n').map(JSON.parse)

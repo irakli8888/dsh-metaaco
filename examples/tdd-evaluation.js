@@ -1,6 +1,7 @@
 // Offline example: no Harness provider or model is started.
 import { StrategyBank } from 'dsh-metaaco/bank'
 import { TDDEvaluator } from 'dsh-metaaco/evaluation'
+import { MetricsCollector } from 'dsh-metaaco/metrics'
 import { randomUUID } from 'node:crypto'
 
 const dataDir = process.argv[2]
@@ -27,6 +28,7 @@ try {
   const attemptId = bank.beginAttempt({ attemptId: randomUUID(), strategy, selection: { policy: 'fixed-example-v1' },
     request: { schemaVersion: 1, taskId: 'addition-example-v1', description: 'Add numbers', repo: 'text-fixture',
       baseCommit: base.revision, testSpec: spec, provenance: { source: 'offline-example-v1' } } })
+  const metrics = new MetricsCollector({ bank, attemptId })
   const evaluator = new TDDEvaluator({ spec, bank, attemptId })
   await evaluator.runPhase('baseline', base)
   await evaluator.runPhase('red', base)
@@ -37,8 +39,11 @@ try {
   await evaluator.runPhase('refactor', { revision: 'example-final-v1', files: {
     'sum.cjs': 'exports.add=(a,b)=>b+a; exports.identity=x=>x;',
   } })
-  const result = evaluator.finalize({ measured: { cost: null }, estimates: {},
-    unavailable: ['API billing is not collected by this example'] })
+  // This closed offline example makes no model calls; coverage can be asserted here.
+  metrics.finish('completed', { coverageComplete: true })
+  const outcome = metrics.snapshot()
+  const result = evaluator.finalize(outcome)
   console.log(JSON.stringify({ attemptId, status: result.status, correctness: result.correctness,
-    tddCompliance: result.tddCompliance }, null, 2))
+    tddCompliance: result.tddCompliance, wallTimeMs: outcome.measured.wallTimeMs,
+    testRuns: outcome.measured.testing.observedRuns }, null, 2))
 } finally { bank.close() }
