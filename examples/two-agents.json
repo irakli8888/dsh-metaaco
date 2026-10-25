@@ -1,0 +1,11 @@
+{
+  "name": "two-agents",
+  "description": "Two independent children, scheduled in one fixed parallel stage",
+  "stages": [{
+    "title": "Research",
+    "agents": [
+      { "id": "java", "prompt": "Read-only task. In three sentences describe Java 21 virtual threads. Do not delegate or modify files." },
+      { "id": "aco", "prompt": "Read-only task. In three sentences describe ant colony optimization for task scheduling. Do not delegate or modify files." }
+    ]
+  }]
+}
