@@ -6,8 +6,9 @@ import { join } from 'node:path'
 import { Context } from '@deepseek-ai/cordis'
 import Engine from '@deepseek-ai/dsh-workflow-ptc'
 import { runWorkflow } from '../index.js'
+import { runPlannedWorkflow } from '../planner.js'
 
-test('published 0.2.1-rc.2 engine runs two offline provider children', { timeout: 60000 }, async () => {
+for (const planned of [false, true]) test(`published 0.2.1-rc.2 engine runs offline children (planned=${planned})`, { timeout: 60000 }, async () => {
   const ctx = new Context()
   const cwd = await mkdtemp(join(tmpdir(), 'metaaco-'))
   const children = [], events = []
@@ -39,7 +40,11 @@ test('published 0.2.1-rc.2 engine runs two offline provider children', { timeout
     ctx.agents.register(parent)
     ctx.on('workflow/agent-start', (_run, agent) => events.push(agent.childId))
     const workflow = JSON.parse(await readFile(new URL('../examples/two-agents.json', import.meta.url)))
-    const result = await runWorkflow(ctx, parent, workflow, { subagentProvider: 'offline' })
+    const result = planned
+      ? await runPlannedWorkflow(ctx, parent, { version: 1, planner: 'python-metaaco',
+        execution: 'serial-order', workflow: { ...workflow, stages: workflow.stages[0].agents.map((task, i) =>
+          ({ title: `Job ${i}`, agents: [task] })) } }, { allowLlm: true, subagentProvider: 'offline' })
+      : await runWorkflow(ctx, parent, workflow, { subagentProvider: 'offline' })
     assert.equal(result.agentsStarted, 2)
     assert.deepEqual(result.result, { java: 'offline-1', aco: 'offline-2' })
     assert.equal(events.length, 2)

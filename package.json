@@ -2,10 +2,26 @@
   "name": "dsh-metaaco",
   "version": "0.1.0",
   "type": "module",
-  "exports": "./index.js",
-  "engines": { "node": ">=24.9", "dsh": "0.2.1-rc.2" },
-  "files": ["index.js", "examples", "README.md"],
-  "scripts": { "test": "node --test test/unit.test.js", "test:integration": "node --test test/integration.test.js" },
+  "exports": {
+    ".": "./index.js",
+    "./planner": "./planner.js"
+  },
+  "engines": {
+    "node": ">=24.9",
+    "dsh": "0.2.1-rc.2"
+  },
+  "files": [
+    "index.js",
+    "examples",
+    "README.md",
+    "planner.js",
+    "python",
+    "docs"
+  ],
+  "scripts": {
+    "test": "node --test test/unit.test.js test/planner.test.js",
+    "test:integration": "node --test test/integration.test.js"
+  },
   "devDependencies": {
     "@deepseek-ai/cordis": "~4.0.5",
     "@deepseek-ai/dsh-workflow-ptc": "0.2.1-rc.2",
