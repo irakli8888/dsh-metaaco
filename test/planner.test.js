@@ -43,3 +43,15 @@ test('approved plan forwards validated data and runtime options; disposal on rej
   }), /runtime failed/)
   assert.equal(disposed, 1)
 })
+
+
+test('start-groups accepts multiple children and snapshots the group', () => {
+  const p = plan()
+  p.execution = 'start-groups'
+  p.workflow.stages[0].agents.push({ id: 'parallel', prompt: 'parallel work' })
+  const snapshot = validatePlan(p)
+  assert.equal(snapshot.count, 3)
+  assert.equal(snapshot.workflow.stages[0].agents.length, 2)
+  p.workflow.stages[0].agents.pop()
+  assert.equal(snapshot.workflow.stages[0].agents.length, 2)
+})
