@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:dsh-metaaco:bank:v1",
+  "description": "Storage inputs, not an execution or evaluator protocol. Runtime validation is in bank.js.",
+  "oneOf": [
+    { "$ref": "#/$defs/strategy" },
+    { "$ref": "#/$defs/attemptInput" },
+    { "$ref": "#/$defs/event" },
+    { "$ref": "#/$defs/evaluation" },
+    { "$ref": "#/$defs/artifact" }
+  ],
+  "$defs": {
+    "text": { "type": "string", "pattern": "\\S" },
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+    "version": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+    "strategyRef": {
+      "type": "object", "additionalProperties": false,
+      "required": ["strategyId", "version"],
+      "properties": { "strategyId": { "$ref": "#/$defs/text" }, "version": { "$ref": "#/$defs/version" } }
+    },
+    "workflow": {
+      "type": "object", "additionalProperties": false,
+      "required": ["name", "description", "stages"],
+      "properties": {
+        "name": { "$ref": "#/$defs/id" }, "description": { "$ref": "#/$defs/text" },
+        "stages": {
+          "type": "array", "minItems": 1,
+          "items": {
+            "type": "object", "additionalProperties": false, "required": ["title", "agents"],
+            "properties": {
+              "title": { "$ref": "#/$defs/text" },
+              "agents": {
+                "type": "array", "minItems": 1,
+                "items": {
+                  "type": "object", "additionalProperties": false, "required": ["id", "prompt"],
+                  "properties": { "id": { "$ref": "#/$defs/id" }, "prompt": { "$ref": "#/$defs/text" } }
+                }
+              }
+            }
+          }
+        }
+      },
+      "$comment": "Unique stage titles and child IDs are additionally checked by validateWorkflow."
+    },
+    "strategy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schemaVersion", "strategyId", "version", "workflow", "provenance"],
+      "properties": {
+        "schemaVersion": { "const": 1 }, "strategyId": { "$ref": "#/$defs/text" },
+        "version": { "$ref": "#/$defs/version" }, "workflow": { "$ref": "#/$defs/workflow" },
+        "provenance": { "type": "object" }
+      }
+    },
+    "request": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schemaVersion", "taskId", "description", "repo", "baseCommit", "testSpec", "provenance"],
+      "properties": {
+        "schemaVersion": { "const": 1 }, "taskId": { "$ref": "#/$defs/text" },
+        "description": { "$ref": "#/$defs/text" }, "repo": { "$ref": "#/$defs/text" },
+        "baseCommit": { "$ref": "#/$defs/text" }, "testSpec": { "type": "object" }, "provenance": { "type": "object" }
+      }
+    },
+    "attemptInput": {
+      "type": "object", "additionalProperties": false,
+      "required": ["attemptId", "request", "strategy", "selection"],
+      "properties": {
+        "attemptId": { "$ref": "#/$defs/text" }, "request": { "$ref": "#/$defs/request" },
+        "strategy": { "$ref": "#/$defs/strategyRef" }, "selection": { "type": "object" }
+      }
+    },
+    "event": {
+      "type": "object", "additionalProperties": false, "required": ["kind", "payload"],
+      "properties": { "kind": { "$ref": "#/$defs/text" }, "payload": { "type": "object" } }
+    },
+    "evaluation": {
+      "type": "object", "additionalProperties": false, "required": ["status", "requiredTests", "provenance"],
+      "properties": {
+        "status": { "enum": ["success", "failed", "inconclusive"] }, "provenance": { "type": "object" },
+        "requiredTests": {
+          "type": "array", "items": {
+            "type": "object", "additionalProperties": false, "required": ["id", "status"],
+            "properties": { "id": { "$ref": "#/$defs/text" }, "status": { "enum": ["passed", "failed", "skipped", "error"] } }
+          }
+        }
+      },
+      "if": { "properties": { "status": { "const": "success" } } },
+      "then": { "properties": { "requiredTests": { "minItems": 1, "items": { "properties": { "status": { "const": "passed" } } } } } },
+      "$comment": "Required test IDs must additionally be unique. Reports are caller-supplied, not verified by storage."
+    },
+    "outcome": {
+      "type": "object", "required": ["measured", "estimates"],
+      "properties": { "measured": { "type": "object" }, "estimates": { "type": "object" } }
+    },
+    "artifact": {
+      "type": "object", "additionalProperties": false, "required": ["sha256", "sizeBytes"],
+      "properties": { "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "sizeBytes": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 } }
+    }
+  }
+}

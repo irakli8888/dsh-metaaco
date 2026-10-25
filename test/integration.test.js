@@ -10,6 +10,7 @@ import { Context } from '@deepseek-ai/cordis'
 import Engine from '@deepseek-ai/dsh-workflow-ptc'
 import { runWorkflow } from '../index.js'
 import { runPlannedWorkflow } from '../planner.js'
+import { StrategyBank } from '../src/bank/index.js'
 
 for (const mode of ['fixed', 'serial-order', 'start-groups', 'agent-problem']) test(`published 0.2.1-rc.2 offline execution (${mode})`, { timeout: 60000,
   skip: mode === 'agent-problem' && !process.env.METAACO_SOURCE ? 'Set METAACO_SOURCE for real Python → Harness test' : false,
@@ -27,6 +28,7 @@ for (const mode of ['fixed', 'serial-order', 'start-groups', 'agent-problem']) t
   }
   const ctx = new Context()
   const cwd = await mkdtemp(join(tmpdir(), 'metaaco-'))
+  let bank
   const children = [], events = [], release = []
   let active = 0, maxActive = 0
   const parallel = mode !== 'serial-order'
@@ -72,7 +74,23 @@ for (const mode of ['fixed', 'serial-order', 'start-groups', 'agent-problem']) t
     const workflow = JSON.parse(await readFile(new URL('../examples/two-agents.json', import.meta.url)))
     let result
     if (mode === 'fixed') {
+      bank = new StrategyBank({ dataDir: join(cwd, 'history') })
+      const strategy = bank.register({ schemaVersion: 1, strategyId: 'fixed', version: 1,
+        workflow, provenance: { source: 'integration-test', harness: '0.2.1-rc.2' } })
+      bank.beginAttempt({ attemptId: 'offline-attempt', strategy,
+        request: { schemaVersion: 1, taskId: 'offline-task', description: 'Harness smoke test',
+          repo: cwd, baseCommit: 'offline-fixture', testSpec: {}, provenance: { source: 'integration-test' } },
+        selection: { policy: 'fixed' } })
       result = await runWorkflow(ctx, parent, workflow, { subagentProvider: 'offline' })
+      bank.appendEvent('offline-attempt', 'workflow-result', { kind: 'workflow-completed', payload: result })
+      const artifact = bank.putArtifact(Buffer.from(JSON.stringify(result.result)))
+      bank.attachArtifact('offline-attempt', 'agent-outputs', artifact)
+      bank.finalizeAttempt('offline-attempt', { status: 'inconclusive', requiredTests: [],
+        provenance: { source: 'integration-test', reason: 'Agent replies do not establish code correctness' } },
+      { measured: { inputTokens: null, outputTokens: null, cost: null }, estimates: {} })
+      assert.equal(bank.getAttempt('offline-attempt').state, 'inconclusive')
+      assert.deepEqual(JSON.parse(bank.getArtifact(artifact)), result.result)
+      assert.equal(bank.getEvents('offline-attempt')[0].payload.runId, result.runId)
     } else if (generatedPlan) {
       result = await runPlannedWorkflow(ctx, parent, generatedPlan, { allowLlm: true, subagentProvider: 'offline' })
     } else {
@@ -95,7 +113,9 @@ for (const mode of ['fixed', 'serial-order', 'start-groups', 'agent-problem']) t
     assert.ok(children.every(child => child.disposed))
     assert.ok(children.every(child => child.request.parent === parent))
   } finally {
-    await ctx.fiber.dispose()
-    await rm(cwd, { recursive: true, force: true })
+    try { await ctx.fiber.dispose() } finally {
+      bank?.close()
+      await rm(cwd, { recursive: true, force: true })
+    }
   }
 })

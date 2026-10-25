@@ -4,7 +4,8 @@
   "type": "module",
   "exports": {
     ".": "./index.js",
-    "./planner": "./planner.js"
+    "./planner": "./planner.js",
+    "./bank": "./src/bank/index.js"
   },
   "engines": {
     "node": ">=24.9",
@@ -16,10 +17,11 @@
     "README.md",
     "planner.js",
     "python",
-    "docs"
+    "docs",
+    "src"
   ],
   "scripts": {
-    "test": "node --test test/unit.test.js test/planner.test.js",
+    "test": "node --test test/unit.test.js test/planner.test.js test/bank/*.test.js",
     "test:integration": "node --test test/integration.test.js"
   },
   "devDependencies": {
