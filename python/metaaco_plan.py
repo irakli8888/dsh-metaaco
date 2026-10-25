@@ -47,17 +47,31 @@ def make_plan(schedule, instance, tasks, execution="start-groups"):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--source', required=True, help='Directory containing rcpsp/core.py and rcpsp/metaACO.py')
-    parser.add_argument('--instance', required=True, help='PSPLIB instance')
-    parser.add_argument('--tasks', required=True, help='JSON mapping zero-based job indices to id/prompt')
+    inputs = parser.add_mutually_exclusive_group(required=True)
+    inputs.add_argument('--instance', help='PSPLIB instance; requires --tasks')
+    inputs.add_argument('--problem', help='Agent problem JSON with slot capacity and estimated durations')
+    parser.add_argument('--tasks', help='JSON mapping zero-based PSPLIB job indices to id/prompt')
     parser.add_argument('--execution', choices=['serial-order', 'start-groups'], default='start-groups')
     parser.add_argument('--seed', type=int, default=42)
     args = parser.parse_args()
+    if args.instance and not args.tasks:
+        parser.error('--instance requires --tasks')
+    if args.problem and args.tasks:
+        parser.error('--tasks is only supported with --instance')
     sys.path.insert(0, args.source)
     try:
         from rcpsp.core import load_psplib_instance
         from rcpsp.metaACO import solve_rcpsp_psplib
     except ImportError as error:
         raise SystemExit(f'Real Python MetaACO unavailable; no fallback solver: {error}')
+    if args.problem:
+        from agent_problem import plan_problem
+        with open(args.problem, encoding='utf-8') as stream:
+            problem = json.load(stream)
+        with contextlib.redirect_stdout(sys.stderr):
+            plan = plan_problem(problem, args.seed, args.execution)
+        print(json.dumps(plan, ensure_ascii=False, allow_nan=False))
+        return
     with open(args.tasks, encoding='utf-8') as stream:
         tasks = json.load(stream)
     # The real solver writes diagnostics to stdout; reserve stdout for the contract.
