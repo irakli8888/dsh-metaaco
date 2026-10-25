@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:dsh-metaaco:evaluation:v1",
+  "oneOf": [{ "$ref": "#/$defs/spec" }, { "$ref": "#/$defs/snapshot" }],
+  "$defs": {
+    "text": { "type": "string", "pattern": "\\S" },
+    "files": {
+      "type": "object", "additionalProperties": { "type": "string" },
+      "propertyNames": { "type": "string", "minLength": 1 },
+      "$comment": "Runtime rejects absolute paths, backslashes, colons, empty/dot/dotdot/.git/node_modules path segments; total UTF-8 canonical JSON <=10 MiB."
+    },
+    "snapshot": {
+      "type": "object", "additionalProperties": false, "required": ["revision", "files"],
+      "properties": { "revision": { "$ref": "#/$defs/text" }, "files": { "$ref": "#/$defs/files" } }
+    },
+    "suite": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "kind", "files", "expectedRedTests"],
+      "properties": {
+        "id": { "$ref": "#/$defs/text" }, "kind": { "enum": ["target", "regression", "acceptance"] },
+        "files": {
+          "allOf": [{ "$ref": "#/$defs/files" }], "minProperties": 1,
+          "propertyNames": { "pattern": "\\.test\\.(cjs|mjs|js)$" }
+        },
+        "expectedRedTests": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/text" } }
+      },
+      "if": { "properties": { "kind": { "const": "target" } } },
+      "then": { "properties": { "expectedRedTests": { "minItems": 1 } } },
+      "else": { "properties": { "expectedRedTests": { "maxItems": 0 } } }
+    },
+    "spec": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schemaVersion", "id", "acceptanceCriteria", "suites", "timeoutMs", "maxOutputBytes"],
+      "properties": {
+        "schemaVersion": { "const": 1 }, "id": { "$ref": "#/$defs/text" },
+        "acceptanceCriteria": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/text" } },
+        "suites": { "type": "array", "minItems": 2, "maxItems": 64, "items": { "$ref": "#/$defs/suite" } },
+        "timeoutMs": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+        "maxOutputBytes": { "type": "integer", "minimum": 1, "maximum": 10485760 }
+      },
+      "$comment": "Runtime additionally requires unique suite IDs and test paths, target and regression suites, and a total spec <=10 MiB."
+    }
+  }
+}
