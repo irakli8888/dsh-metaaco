@@ -78,6 +78,8 @@ EvaluationResult v1: `{status: 'success'|'failed'|'inconclusive', requiredTests:
 Рабочий патч без RED можно сохранить с correctness=passed, tddCompliance=inconclusive, status=inconclusive.
 База мигрирует до версии 2 для отдельного состояния timeout; перед обновлением пользовательской БД сохраните её копию вместе с artifacts.
 
+В этапе Metrics Collector добавлена миграция 3 с budget ledger и append-only поправками счетов. API createBudget/getBudget/reserveBudget/settleBudget и recordAccountingCorrection/getAccountingSnapshot описан в [metrics.md](metrics.md). Поправка допустима после terminal state и не перезаписывает исходный outcome. exportJsonl включает бюджеты, резервы, всю историю сверок и поправки. Изменений старых JSON-входов и форматов планов нет.
+
 Начальная StrategyDefinition хранит существующий fixed workflow; это не новый DAG-контракт.
 Поиск похожих задач и ранжирование стратегий появятся с Task Analyzer/Selector. Сейчас доступны точные фильтры истории, включая неудачные попытки.
 Вызовы моделей, model revisions, тестовые отчёты и usage можно сохранять в payload событий; автоматический сбор ещё не подключён.

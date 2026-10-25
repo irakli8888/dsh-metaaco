@@ -63,4 +63,23 @@ export const migrations = [
   ALTER TABLE attempt_artifacts_next RENAME TO attempt_artifacts;
   CREATE INDEX attempts_task ON attempts(task_id);
   CREATE INDEX attempts_strategy ON attempts(strategy_id, strategy_version);`,
+  `CREATE TABLE budgets (
+    budget_id TEXT PRIMARY KEY, definition TEXT NOT NULL, created_at TEXT NOT NULL
+  ) STRICT;
+  CREATE TABLE budget_reservations (
+    budget_id TEXT NOT NULL REFERENCES budgets(budget_id), reservation_id TEXT NOT NULL,
+    attempt_id TEXT NOT NULL REFERENCES attempts(attempt_id), upper_bound INTEGER NOT NULL CHECK(upper_bound >= 0),
+    created_at TEXT NOT NULL, PRIMARY KEY(budget_id,reservation_id)
+  ) STRICT;
+  CREATE TABLE budget_settlements (
+    sequence INTEGER PRIMARY KEY AUTOINCREMENT, budget_id TEXT NOT NULL, reservation_id TEXT NOT NULL,
+    settlement_id TEXT NOT NULL, definition TEXT NOT NULL, created_at TEXT NOT NULL,
+    UNIQUE(budget_id,settlement_id),
+    FOREIGN KEY(budget_id,reservation_id) REFERENCES budget_reservations(budget_id,reservation_id)
+  ) STRICT;
+  CREATE TABLE accounting_corrections (
+    sequence INTEGER PRIMARY KEY AUTOINCREMENT, attempt_id TEXT NOT NULL REFERENCES attempts(attempt_id),
+    correction_id TEXT NOT NULL, definition TEXT NOT NULL, created_at TEXT NOT NULL,
+    UNIQUE(attempt_id,correction_id)
+  ) STRICT;`,
 ]

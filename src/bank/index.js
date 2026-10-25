@@ -3,6 +3,7 @@ import { createHash, randomUUID } from 'node:crypto'
 import { mkdirSync, readFileSync, writeFileSync, openSync, closeSync, fsyncSync, linkSync, unlinkSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { migrations } from './migrations.js'
+import { AccountingStore } from './accounting.js'
 import { canonicalJson, jsonObject, fields, text, strategyRef, validateStrategy,
   validateRequest, validateEvaluation, artifactRef } from '../contracts/bank.js'
 
@@ -42,6 +43,40 @@ export class StrategyBank {
   }
 
   close() { if (this.#db) { this.#db.close(); this.#db = null } }
+
+  createBudget(input) { return this.#transaction(() => new AccountingStore(this.#db).createBudget(input)) }
+  getBudget(budgetId) { return this.#transaction(() => new AccountingStore(this.#db).getBudget(budgetId), true) }
+  reserveBudget(input) { return this.#transaction(() => new AccountingStore(this.#db).reserve(input)) }
+  settleBudget(input) { return this.#transaction(() => new AccountingStore(this.#db).settle(input)) }
+  recordAccountingCorrection(attemptId, correctionId, input) {
+    return this.#transaction(() => new AccountingStore(this.#db).recordCorrection(attemptId, correctionId, input))
+  }
+  getAccountingCorrections(attemptId) { return new AccountingStore(this.#db).corrections(attemptId) }
+  getAccountingSnapshot(attemptId) {
+    return this.#transaction(() => ({ events: this.getEvents(attemptId),
+      corrections: new AccountingStore(this.#db).corrections(attemptId) }), true)
+  }
+
+  appendMetricsEvent(attemptId, eventId, payload) {
+    text(eventId, 'eventId')
+    fields(payload, ['schemaVersion', 'clockId', 'monotonicMs', 'recordedAt', 'data'], 'Metrics envelope')
+    text(payload.clockId, 'clockId'); text(payload.recordedAt, 'recordedAt'); jsonObject(payload.data, 'metrics data')
+    if (!eventId.startsWith('metrics/') || payload.schemaVersion !== 1
+      || !Number.isFinite(payload.monotonicMs) || payload.monotonicMs < 0) throw new Error('Invalid metrics envelope')
+    return this.#transaction(() => {
+      const events = this.getEvents(attemptId)
+      const existing = events.find(e => e.eventId === eventId)
+      if (existing) {
+        if (existing.kind !== 'metrics-v1' || canonicalJson(existing.payload.data) !== canonicalJson(payload.data)) throw new Error('Metrics event id conflict')
+        return existing
+      }
+      if (events.some(e => e.eventId === 'metrics/finish')) throw new Error('Metrics collection is finished')
+      if (events.some(e => e.kind === 'metrics-v1' && e.payload.clockId === payload.clockId && e.payload.monotonicMs > payload.monotonicMs)) {
+        throw new Error('Monotonic clock went backwards')
+      }
+      return this.#appendEvent(attemptId, eventId, { kind: 'metrics-v1', payload })
+    })
+  }
 
   register(strategy) {
     validateStrategy(strategy)
@@ -117,19 +152,21 @@ export class StrategyBank {
   appendEvent(attemptId, eventId, event) {
     text(eventId, 'eventId'); fields(event, ['kind', 'payload'], 'Event')
     text(event.kind, 'kind'); jsonObject(event.payload, 'payload')
+    return this.#transaction(() => this.#appendEvent(attemptId, eventId, event))
+  }
+
+  #appendEvent(attemptId, eventId, event) {
     const encoded = canonicalJson(event)
-    return this.#transaction(() => {
-      const attempt = this.#requireAttempt(attemptId)
-      const existing = this.#db.prepare('SELECT * FROM events WHERE attempt_id=? AND event_id=?').get(attemptId, eventId)
-      if (existing) {
-        if (existing.event !== encoded) throw new Error('Event id conflict')
-        return this.#event(existing)
-      }
-      if (attempt.state !== 'running') throw new Error('Attempt is terminal')
-      const sequence = this.#db.prepare('SELECT COALESCE(MAX(sequence),0)+1 AS next FROM events WHERE attempt_id=?').get(attemptId).next
-      this.#db.prepare('INSERT INTO events VALUES (?,?,?,?,?)').run(attemptId, eventId, sequence, now(), encoded)
-      return this.#event(this.#db.prepare('SELECT * FROM events WHERE attempt_id=? AND event_id=?').get(attemptId, eventId))
-    })
+    const attempt = this.#requireAttempt(attemptId)
+    const existing = this.#db.prepare('SELECT * FROM events WHERE attempt_id=? AND event_id=?').get(attemptId, eventId)
+    if (existing) {
+      if (existing.event !== encoded) throw new Error('Event id conflict')
+      return this.#event(existing)
+    }
+    if (attempt.state !== 'running') throw new Error('Attempt is terminal')
+    const sequence = this.#db.prepare('SELECT COALESCE(MAX(sequence),0)+1 AS next FROM events WHERE attempt_id=?').get(attemptId).next
+    this.#db.prepare('INSERT INTO events VALUES (?,?,?,?,?)').run(attemptId, eventId, sequence, now(), encoded)
+    return this.#event(this.#db.prepare('SELECT * FROM events WHERE attempt_id=? AND event_id=?').get(attemptId, eventId))
   }
 
   #event(row) {
@@ -255,6 +292,7 @@ export class StrategyBank {
       for (const row of this.#db.prepare('SELECT * FROM attempt_artifacts ORDER BY attempt_id,name').all()) {
         add('attemptArtifact', { attemptId: row.attempt_id, name: row.name, sha256: row.sha256 })
       }
+      for (const [type, value] of new AccountingStore(this.#db).exportRecords()) add(type, value)
       return records.length ? records.join('\n') + '\n' : ''
     }, true)
   }

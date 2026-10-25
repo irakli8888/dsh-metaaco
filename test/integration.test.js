@@ -11,6 +11,8 @@ import Engine from '@deepseek-ai/dsh-workflow-ptc'
 import { runWorkflow } from '../index.js'
 import { runPlannedWorkflow } from '../planner.js'
 import { StrategyBank } from '../src/bank/index.js'
+import { MetricsCollector } from '../src/metrics/index.js'
+import { runMeasuredWorkflow } from '../src/adapters/harness/metrics.js'
 
 for (const mode of ['fixed', 'serial-order', 'start-groups', 'agent-problem']) test(`published 0.2.1-rc.2 offline execution (${mode})`, { timeout: 60000,
   skip: mode === 'agent-problem' && !process.env.METAACO_SOURCE ? 'Set METAACO_SOURCE for real Python → Harness test' : false,
@@ -70,7 +72,19 @@ for (const mode of ['fixed', 'serial-order', 'start-groups', 'agent-problem']) t
     const session = ctx.sessions.create(undefined, { meta: { cwd } })
     const parent = { id: session.id, ctx, session, options: {}, status: 'idle' }
     ctx.agents.register(parent)
-    ctx.on('workflow/agent-start', (_run, agent) => events.push(agent.childId))
+    ctx.on('workflow/agent-start', (_run, agent) => {
+      events.push(agent.childId)
+      if (mode === 'fixed') {
+        // Publish only after the external child identity has been admitted by the registry.
+        // This listener runs before the metrics child-start observer, exercising its buffer.
+        const childSession = ctx.sessions.create(agent.childId, { meta: { cwd } })
+        childSession.append('assistant/attempt', { turn: 1, step: 1, stream: [
+          { type: 'chunk', time: Date.now(), chunk: { type: 'usage', usage: {
+            inputTokens: 5, outputTokens: 3, cacheReadTokens: 0, cacheWriteTokens: 0, reasoningTokens: 0, totalTokens: 8,
+          } } },
+        ] })
+      }
+    })
     const workflow = JSON.parse(await readFile(new URL('../examples/two-agents.json', import.meta.url)))
     let result
     if (mode === 'fixed') {
@@ -81,16 +95,24 @@ for (const mode of ['fixed', 'serial-order', 'start-groups', 'agent-problem']) t
         request: { schemaVersion: 1, taskId: 'offline-task', description: 'Harness smoke test',
           repo: cwd, baseCommit: 'offline-fixture', testSpec: {}, provenance: { source: 'integration-test' } },
         selection: { policy: 'fixed' } })
-      result = await runWorkflow(ctx, parent, workflow, { subagentProvider: 'offline' })
+      const metrics = new MetricsCollector({ bank, attemptId: 'offline-attempt' })
+      result = await runMeasuredWorkflow(ctx, parent, workflow, { subagentProvider: 'offline', collector: metrics, allowLlm: true })
       bank.appendEvent('offline-attempt', 'workflow-result', { kind: 'workflow-completed', payload: result })
       const artifact = bank.putArtifact(Buffer.from(JSON.stringify(result.result)))
       bank.attachArtifact('offline-attempt', 'agent-outputs', artifact)
+      metrics.finish('completed')
+      const outcome = metrics.snapshot()
+      assert.equal(outcome.measured.observedCallCount, 2)
+      assert.equal(outcome.measured.knownUsage.inputTokens, 10)
+      assert.equal(outcome.measured.usage.inputTokens, null, 'observer cannot assert complete model coverage')
+      assert.equal(outcome.measured.spans.agent.count, 2)
+      assert.ok(outcome.measured.spans.workflow.sumMs >= 0)
       bank.finalizeAttempt('offline-attempt', { status: 'inconclusive', requiredTests: [],
         provenance: { source: 'integration-test', reason: 'Agent replies do not establish code correctness' } },
-      { measured: { inputTokens: null, outputTokens: null, cost: null }, estimates: {} })
+      outcome)
       assert.equal(bank.getAttempt('offline-attempt').state, 'inconclusive')
       assert.deepEqual(JSON.parse(bank.getArtifact(artifact)), result.result)
-      assert.equal(bank.getEvents('offline-attempt')[0].payload.runId, result.runId)
+      assert.equal(bank.getEvents('offline-attempt').find(e => e.kind === 'workflow-completed').payload.runId, result.runId)
     } else if (generatedPlan) {
       result = await runPlannedWorkflow(ctx, parent, generatedPlan, { allowLlm: true, subagentProvider: 'offline' })
     } else {
