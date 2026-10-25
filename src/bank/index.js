@@ -162,10 +162,16 @@ export class StrategyBank {
 
   cancelAttempt(attemptId, reason) { return this.#stop([attemptId], 'cancelled', reason) }
 
+  timeoutAttempt(attemptId, reason, outcome) {
+    jsonObject(outcome, 'outcome')
+    jsonObject(outcome.measured, 'outcome.measured'); jsonObject(outcome.estimates, 'outcome.estimates')
+    return this.#stop([attemptId], 'timeout', reason, outcome)
+  }
+
   /** Only call for IDs whose owner is known to have stopped; never auto-recover on open. */
   recoverInterrupted(attemptIds, reason) { return this.#stop(attemptIds, 'interrupted', reason) }
 
-  #stop(attemptIds, state, reason) {
+  #stop(attemptIds, state, reason, outcome = null) {
     text(reason, 'reason')
     if (!Array.isArray(attemptIds) || !attemptIds.length || new Set(attemptIds).size !== attemptIds.length) {
       throw new Error('Expected nonempty unique attemptIds')
@@ -173,9 +179,11 @@ export class StrategyBank {
     return this.#transaction(() => {
       for (const id of attemptIds) {
         const attempt = this.#requireAttempt(id)
-        if (attempt.state === state && attempt.reason === reason) continue
+        if (attempt.state === state && attempt.reason === reason
+          && canonicalJson(attempt.outcome) === canonicalJson(outcome)) continue
         if (attempt.state !== 'running') throw new Error('Attempt is terminal')
-        this.#db.prepare('UPDATE attempts SET state=?,finished_at=?,reason=? WHERE attempt_id=?').run(state, now(), reason, id)
+        this.#db.prepare('UPDATE attempts SET state=?,finished_at=?,reason=?,outcome=? WHERE attempt_id=?')
+          .run(state, now(), reason, outcome === null ? null : canonicalJson(outcome), id)
       }
       return attemptIds.map(id => this.getAttempt(id))
     })

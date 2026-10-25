@@ -62,6 +62,7 @@ try {
 | getEvents(attemptId) | события по sequence; неизвестная попытка — ошибка |
 | finalizeAttempt(id,evaluation,outcome) | terminal AttemptRecord; outcome требует отдельных объектов measured/estimates |
 | cancelAttempt(id,reason) | массив с cancelled AttemptRecord |
+| timeoutAttempt(id,reason,outcome) | terminal timeout с сохранением частичных measured/estimates и usage-событий |
 | recoverInterrupted(ids,reason) | атомарно помечает только указанные running; убедитесь, что их владельцы остановлены |
 | putArtifact(Uint8Array) / getArtifact(ref) | `{sha256,sizeBytes}` / Buffer с проверкой digest |
 | attachArtifact(attemptId,name,ref) | immutable связь имени с содержимым, только зарегистрированный артефакт |
@@ -71,6 +72,11 @@ try {
 EvaluationResult v1: `{status: 'success'|'failed'|'inconclusive', requiredTests: [{id,status}], provenance: {...}}`.
 Статусы проверок: passed, failed, skipped, error; ID уникальны. Success требует непустого полностью passed набора.
 Это структурная проверка отчёта, а не независимая оценка — реализация evaluator идёт следующим этапом.
+
+Дополнительно принимается EvaluationResult v2: поля v1 плюс `schemaVersion: 2`, `correctness`, `tddCompliance`, `evidence`.
+Независимые статусы correctness/tddCompliance — passed, failed или inconclusive. Success требует обоих passed.
+Рабочий патч без RED можно сохранить с correctness=passed, tddCompliance=inconclusive, status=inconclusive.
+База мигрирует до версии 2 для отдельного состояния timeout; перед обновлением пользовательской БД сохраните её копию вместе с artifacts.
 
 Начальная StrategyDefinition хранит существующий fixed workflow; это не новый DAG-контракт.
 Поиск похожих задач и ранжирование стратегий появятся с Task Analyzer/Selector. Сейчас доступны точные фильтры истории, включая неудачные попытки.

@@ -73,9 +73,20 @@ export function validateRequest(value) {
 }
 
 export function validateEvaluation(value) {
-  fields(value, ['status', 'requiredTests', 'provenance'], 'EvaluationResult')
+  const v2 = value?.schemaVersion === 2
+  fields(value, ['status', 'requiredTests', 'provenance',
+    ...(v2 ? ['schemaVersion', 'correctness', 'tddCompliance', 'evidence'] : [])], 'EvaluationResult')
   if (!['success', 'failed', 'inconclusive'].includes(value.status)) throw new Error('Invalid evaluation status')
   jsonObject(value.provenance, 'provenance')
+  if (v2) {
+    for (const key of ['correctness', 'tddCompliance']) {
+      if (!['passed', 'failed', 'inconclusive'].includes(value[key])) throw new Error(`Invalid ${key}`)
+    }
+    jsonObject(value.evidence, 'evidence')
+    if (value.status === 'success' && (value.correctness !== 'passed' || value.tddCompliance !== 'passed')) {
+      throw new Error('Success requires correctness and TDD evidence')
+    }
+  }
   if (!Array.isArray(value.requiredTests)) throw new Error('requiredTests must be an array')
   const ids = new Set()
   for (const check of value.requiredTests) {

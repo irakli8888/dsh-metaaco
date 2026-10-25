@@ -6,6 +6,7 @@ import { join } from 'node:path'
 import { spawn } from 'node:child_process'
 import { DatabaseSync } from 'node:sqlite'
 import { StrategyBank } from '../../src/bank/index.js'
+import { migrations } from '../../src/bank/migrations.js'
 
 const provenance = { source: 'offline-test', revision: 'fixture-v1' }
 const strategy = () => ({ schemaVersion: 1, strategyId: 'fixed', version: 1, provenance,
@@ -192,4 +193,45 @@ test('independent processes serialize concurrent writes and deduplicate shared e
   assert.equal(events.length, 46)
   assert.deepEqual(events.map(e => e.sequence), Array.from({ length: 46 }, (_, i) => i + 1))
   assert.equal(events.reduce((sum, e) => sum + e.payload.tokens, 0), 50)
+})
+
+test('timeout preserves partial expenses as a distinct terminal outcome', t => {
+  const { open } = fixture(t)
+  const bank = open(); bank.register(strategy()); bank.beginAttempt(input())
+  bank.appendEvent('attempt-1', 'charged-call', { kind: 'usage', payload: { costMicrounits: 120 } })
+  bank.timeoutAttempt('attempt-1', 'deadline exceeded', outcome)
+  const reopened = open()
+  assert.equal(reopened.listAttempts({ state: 'timeout' }).length, 1)
+  assert.deepEqual(reopened.getAttempt('attempt-1').outcome, outcome)
+  assert.equal(reopened.getEvents('attempt-1')[0].payload.costMicrounits, 120)
+  assert.throws(() => bank.finalizeAttempt('attempt-1', evaluation('success'), outcome), /terminal/)
+})
+
+test('evaluation v2 records passing code separately from missing TDD evidence', t => {
+  const bank = fixture(t).open(); bank.register(strategy()); bank.beginAttempt(input())
+  const report = { ...evaluation('success'), schemaVersion: 2, status: 'inconclusive',
+    correctness: 'passed', tddCompliance: 'inconclusive', evidence: { reason: 'RED not observed' } }
+  bank.finalizeAttempt('attempt-1', report, outcome)
+  assert.equal(bank.getAttempt('attempt-1').evaluation.correctness, 'passed')
+  bank.beginAttempt(input('invalid-success'))
+  assert.throws(() => bank.finalizeAttempt('invalid-success', { ...report, status: 'success' }, outcome), /TDD/)
+})
+
+test('v1 database migrates without losing attempts, events or artifact bindings', t => {
+  const { dir, open } = fixture(t)
+  const db = new DatabaseSync(join(dir, 'bank.sqlite'))
+  db.exec(migrations[0]); db.exec('PRAGMA user_version=1')
+  db.prepare('INSERT INTO strategies VALUES (?,?,?,?)').run('fixed', 1, JSON.stringify(strategy()), '2026-10-25T00:00:00.000Z')
+  db.prepare('INSERT INTO tasks VALUES (?,?,?)').run('task-1', JSON.stringify(request()), '2026-10-25T00:00:00.000Z')
+  db.exec(`INSERT INTO attempts (attempt_id,task_id,strategy_id,strategy_version,selection,state,started_at)
+    VALUES ('attempt-1','task-1','fixed',1,'{}','running','2026-10-25T00:00:00.000Z');
+    INSERT INTO events VALUES ('attempt-1','old',1,'2026-10-25T00:00:00.000Z','{"kind":"started","payload":{}}');
+    INSERT INTO artifacts VALUES ('${'a'.repeat(64)}',0);
+    INSERT INTO attempt_artifacts VALUES ('attempt-1','report','${'a'.repeat(64)}');`)
+  db.close()
+  const bank = open()
+  assert.equal(bank.getEvents('attempt-1').length, 1)
+  assert.ok(bank.exportJsonl().includes('attemptArtifact'))
+  bank.timeoutAttempt('attempt-1', 'expired after migration', outcome)
+  assert.equal(bank.getAttempt('attempt-1').state, 'timeout')
 })
