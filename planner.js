@@ -5,11 +5,11 @@ export function validatePlan(plan) {
   if (!plan || Array.isArray(plan) || typeof plan !== 'object'
     || Object.keys(plan).some(key => !['version', 'planner', 'execution', 'workflow'].includes(key))
     || plan.version !== 1 || plan.planner !== 'python-metaaco'
-    || plan.execution !== 'serial-order') {
-    throw new Error('Expected Python MetaACO plan v1 with serial-order execution')
+    || !['serial-order', 'start-groups'].includes(plan.execution)) {
+    throw new Error('Expected Python MetaACO plan v1 with serial-order or start-groups execution')
   }
   const { workflow, count } = validateWorkflow(plan.workflow)
-  if (workflow.stages.some(stage => stage.agents.length !== 1)) {
+  if (plan.execution === 'serial-order' && workflow.stages.some(stage => stage.agents.length !== 1)) {
     throw new Error('serial-order requires exactly one child per stage')
   }
   // Snapshot before asynchronous execution so callers cannot mutate a validated plan.
