@@ -73,3 +73,22 @@ test('JSON cannot inject script or duplicate child identifiers', () => {
   workflow.stages[0].agents[1].id = 'java'
   assert.throws(() => validateWorkflow(workflow), /unique/)
 })
+
+test('null child failure prevents dependent stage and still disposes run', async () => {
+  const workflow = structuredClone(fixture)
+  workflow.stages.push({ title: 'Dependent', agents: [{ id: 'dependent', prompt: 'never' }] })
+  const started = []
+  let disposed = false
+  const ctx = { workflowEngine: { start(request) {
+    const execute = new Function('agent', 'parallel', 'phase', 'args', `return (async () => {${request.script}})()`)
+    return { cancel() {}, result: execute(async (_prompt, { label }) => {
+      started.push(label); return label === 'java' ? null : 'ok'
+    }, thunks => Promise.all(thunks.map(fn => fn())), () => {}, request.args)
+      .then(value => ({ stopReason: 'completed', value }),
+        error => ({ stopReason: 'error', error: error.message })),
+    async dispose() { disposed = true } }
+  } } }
+  await assert.rejects(runWorkflow(ctx, {}, workflow), /dependent stages were not started/)
+  assert.deepEqual(started, ['java', 'aco'])
+  assert.equal(disposed, true)
+})
