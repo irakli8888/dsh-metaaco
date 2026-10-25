@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "maxConcurrentAgents": 2,
+  "tasks": [
+    {
+      "id": "inspect-code",
+      "prompt": "Inspect the existing code and report findings.",
+      "estimatedDurationSeconds": 30,
+      "dependsOn": []
+    },
+    {
+      "id": "inspect-tests",
+      "prompt": "Inspect the existing tests and report coverage gaps.",
+      "estimatedDurationSeconds": 20,
+      "dependsOn": []
+    },
+    {
+      "id": "review",
+      "prompt": "Review the project independently using its current files.",
+      "estimatedDurationSeconds": 10,
+      "dependsOn": ["inspect-code", "inspect-tests"]
+    }
+  ]
+}

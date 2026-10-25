@@ -3,12 +3,28 @@ import assert from 'node:assert/strict'
 import { readFile, mkdtemp, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { execFile } from 'node:child_process'
+import { promisify } from 'node:util'
 import { Context } from '@deepseek-ai/cordis'
 import Engine from '@deepseek-ai/dsh-workflow-ptc'
 import { runWorkflow } from '../index.js'
 import { runPlannedWorkflow } from '../planner.js'
 
-for (const mode of ['fixed', 'serial-order', 'start-groups']) test(`published 0.2.1-rc.2 offline execution (${mode})`, { timeout: 60000 }, async () => {
+for (const mode of ['fixed', 'serial-order', 'start-groups', 'agent-problem']) test(`published 0.2.1-rc.2 offline execution (${mode})`, { timeout: 60000,
+  skip: mode === 'agent-problem' && !process.env.METAACO_SOURCE ? 'Set METAACO_SOURCE for real Python → Harness test' : false,
+}, async () => {
+  let generatedPlan
+  if (mode === 'agent-problem') {
+    const { stdout } = await promisify(execFile)(process.env.METAACO_PYTHON || 'python3', [
+      '-B', fileURLToPath(new URL('../python/metaaco_plan.py', import.meta.url)),
+      '--source', process.env.METAACO_SOURCE,
+      '--problem', fileURLToPath(new URL('../examples/agent-tasks.json', import.meta.url)),
+    ], { timeout: 10000 })
+    generatedPlan = JSON.parse(stdout)
+    assert.equal(generatedPlan.resources.agentSlots, 2)
+    assert.equal(generatedPlan.estimates.scheduleMakespan, 40)
+  }
   const ctx = new Context()
   const cwd = await mkdtemp(join(tmpdir(), 'metaaco-'))
   const children = [], events = [], release = []
@@ -48,7 +64,7 @@ for (const mode of ['fixed', 'serial-order', 'start-groups']) test(`published 0.
         }
       },
     })
-    await ctx.plugin(Engine, { provider: 'offline', maxConcurrentAgents: 2 })
+    await ctx.plugin(Engine, { provider: 'offline', maxConcurrentAgents: mode === 'agent-problem' ? 4 : 2 })
     const session = ctx.sessions.create(undefined, { meta: { cwd } })
     const parent = { id: session.id, ctx, session, options: {}, status: 'idle' }
     ctx.agents.register(parent)
@@ -57,6 +73,8 @@ for (const mode of ['fixed', 'serial-order', 'start-groups']) test(`published 0.
     let result
     if (mode === 'fixed') {
       result = await runWorkflow(ctx, parent, workflow, { subagentProvider: 'offline' })
+    } else if (generatedPlan) {
+      result = await runPlannedWorkflow(ctx, parent, generatedPlan, { allowLlm: true, subagentProvider: 'offline' })
     } else {
       const stages = mode === 'serial-order'
         ? workflow.stages[0].agents.map((task, i) => ({ title: `Job ${i}`, agents: [task] }))
@@ -64,10 +82,13 @@ for (const mode of ['fixed', 'serial-order', 'start-groups']) test(`published 0.
       result = await runPlannedWorkflow(ctx, parent, { version: 1, planner: 'python-metaaco',
         execution: mode, workflow: { ...workflow, stages } }, { allowLlm: true, subagentProvider: 'offline' })
     }
-    const expected = mode === 'start-groups' ? 3 : 2
+    const expected = ['start-groups', 'agent-problem'].includes(mode) ? 3 : 2
     assert.equal(result.agentsStarted, expected)
-    assert.deepEqual(result.result, { java: 'offline-1', aco: 'offline-2',
-      ...(mode === 'start-groups' ? { join: 'offline-3' } : {}) })
+    const expectedValues = generatedPlan
+      ? Object.fromEntries(generatedPlan.workflow.stages.flatMap(stage => stage.agents)
+        .map((task, i) => [task.id, `offline-${i + 1}`]))
+      : { java: 'offline-1', aco: 'offline-2', ...(mode === 'start-groups' ? { join: 'offline-3' } : {}) }
+    assert.deepEqual(result.result, expectedValues)
     assert.equal(events.length, expected)
     assert.equal(children.length, expected)
     assert.equal(maxActive, parallel ? 2 : 1)
