@@ -2,10 +2,13 @@
 import argparse
 import contextlib
 import json
+import re
 import sys
 
 
-def make_plan(schedule, instance, tasks):
+def make_plan(schedule, instance, tasks, execution="start-groups"):
+    if execution not in {"serial-order", "start-groups"}:
+        raise ValueError("Unknown execution mode")
     from rcpsp.core import validate_schedule, validate_order
     validate_schedule(instance, schedule)
     if schedule.order is None:
@@ -15,22 +18,29 @@ def make_plan(schedule, instance, tasks):
     if not isinstance(tasks, dict) or set(tasks) != expected:
         raise ValueError('tasks must map every positive-duration zero-based job index exactly once')
     stages = []
+    groups = {}
+    ids = set()
     for job in schedule.order:
         if str(job) not in tasks:
             continue
         task = tasks[str(job)]
         if not isinstance(task, dict) or set(task) != {'id', 'prompt'}:
             raise ValueError('Each task requires only id and prompt')
-        import re
         if not isinstance(task['id'], str) or not re.fullmatch(r'[a-z][a-z0-9-]*', task['id']):
             raise ValueError('Task id must be kebab-case')
         if not isinstance(task['prompt'], str) or not task['prompt'].strip():
             raise ValueError('Task prompt must be nonempty')
+        if task['id'] in ids:
+            raise ValueError('Tasks must be nonempty with unique ids')
+        ids.add(task['id'])
         stages.append({'title': f'Job {job}', 'agents': [task]})
-    if not stages or len({s['agents'][0]['id'] for s in stages}) != len(stages):
+        groups.setdefault(schedule.start_times[job], []).append(task)
+    if not stages:
         raise ValueError('Tasks must be nonempty with unique ids')
-    return {'version': 1, 'planner': 'python-metaaco', 'execution': 'serial-order',
-            'workflow': {'name': 'metaaco-plan', 'description': 'External MetaACO precedence-feasible order',
+    if execution == 'start-groups':
+        stages = [{'title': f'Start {start}', 'agents': groups[start]} for start in sorted(groups)]
+    return {'version': 1, 'planner': 'python-metaaco', 'execution': execution,
+            'workflow': {'name': 'metaaco-plan', 'description': 'External MetaACO validated schedule projection',
                          'stages': stages}}
 
 
@@ -39,6 +49,7 @@ def main():
     parser.add_argument('--source', required=True, help='Directory containing rcpsp/core.py and rcpsp/metaACO.py')
     parser.add_argument('--instance', required=True, help='PSPLIB instance')
     parser.add_argument('--tasks', required=True, help='JSON mapping zero-based job indices to id/prompt')
+    parser.add_argument('--execution', choices=['serial-order', 'start-groups'], default='start-groups')
     parser.add_argument('--seed', type=int, default=42)
     args = parser.parse_args()
     sys.path.insert(0, args.source)
@@ -53,7 +64,7 @@ def main():
     with contextlib.redirect_stdout(sys.stderr):
         schedule, _ = solve_rcpsp_psplib(args.instance, seed=args.seed, iterations=20,
                                        ants_per_iteration=5, max_evaluations=100)
-    plan = make_plan(schedule, load_psplib_instance(args.instance), tasks)
+    plan = make_plan(schedule, load_psplib_instance(args.instance), tasks, args.execution)
     print(json.dumps(plan, ensure_ascii=False, allow_nan=False))
 
 
