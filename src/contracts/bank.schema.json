@@ -7,6 +7,7 @@
     { "$ref": "#/$defs/attemptInput" },
     { "$ref": "#/$defs/event" },
     { "$ref": "#/$defs/evaluation" },
+    { "$ref": "#/$defs/evaluationV2" },
     { "$ref": "#/$defs/artifact" }
   ],
   "$defs": {
@@ -86,6 +87,25 @@
       "if": { "properties": { "status": { "const": "success" } } },
       "then": { "properties": { "requiredTests": { "minItems": 1, "items": { "properties": { "status": { "const": "passed" } } } } } },
       "$comment": "Required test IDs must additionally be unique. Reports are caller-supplied, not verified by storage."
+    },
+    "evaluationV2": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schemaVersion", "status", "requiredTests", "provenance", "correctness", "tddCompliance", "evidence"],
+      "properties": {
+        "schemaVersion": { "const": 2 },
+        "status": { "enum": ["success", "failed", "inconclusive"] },
+        "requiredTests": { "$ref": "#/$defs/evaluation/properties/requiredTests" },
+        "provenance": { "type": "object" }, "evidence": { "type": "object" },
+        "correctness": { "enum": ["passed", "failed", "inconclusive"] },
+        "tddCompliance": { "enum": ["passed", "failed", "inconclusive"] }
+      },
+      "if": { "properties": { "status": { "const": "success" } } },
+      "then": {
+        "properties": {
+          "correctness": { "const": "passed" }, "tddCompliance": { "const": "passed" },
+          "requiredTests": { "minItems": 1, "items": { "properties": { "status": { "const": "passed" } } } }
+        }
+      }
     },
     "outcome": {
       "type": "object", "required": ["measured", "estimates"],

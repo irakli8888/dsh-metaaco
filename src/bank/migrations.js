@@ -33,4 +33,34 @@ export const migrations = [
     sha256 TEXT NOT NULL REFERENCES artifacts(sha256),
     PRIMARY KEY(attempt_id, name)
   ) STRICT;`,
+  `CREATE TABLE attempts_next (
+    attempt_id TEXT PRIMARY KEY, task_id TEXT NOT NULL REFERENCES tasks(task_id),
+    strategy_id TEXT NOT NULL, strategy_version INTEGER NOT NULL,
+    selection TEXT NOT NULL,
+    state TEXT NOT NULL CHECK(state IN ('running','succeeded','failed','inconclusive','cancelled','interrupted','timeout')),
+    started_at TEXT NOT NULL, finished_at TEXT,
+    evaluation TEXT, outcome TEXT, reason TEXT,
+    FOREIGN KEY(strategy_id, strategy_version) REFERENCES strategies(strategy_id, version),
+    CHECK ((state = 'running' AND finished_at IS NULL) OR (state != 'running' AND finished_at IS NOT NULL))
+  ) STRICT;
+  INSERT INTO attempts_next SELECT * FROM attempts;
+  CREATE TABLE events_next (
+    attempt_id TEXT NOT NULL REFERENCES attempts_next(attempt_id), event_id TEXT NOT NULL,
+    sequence INTEGER NOT NULL, recorded_at TEXT NOT NULL, event TEXT NOT NULL,
+    PRIMARY KEY(attempt_id, event_id), UNIQUE(attempt_id, sequence)
+  ) STRICT;
+  INSERT INTO events_next SELECT * FROM events;
+  CREATE TABLE attempt_artifacts_next (
+    attempt_id TEXT NOT NULL REFERENCES attempts_next(attempt_id), name TEXT NOT NULL,
+    sha256 TEXT NOT NULL REFERENCES artifacts(sha256), PRIMARY KEY(attempt_id, name)
+  ) STRICT;
+  INSERT INTO attempt_artifacts_next SELECT * FROM attempt_artifacts;
+  DROP TABLE events;
+  DROP TABLE attempt_artifacts;
+  DROP TABLE attempts;
+  ALTER TABLE attempts_next RENAME TO attempts;
+  ALTER TABLE events_next RENAME TO events;
+  ALTER TABLE attempt_artifacts_next RENAME TO attempt_artifacts;
+  CREATE INDEX attempts_task ON attempts(task_id);
+  CREATE INDEX attempts_strategy ON attempts(strategy_id, strategy_version);`,
 ]
