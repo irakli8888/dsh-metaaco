@@ -1,5 +1,12 @@
 # Архитектура и правила развития
 
+Дополнение экспериментов, 2026-11-14: PR #12–15 слиты по разрешению владельца
+в `main@b896095`. Ветка `codex/reproducible-experiments` добавляет [семь frozen
+режимов, парные seeds и offline launcher](experiments.md), [ADR 0010](adr/0010-reproducible-experiments.md).
+Это инфраструктура сравнения с настоящими MetaACO/Harness и synthetic model
+fixtures; научное превосходство, реальные API-расходы и многокритериальный выбор
+назначений самим MetaACO не подтверждены. Ниже сохранены исторические снимки.
+
 Дополнение интеграционного этапа, 2026-11-14: ветка `codex/adaptive-attempt`
 поверх `codex/dag-metrics-feedback@ff7a574` добавляет [единый цикл попытки](adaptive-attempt.md)
 и [ADR 0009](adr/0009-adaptive-attempt.md). Выбор, независимые TDD gates, DAG,

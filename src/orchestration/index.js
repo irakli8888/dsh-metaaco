@@ -38,7 +38,7 @@ function redPassed(record, spec) {
 
 /** Trusted application composition. createRuntime must install only the supplied guarded adapters. */
 export async function runAdaptiveAttempt({ bank, attemptId, request: input, feedback, candidates, bindings,
-  baseSnapshot: baseInput, createRuntime, planning = null, allowLlm = false, signal }) {
+  baseSnapshot: baseInput, createRuntime, planning = null, selectionMethod, allowLlm = false, signal }) {
   if (allowLlm !== true) throw new Error('Explicit allowLlm: true is required')
   signal?.throwIfAborted()
   if (typeof createRuntime !== 'function') throw new Error('A trusted runtime factory is required')
@@ -49,7 +49,7 @@ export async function runAdaptiveAttempt({ bank, attemptId, request: input, feed
   if (base.revision !== request.baseCommit) throw new Error('Base snapshot revision mismatch')
   const { revision } = readFeedback(bank, feedback)
   const selectedAt = new Date().toISOString()
-  const decision = selectWithFeedback(bank, feedback, { request, candidates, selectedAt })
+  const decision = selectWithFeedback(bank, feedback, { request, candidates, selectedAt, method: selectionMethod })
   if (!decision.selected) throw new Error('No admissible strategy')
   const binding = bindingFor(bindings, decision.selected), policy = revision.policy
   const planned = planning === null ? null : validateMetaacoDag(planning.result, planning.problem)
@@ -106,7 +106,7 @@ export async function runAdaptiveAttempt({ bank, attemptId, request: input, feed
     try { await runtime?.dispose?.() } catch (caught) { error ??= caught }
     clearTimeout(timer)
   }
-  const state = timedOut || execution?.status === 'timeout' ? 'timeout' : combined.aborted ? 'cancelled' : error ? 'failed' : 'completed'
+  const state = timedOut || combined.reason?.name === 'TimeoutError' || execution?.status === 'timeout' ? 'timeout' : combined.aborted ? 'cancelled' : error ? 'failed' : 'completed'
   collector.finish(state) // No claim of complete provider coverage from a caller-supplied deployment.
   const outcome = collector.snapshot()
   attach('attempt-metrics', outcome)

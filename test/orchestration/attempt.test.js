@@ -86,3 +86,11 @@ test('deadline before dispatch preserves timeout as a separate outcome', async t
   assert.equal(r.attempt.state, 'timeout'); assert.deepEqual(starts, [])
   assert.ok(r.attempt.outcome.measured.wallTimeMs >= 1)
 })
+test('outer experiment deadline remains timeout in the attempt history', async t => {
+  const f = fixture(t), controller = new AbortController()
+  const r = await runAdaptiveAttempt({ ...options(f), signal: controller.signal, createRuntime: async () => {
+    controller.abort(new DOMException('Experiment deadline', 'TimeoutError'))
+    return { async dispose() {} }
+  } })
+  assert.equal(r.attempt.state, 'timeout')
+})
