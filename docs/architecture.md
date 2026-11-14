@@ -1,5 +1,13 @@
 # Архитектура и правила развития
 
+Дополнение этапа 8, 2026-11-14: ветка `codex/dag-metrics-feedback` поверх
+`codex/metaaco-dag-integration@7b24512` добавляет [наблюдение метрик DAG и
+неизменяемые версии Feedback](dag-metrics-feedback.md), [ADR 0008](adr/0008-dag-metrics-feedback.md).
+PR #12 и #13 ещё открыты. Реализованы scoped accounting и явное обновление
+train snapshot; полный охват API, автоматический hard-budget dispatch,
+end-to-end pipeline и экспериментальный runner остаются целями. Ниже — снимки
+предыдущих этапов, а не утверждения об актуальном main.
+
 Дополнение этапа 7, 2026-11-14: ветка `codex/metaaco-dag-integration` поверх
 `codex/dag-executor@7d10f43` (PR #12 открыт) добавляет [MetaACO → DAG](metaaco-dag.md)
 и [ADR 0007](adr/0007-metaaco-dag.md): реальный ColonyManager, weighted slot model,

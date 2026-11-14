@@ -6,8 +6,9 @@ import { join } from 'node:path'
 import { Context } from '@deepseek-ai/cordis'
 import Engine from '@deepseek-ai/dsh-workflow-ptc'
 import { StrategyBank } from '../../src/bank/index.js'
-import { runDag } from '../../src/execution/index.js'
-import { runMetaacoDag, validateMetaacoDag } from '../../src/planning/index.js'
+import { validateMetaacoDag } from '../../src/planning/index.js'
+import { runMeasuredDag, runMeasuredMetaacoDag } from '../../src/adapters/harness/dag-metrics.js'
+import { MetricsCollector } from '../../src/metrics/index.js'
 import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'
 import { fileURLToPath } from 'node:url'
@@ -59,12 +60,24 @@ for (const mode of ['artifacts', 'failure', 'cancel', 'metaaco']) test(`DAG thro
       workflow: { name: 'fixture', description: 'offline', stages: [{ title: 'code', agents: [{ id: 'coder', prompt: 'code' }] }] } })
     bank.beginAttempt({ attemptId: 'dag', strategy, selection: {}, request: { schemaVersion: 1, taskId: 'fixture',
       description: 'offline', repo: dir, baseCommit: 'fixture', testSpec: {}, provenance: {} } })
+    const collector = new MetricsCollector({ bank, attemptId: 'dag' })
+    const observedTasks = new Set()
+    // Registered before the observer, so settlements arrive before its child-ownership callback.
+    ctx.on('workflow/agent-start', (_run, info) => {
+      const childSession = ctx.sessions.create(info.childId, { meta: { cwd: dir } })
+      childSession.append('assistant/attempt', { turn: 1, step: 1, stream: [
+        { type: 'chunk', time: Date.now(), chunk: { type: 'usage', usage: {
+          inputTokens: 5, outputTokens: 3, cacheReadTokens: 0, cacheWriteTokens: 0, reasoningTokens: 0, totalTokens: 8,
+        } } },
+      ] })
+    })
     const task = (id, dependsOn = [], inputs = []) => ({ id, prompt: id, dependsOn, inputs, slots: 1,
       model: { provider: 'offline-model-provider', model: 'fixture-model' } })
     const plan = { version: 3, execution: 'dag', name: 'fixture', description: 'offline',
       resources: { agentSlots: 2, maxArtifactBytes: 1024, maxInputBytes: 4096, timeoutMs: 10000 },
       tasks: [task('b'), task('a'), task('c', ['a'], [{ name: 'source', taskId: 'a' }])] }
-    const options = { allowLlm: true, bank, attemptId: 'dag', subagentProvider: 'offline', signal: controller.signal }
+    const options = { allowLlm: true, bank, attemptId: 'dag', collector, subagentProvider: 'offline', signal: controller.signal,
+      routeForEvent(_session, _event, owner) { observedTasks.add(owner.taskId); return null } }
     let execution
     if (mode === 'metaaco') {
       plan.description = 'Проверка реального MetaACO → DAG'
@@ -78,8 +91,8 @@ for (const mode of ['artifacts', 'failure', 'cancel', 'metaaco']) test(`DAG thro
       const result = validateMetaacoDag(JSON.parse(stdout), problem)
       assert.equal(result.estimates.scheduleMakespan, 30)
       assert.equal(result.estimates.executionMakespan, null)
-      execution = runMetaacoDag(ctx, parent, result, problem, options)
-    } else execution = runDag(ctx, parent, plan, options)
+      execution = runMeasuredMetaacoDag(ctx, parent, result, problem, options)
+    } else execution = runMeasuredDag(ctx, parent, plan, options)
     if (['artifacts', 'metaaco'].includes(mode)) {
       const report = await execution
       assert.equal(report.status, 'completed')
@@ -99,6 +112,15 @@ for (const mode of ['artifacts', 'failure', 'cancel', 'metaaco']) test(`DAG thro
     assert.ok(children.every(c => c.request.parent === parent))
     assert.ok(children.every(c => c.request.agentOptions.model === 'fixture-model'))
     assert.equal(bank.getAttempt('dag').state, 'running')
+    collector.finish(mode === 'cancel' ? 'cancelled' : mode === 'failure' ? 'failed' : 'completed')
+    const metrics = collector.snapshot()
+    assert.equal(metrics.measured.coverageComplete, false)
+    assert.equal(metrics.measured.usage.inputTokens, null)
+    if (mode !== 'cancel') {
+      assert.equal(metrics.measured.observedCallCount, children.length)
+      assert.equal(metrics.measured.knownUsage.inputTokens, children.length * 5)
+      assert.equal(observedTasks.size, children.length)
+    }
   } finally {
     try { await ctx.fiber.dispose() } finally { bank.close(); rmSync(dir, { recursive: true, force: true }) }
   }
