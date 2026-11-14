@@ -1,10 +1,10 @@
 import { spawn } from 'node:child_process'
-import { mkdtemp, mkdir, writeFile, readFile, lstat, rm } from 'node:fs/promises'
+import { mkdtemp, mkdir, writeFile, readFile, lstat, rm, chmod, realpath } from 'node:fs/promises'
 import { StringDecoder } from 'node:string_decoder'
 import { tmpdir } from 'node:os'
 import { dirname, join, posix } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { createHash } from 'node:crypto'
+import { createHash, randomUUID } from 'node:crypto'
 import { canonicalJson, fields, jsonObject, text } from '../contracts/bank.js'
 
 export const digest = value => createHash('sha256').update(canonicalJson(value)).digest('hex')
@@ -63,15 +63,23 @@ export function validateSpec(spec) {
 }
 
 /** Node-only local runner for trusted code; process isolation is not an OS sandbox. */
-export async function runSuite(spec, suite, snapshot, { signal } = {}) {
-  const cwd = await mkdtemp(join(tmpdir(), 'metaaco-evaluation-'))
+export async function runSuite(spec, suite, snapshot, { signal, dockerImage } = {}) {
+  const cwd = await mkdtemp(join(await realpath(tmpdir()), 'metaaco-evaluation-'))
   try {
     for (const [path, content] of Object.entries({ ...snapshot.files, ...suite.files })) {
       await mkdir(dirname(join(cwd, path)), { recursive: true })
       await writeFile(join(cwd, path), content, { flag: 'wx' })
     }
-    const command = [process.execPath, '--max-old-space-size=128', '--test',
-      '--test-concurrency=1', `--test-reporter=${reporterPath}`, '--', ...Object.keys(suite.files).sort()]
+    const container = dockerImage ? `metaaco-test-${randomUUID()}` : null
+    if (dockerImage && !/^sha256:[a-f0-9]{64}$/.test(dockerImage)) throw new Error('Expected a local Docker image ID')
+    if (container) await writeFile(join(cwd, 'metaaco-reporter.mjs'), await readFile(reporterPath), { flag: 'wx' })
+    const nodeCommand = [container ? 'node' : process.execPath, '--max-old-space-size=128', '--test',
+      '--test-concurrency=1', `--test-reporter=${container ? '/checks/metaaco-reporter.mjs' : reporterPath}`, '--', ...Object.keys(suite.files).sort()]
+    const command = container ? ['docker', 'run', '--rm', '--pull=never', '--name', container,
+      '--network=none', '--read-only', '--cap-drop=ALL', '--security-opt=no-new-privileges',
+      '--memory=256m', '--pids-limit=64', '--cpus=1', '--user=65534:65534',
+      '--mount', `type=bind,source=${cwd},target=/checks,readonly`, '--workdir=/checks', dockerImage, ...nodeCommand] : nodeCommand
+    if (container) await chmod(cwd, 0o755)
     const startedAt = new Date().toISOString(), start = performance.now()
     const result = await new Promise(resolve => {
       let child, stdout = '', stderr = '', bytes = 0, stopReason = null, spawnError = null
@@ -90,7 +98,7 @@ export async function runSuite(spec, suite, snapshot, { signal } = {}) {
       if (signal?.aborted) { resolve({ stdout, stderr, exitCode: null, signal: null, stopReason: 'cancelled', spawnError }); return }
       try {
         child = spawn(command[0], command.slice(1), { cwd, detached: process.platform !== 'win32',
-          env: { PATH: dirname(process.execPath), LANG: 'C.UTF-8',
+          env: { PATH: container ? process.env.PATH : dirname(process.execPath), LANG: 'C.UTF-8',
             ...(process.platform === 'win32' ? { SystemRoot: process.env.SystemRoot } : {}) },
           stdio: ['ignore', 'pipe', 'pipe'] })
       } catch (error) { resolve({ stdout, stderr, exitCode: null, signal: null, stopReason: 'error', spawnError: error.message }); return }
@@ -116,6 +124,13 @@ export async function runSuite(spec, suite, snapshot, { signal } = {}) {
         resolve({ stdout, stderr, exitCode, signal: termSignal, stopReason, spawnError })
       })
     })
+    if (container && result.stopReason) {
+      await new Promise(resolve => {
+        const cleanup = spawn('docker', ['rm', '-f', container], { stdio: 'ignore', timeout: 10000 })
+        cleanup.once('close', resolve)
+        cleanup.once('error', resolve)
+      })
+    }
     let integrityError = null
     for (const [path, content] of Object.entries({ ...snapshot.files, ...suite.files })) {
       try {

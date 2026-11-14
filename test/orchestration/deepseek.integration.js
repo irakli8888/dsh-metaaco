@@ -9,7 +9,7 @@ test('DeepSeek wire fixtures pass through Harness, budget and independent TDD', 
   const dir = await mkdtemp(join(tmpdir(), 'deepseek-tdd-'))
   t.after(() => rm(dir, { force: true, recursive: true }))
   let calls = 0
-  const result = await runDeepSeekTdd({ out: join(dir, 'bank'), budget: requiredBudget,
+  const result = await runDeepSeekTdd({ out: join(dir, 'bank'), budget: requiredBudget, dockerImage: process.env.TEST_EVALUATION_IMAGE,
     key: 'fixture', execute: true, fetchImpl: async (_, req) => {
       calls++
       if (calls === 2) assert.match(JSON.parse(req.body).messages[0].content, /subject.cjs/)
