@@ -1,7 +1,9 @@
-import { mkdir } from 'node:fs/promises'
-import { resolve } from 'node:path'
+import { execFile } from 'node:child_process'
+import { promisify } from 'node:util'
+import { mkdir, writeFile } from 'node:fs/promises'
+import { resolve, join } from 'node:path'
 import { parseArgs } from 'node:util'
-import { pathToFileURL } from 'node:url'
+import { pathToFileURL, fileURLToPath } from 'node:url'
 import { StrategyBank } from '../src/bank/index.js'
 import { advanceFeedback } from '../src/feedback/index.js'
 import { armId } from '../src/selector/contracts.js'
@@ -42,7 +44,14 @@ export async function runDeepSeekTdd({ out, budget, key, fetchImpl, dockerImage,
     const feedback = advanceFeedback(bank, { manifest: { schemaVersion: 1, experimentId: 'deepseek-tdd',
       mode: 'frozen', splits: { train: [], validation: [], test: ['addition'] } },
     policy, cutoff: '2000-01-01T00:00:00.000Z' })
-    const result = await runAdaptiveAttempt({ bank, attemptId: 'deepseek-tdd', request: task.request, feedback,
+    const problem = { version: 2, plan: binding.plan, durationEstimatesSeconds: { green: 1, refactor: 1 } }
+    const problemPath = join(directory, 'problem.json')
+    await writeFile(problemPath, JSON.stringify(problem), { mode: 0o600, flag: 'wx' })
+    const args = ['-B', fileURLToPath(new URL('../python/metaaco_dag.py', import.meta.url)), '--problem', problemPath]
+    if (process.env.METAACO_SOURCE) args.push('--source', process.env.METAACO_SOURCE)
+    const { stdout } = await promisify(execFile)('python3', args, { timeout: 30000 })
+    const planning = { problem, result: JSON.parse(stdout) }
+    const result = await runAdaptiveAttempt({ bank, attemptId: 'deepseek-tdd', request: task.request, feedback, planning,
       candidates: [candidate], bindings: [binding], baseSnapshot: task.baseSnapshot, evaluationDockerImage: dockerImage, allowLlm: true,
       createRuntime: args => createDeepSeekRuntime({ ...args, key, fetchImpl }) })
     const hasBudget = bank.getEvents('deepseek-tdd').some(event => event.eventId === 'dag/start')

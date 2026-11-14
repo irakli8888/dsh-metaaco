@@ -164,7 +164,7 @@ def plan_dag(problem, source, seed=42):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--source', required=True)
+    parser.add_argument('--source', default=Path(__file__).resolve().parent / 'vendor')
     parser.add_argument('--problem', required=True)
     parser.add_argument('--seed', type=int, default=42)
     args = parser.parse_args()

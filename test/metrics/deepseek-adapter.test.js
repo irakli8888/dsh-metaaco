@@ -8,6 +8,7 @@ test('guard quote bounds the exact DeepSeek request and maps billable usage', as
     calls++
     const body = JSON.parse(options.body)
     assert.equal(body.max_tokens, 1024)
+    assert.deepEqual(body.response_format, { type: 'json_object' })
     assert.equal(body.messages[0].content, 'Implement addition')
     return Response.json({ model: 'deepseek-flash', choices: [{ finish_reason: 'stop', message: { content: '{}' } }],
       usage: { prompt_tokens: 12, prompt_cache_miss_tokens: 10, prompt_cache_hit_tokens: 2, completion_tokens: 1, total_tokens: 13 } })
