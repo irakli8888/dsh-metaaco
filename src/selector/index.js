@@ -46,7 +46,7 @@ export function createSelectorSnapshot(bank, { trainingTaskIds, cutoff } = {}) {
   return clone({ ...payload, snapshotId: hash(payload) })
 }
 
-function validateSnapshot(s, selectedAt) {
+export function validateSelectorSnapshot(s, selectedAt) {
   fields(s, ['schemaVersion', 'featureSchema', 'cutoff', 'trainingTaskIds', 'records', 'snapshotId'], 'Selector snapshot')
   const { snapshotId, ...payload } = s
   if (s.schemaVersion !== 1 || s.featureSchema !== FEATURE_SCHEMA || snapshotId !== hash(payload)) throw new Error('Invalid selector snapshot')
@@ -108,7 +108,7 @@ function rewardFor(r, p) {
 
 /** A selection is a recommendation, never permission to execute or spend. */
 export function selectStrategy({ request, candidates, policy, snapshot, selectedAt = new Date().toISOString() }) {
-  validateRequest(request); validatePolicy(policy); validateSnapshot(snapshot, selectedAt)
+  validateRequest(request); validatePolicy(policy); validateSelectorSnapshot(snapshot, selectedAt)
   if (!Array.isArray(candidates)) throw new Error('candidates must be an array')
   const ordered = candidates.map(c => { validateCandidate(c); return clone(c) })
     .sort((a, b) => compare(canonicalJson(arm(a)), canonicalJson(arm(b))))
