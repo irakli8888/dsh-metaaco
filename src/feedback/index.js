@@ -79,7 +79,7 @@ export function advanceFeedback(bank, { manifest: input, policy, cutoff, previou
 }
 
 /** Frozen selection against a pinned feedback revision; no live-bank learning side effect. */
-export function selectWithFeedback(bank, ref, { request, candidates, selectedAt = new Date().toISOString() }) {
+export function selectWithFeedback(bank, ref, { request, candidates, selectedAt = new Date().toISOString(), method }) {
   const { revision, snapshot } = readFeedback(bank, ref)
-  return selectStrategy({ request, candidates, selectedAt, policy: revision.policy, snapshot })
+  return selectStrategy({ request, candidates, selectedAt, policy: revision.policy, snapshot, method })
 }

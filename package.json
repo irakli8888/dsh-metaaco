@@ -16,7 +16,8 @@
     "./metrics/harness": "./src/adapters/harness/metrics.js",
     "./metrics/dag": "./src/adapters/harness/dag-metrics.js",
     "./orchestration": "./src/orchestration/index.js",
-    "./metrics/budget-adapter": "./src/adapters/harness/budget.js"
+    "./metrics/budget-adapter": "./src/adapters/harness/budget.js",
+    "./experiments": "./src/experiments/index.js"
   },
   "engines": {
     "node": ">=24.9",
@@ -32,8 +33,9 @@
     "src"
   ],
   "scripts": {
-    "test": "node --test test/unit.test.js test/planner.test.js test/bank/*.test.js test/evaluation/*.test.js test/metrics/*.test.js test/analyzer/*.test.js test/selector/*.test.js test/execution/*.test.js test/planning/*.test.js test/feedback/*.test.js test/orchestration/*.test.js",
-    "test:integration": "node --test test/integration.test.js test/execution/*.integration.js test/orchestration/*.integration.js"
+    "test": "node --test test/unit.test.js test/planner.test.js test/bank/*.test.js test/evaluation/*.test.js test/metrics/*.test.js test/analyzer/*.test.js test/selector/*.test.js test/execution/*.test.js test/planning/*.test.js test/feedback/*.test.js test/orchestration/*.test.js test/experiments/*.test.js",
+    "test:integration": "node --test test/integration.test.js test/execution/*.integration.js test/orchestration/*.integration.js test/experiments/*.integration.js",
+    "experiment:offline": "node examples/run-offline-experiment.js"
   },
   "devDependencies": {
     "@deepseek-ai/cordis": "~4.0.5",

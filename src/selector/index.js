@@ -4,6 +4,18 @@ import { hash, clone, compare, TYPES, STACKS, FEATURE_SCHEMA, utc, validatePolic
 import { scoreContext } from './linucb.js'
 
 const ALGORITHM = 'disjoint-linucb-v1'
+const BASELINES = ['random', 'fixed', 'cheapest', 'historical-best']
+
+// Rejection sampling avoids modulo bias; seed and input identity fully determine the draw.
+export function seededIndex(seed, identity, size) {
+  if (!Number.isInteger(seed) || seed < 0 || seed > 0xffffffff) throw new Error('Invalid uint32 seed')
+  if (!Number.isInteger(size) || size < 1 || size > 0xffffffff) throw new Error('Invalid sample size')
+  const limit = Math.floor(0x100000000 / size) * size
+  for (let counter = 0; ; counter++) {
+    const value = parseInt(hash({ seed, identity, counter }).slice(0, 8), 16)
+    if (value < limit) return value % size
+  }
+}
 function contextFor(request, at) {
   const analysis = analyzeTask(request, { analyzedAt: at })
   return { type: analysis.classification.type.value, vector: [1,
@@ -33,7 +45,7 @@ export function createSelectorSnapshot(bank, { trainingTaskIds, cutoff } = {}) {
     const decision = a.selection.selector
     const { decisionId, ...payload } = decision ?? {}
     const context = contextFor(a.request, cutoff).vector
-    const selectionValid = decision?.algorithm === ALGORITHM && decision.featureSchema === FEATURE_SCHEMA
+    const selectionValid = (decision?.algorithm === ALGORITHM || BASELINES.some(b => decision?.algorithm === `${b}-v1`)) && decision.featureSchema === FEATURE_SCHEMA
       && decisionId === hash(payload) && decision.requestHash === hash(a.request)
       && canonicalJson(decision.context) === canonicalJson(context)
       && decision.selected !== null && canonicalJson(decision.selected.strategy) === canonicalJson(a.strategy)
@@ -107,7 +119,11 @@ function rewardFor(r, p) {
 }
 
 /** A selection is a recommendation, never permission to execute or spend. */
-export function selectStrategy({ request, candidates, policy, snapshot, selectedAt = new Date().toISOString() }) {
+export function selectStrategy({ request, candidates, policy, snapshot, selectedAt = new Date().toISOString(), method = { kind: 'contextual-bandit' } }) {
+  if (!method || !['contextual-bandit', ...BASELINES].includes(method.kind)) throw new Error('Unknown selection method')
+  fields(method, method.kind === 'random' ? ['kind', 'seed'] : method.kind === 'fixed' ? ['kind', 'armId'] : ['kind'], 'Selection method')
+  if (method.kind === 'random') seededIndex(method.seed, 'validation', 1)
+  if (method.kind === 'fixed') text(method.armId, 'fixed armId')
   validateRequest(request); validatePolicy(policy); validateSelectorSnapshot(snapshot, selectedAt)
   if (!Array.isArray(candidates)) throw new Error('candidates must be an array')
   const ordered = candidates.map(c => { validateCandidate(c); return clone(c) })
@@ -115,26 +131,40 @@ export function selectStrategy({ request, candidates, policy, snapshot, selected
   const ids = ordered.map(armId)
   if (new Set(ids).size !== ids.length) throw new Error('Duplicate candidate arm')
   const { type, vector: context } = contextFor(request, selectedAt)
-  const training = snapshot.records.map(r => {
+  const training = (['contextual-bandit', 'historical-best'].includes(method.kind) ? snapshot.records : []).map(r => {
     const result = r.taskId === request.taskId ? { reward: null, reason: 'self-task' }
       : !r.armId ? { reward: null, reason: 'unbound-selection' }
-        : !ids.includes(r.armId) ? { reward: null, reason: 'different-arm' } : rewardFor(r, policy)
+        : !ids.includes(r.armId) ? { reward: null, reason: 'different-arm' }
+          : method.kind === 'historical-best' && canonicalJson(r.context.slice(1, 7)) !== canonicalJson(context.slice(1, 7))
+            ? { reward: null, reason: 'different-task-type' } : rewardFor(r, policy)
     return { attemptId: r.attemptId, armId: r.armId, context: r.context, ...result }
   })
   const scores = [], excluded = []
   for (const c of ordered) {
     const id = armId(c), reasons = exclusions(c, policy, type)
+    if (method.kind === 'cheapest' && (c.estimates.costMicrounits === null || c.estimates.currency !== policy.currency)) reasons.push('comparable-cost-unavailable')
     if (reasons.length) { excluded.push({ armId: id, strategy: c.strategy, reasons }); continue }
-    scores.push({ armId: id, strategy: c.strategy, ...scoreContext(context,
-      training.filter(r => r.armId === id && r.reward !== null), policy) })
+    const observations = training.filter(r => r.armId === id && r.reward !== null)
+    const value = method.kind === 'contextual-bandit' ? scoreContext(context, observations, policy)
+      : method.kind === 'historical-best' ? { score: observations.length ? observations.reduce((n, r) => n + r.reward, 0) / observations.length : null, samples: observations.length }
+        : { score: method.kind === 'cheapest' ? -c.estimates.costMicrounits : null, samples: 0 }
+    scores.push({ armId: id, strategy: c.strategy, ...value })
   }
   // Input order cannot affect ties; candidates are in canonical arm order.
-  const best = scores.reduce((best, s) => best === null || s.score > best.score ? s : best, null)
+  const observed = scores.filter(s => s.score !== null)
+  const best = method.kind === 'fixed' ? scores.find(s => s.armId === method.armId) ?? null
+    : method.kind === 'random' ? (scores.length ? scores[seededIndex(method.seed, hash(request), scores.length)] : null)
+      : observed.reduce((best, s) => best === null || s.score > best.score ? s : best, null)
+        ?? (method.kind === 'historical-best' ? scores[0] ?? null : null)
   const chosen = best === null ? null : ordered.find(c => armId(c) === best.armId)
-  const payload = { schemaVersion: 1, algorithm: ALGORITHM, featureSchema: FEATURE_SCHEMA,
+  const payload = { schemaVersion: 1, algorithm: method.kind === 'contextual-bandit' ? ALGORITHM : `${method.kind}-v1`, featureSchema: FEATURE_SCHEMA,
     requestHash: hash(request), selectedAt, snapshotId: snapshot.snapshotId, policy: clone(policy), policyHash: hash(policy),
     candidates: ordered, context, scores, excluded, training,
     selected: chosen === null ? null : { armId: best.armId, ...arm(chosen) },
-    propensity: null, propensityReason: 'Deterministic UCB; no randomized propensity', seed: null }
+    propensity: method.kind === 'random' && scores.length ? 1 / scores.length : null,
+    propensityReason: method.kind === 'random' ? 'Uniform seeded draw among admissible arms; conditional on a fixed seed selection is deterministic'
+      : method.kind === 'contextual-bandit' ? 'Deterministic UCB; no randomized propensity' : 'Deterministic baseline; no randomized propensity',
+    seed: method.kind === 'random' ? method.seed : null,
+    ...(method.kind === 'contextual-bandit' ? {} : { selectionMethod: clone(method), coldStart: method.kind === 'historical-best' && observed.length === 0 }) }
   return clone({ ...payload, decisionId: hash(payload) })
 }
