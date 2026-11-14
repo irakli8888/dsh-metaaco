@@ -1,5 +1,11 @@
 # Архитектура и правила развития
 
+Дополнение этапа 6, 2026-11-14: PR #10 и #11 объединены в `main@e1252eb`.
+Ветка `codex/dag-executor` добавляет [DAG план v3 и исполнитель](dag-executor.md)
+([ADR 0006](adr/0006-dag-executor.md)): зависимости без барьеров, weighted slots,
+артефакты через Bank, отдельные Harness runs, отмену и timeout. Автоматические
+MetaACO → v3, полный API accounting для DAG и Feedback ещё не реализованы.
+
 Дополнение этапа 5, 2026-11-14: ветка `codex/strategy-selector` поверх
 `codex/task-analyzer@9243b1d` добавляет [disjoint LinUCB selector](strategy-selector.md)
 и [ADR 0005](adr/0005-strategy-selector.md). На момент начала этапа PR #10 ещё
