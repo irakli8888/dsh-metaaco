@@ -55,12 +55,13 @@ async function runNode(ctx, parent, plan, task, prompt, signal, subagentProvider
 
 /** One DAG per existing Bank attempt. A completed execution is NOT verified quality. */
 export async function runDag(ctx, parent, input, { bank, attemptId, allowLlm = false, signal,
-  subagentProvider = 'spawn' } = {}) {
+  subagentProvider = 'spawn', verifyArtifact = async () => {} } = {}) {
   const plan = validateDag(input)
   if (allowLlm !== true) throw new Error('Explicit allowLlm: true is required for execution')
   if (!parent) throw new Error('A live parent Agent is required')
   text(attemptId, 'attemptId'); text(subagentProvider, 'subagentProvider')
   signal?.throwIfAborted()
+  if (typeof verifyArtifact !== 'function') throw new Error('verifyArtifact must be a trusted callback')
   if (!bank || bank.getAttempt(attemptId)?.state !== 'running') throw new Error('A running Bank attempt is required')
   if (bank.getEvents(attemptId).some(e => e.eventId === 'dag/start')) throw new Error('DAG already started; automatic replay is forbidden')
   const executionId = randomUUID(), started = performance.now(), controller = new AbortController()
@@ -103,6 +104,8 @@ export async function runDag(ctx, parent, input, { bank, attemptId, allowLlm = f
       if (bytes.length > plan.resources.maxArtifactBytes) throw new Error('Output artifact exceeds maxArtifactBytes')
       node.artifact = bank.putArtifact(bytes)
       bank.attachArtifact(attemptId, `dag-output/${task.id}`, node.artifact)
+      await verifyArtifact({ taskId: task.id, artifact: { ...node.artifact }, signal: controller.signal })
+      controller.signal.throwIfAborted()
       node.state = 'completed'
     } catch (error) {
       node.state = controller.signal.aborted ? (timedOut ? 'timeout' : 'cancelled') : 'failed'

@@ -1,5 +1,13 @@
 # Архитектура и правила развития
 
+Дополнение интеграционного этапа, 2026-11-14: ветка `codex/adaptive-attempt`
+поверх `codex/dag-metrics-feedback@ff7a574` добавляет [единый цикл попытки](adaptive-attempt.md)
+и [ADR 0009](adr/0009-adaptive-attempt.md). Выбор, независимые TDD gates, DAG,
+метрики и train-only Feedback соединены программным API. Admission выполняется
+на границе явно обёрнутого LlmAdapter; гарантированный bound и отсутствие обходных
+вызовов обеспечивает доверенная конфигурация приложения. Это не утверждение
+о полной аттестации provider coverage или готовности платных экспериментов.
+
 Дополнение этапа 8, 2026-11-14: ветка `codex/dag-metrics-feedback` поверх
 `codex/metaaco-dag-integration@7b24512` добавляет [наблюдение метрик DAG и
 неизменяемые версии Feedback](dag-metrics-feedback.md), [ADR 0008](adr/0008-dag-metrics-feedback.md).
