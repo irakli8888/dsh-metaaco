@@ -68,7 +68,11 @@ export async function runSuite(spec, suite, snapshot, { signal, dockerImage } = 
   try {
     for (const [path, content] of Object.entries({ ...snapshot.files, ...suite.files })) {
       await mkdir(dirname(join(cwd, path)), { recursive: true })
+      if (dockerImage) {
+        for (let parent = dirname(join(cwd, path)); parent !== cwd; parent = dirname(parent)) await chmod(parent, 0o755)
+      }
       await writeFile(join(cwd, path), content, { flag: 'wx' })
+      if (dockerImage) await chmod(join(cwd, path), 0o644)
     }
     const container = dockerImage ? `metaaco-test-${randomUUID()}` : null
     if (dockerImage && !/^sha256:[a-f0-9]{64}$/.test(dockerImage)) throw new Error('Expected a local Docker image ID')
@@ -79,7 +83,10 @@ export async function runSuite(spec, suite, snapshot, { signal, dockerImage } = 
       '--network=none', '--read-only', '--cap-drop=ALL', '--security-opt=no-new-privileges',
       '--memory=256m', '--pids-limit=64', '--cpus=1', '--user=65534:65534',
       '--mount', `type=bind,source=${cwd},target=/checks,readonly`, '--workdir=/checks', dockerImage, ...nodeCommand] : nodeCommand
-    if (container) await chmod(cwd, 0o755)
+    if (container) {
+      await chmod(join(cwd, 'metaaco-reporter.mjs'), 0o644)
+      await chmod(cwd, 0o755)
+    }
     const startedAt = new Date().toISOString(), start = performance.now()
     const result = await new Promise(resolve => {
       let child, stdout = '', stderr = '', bytes = 0, stopReason = null, spawnError = null

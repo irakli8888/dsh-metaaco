@@ -16,7 +16,7 @@ export function createDeepSeekAdapter({ key, fetchImpl = fetch }) {
       || options.tools?.length || typeof options.system !== 'string' || !options.system
       || Buffer.byteLength(options.system) > 65536) throw new Error('Unsupported DeepSeek request')
     return { model, messages: [{ role: 'user', content: options.system }],
-      max_tokens: maxTokens, stream: false, thinking: { type: 'disabled' } }
+      max_tokens: maxTokens, response_format: { type: 'json_object' }, stream: false, thinking: { type: 'disabled' } }
   }
   const adapter = {
     providerInfo(provider) { return { id: provider, name: 'DeepSeek' } },
