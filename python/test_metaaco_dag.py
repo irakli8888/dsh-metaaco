@@ -91,3 +91,13 @@ class MetaacoDagTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+class BundledSolverTests(unittest.TestCase):
+    def test_cli_works_without_source_override(self):
+        import json, subprocess, sys
+        from pathlib import Path
+        root = Path(__file__).resolve().parents[1]
+        result = subprocess.run([sys.executable, '-B', str(root / 'python/metaaco_dag.py'),
+                                 '--problem', str(root / 'examples/metaaco-dag-problem.json')],
+                                capture_output=True, text=True, check=True, timeout=10)
+        self.assertEqual(json.loads(result.stdout)['planner'], 'python-metaaco-dag')
