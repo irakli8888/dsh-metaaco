@@ -11,6 +11,16 @@ const plan = () => ({ version: 3, execution: 'dag', name: 'fixture', description
   resources: { agentSlots: 2, maxArtifactBytes: 1024, maxInputBytes: 4096, timeoutMs: 5000 },
   tasks: [task('a'), task('b'), task('c', ['a'], [{ name: 'source', taskId: 'a' }]), task('join', ['b', 'c'])] })
 const deferred = () => { let resolve; const promise = new Promise(r => { resolve = r }); return { promise, resolve } }
+
+test('artifact verification gates descendants and retains rejected evidence', async t => {
+  const f = fixture(t)
+  await assert.rejects(f.run(plan(), { verifyArtifact: async ({ taskId, artifact }) => {
+    assert.equal(f.bank.getArtifact(artifact).toString(), taskId)
+    if (taskId === 'a') throw new Error('Independent GREEN failed')
+  } }), /failed/)
+  assert.ok(!f.starts.some(r => r.args.taskId === 'c'))
+  assert.ok(f.bank.getEvents('run').some(e => e.payload.reason === 'Independent GREEN failed'))
+})
 function fixture(t, execute = async req => req.args.taskId) {
   const dir = mkdtempSync(join(tmpdir(), 'dag-'))
   const bank = new StrategyBank({ dataDir: dir })
