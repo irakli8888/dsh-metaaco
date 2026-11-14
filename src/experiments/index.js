@@ -134,7 +134,7 @@ export function summarizeExperiment(rows) {
 }
 
 /** Sequential, bounded frozen evaluation; append-only journal, never implicit paid retry/resume. */
-export async function runExperiment(bank, ref, { journal, createRuntime, runtimeConfig, solverSource, python = 'python3', seriesBudget, allowLlm = false, signal } = {}) {
+export async function runExperiment(bank, ref, { journal, createRuntime, runtimeConfig, solverSource, python = 'python3', seriesBudget, evaluationDockerImage, allowLlm = false, signal } = {}) {
   if (allowLlm !== true) throw new Error('Explicit allowLlm: true required for experiment dispatch')
   signal?.throwIfAborted()
   if (typeof createRuntime !== 'function') throw new Error('Trusted runtime factory required')
@@ -179,7 +179,7 @@ export async function runExperiment(bank, ref, { journal, createRuntime, runtime
           if (cell.mode.startsWith('metaaco-')) planning = await plan({ version: 2, plan: binding.plan,
             durationEstimatesSeconds: task.durations[binding.armId] }, cell.seed, solverSource, manifest.solverSourceFiles, cellSignal, python)
           const result = await runAdaptiveAttempt({ bank, attemptId, request: task.request, baseSnapshot: task.baseSnapshot,
-            feedback: manifest.feedback, candidates: manifest.candidates, bindings: task.bindings, selectionMethod: method, planning, seriesBudget,
+            feedback: manifest.feedback, candidates: manifest.candidates, bindings: task.bindings, selectionMethod: method, planning, seriesBudget, evaluationDockerImage,
             allowLlm, signal: cellSignal, createRuntime: args => createRuntime({ ...args, experimentCell: clone(cell), runtimeConfig: clone(manifest.runtimeConfig) }) })
           row.state = result.attempt.state
           const e = result.attempt.evaluation
