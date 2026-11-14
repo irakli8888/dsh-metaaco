@@ -1,0 +1,18 @@
+{
+  "version": 3,
+  "execution": "dag",
+  "name": "review-and-test",
+  "description": "Independent review and implementation, then test the implementation output",
+  "resources": {
+    "agentSlots": 2,
+    "maxArtifactBytes": 65536,
+    "maxInputBytes": 262144,
+    "timeoutMs": 60000
+  },
+  "tasks": [
+    { "id": "review", "prompt": "Review the task requirements and return findings.", "dependsOn": [], "inputs": [], "slots": 1, "model": null },
+    { "id": "implement", "prompt": "Prepare the implementation and return a textual patch.", "dependsOn": [], "inputs": [], "slots": 1, "model": null },
+    { "id": "test", "prompt": "Inspect the supplied patch and propose tests. Independent evaluation happens separately.", "dependsOn": ["implement"], "inputs": [{ "name": "patch", "taskId": "implement" }], "slots": 1, "model": null },
+    { "id": "summary", "prompt": "Summarize the supplied review and test proposal.", "dependsOn": ["review", "test"], "inputs": [{ "name": "review", "taskId": "review" }, { "name": "tests", "taskId": "test" }], "slots": 1, "model": null }
+  ]
+}
