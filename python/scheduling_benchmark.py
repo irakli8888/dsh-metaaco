@@ -1,4 +1,5 @@
 """Compare real MetaACO with a fixed order and an exact oracle on a small DAG."""
+import argparse
 import itertools
 import json
 from pathlib import Path
@@ -9,9 +10,9 @@ from vendor.rcpsp.core import RcpspInstance, SerialScheduleGenerator, validate_s
 SOURCE = Path(__file__).resolve().parent / 'vendor'
 
 
-def run_benchmark(seeds=(7, 11, 42)):
+def run_benchmark(seeds=(7, 11, 42), durations=None):
     ids = ['review', 'docs', 'patch', 'tests']
-    durations = [4, 4, 1, 10]
+    durations = [4, 4, 1, 10] if durations is None else durations
     dependencies = [[], [], [], [2]]
     instance = RcpspInstance(4, 1, durations, [[1]] * 4, [2],
                              [[], [], [3], []], dependencies)
@@ -43,4 +44,10 @@ def run_benchmark(seeds=(7, 11, 42)):
 
 
 if __name__ == '__main__':
-    print(json.dumps(run_benchmark(), indent=2))
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--durations', type=int, nargs=4, metavar=('REVIEW', 'DOCS', 'PATCH', 'TESTS'),
+                        help='Four positive duration estimates in seconds')
+    args = parser.parse_args()
+    if args.durations and (min(args.durations) < 1 or sum(args.durations) > 86400):
+        parser.error('durations must be positive and sum to at most 86400 seconds')
+    print(json.dumps(run_benchmark(durations=args.durations), indent=2))
