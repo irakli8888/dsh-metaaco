@@ -94,3 +94,13 @@ test('outer experiment deadline remains timeout in the attempt history', async t
   } })
   assert.equal(r.attempt.state, 'timeout')
 })
+
+test('two attempts exhaust the same series budget', async t => {
+  const f = fixture(t)
+  const seriesBudget = { budgetId: 'series/test', currency: 'USD', limitMicrounits: 12 }
+  const first = await runAdaptiveAttempt({ ...options(f), seriesBudget, createRuntime: runtime([]) })
+  assert.equal(first.attempt.state, 'succeeded')
+  const second = await runAdaptiveAttempt({ ...options(f), attemptId: 'b', seriesBudget, createRuntime: runtime([]) })
+  assert.notEqual(second.attempt.state, 'succeeded')
+  assert.equal(f.bank.getBudget('series/test').spentMicrounits, 9)
+})

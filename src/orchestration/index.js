@@ -38,7 +38,7 @@ function redPassed(record, spec) {
 
 /** Trusted application composition. createRuntime must install only the supplied guarded adapters. */
 export async function runAdaptiveAttempt({ bank, attemptId, request: input, feedback, candidates, bindings,
-  baseSnapshot: baseInput, createRuntime, planning = null, selectionMethod, evaluationDockerImage, allowLlm = false, signal }) {
+  baseSnapshot: baseInput, createRuntime, planning = null, selectionMethod, seriesBudget, evaluationDockerImage, allowLlm = false, signal }) {
   if (allowLlm !== true) throw new Error('Explicit allowLlm: true is required')
   signal?.throwIfAborted()
   if (typeof createRuntime !== 'function') throw new Error('A trusted runtime factory is required')
@@ -52,6 +52,9 @@ export async function runAdaptiveAttempt({ bank, attemptId, request: input, feed
   const decision = selectWithFeedback(bank, feedback, { request, candidates, selectedAt, method: selectionMethod })
   if (!decision.selected) throw new Error('No admissible strategy')
   const binding = bindingFor(bindings, decision.selected), policy = revision.policy
+  if (seriesBudget && (seriesBudget.currency !== policy.currency || !seriesBudget.budgetId?.startsWith('series/'))) {
+    throw new Error('Series budget requires a series/ ID and the policy currency')
+  }
   const planned = planning === null ? null : validateMetaacoDag(planning.result, planning.problem)
   if (planned && canonicalJson(planning.problem.plan) !== canonicalJson(binding.plan)) throw new Error('Planner problem differs from selected binding')
   if (policy.maxWallTimeMs !== null && policy.maxWallTimeMs > 2147483647) throw new Error('Attempt deadline exceeds timer range')
@@ -83,8 +86,19 @@ export async function runAdaptiveAttempt({ bank, attemptId, request: input, feed
     if (!redPassed(red, request.testSpec)) throw new Error('Expected RED gate did not pass')
     const budget = policy.maxCostMicrounits === null ? null : new BudgetController({ bank,
       budgetId: `attempt/${attemptId}`, currency: policy.currency, limitMicrounits: policy.maxCostMicrounits })
+    const shared = seriesBudget ? new BudgetController({ ...seriesBudget, bank }) : null
+    // Reserve in both ledgers before dispatch. On an interrupted reservation the hold remains conservative.
+    const admission = shared && budget ? {
+      snapshot: () => shared.snapshot(),
+      reserve(input) { shared.reserve(input); return budget.reserve(input) },
+      settle(input) {
+        const local = budget.settle(input)
+        const total = shared.settle(input)
+        return { violated: total.violated || local.violated }
+      },
+    } : shared ?? budget
     runtime = await createRuntime({ attemptId, signal: combined, plan: clone(binding.plan),
-      guardAdapter: (adapter, quote) => createBudgetedAdapter(adapter, { collector, budget, attemptId, quote,
+      guardAdapter: (adapter, quote) => createBudgetedAdapter(adapter, { collector, budget: admission, attemptId, quote,
         models: decision.selected.route.models, tools: decision.selected.route.tools, allowLlm, signal: combined }) })
     combined.throwIfAborted()
     if (typeof runtime?.dispose !== 'function') throw new Error('Runtime must provide dispose()')
