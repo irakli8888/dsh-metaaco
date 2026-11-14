@@ -1,5 +1,12 @@
 # Архитектура и правила развития
 
+Дополнение этапа 7, 2026-11-14: ветка `codex/metaaco-dag-integration` поверх
+`codex/dag-executor@7d10f43` (PR #12 открыт) добавляет [MetaACO → DAG](metaaco-dag.md)
+и [ADR 0007](adr/0007-metaaco-dag.md): реальный ColonyManager, weighted slot model,
+проверку расписания в Python/JS и planner artifact перед Harness. Это Cmax
+планирование с проекцией приоритетов; многокритериальное назначение моделей,
+end-to-end policy pipeline, полный DAG accounting и Feedback остаются целями.
+
 Дополнение этапа 6, 2026-11-14: PR #10 и #11 объединены в `main@e1252eb`.
 Ветка `codex/dag-executor` добавляет [DAG план v3 и исполнитель](dag-executor.md)
 ([ADR 0006](adr/0006-dag-executor.md)): зависимости без барьеров, weighted slots,

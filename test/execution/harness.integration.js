@@ -1,18 +1,24 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { mkdtempSync, rmSync } from 'node:fs'
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { Context } from '@deepseek-ai/cordis'
 import Engine from '@deepseek-ai/dsh-workflow-ptc'
 import { StrategyBank } from '../../src/bank/index.js'
 import { runDag } from '../../src/execution/index.js'
+import { runMetaacoDag, validateMetaacoDag } from '../../src/planning/index.js'
+import { execFile } from 'node:child_process'
+import { promisify } from 'node:util'
+import { fileURLToPath } from 'node:url'
 
-for (const mode of ['artifacts', 'failure', 'cancel']) test(`DAG through published Harness: ${mode}`, { timeout: 15000 }, async () => {
+for (const mode of ['artifacts', 'failure', 'cancel', 'metaaco']) test(`DAG through published Harness: ${mode}`, {
+  timeout: 15000, skip: mode === 'metaaco' && !process.env.METAACO_SOURCE ? 'Set METAACO_SOURCE for real solver' : false,
+}, async () => {
   const ctx = new Context(), dir = mkdtempSync(join(tmpdir(), 'dag-harness-'))
   const bank = new StrategyBank({ dataDir: join(dir, 'bank') })
   const children = [], disposed = [], controller = new AbortController()
-  let active = 0, maxActive = 0, finishSlow
+  let active = 0, maxActive = 0, finishSlow, finishFast
   try {
     for (const name of ['session', 'session-projection', 'agent', 'system-prompt', 'fs-local',
       'working-directory', 'subprocess-local', 'sandbox-local']) {
@@ -34,7 +40,8 @@ for (const mode of ['artifacts', 'failure', 'cancel']) test(`DAG through publish
         const finish = () => resolve({ stopReason: mode === 'failure' && label === 'a' ? 'error' : 'completed',
           output: [{ type: 'text', text: label === 'a' ? 'source text with "quotes" and ${data}' : label }] })
         if (mode === 'cancel') queueMicrotask(() => controller.abort())
-        else if (label === 'b' && mode === 'artifacts') finishSlow = finish
+        else if (label === 'b' && ['artifacts', 'metaaco'].includes(mode)) { finishSlow = finish; finishFast?.() }
+        else if (label === 'a' && ['artifacts', 'metaaco'].includes(mode) && !finishSlow) finishFast = finish
         else if (label === 'c') {
           assert.equal(envelope.artifacts[0].content, 'source text with "quotes" and ${data}')
           assert.equal(envelope.artifacts[0].producer, 'a')
@@ -57,13 +64,32 @@ for (const mode of ['artifacts', 'failure', 'cancel']) test(`DAG through publish
     const plan = { version: 3, execution: 'dag', name: 'fixture', description: 'offline',
       resources: { agentSlots: 2, maxArtifactBytes: 1024, maxInputBytes: 4096, timeoutMs: 10000 },
       tasks: [task('b'), task('a'), task('c', ['a'], [{ name: 'source', taskId: 'a' }])] }
-    const execution = runDag(ctx, parent, plan, { allowLlm: true, bank, attemptId: 'dag', subagentProvider: 'offline', signal: controller.signal })
-    if (mode === 'artifacts') {
+    const options = { allowLlm: true, bank, attemptId: 'dag', subagentProvider: 'offline', signal: controller.signal }
+    let execution
+    if (mode === 'metaaco') {
+      plan.description = 'Проверка реального MetaACO → DAG'
+      const problem = { version: 2, plan, durationEstimatesSeconds: { a: 10, b: 30, c: 10 } }
+      const input = join(dir, 'problem.json')
+      writeFileSync(input, JSON.stringify(problem))
+      const { stdout } = await promisify(execFile)(process.env.METAACO_PYTHON || 'python3', [
+        '-B', fileURLToPath(new URL('../../python/metaaco_dag.py', import.meta.url)),
+        '--source', process.env.METAACO_SOURCE, '--problem', input, '--seed', '42',
+      ], { timeout: 10000 })
+      const result = validateMetaacoDag(JSON.parse(stdout), problem)
+      assert.equal(result.estimates.scheduleMakespan, 30)
+      assert.equal(result.estimates.executionMakespan, null)
+      execution = runMetaacoDag(ctx, parent, result, problem, options)
+    } else execution = runDag(ctx, parent, plan, options)
+    if (['artifacts', 'metaaco'].includes(mode)) {
       const report = await execution
       assert.equal(report.status, 'completed')
       assert.equal(children.length, 3)
       assert.equal(maxActive, 2)
       assert.equal(bank.getArtifact(report.tasks.find(n => n.id === 'c').artifact).toString(), 'c')
+      if (mode === 'metaaco') {
+        const planning = bank.getEvents('dag').find(e => e.kind === 'metaaco-dag-planning-v1')
+        assert.equal(JSON.parse(bank.getArtifact(planning.payload.artifact)).planner, 'python-metaaco-dag')
+      }
     } else {
       await assert.rejects(execution, e => e.report.status === (mode === 'cancel' ? 'cancelled' : 'failed'))
       assert.ok(children.every(c => c.label !== 'c'))

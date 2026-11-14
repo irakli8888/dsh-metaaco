@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "plan": {
+    "version": 3,
+    "execution": "dag",
+    "name": "metaaco-artifacts",
+    "description": "Plan independent review and a patch-to-test dependency",
+    "resources": { "agentSlots": 2, "maxArtifactBytes": 65536, "maxInputBytes": 262144, "timeoutMs": 60000 },
+    "tasks": [
+      { "id": "review", "prompt": "Review the requirements.", "dependsOn": [], "inputs": [], "slots": 1, "model": null },
+      { "id": "patch", "prompt": "Return a proposed textual patch.", "dependsOn": [], "inputs": [], "slots": 1, "model": null },
+      { "id": "tests", "prompt": "Inspect the supplied patch and propose tests.", "dependsOn": ["patch"], "inputs": [{ "name": "patch", "taskId": "patch" }], "slots": 1, "model": null }
+    ]
+  },
+  "durationEstimatesSeconds": { "review": 30, "patch": 10, "tests": 10 }
+}
