@@ -7,6 +7,7 @@
     "./planner": "./planner.js",
     "./bank": "./src/bank/index.js",
     "./analyzer": "./src/analyzer/index.js",
+    "./selector": "./src/selector/index.js",
     "./evaluation": "./src/evaluation/index.js",
     "./metrics": "./src/metrics/index.js",
     "./metrics/harness": "./src/adapters/harness/metrics.js"
@@ -25,7 +26,7 @@
     "src"
   ],
   "scripts": {
-    "test": "node --test test/unit.test.js test/planner.test.js test/bank/*.test.js test/evaluation/*.test.js test/metrics/*.test.js test/analyzer/*.test.js",
+    "test": "node --test test/unit.test.js test/planner.test.js test/bank/*.test.js test/evaluation/*.test.js test/metrics/*.test.js test/analyzer/*.test.js test/selector/*.test.js",
     "test:integration": "node --test test/integration.test.js"
   },
   "devDependencies": {

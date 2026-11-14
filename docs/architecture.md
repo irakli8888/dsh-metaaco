@@ -1,5 +1,11 @@
 # Архитектура и правила развития
 
+Дополнение этапа 5, 2026-11-14: ветка `codex/strategy-selector` поверх
+`codex/task-analyzer@9243b1d` добавляет [disjoint LinUCB selector](strategy-selector.md)
+и [ADR 0005](adr/0005-strategy-selector.md). На момент начала этапа PR #10 ещё
+открыт. Это отдельный offline API с frozen train snapshot, policy filters и
+проверкой происхождения evaluator; автоматические dispatch и Feedback не реализованы.
+
 Дополнение этапа 4, 2026-11-14: в проверенном `main@c13e7a1` объединены
 Strategy Bank, Node TDD Evaluator и Metrics Collector. Ветка `codex/task-analyzer`
 добавляет [Task Analyzer v1](task-analyzer.md) и [ADR 0004](adr/0004-task-analyzer.md):
