@@ -27,7 +27,7 @@ export async function createOfflineRuntime({ guardAdapter, signal, runtimeConfig
   })
 }
 
-export async function createTextRuntime({ guardAdapter, signal, provider, createAdapter, promptFor }) {
+export async function createTextRuntime({ guardAdapter, signal, provider, createAdapter, promptFor, outputFor = output => output }) {
   const ctx = new Context()
   try {
     await ctx.plugin(LlmRuntime, {})
@@ -55,7 +55,7 @@ export async function createTextRuntime({ guardAdapter, signal, provider, create
             if (chunk.type === 'block-end') output += chunk.block.text ?? ''
             if (chunk.type === 'finish' && ['error', 'aborted', 'max-tokens'].includes(chunk.reason.kind)) throw new Error(chunk.reason.failure?.message ?? chunk.reason.kind)
           }
-          return { stopReason: 'completed', output: [{ type: 'text', text: output }] }
+          return { stopReason: 'completed', output: [{ type: 'text', text: outputFor(output, envelope) }] }
         })()
         return { id: randomUUID(), result, async dispose() {} }
       } })

@@ -1,8 +1,8 @@
 import { createTextRuntime } from './offline-runtime.js'
 import { createDeepSeekAdapter } from '../src/adapters/harness/deepseek.js'
 
-export function createDeepSeekRuntime({ guardAdapter, signal, key, fetchImpl, promptFor }) {
-  return createTextRuntime({ guardAdapter, signal, provider: 'deepseek',
+export function createDeepSeekRuntime({ guardAdapter, signal, key, fetchImpl, promptFor, outputFor }) {
+  return createTextRuntime({ guardAdapter, signal, provider: 'deepseek', outputFor,
     createAdapter: () => createDeepSeekAdapter({ key, fetchImpl }),
     promptFor: promptFor ?? (envelope => [
       'Complete this coding task. Return only a JSON object with exactly two keys: revision and files.',
