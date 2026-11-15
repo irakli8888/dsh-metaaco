@@ -31,7 +31,7 @@ try {
       costMicrounits: variant.costMicrounits, source: 'held-out conservative serial forecast',
     } }
   })
-  const decide = train => {
+  const decide = (policy, train) => {
     const feedback = advanceFeedback(bank, { policy, cutoff: revision.cutoff, manifest: {
       schemaVersion: 1, experimentId: 'pricing-transfer-v1', mode: 'frozen',
       splits: { train, validation: [], test: [task.request.taskId] },
@@ -39,6 +39,17 @@ try {
     const decision = selectWithFeedback(bank, feedback, { request: task.request, candidates })
     return { feedback, selected: decision.selected?.strategy, scores: decision.scores, training: decision.training }
   }
-  console.log(JSON.stringify({ taskId: task.request.taskId, policy: policy.weights,
-    empty: decide([]), trained: decide(revision.manifest.splits.train) }, null, 2))
+  const compare = weights => {
+    const selectedPolicy = { ...policy, weights }
+    return { weights, empty: decide(selectedPolicy, []),
+      trained: decide(selectedPolicy, revision.manifest.splits.train) }
+  }
+  const accounting = snapshot.records.map(({ attemptId, outcome }) => ({
+    attemptId, wallTimeMs: outcome.measured.wallTimeMs, coverageComplete: outcome.measured.coverageComplete,
+    pricingComplete: outcome.calculated.pricingComplete, costs: outcome.calculated.costs,
+  }))
+  console.log(JSON.stringify({ taskId: task.request.taskId, accounting,
+    weighted: compare({ quality: 0.6, time: 0.25, cost: 0.15 }),
+    qualityAndTime: compare({ quality: 0.6, time: 0.4, cost: 0 }),
+  }, null, 2))
 } finally { bank.close() }
