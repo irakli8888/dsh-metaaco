@@ -14,8 +14,8 @@ import { runAdaptiveAttempt } from '../../src/orchestration/index.js'
 const require = createRequire(import.meta.resolve('@deepseek-ai/dsh-agent'))
 const { LlmAdapter, LlmRuntime } = await import(require.resolve('@deepseek-ai/dsh-llm'))
 import { runTemplateAttempt } from '../../src/orchestration/template-attempt.js'
-for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failure']) test(`adaptive attempt through published Harness and LlmRuntime: ${mode}`, { skip: mode === 'metaaco' && !process.env.METAACO_SOURCE ? 'Set METAACO_SOURCE' : false }, async t => {
-  const broken = mode.endsWith('failure')
+for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failure', 'template-feedback']) test(`adaptive attempt through published Harness and LlmRuntime: ${mode}`, { skip: mode === 'metaaco' && !process.env.METAACO_SOURCE ? 'Set METAACO_SOURCE' : false }, async t => {
+  let broken = mode.endsWith('failure')
   const f = fixture(t), calls = [], children = [], releases = []
   let disposed = false, planning = null
   if (mode === 'metaaco') {
@@ -25,10 +25,18 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
     planning = { problem, result: JSON.parse(stdout) }
   }
   const run = mode.startsWith("template") ? runTemplateAttempt : runAdaptiveAttempt
-  const result = await run({
-    templateOptions: { hints: { type: "bugfix" }, resources: f.plan.resources, model: f.plan.tasks[0].model,
-      budgetMicrounits: 20, estimates: { implement: { seconds: 1, costMicrounits: 6 }, refactor: { seconds: 1, costMicrounits: 6 } } },
-    templateCandidates: { "direct-v1": f.candidate }, bank: f.bank, attemptId: 'integration', request: f.request,
+  const learning = mode === "template-feedback"
+  const templateCandidates = { "direct-v1": f.candidate }
+  if (learning) {
+    const definition = f.bank.getStrategy(f.candidate.strategy.strategyId, 1)
+    const strategy = f.bank.register({ ...definition, strategyId: "zz-contract" })
+    templateCandidates["contract-v1"] = { ...f.candidate, strategy }
+    broken = true
+  }
+  const options = {
+    templateOptions: { hints: { type: learning ? "feature" : "bugfix" }, resources: f.plan.resources, model: f.plan.tasks[0].model,
+      budgetMicrounits: 20, estimates: Object.fromEntries(["design", "implement", "write-tests", "integrate", "refactor"].map(id => [id, { seconds: 1, costMicrounits: 4 }])) },
+    templateCandidates, bank: f.bank, attemptId: 'integration', request: f.request,
     feedback: f.feedback, planning, candidates: [f.candidate], bindings: [f.binding], baseSnapshot: f.base, allowLlm: true,
     createRuntime: async ({ guardAdapter, signal }) => {
       const ctx = new Context()
@@ -53,7 +61,7 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
           async start(request) {
             const id = `child-${children.length}`, task = JSON.parse(request.prompt[0].text)
             children.push(task.task)
-            if (task.task === 'refactor' || task.task.startsWith('Refactor')) assert.ok(f.bank.getEvents('integration').some(e => e.kind === 'evaluation-phase' && e.payload.phase === 'green'))
+            if (task.task === 'refactor' || task.task.startsWith('Refactor')) assert.ok(f.bank.getEvents(learning ? 'after-feedback' : 'integration').some(e => e.kind === 'evaluation-phase' && e.payload.phase === 'green'))
             const result = (async () => {
               const prepared = await ctx.llm.prepareCall({ provider: 'offline', model: 'm' }, signal)
               for await (const chunk of prepared.stream({ ...prepared.config, messages: [], signal })) {
@@ -68,7 +76,26 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
         const parent = { id: session.id, ctx, session, options: {}, status: 'idle' }; ctx.agents.register(parent)
         return { ctx, parent, subagentProvider: 'offline', async dispose() { await ctx.fiber.dispose(); disposed = true } }
       } catch (error) { await ctx.fiber.dispose(); throw error }
-    } })
+    } }
+  const result = await run(options)
+  if (learning) {
+    assert.equal(result.variantSelection.selectedId, 'direct-v1')
+    assert.equal(result.attempt.state, 'failed')
+    assert.equal(result.feedbackError, null)
+    assert.notDeepEqual(result.feedback, f.feedback)
+    broken = false
+    children.length = 0
+    const next = await run({ ...options, request: { ...f.request, taskId: 'heldout' },
+      attemptId: 'after-feedback', feedback: result.feedback })
+    assert.equal(next.variantSelection.fastestId, 'direct-v1')
+    assert.equal(next.variantSelection.selectedId, 'contract-v1')
+    assert.equal(next.attempt.state, 'succeeded')
+    assert.deepEqual(next.feedback, result.feedback)
+    assert.deepEqual(next.execution.tasks.map(task => task.id).sort(),
+      ['design', 'implement', 'integrate', 'refactor', 'write-tests'])
+    assert.equal(children.length, 5)
+    return
+  }
   if (mode.startsWith('template')) {
     assert.equal(result.variantSelection.selectedId, 'direct-v1')
     assert.ok(f.bank.exportJsonl().includes('template-selection'))
