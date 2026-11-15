@@ -2,6 +2,7 @@ import { analyzeTask } from './analyzer/index.js'
 import { validateDag } from './execution/contracts.js'
 
 const skills = {
+  refactor: 'Refactor the verified implementation while preserving behavior. Return a full snapshot with a new revision.',
   design: 'Define component boundaries and interface contracts. Return the contracts.',
   implement: 'Implement the requested change using any supplied contracts. Return changed files.',
   'write-tests': 'Draft tests for the requirements and supplied contracts. Return test files.',
@@ -16,7 +17,7 @@ const templates = [
 ]
 
 /** Compile an offline variant problem v1. Estimates and model routing are supplied by the caller. */
-export function compileStrategies(request, { hints, resources, model, estimates, budgetMicrounits }) {
+export function compileStrategies(request, { hints, resources, model, estimates, budgetMicrounits, tdd = false }) {
   if (!Number.isSafeInteger(budgetMicrounits) || budgetMicrounits < 0) throw new Error('Invalid budget')
   const analysis = analyzeTask(request, { hints })
   const context = JSON.stringify({
@@ -26,7 +27,8 @@ export function compileStrategies(request, { hints, resources, model, estimates,
     .map(template => {
       let costMicrounits = 0
       const durationEstimatesSeconds = {}
-      const tasks = Object.entries(template.steps).map(([id, dependsOn]) => {
+      const steps = tdd ? { ...template.steps, refactor: [Object.keys(template.steps).at(-1)] } : template.steps
+      const tasks = Object.entries(steps).map(([id, dependsOn]) => {
         const forecast = estimates?.[id]
         if (!Number.isSafeInteger(forecast?.seconds) || forecast.seconds < 1 ||
             !Number.isSafeInteger(forecast.costMicrounits) || forecast.costMicrounits < 0) {
@@ -34,7 +36,7 @@ export function compileStrategies(request, { hints, resources, model, estimates,
         }
         costMicrounits += forecast.costMicrounits
         durationEstimatesSeconds[id] = forecast.seconds
-        return { id, prompt: `${skills[id]}\nTask context: ${context}`, dependsOn,
+        return { id, prompt: `${skills[id]}${tdd && [Object.keys(template.steps).at(-1), "refactor"].includes(id) ? " Return JSON with revision and full files." : ""}\nTask context: ${context}`, dependsOn,
           inputs: dependsOn.map(taskId => ({ name: taskId, taskId })), slots: 1, model }
       })
       if (!Number.isSafeInteger(costMicrounits) ||

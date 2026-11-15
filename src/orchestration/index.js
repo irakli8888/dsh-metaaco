@@ -38,7 +38,7 @@ function redPassed(record, spec) {
 
 /** Trusted application composition. createRuntime must install only the supplied guarded adapters. */
 export async function runAdaptiveAttempt({ bank, attemptId, request: input, feedback, candidates, bindings,
-  baseSnapshot: baseInput, createRuntime, planning = null, selectionMethod, seriesBudget, evaluationDockerImage, allowLlm = false, signal }) {
+  baseSnapshot: baseInput, createRuntime, planning = null, selectionMethod, templateSelection = null, seriesBudget, evaluationDockerImage, allowLlm = false, signal }) {
   if (allowLlm !== true) throw new Error('Explicit allowLlm: true is required')
   signal?.throwIfAborted()
   if (typeof createRuntime !== 'function') throw new Error('A trusted runtime factory is required')
@@ -73,6 +73,7 @@ export async function runAdaptiveAttempt({ bank, attemptId, request: input, feed
     finally { collector.endSpan(name, phaseSignal.aborted ? 'cancelled' : 'completed') }
   }
   try {
+    if (templateSelection !== null) attach('template-selection', templateSelection)
     attach('execution-binding', binding); attach('base-snapshot', base)
     collector.startSpan('analysis', 'analysis')
     attach('task-analysis', analyzeTask(request, { analyzedAt: selectedAt }))

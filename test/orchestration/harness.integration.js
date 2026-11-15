@@ -13,8 +13,9 @@ import { runAdaptiveAttempt } from '../../src/orchestration/index.js'
 // Use the exact llm dependency already installed for dsh-agent, without installing another runtime.
 const require = createRequire(import.meta.resolve('@deepseek-ai/dsh-agent'))
 const { LlmAdapter, LlmRuntime } = await import(require.resolve('@deepseek-ai/dsh-llm'))
-for (const mode of ['success', 'failure', 'metaaco']) test(`adaptive attempt through published Harness and LlmRuntime: ${mode}`, { skip: mode === 'metaaco' && !process.env.METAACO_SOURCE ? 'Set METAACO_SOURCE' : false }, async t => {
-  const broken = mode === 'failure'
+import { runTemplateAttempt } from '../../src/orchestration/template-attempt.js'
+for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failure']) test(`adaptive attempt through published Harness and LlmRuntime: ${mode}`, { skip: mode === 'metaaco' && !process.env.METAACO_SOURCE ? 'Set METAACO_SOURCE' : false }, async t => {
+  const broken = mode.endsWith('failure')
   const f = fixture(t), calls = [], children = [], releases = []
   let disposed = false, planning = null
   if (mode === 'metaaco') {
@@ -23,7 +24,11 @@ for (const mode of ['success', 'failure', 'metaaco']) test(`adaptive attempt thr
     const { stdout } = await promisify(execFile)('python3', ['-B', fileURLToPath(new URL('../../python/metaaco_dag.py', import.meta.url)), '--source', process.env.METAACO_SOURCE, '--problem', path], { timeout: 10000 })
     planning = { problem, result: JSON.parse(stdout) }
   }
-  const result = await runAdaptiveAttempt({ bank: f.bank, attemptId: 'integration', request: f.request,
+  const run = mode.startsWith("template") ? runTemplateAttempt : runAdaptiveAttempt
+  const result = await run({
+    templateOptions: { hints: { type: "bugfix" }, resources: f.plan.resources, model: f.plan.tasks[0].model,
+      budgetMicrounits: 20, estimates: { implement: { seconds: 1, costMicrounits: 6 }, refactor: { seconds: 1, costMicrounits: 6 } } },
+    templateCandidates: { "direct-v1": f.candidate }, bank: f.bank, attemptId: 'integration', request: f.request,
     feedback: f.feedback, planning, candidates: [f.candidate], bindings: [f.binding], baseSnapshot: f.base, allowLlm: true,
     createRuntime: async ({ guardAdapter, signal }) => {
       const ctx = new Context()
@@ -48,13 +53,13 @@ for (const mode of ['success', 'failure', 'metaaco']) test(`adaptive attempt thr
           async start(request) {
             const id = `child-${children.length}`, task = JSON.parse(request.prompt[0].text)
             children.push(task.task)
-            if (task.task === 'refactor') assert.ok(f.bank.getEvents('integration').some(e => e.kind === 'evaluation-phase' && e.payload.phase === 'green'))
+            if (task.task === 'refactor' || task.task.startsWith('Refactor')) assert.ok(f.bank.getEvents('integration').some(e => e.kind === 'evaluation-phase' && e.payload.phase === 'green'))
             const result = (async () => {
               const prepared = await ctx.llm.prepareCall({ provider: 'offline', model: 'm' }, signal)
               for await (const chunk of prepared.stream({ ...prepared.config, messages: [], signal })) {
                 if (chunk.type === 'finish' && chunk.reason.kind === 'error') throw new Error(chunk.reason.failure.message)
               }
-              return { stopReason: 'completed', output: [{ type: 'text', text: JSON.stringify(snapshot(task.task, broken ? '0' : 'a+b')) }] }
+              return { stopReason: 'completed', output: [{ type: 'text', text: JSON.stringify(snapshot(id, broken ? '0' : 'a+b')) }] }
             })()
             return { id, result, async dispose() { releases.push(id) } }
           } })
@@ -64,6 +69,10 @@ for (const mode of ['success', 'failure', 'metaaco']) test(`adaptive attempt thr
         return { ctx, parent, subagentProvider: 'offline', async dispose() { await ctx.fiber.dispose(); disposed = true } }
       } catch (error) { await ctx.fiber.dispose(); throw error }
     } })
+  if (mode.startsWith('template')) {
+    assert.equal(result.variantSelection.selectedId, 'direct-v1')
+    assert.ok(f.bank.exportJsonl().includes('template-selection'))
+  }
   assert.equal(result.attempt.state, broken ? 'failed' : 'succeeded')
   assert.equal(calls.length, broken ? 1 : 2)
   assert.equal(releases.length, calls.length); assert.equal(disposed, true)
