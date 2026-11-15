@@ -26,6 +26,9 @@ export async function runSkillAttempt({ skills, resources, budgetMicrounits, req
     const { stdout } = await promisify(execFile)('python3', ['-B', planner, path],
       { timeout: 30000, signal: attempt.signal })
     selection = JSON.parse(stdout)
+    selection.modelAlternatives = Object.fromEntries(Object.entries(catalog).map(([skill, routes]) =>
+      [skill, routes.map(({ model, seconds, costMicrounits }, index) =>
+        ({ id: `${skill}/${index}`, model, seconds, costMicrounits }))]))
   } finally { await rm(dir, { recursive: true, force: true }) }
   const original = validateDag(selection.problem.plan)
   const tasks = new Map(original.tasks.map(task => [task.id, task]))

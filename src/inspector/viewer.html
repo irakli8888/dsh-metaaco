@@ -43,6 +43,7 @@ el('h3','Выбранный порядок запуска',$('content'));show($(
   const trace=skillSearch.trace;
   el('h3','Поиск графа MetaACO',$('content'));
   el('p',`Оценок: ${skillSearch.evaluations} · в отчёте: ${trace.evaluations.length} · пропущено: ${trace.omitted}`,$('content'));
+  if(skillSearch.modelAlternatives)details('Допустимые модели и прогнозы по навыкам',skillSearch.modelAlternatives);
   details('Выбранные навыки и приоритеты',{choices:skillSearch.choices,dispatchOrder:skillSearch.dispatchOrder});
   for(const row of trace.evaluations){
     const status=row.rejected==='over-budget'?'сверх бюджета':`прогноз ${row.makespanSeconds} с`;
