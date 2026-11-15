@@ -50,7 +50,7 @@ export async function runTemplateAttempt({ templateOptions, templateCandidates, 
     if (Object.hasOwn(planningByArm, id)) throw new Error('Templates require distinct strategy routes')
     candidates.push(candidate)
     bindings.push({ schemaVersion: 1, armId: id, plan: variant.problem.plan,
-      greenTaskId: variant.id === 'contract-v1' ? 'integrate' : 'implement', refactorTaskId: 'refactor' })
+      greenTaskId: variant.problem.plan.tasks.find(task => task.id === 'refactor').dependsOn[0], refactorTaskId: 'refactor' })
     planningByArm[id] = { problem: variant.problem, result: row.schedule }
   }
   const comparison = { schemaVersion: 1, fastestId: selected.selectedId,

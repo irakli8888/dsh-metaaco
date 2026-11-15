@@ -19,3 +19,19 @@ test('feature templates reuse topology across stacks and filter by task class', 
   assert.equal(java.variants[1].costMicrounits, 20)
   assert.deepEqual(java.requiredTasks, ['implement'])
 })
+
+test('skill rules compose design and test branches independently with distinct model routes', () => {
+  const routes = [{ provider: 'offline', model: 'small' }, { provider: 'offline', model: 'large' }]
+  const spec = compileStrategies({
+    schemaVersion: 1, taskId: 'example', description: 'Implement a Rust command', repo: 'fixture',
+    baseCommit: 'base', testSpec: {}, provenance: {},
+  }, { compose: true, model: routes[0], modelChoices: { implement: routes }, budgetMicrounits: 40,
+    resources: { agentSlots: 2, maxArtifactBytes: 1024, maxInputBytes: 4096, timeoutMs: 5000 },
+    estimates: Object.fromEntries(['design', 'implement', 'write-tests', 'integrate']
+      .map(id => [id, { seconds: 2, costMicrounits: 5 }])),
+  })
+  assert.equal(spec.variants.length, 8)
+  assert.ok(spec.variants.some(v => v.problem.plan.tasks.map(t => t.id).join(',') === 'design,implement'))
+  assert.ok(spec.variants.some(v => v.problem.plan.tasks.map(t => t.id).join(',') === 'implement,write-tests,integrate'))
+  assert.equal(new Set(spec.variants.map(v => v.id)).size, 8)
+})
