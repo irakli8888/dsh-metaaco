@@ -30,7 +30,11 @@ export function calculateCostRange(usage, price, bounds) {
       const envelope = JSON.parse(prompt.split('\n').at(-1))
       const before = baseSnapshot.files[path].trimEnd().split('\n').slice(-2).join('\n')
       const edits = envelope.task.startsWith('Refactor') ? [] : [{ path, before, after: before + code }]
-      const content = JSON.stringify({ revision: `response-${++calls}`, edits })
+      calls++
+      const isTest = envelope.task.startsWith('Draft tests')
+      if (isTest) assert.match(prompt, /Exactly three test ideas/)
+      const content = JSON.stringify(isTest ? { cases: ['Known usage', 'Bounded usage', 'Unknown maximum'] }
+        : { revision: `response-${calls}`, edits })
       return Response.json({ model: 'deepseek-flash', choices: [{ finish_reason: 'stop', message: { content } }],
         usage: { prompt_tokens: 12, prompt_cache_miss_tokens: 10, prompt_cache_hit_tokens: 2, completion_tokens: 1, total_tokens: 13 } })
     } })

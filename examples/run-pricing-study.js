@@ -9,9 +9,10 @@ import { pricingStudyTask } from './pricing-study-task.js'
 import { createDeepSeekRuntime } from './deepseek-runtime.js'
 
 const requestBound = 301229
-const allocation = requestBound * 7
-export async function runPricingStudy({ out, repoDirectory, dockerImage, budget, key, fetchImpl, execute }) {
-  if (execute !== true) return { requestsAtMost: 7, budgetMicrounits: allocation }
+export async function runPricingStudy({ out, repoDirectory, dockerImage, budget, key, fetchImpl, execute, contractOnly = false }) {
+  const requestsAtMost = contractOnly ? 5 : 7
+  const allocation = requestBound * requestsAtMost
+  if (execute !== true) return { requestsAtMost, budgetMicrounits: allocation }
   if (budget !== allocation || !out || !key?.trim() || (!fetchImpl && !/^sha256:[a-f0-9]{64}$/.test(dockerImage ?? ''))) {
     throw new Error('Supply exact preview budget, fresh output, key and pinned Docker image')
   }
@@ -23,7 +24,7 @@ export async function runPricingStudy({ out, repoDirectory, dockerImage, budget,
     const model = { provider: 'deepseek', model: 'deepseek-flash' }
     const models = ['deepseek/deepseek-flash']
     const templateCandidates = Object.fromEntries(['direct-v1', 'contract-v1'].map(id => {
-      const strategy = bank.register({ strategyId: id, version: 1, schemaVersion: 1,
+      const strategy = bank.register({ strategyId: id, version: id === 'contract-v1' ? 2 : 1, schemaVersion: 1,
         workflow: { name: id, description: 'Pricing study', stages: [{ title: 'Implement', agents: [{ id: 'coder', prompt: 'Implement' }] }] },
         provenance: { source: 'pricing-study' } })
       return [id, { schemaVersion: 1, strategy, route: { models, tools: [], maxConcurrency: 2, tdd: true },
@@ -39,6 +40,7 @@ export async function runPricingStudy({ out, repoDirectory, dockerImage, budget,
     const seriesBudget = { budgetId: 'series/pricing-study', currency: 'USD', limitMicrounits: allocation }
     const runs = []
     for (const [id, candidate] of Object.entries(templateCandidates)) {
+      if (contractOnly && id !== 'contract-v1') continue
       const result = await runTemplateAttempt({ ...task, textEdits: true, bank, attemptId: id, feedback, templateCandidates,
         selectionMethod: { kind: 'fixed', armId: armId(candidate) }, seriesBudget, evaluationDockerImage: dockerImage,
         templateOptions: { hints: { type: 'feature' }, budgetMicrounits: allocation, model,
@@ -49,8 +51,9 @@ export async function runPricingStudy({ out, repoDirectory, dockerImage, budget,
           promptFor: envelope => {
             const isDesign = envelope.task.startsWith('Define component')
             const isTest = envelope.task.startsWith('Draft tests')
-            const format = isDesign || isTest
-              ? 'Return a short JSON object containing your proposed design or test cases.'
+            const format = isTest
+              ? 'Return only JSON {cases:[string,string,string]}. Exactly three test ideas, each under 100 characters. No test code, source code, examples or explanations. This output format overrides the task wording.'
+              : isDesign ? 'Return a short JSON object containing your proposed design.'
               : 'Return JSON {revision,edits:[{path,before,after}]}. Match before exactly once in the source. Use a small anchor and return only changed text. For REFACTOR, use the GREEN edits to reconstruct the current source. Return edits:[] to preserve verified code, with a new revision.'
             return format + '\n' + JSON.stringify({ ...envelope, task: envelope.task
               .replace(' Return JSON with revision and full files.', '')
@@ -68,7 +71,7 @@ export async function runPricingStudy({ out, repoDirectory, dockerImage, budget,
 
 if (process.argv[1] && resolve(process.argv[1]) === new URL(import.meta.url).pathname) {
   const { values } = parseArgs({ options: { out: { type: 'string' }, execute: { type: 'boolean' },
-    budget: { type: 'string' }, 'docker-image': { type: 'string' } } })
+    'contract-only': { type: 'boolean' }, budget: { type: 'string' }, 'docker-image': { type: 'string' } } })
   console.log(JSON.stringify(await runPricingStudy({ ...values, budget: Number(values.budget),
-    dockerImage: values['docker-image'], key: process.env.DEEPSEEK_API_KEY, repoDirectory: process.cwd() }), null, 2))
+    contractOnly: values['contract-only'], dockerImage: values['docker-image'], key: process.env.DEEPSEEK_API_KEY, repoDirectory: process.cwd() }), null, 2))
 }
