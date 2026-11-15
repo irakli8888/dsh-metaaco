@@ -28,6 +28,10 @@ export function calculateCostRange(usage, price, bounds) {
     key: 'fixture', budget: 2108603, fetchImpl: async (_, req) => {
       const prompt = JSON.parse(req.body).messages[0].content
       const envelope = JSON.parse(prompt.split('\n').at(-1))
+      if (envelope.task.startsWith('Refactor')) {
+        assert.match(envelope.task, /export function calculateCostRange/)
+        assert.deepEqual(envelope.artifacts, [])
+      }
       const before = baseSnapshot.files[path].trimEnd().split('\n').slice(-2).join('\n')
       const edits = envelope.task.startsWith('Refactor') ? [] : [{ path, before, after: before + code }]
       calls++

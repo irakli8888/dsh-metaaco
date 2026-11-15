@@ -1,3 +1,4 @@
+import { applyTextEdits } from '../src/orchestration/snapshot-patch.js'
 import { mkdir } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { parseArgs } from 'node:util'
@@ -24,7 +25,7 @@ export async function runPricingStudy({ out, repoDirectory, dockerImage, budget,
     const model = { provider: 'deepseek', model: 'deepseek-flash' }
     const models = ['deepseek/deepseek-flash']
     const templateCandidates = Object.fromEntries(['direct-v1', 'contract-v1'].map(id => {
-      const strategy = bank.register({ strategyId: id, version: id === 'contract-v1' ? 2 : 1, schemaVersion: 1,
+      const strategy = bank.register({ strategyId: id, version: id === 'contract-v1' ? 3 : 2, schemaVersion: 1,
         workflow: { name: id, description: 'Pricing study', stages: [{ title: 'Implement', agents: [{ id: 'coder', prompt: 'Implement' }] }] },
         provenance: { source: 'pricing-study' } })
       return [id, { schemaVersion: 1, strategy, route: { models, tools: [], maxConcurrency: 2, tdd: true },
@@ -49,12 +50,20 @@ export async function runPricingStudy({ out, repoDirectory, dockerImage, budget,
             .map(step => [step, { seconds: 3, costMicrounits: requestBound }])) },
         allowLlm: true, createRuntime: args => createDeepSeekRuntime({ ...args, key, fetchImpl,
           promptFor: envelope => {
+            if (envelope.task.startsWith('Refactor')) {
+              const [green] = envelope.artifacts
+              const snapshot = applyTextEdits(task.baseSnapshot, JSON.parse(green.content), task.editablePaths)
+              const [path] = task.editablePaths
+              const instructions = 'Return JSON {revision,edits:[{path,before,after}]}. Match before exactly once in the verified source. Use a new revision. If no change is needed, return edits:[] to preserve behavior.'
+              return instructions + '\n' + JSON.stringify({ ...envelope, artifacts: [],
+                task: `Refactor only ${path}. Preserve behavior. Verified source:\n${snapshot.files[path]}` })
+            }
             const isDesign = envelope.task.startsWith('Define component')
             const isTest = envelope.task.startsWith('Draft tests')
             const format = isTest
               ? 'Return only JSON {cases:[string,string,string]}. Exactly three test ideas, each under 100 characters. No test code, source code, examples or explanations. This output format overrides the task wording.'
               : isDesign ? 'Return a short JSON object containing your proposed design.'
-              : 'Return JSON {revision,edits:[{path,before,after}]}. Match before exactly once in the source. Use a small anchor and return only changed text. For REFACTOR, use the GREEN edits to reconstruct the current source. Return edits:[] to preserve verified code, with a new revision.'
+              : 'Return JSON {revision,edits:[{path,before,after}]}. Match before exactly once in the source. Use a small anchor and return only changed text.'
             return format + '\n' + JSON.stringify({ ...envelope, task: envelope.task
               .replace(' Return JSON with revision and full files.', '')
               .replace(' Return a full snapshot with a new revision.', '') })
