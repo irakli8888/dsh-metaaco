@@ -1,3 +1,5 @@
+import { armId } from '../../src/selector/contracts.js'
+import { compileStrategies } from '../../src/strategy-templates.js'
 import { writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { execFile } from 'node:child_process'
@@ -14,7 +16,7 @@ import { runAdaptiveAttempt } from '../../src/orchestration/index.js'
 const require = createRequire(import.meta.resolve('@deepseek-ai/dsh-agent'))
 const { LlmAdapter, LlmRuntime } = await import(require.resolve('@deepseek-ai/dsh-llm'))
 import { runTemplateAttempt } from '../../src/orchestration/template-attempt.js'
-for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failure', 'template-feedback']) test(`adaptive attempt through published Harness and LlmRuntime: ${mode}`, { skip: mode === 'metaaco' && !process.env.METAACO_SOURCE ? 'Set METAACO_SOURCE' : false }, async t => {
+for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failure', 'template-feedback', 'template-composed']) test(`adaptive attempt through published Harness and LlmRuntime: ${mode}`, { skip: mode === 'metaaco' && !process.env.METAACO_SOURCE ? 'Set METAACO_SOURCE' : false }, async t => {
   let broken = mode.endsWith('failure')
   const f = fixture(t), calls = [], children = [], releases = []
   let disposed = false, planning = null
@@ -26,6 +28,14 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
   }
   const run = mode.startsWith("template") ? runTemplateAttempt : runAdaptiveAttempt
   const learning = mode === "template-feedback"
+  const composed = mode === 'template-composed'
+  const templateOptions = {
+    hints: { type: learning || composed ? 'feature' : 'bugfix' },
+    compose: composed, resources: f.plan.resources, model: f.plan.tasks[0].model,
+    budgetMicrounits: 20,
+    estimates: Object.fromEntries(['design', 'implement', 'write-tests', 'integrate', 'refactor']
+      .map(id => [id, { seconds: 1, costMicrounits: 4 }])),
+  }
   const templateCandidates = { "direct-v1": f.candidate }
   if (learning) {
     const definition = f.bank.getStrategy(f.candidate.strategy.strategyId, 1)
@@ -33,9 +43,21 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
     templateCandidates["contract-v1"] = { ...f.candidate, strategy }
     broken = true
   }
+  let composedId
+  if (composed) {
+    const spec = compileStrategies(f.request, { ...templateOptions, tdd: true })
+    assert.equal(spec.variants.length, 4)
+    const combined = spec.variants.find(({ problem }) => problem.plan.tasks.length === 5)
+    composedId = combined.id
+    const definition = f.bank.getStrategy(f.candidate.strategy.strategyId, 1)
+    for (const { id } of spec.variants) {
+      const strategy = f.bank.register({ ...definition, strategyId: id })
+      templateCandidates[id] = { ...f.candidate, strategy }
+    }
+  }
   const options = {
-    templateOptions: { hints: { type: learning ? "feature" : "bugfix" }, resources: f.plan.resources, model: f.plan.tasks[0].model,
-      budgetMicrounits: 20, estimates: Object.fromEntries(["design", "implement", "write-tests", "integrate", "refactor"].map(id => [id, { seconds: 1, costMicrounits: 4 }])) },
+    templateOptions,
+    ...(composed ? { selectionMethod: { kind: 'fixed', armId: armId(templateCandidates[composedId]) } } : {}),
     templateCandidates, bank: f.bank, attemptId: 'integration', request: f.request,
     feedback: f.feedback, planning, candidates: [f.candidate], bindings: [f.binding], baseSnapshot: f.base, allowLlm: true,
     createRuntime: async ({ guardAdapter, signal }) => {
@@ -61,6 +83,9 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
           async start(request) {
             const id = `child-${children.length}`, task = JSON.parse(request.prompt[0].text)
             children.push(task.task)
+            if (composed && task.task.startsWith('Combine')) {
+              assert.deepEqual(task.artifacts.map(artifact => artifact.name).sort(), ['implement', 'write-tests'])
+            }
             if (task.task === 'refactor' || task.task.startsWith('Refactor')) assert.ok(f.bank.getEvents(learning ? 'after-feedback' : 'integration').some(e => e.kind === 'evaluation-phase' && e.payload.phase === 'green'))
             const result = (async () => {
               const prepared = await ctx.llm.prepareCall({ provider: 'offline', model: 'm' }, signal)
@@ -97,11 +122,16 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
     return
   }
   if (mode.startsWith('template')) {
-    assert.equal(result.variantSelection.selectedId, 'direct-v1')
+    assert.equal(result.variantSelection.selectedId, composedId ?? 'direct-v1')
     assert.ok(f.bank.exportJsonl().includes('template-selection'))
   }
   assert.equal(result.attempt.state, broken ? 'failed' : 'succeeded')
-  assert.equal(calls.length, broken ? 1 : 2)
+  if (composed) {
+    assert.equal(result.variantSelection.variants.length, 4)
+    assert.deepEqual(result.execution.tasks.map(task => task.id).sort(),
+      ['design', 'implement', 'integrate', 'refactor', 'write-tests'])
+  }
+  assert.equal(calls.length, composed ? 5 : broken ? 1 : 2)
   assert.equal(releases.length, calls.length); assert.equal(disposed, true)
   assert.equal(result.attempt.outcome.measured.observedCallCount, calls.length)
   assert.equal(f.bank.getBudget('attempt/integration').spentMicrounits, 3 * calls.length)
