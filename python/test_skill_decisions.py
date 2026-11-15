@@ -40,3 +40,21 @@ class SkillDecisionTests(unittest.TestCase):
             result = search_workflow({'model': ['cheap', 'strong']}, build, budget)
             self.assertEqual(result['choices']['model'], model)
             self.assertLessEqual(result['estimatedCostMicrounits'], budget)
+
+    def test_catalog_builds_dag_with_required_green_and_refactor(self):
+        from skill_decisions import plan_skill_graph
+        from test_metaaco_dag import problem
+
+        def route(name, seconds, cost):
+            return {'model': {'provider': 'offline', 'model': name},
+                    'seconds': seconds, 'costMicrounits': cost, 'prompt': f'Use {name}'}
+
+        catalog = {'implement': [route('cheap', 9, 3), route('fast', 2, 8)],
+                   'design': [route('cheap', 2, 3)], 'refactor': [route('cheap', 2, 3)]}
+        resources = problem()['plan']['resources']
+        result = plan_skill_graph(catalog, resources, 11)
+        tasks = result['problem']['plan']['tasks']
+        self.assertEqual([task['id'] for task in tasks], ['implement', 'refactor'])
+        self.assertEqual(tasks[0]['model']['model'], 'fast')
+        self.assertEqual(tasks[1]['inputs'], [{'name': 'implement', 'taskId': 'implement'}])
+        self.assertEqual(result['makespanSeconds'], 4)

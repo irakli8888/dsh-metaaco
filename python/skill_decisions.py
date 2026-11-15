@@ -97,8 +97,66 @@ def search_workflow(groups, build_candidate, budget_microunits, **search_options
         schedule = SerialScheduleGenerator().generate(instance, order)
         validate_schedule(instance, schedule)
         evaluated[key] = {'problem': problem, 'estimatedCostMicrounits': cost,
-                          'makespanSeconds': schedule.makespan}
+                          'makespanSeconds': schedule.makespan,
+                          'dispatchOrder': [ids[job] for job in sorted(order, key=lambda j: schedule.start_times[j])]}
         return schedule.makespan
 
     result = search_decisions(groups, evaluate, **search_options)
     return {**result, **evaluated[tuple(sorted(result['choices'].items()))]}
+
+
+def plan_skill_graph(catalog, resources, budget_microunits, **options):
+    """Build workflow DAGs lazily from skill routes and optional branches."""
+    required = {'implement', 'refactor'}
+    supported = required | {'design', 'write-tests', 'integrate'}
+    if not required <= catalog.keys() or not catalog.keys() <= supported:
+        raise ValueError('Invalid skill catalog')
+    if ('write-tests' in catalog) != ('integrate' in catalog):
+        raise ValueError('Test preparation requires integration')
+    groups = {}
+    for skill, routes in catalog.items():
+        if not isinstance(routes, list) or not routes:
+            raise ValueError('Each skill needs at least one route')
+        groups[skill] = [f'{skill}/{i}' for i in range(len(routes))]
+        if skill in {'design', 'write-tests'}:
+            groups[skill].append(f'{skill}/skip')
+
+    def build(choices):
+        dependencies = {}
+        if choices.get('design', 'design/skip') != 'design/skip':
+            dependencies['design'] = []
+        context = ['design'] if 'design' in dependencies else []
+        dependencies['implement'] = context
+        if choices.get('write-tests', 'write-tests/skip') != 'write-tests/skip':
+            dependencies['write-tests'] = context
+            dependencies['integrate'] = ['implement', 'write-tests']
+        dependencies['refactor'] = ['integrate' if 'integrate' in dependencies else 'implement']
+        tasks, durations, cost = [], {}, 0
+        for skill, parents in dependencies.items():
+            route = catalog[skill][int(choices[skill].rsplit('/', 1)[1])]
+            from metaaco_dag import integer
+            integer(route['costMicrounits'], minimum=0)
+            cost += route['costMicrounits']
+            durations[skill] = route['seconds']
+            tasks.append({'id': skill, 'dependsOn': parents, 'prompt': route['prompt'],
+                          'slots': 1, 'model': route['model'],
+                          'inputs': [{'name': parent, 'taskId': parent} for parent in parents]})
+        plan = {'version': 3, 'execution': 'dag', 'name': 'skill-search',
+                'description': 'Workflow assembled by MetaACO', 'resources': resources, 'tasks': tasks}
+        return {'version': 2, 'plan': plan, 'durationEstimatesSeconds': durations}, cost
+
+    return search_workflow(groups, build, budget_microunits, **options)
+
+
+if __name__ == '__main__':
+    import argparse
+    import json
+    from pathlib import Path
+
+    parser = argparse.ArgumentParser(description='Plan a workflow from a skill catalog')
+    parser.add_argument('catalog', type=Path)
+    parser.add_argument('--seed', type=int, default=42)
+    args = parser.parse_args()
+    spec = json.loads(args.catalog.read_text(encoding='utf-8'))
+    print(json.dumps(plan_skill_graph(spec['skills'], spec['resources'],
+                                     spec['budgetMicrounits'], seed=args.seed)))

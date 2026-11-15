@@ -1,3 +1,4 @@
+import { runSkillAttempt } from '../../src/orchestration/skill-attempt.js'
 import { armId } from '../../src/selector/contracts.js'
 import { compileStrategies } from '../../src/strategy-templates.js'
 import { writeFileSync } from 'node:fs'
@@ -16,7 +17,7 @@ import { runAdaptiveAttempt } from '../../src/orchestration/index.js'
 const require = createRequire(import.meta.resolve('@deepseek-ai/dsh-agent'))
 const { LlmAdapter, LlmRuntime } = await import(require.resolve('@deepseek-ai/dsh-llm'))
 import { runTemplateAttempt } from '../../src/orchestration/template-attempt.js'
-for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failure', 'template-feedback', 'template-composed']) test(`adaptive attempt through published Harness and LlmRuntime: ${mode}`, { skip: mode === 'metaaco' && !process.env.METAACO_SOURCE ? 'Set METAACO_SOURCE' : false }, async t => {
+for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failure', 'template-feedback', 'template-composed', 'skill-search']) test(`adaptive attempt through published Harness and LlmRuntime: ${mode}`, { skip: mode === 'metaaco' && !process.env.METAACO_SOURCE ? 'Set METAACO_SOURCE' : false }, async t => {
   let broken = mode.endsWith('failure')
   const f = fixture(t), calls = [], children = [], releases = []
   let disposed = false, planning = null
@@ -26,7 +27,7 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
     const { stdout } = await promisify(execFile)('python3', ['-B', fileURLToPath(new URL('../../python/metaaco_dag.py', import.meta.url)), '--source', process.env.METAACO_SOURCE, '--problem', path], { timeout: 10000 })
     planning = { problem, result: JSON.parse(stdout) }
   }
-  const run = mode.startsWith("template") ? runTemplateAttempt : runAdaptiveAttempt
+  const run = mode === 'skill-search' ? runSkillAttempt : mode.startsWith("template") ? runTemplateAttempt : runAdaptiveAttempt
   const learning = mode === "template-feedback"
   const composed = mode === 'template-composed'
   const templateOptions = {
@@ -56,6 +57,10 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
     }
   }
   const options = {
+    ...(mode === 'skill-search' ? { candidate: f.candidate, budgetMicrounits: 20, resources: f.plan.resources,
+      skills: Object.fromEntries(['implement', 'refactor', 'design'].map(id => [id, [{
+        model: f.plan.tasks[0].model, seconds: 1, costMicrounits: 4, prompt: id,
+      }]])) } : {}),
     templateOptions,
     ...(composed ? { selectionMethod: { kind: 'fixed', armId: armId(templateCandidates[composedId]) } } : {}),
     templateCandidates, bank: f.bank, attemptId: 'integration', request: f.request,
@@ -123,6 +128,11 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
   }
   if (mode.startsWith('template')) {
     assert.equal(result.variantSelection.selectedId, composedId ?? 'direct-v1')
+    assert.ok(f.bank.exportJsonl().includes('template-selection'))
+  }
+  if (mode === 'skill-search') {
+    assert.equal(result.skillSelection.choices.design, 'design/skip')
+    assert.deepEqual(result.execution.tasks.map(task => task.id), ['implement', 'refactor'])
     assert.ok(f.bank.exportJsonl().includes('template-selection'))
   }
   assert.equal(result.attempt.state, broken ? 'failed' : 'succeeded')
