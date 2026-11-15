@@ -1,0 +1,40 @@
+name: Offline tests
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  offline:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      METAACO_SOURCE: ${{ github.workspace }}/python/vendor
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Repository study fixtures read a pinned historical revision.
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.22.3'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install pinned package manager
+        run: npm install --global pnpm@11.25.0
+      - name: Install locked dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Unit tests
+        run: pnpm test
+      - name: Offline Harness integration
+        run: pnpm test:integration
+      - name: Bundled MetaACO tests
+        run: python3 -B -m unittest discover -s python -v
+      - name: Whitespace check
+        run: git diff --check HEAD^ HEAD
