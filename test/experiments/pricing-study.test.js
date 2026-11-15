@@ -25,3 +25,15 @@ test('pricing model output overlays only the permitted file', async () => {
   assert.throws(() => applySnapshotPatch(base, { ...patch, files: { ...patch.files, 'index.js': 'changed' } },
     ['pricing.js']), /not editable/)
 })
+
+test('compact edits require a unique match and cannot target another file', async () => {
+  const { applyTextEdits } = await import('../../src/orchestration/snapshot-patch.js')
+  const base = { revision: 'base', files: { 'pricing.js': 'old old', 'index.js': 'pinned' } }
+  const edit = { path: 'pricing.js', before: 'old old', after: 'new' }
+  assert.deepEqual(applyTextEdits(base, { revision: 'green', edits: [edit] }, ['pricing.js']),
+    { revision: 'green', files: { 'pricing.js': 'new', 'index.js': 'pinned' } })
+  assert.throws(() => applyTextEdits(base, { revision: 'green', edits: [{ ...edit, before: 'old' }] },
+    ['pricing.js']), /unique/)
+  assert.throws(() => applyTextEdits(base, { revision: 'green', edits: [{ ...edit, path: 'index.js' }] },
+    ['pricing.js']), /not editable/)
+})

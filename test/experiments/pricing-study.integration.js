@@ -11,7 +11,7 @@ test('both pricing templates share a budget and record training outcomes', async
   t.after(() => rm(dir, { recursive: true, force: true }))
   const repoDirectory = process.cwd()
   const { baseSnapshot, editablePaths: [path] } = pricingStudyTask(repoDirectory)
-  const code = baseSnapshot.files[path] + `
+  const code = `
 export function calculateCostRange(usage, price, bounds) {
   const counts = normalizeUsage(usage);
   const min = {}, max = {};
@@ -25,8 +25,12 @@ export function calculateCostRange(usage, price, bounds) {
 `
   let calls = 0
   const result = await runPricingStudy({ repoDirectory, out: join(dir, 'bank'), execute: true,
-    key: 'fixture', budget: 2108603, fetchImpl: async () => {
-      const content = JSON.stringify({ revision: `response-${++calls}`, files: { [path]: code } })
+    key: 'fixture', budget: 2108603, fetchImpl: async (_, req) => {
+      const prompt = JSON.parse(req.body).messages[0].content
+      const envelope = JSON.parse(prompt.split('\n').at(-1))
+      const before = baseSnapshot.files[path].trimEnd().split('\n').slice(-2).join('\n')
+      const edits = envelope.task.startsWith('Refactor') ? [] : [{ path, before, after: before + code }]
+      const content = JSON.stringify({ revision: `response-${++calls}`, edits })
       return Response.json({ model: 'deepseek-flash', choices: [{ finish_reason: 'stop', message: { content } }],
         usage: { prompt_tokens: 12, prompt_cache_miss_tokens: 10, prompt_cache_hit_tokens: 2, completion_tokens: 1, total_tokens: 13 } })
     } })

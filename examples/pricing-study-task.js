@@ -41,6 +41,6 @@ export function pricingStudyTask(repoDirectory) {
       } },
     ] }
   return { baseSnapshot, editablePaths: [editable], request: { schemaVersion: 1, taskId: 'pricing-range', repo: 'dsh-metaaco', baseCommit: revision,
-    description: `${description}\nOnly edit ${editable}. Return the complete contents of that file in files. Omit all other paths.\nSource:\n${files[editable]}`,
+    description: `${description}\nOnly edit ${editable}. Describe changes only to this file.\nSource:\n${files[editable]}`,
     provenance: { source: 'pinned-repository-case' }, testSpec } }
 }

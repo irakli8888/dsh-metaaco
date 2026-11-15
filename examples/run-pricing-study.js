@@ -39,13 +39,23 @@ export async function runPricingStudy({ out, repoDirectory, dockerImage, budget,
     const seriesBudget = { budgetId: 'series/pricing-study', currency: 'USD', limitMicrounits: allocation }
     const runs = []
     for (const [id, candidate] of Object.entries(templateCandidates)) {
-      const result = await runTemplateAttempt({ ...task, bank, attemptId: id, feedback, templateCandidates,
+      const result = await runTemplateAttempt({ ...task, textEdits: true, bank, attemptId: id, feedback, templateCandidates,
         selectionMethod: { kind: 'fixed', armId: armId(candidate) }, seriesBudget, evaluationDockerImage: dockerImage,
         templateOptions: { hints: { type: 'feature' }, budgetMicrounits: allocation, model,
           resources: { agentSlots: 2, maxArtifactBytes: 24000, maxInputBytes: 48000, timeoutMs: 130000 },
           estimates: Object.fromEntries(['design', 'implement', 'write-tests', 'integrate', 'refactor']
             .map(step => [step, { seconds: 3, costMicrounits: requestBound }])) },
-        allowLlm: true, createRuntime: args => createDeepSeekRuntime({ ...args, key, fetchImpl }) })
+        allowLlm: true, createRuntime: args => createDeepSeekRuntime({ ...args, key, fetchImpl,
+          promptFor: envelope => {
+            const isDesign = envelope.task.startsWith('Define component')
+            const isTest = envelope.task.startsWith('Draft tests')
+            const format = isDesign || isTest
+              ? 'Return a short JSON object containing your proposed design or test cases.'
+              : 'Return JSON {revision,edits:[{path,before,after}]}. Match before exactly once in the source. Use a small anchor and return only changed text. For REFACTOR, use the GREEN edits to reconstruct the current source. Return edits:[] to preserve verified code, with a new revision.'
+            return format + '\n' + JSON.stringify({ ...envelope, task: envelope.task
+              .replace(' Return JSON with revision and full files.', '')
+              .replace(' Return a full snapshot with a new revision.', '') })
+          } }) })
       if (result.feedbackError) throw new Error(result.feedbackError)
       feedback = result.feedback
       runs.push({ id, state: result.attempt.state, evaluation: result.attempt.evaluation?.status })
