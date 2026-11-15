@@ -73,7 +73,7 @@ def search_workflow(groups, build_candidate, budget_microunits, **search_options
     evaluated = {}
 
     def evaluate(choices):
-        key = tuple(sorted(choices.items()))
+        key = tuple(choices.items())
         if key in evaluated:
             return evaluated[key]['makespanSeconds'] if evaluated[key] else None
         problem, cost = build_candidate(choices)
@@ -93,7 +93,8 @@ def search_workflow(groups, build_candidate, budget_microunits, **search_options
         durations = [problem['durationEstimatesSeconds'][name] for name in ids]
         instance = RcpspInstance(len(ids), 1, durations, [[task['slots']] for task in tasks],
                                  [problem['plan']['resources']['agentSlots']], successors, predecessors)
-        order = topological_order(instance)
+        priority = {skill: position for position, skill in enumerate(choices)}
+        order = topological_order(instance, [priority.get(name, len(priority)) for name in ids])
         schedule = SerialScheduleGenerator().generate(instance, order)
         validate_schedule(instance, schedule)
         evaluated[key] = {'problem': problem, 'estimatedCostMicrounits': cost,
@@ -102,7 +103,7 @@ def search_workflow(groups, build_candidate, budget_microunits, **search_options
         return schedule.makespan
 
     result = search_decisions(groups, evaluate, **search_options)
-    return {**result, **evaluated[tuple(sorted(result['choices'].items()))]}
+    return {**result, **evaluated[tuple(result['choices'].items())]}
 
 
 def plan_skill_graph(catalog, resources, budget_microunits, **options):

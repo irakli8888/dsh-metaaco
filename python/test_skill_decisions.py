@@ -58,3 +58,25 @@ class SkillDecisionTests(unittest.TestCase):
         self.assertEqual(tasks[0]['model']['model'], 'fast')
         self.assertEqual(tasks[1]['inputs'], [{'name': 'implement', 'taskId': 'implement'}])
         self.assertEqual(result['makespanSeconds'], 4)
+
+    def test_ant_priority_matches_exhaustive_schedule_oracle(self):
+        from itertools import permutations
+        from skill_decisions import search_workflow
+        from test_metaaco_dag import problem
+        from vendor.rcpsp.core import RcpspInstance, SerialScheduleGenerator
+
+        candidate = problem()
+        plan = candidate['plan']
+        plan['tasks'].insert(1, {'id': 'docs', 'prompt': 'docs', 'slots': 1,
+                                 'dependsOn': [], 'inputs': [], 'model': None})
+        candidate['durationEstimatesSeconds'] = {'slow': 4, 'docs': 4, 'fast': 1, 'child': 10}
+        instance = RcpspInstance(4, 1, [4, 4, 1, 10], [[1]] * 4, [2],
+                                 [[], [], [3], []], [[], [], [], [2]])
+        generator = SerialScheduleGenerator()
+        exact = min(generator.generate(instance, order).makespan
+                    for order in permutations(range(4)) if order.index(2) < order.index(3))
+        groups = {task['id']: [task['id']] for task in plan['tasks']}
+        result = search_workflow(groups, lambda _: (candidate, 5), 5)
+        self.assertEqual(exact, 11)
+        self.assertEqual(result['makespanSeconds'], exact)
+        self.assertIn('fast', result['dispatchOrder'][:2])
