@@ -17,6 +17,8 @@
     "./metrics/dag": "./src/adapters/harness/dag-metrics.js",
     "./orchestration": "./src/orchestration/index.js",
     "./metrics/budget-adapter": "./src/adapters/harness/budget.js",
+    "./orchestration/templates": "./src/orchestration/template-attempt.js",
+    "./orchestration/skills": "./src/orchestration/skill-attempt.js",
     "./experiments": "./src/experiments/index.js"
   },
   "engines": {

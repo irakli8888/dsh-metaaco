@@ -8,7 +8,7 @@ import sys
 from metaaco_dag import fields, identifier, integer, plan_dag, validate_problem
 
 
-def choose_variant(variants, required_tasks, budget, source, seed=42):
+def choose_variant(variants, required_tasks, budget, source, seed=42, *, include_schedules=False):
     integer(budget, minimum=0)
     if not isinstance(required_tasks, list) or not required_tasks:
         raise ValueError('Expected required task IDs')
@@ -41,6 +41,8 @@ def choose_variant(variants, required_tasks, budget, source, seed=42):
     best = None
     for row, problem in feasible:
         schedule = plan_dag(problem, source, seed)
+        if include_schedules:
+            row['schedule'] = schedule
         makespan = schedule['estimates']['scheduleMakespan']
         row['estimatedMakespanSeconds'] = makespan
         score = (makespan, row['estimatedCostMicrounits'], row['id'])
@@ -55,6 +57,7 @@ def main():
     parser.add_argument('--problem', type=Path, required=True)
     parser.add_argument('--source', type=Path, default=Path(__file__).parent / 'vendor')
     parser.add_argument('--seed', type=int, default=42)
+    parser.add_argument('--include-schedules', action='store_true')
     args = parser.parse_args()
     spec = json.loads(args.problem.read_text(encoding='utf-8'))
     fields(spec, ['schemaVersion', 'variants', 'requiredTasks', 'budgetMicrounits'])
@@ -62,7 +65,7 @@ def main():
         raise ValueError('Expected variant problem v1')
     with contextlib.redirect_stdout(sys.stderr):
         result = choose_variant(spec['variants'], spec['requiredTasks'],
-                                spec['budgetMicrounits'], args.source, args.seed)
+                                spec['budgetMicrounits'], args.source, args.seed, include_schedules=args.include_schedules)
     print(json.dumps(result, ensure_ascii=False, allow_nan=False))
 
 

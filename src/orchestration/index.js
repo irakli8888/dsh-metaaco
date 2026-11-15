@@ -1,3 +1,4 @@
+import { applySnapshotPatch, applyTextEdits } from './snapshot-patch.js'
 import { fields, canonicalJson, validateRequest } from '../contracts/bank.js'
 import { clone, hash, armId } from '../selector/contracts.js'
 import { readFeedback, selectWithFeedback, advanceFeedback } from '../feedback/index.js'
@@ -38,13 +39,19 @@ function redPassed(record, spec) {
 
 /** Trusted application composition. createRuntime must install only the supplied guarded adapters. */
 export async function runAdaptiveAttempt({ bank, attemptId, request: input, feedback, candidates, bindings,
-  baseSnapshot: baseInput, createRuntime, planning = null, selectionMethod, seriesBudget, evaluationDockerImage, allowLlm = false, signal }) {
+  baseSnapshot: baseInput, createRuntime, planning = null, selectionMethod, planningByArm = null, templateSelection = null, editablePaths = null, textEdits = false, guardedCallsOnly = false, seriesBudget, evaluationDockerImage, allowLlm = false, signal }) {
   if (allowLlm !== true) throw new Error('Explicit allowLlm: true is required')
   signal?.throwIfAborted()
   if (typeof createRuntime !== 'function') throw new Error('A trusted runtime factory is required')
   const request = clone(input), base = clone(baseInput)
   feedback = clone(feedback)
   planning = planning === null ? null : clone(planning)
+  editablePaths = editablePaths === null ? null : clone(editablePaths)
+  if (editablePaths !== null && (!Array.isArray(editablePaths) || !editablePaths.length ||
+      editablePaths.some(path => typeof path !== 'string' || !Object.hasOwn(base.files ?? {}, path)))) {
+    throw new Error('Expected editable paths from the pinned snapshot')
+  }
+  if (textEdits && editablePaths === null) throw new Error('Text edits require editable paths')
   validateRequest(request); validateSpec(request.testSpec); validateSnapshot(base)
   if (base.revision !== request.baseCommit) throw new Error('Base snapshot revision mismatch')
   const { revision } = readFeedback(bank, feedback)
@@ -55,6 +62,10 @@ export async function runAdaptiveAttempt({ bank, attemptId, request: input, feed
   if (seriesBudget && (seriesBudget.currency !== policy.currency || !seriesBudget.budgetId?.startsWith('series/'))) {
     throw new Error('Series budget requires a series/ ID and the policy currency')
   }
+  if (planningByArm !== null) {
+    planning = clone(planningByArm[decision.selected.armId])
+    templateSelection = { ...templateSelection, selectedId: planning.problem.plan.name }
+  }
   const planned = planning === null ? null : validateMetaacoDag(planning.result, planning.problem)
   if (planned && canonicalJson(planning.problem.plan) !== canonicalJson(binding.plan)) throw new Error('Planner problem differs from selected binding')
   if (policy.maxWallTimeMs !== null && policy.maxWallTimeMs > 2147483647) throw new Error('Attempt deadline exceeds timer range')
@@ -64,6 +75,8 @@ export async function runAdaptiveAttempt({ bank, attemptId, request: input, feed
   const chosen = decision.candidates.find(c => armId(c) === decision.selected.armId)
   const collector = new MetricsCollector({ bank, attemptId, estimates: chosen.estimates })
   const controller = new AbortController(), combined = signal ? AbortSignal.any([signal, controller.signal]) : controller.signal
+  let accountingLedgers = []
+  let greenSnapshot = base
   let timedOut = false, runtime, evaluator, execution = null, error = null, timer
   if (policy.maxWallTimeMs !== null) timer = setTimeout(() => { timedOut = true; controller.abort(new Error('Attempt deadline exceeded')) }, Math.min(policy.maxWallTimeMs, 2147483647))
   const attach = (name, data) => bank.attachArtifact(attemptId, name, bank.putArtifact(Buffer.from(canonicalJson(data))))
@@ -73,6 +86,8 @@ export async function runAdaptiveAttempt({ bank, attemptId, request: input, feed
     finally { collector.endSpan(name, phaseSignal.aborted ? 'cancelled' : 'completed') }
   }
   try {
+    if (templateSelection !== null) attach('template-selection', templateSelection)
+    if (editablePaths !== null) attach('editable-paths', editablePaths)
     attach('execution-binding', binding); attach('base-snapshot', base)
     collector.startSpan('analysis', 'analysis')
     attach('task-analysis', analyzeTask(request, { analyzedAt: selectedAt }))
@@ -88,6 +103,7 @@ export async function runAdaptiveAttempt({ bank, attemptId, request: input, feed
       budgetId: `attempt/${attemptId}`, currency: policy.currency, limitMicrounits: policy.maxCostMicrounits })
     const shared = seriesBudget ? new BudgetController({ ...seriesBudget, bank }) : null
     // Reserve in both ledgers before dispatch. On an interrupted reservation the hold remains conservative.
+    accountingLedgers = [budget, shared].filter(Boolean)
     const admission = shared && budget ? {
       snapshot: () => shared.snapshot(),
       reserve(input) { shared.reserve(input); return budget.reserve(input) },
@@ -107,9 +123,12 @@ export async function runAdaptiveAttempt({ bank, attemptId, request: input, feed
       verifyArtifact: async ({ taskId, artifact, signal: nodeSignal }) => {
         const name = taskId === binding.greenTaskId ? 'green' : taskId === binding.refactorTaskId ? 'refactor' : null
         if (!name) return
-        const snapshot = JSON.parse(bank.getArtifact(artifact).toString('utf8'))
+        const output = JSON.parse(bank.getArtifact(artifact).toString('utf8'))
+        const snapshot = textEdits ? applyTextEdits(name === 'refactor' ? greenSnapshot : base, output, editablePaths)
+          : editablePaths === null ? output : applySnapshotPatch(base, output, editablePaths)
         validateSnapshot(snapshot)
         const record = await phase(name, snapshot, nodeSignal)
+        if (name === 'green') greenSnapshot = snapshot
         if (!passed(record)) throw new Error(`Independent ${name.toUpperCase()} gate did not pass`)
       } }
     execution = planned
@@ -121,7 +140,22 @@ export async function runAdaptiveAttempt({ bank, attemptId, request: input, feed
     clearTimeout(timer)
   }
   const state = timedOut || combined.reason?.name === 'TimeoutError' || execution?.status === 'timeout' ? 'timeout' : combined.aborted ? 'cancelled' : error ? 'failed' : 'completed'
-  collector.finish(state) // No claim of complete provider coverage from a caller-supplied deployment.
+  let coverageComplete = false
+  if (guardedCallsOnly === true && state === 'completed' && accountingLedgers.length) {
+    const calls = bank.getEvents(attemptId).filter(event => event.kind === 'metrics-v1' && event.payload.data.type === 'call')
+      .map(event => event.payload.data.record)
+    coverageComplete = calls.length > 0 && accountingLedgers.every(ledger => {
+      const snapshot = ledger.snapshot()
+      const reservations = snapshot.reservations.filter(row => row.attemptId === attemptId)
+      return !snapshot.violated && reservations.length === calls.length && calls.every(call => {
+        const reservation = reservations.find(row => row.reservationId === call.callId)
+        return call.status === 'completed' && call.calculatedCost.currency === snapshot.currency
+          && call.calculatedCost.microunits !== null
+          && reservation?.settlement?.actualMicrounits === call.calculatedCost.microunits
+      })
+    })
+  }
+  collector.finish(state, { coverageComplete })
   const outcome = collector.snapshot()
   attach('attempt-metrics', outcome)
   if (error) bank.appendEvent(attemptId, 'orchestration-error', { kind: 'orchestration-error-v1', payload: { message: error.message, state } })

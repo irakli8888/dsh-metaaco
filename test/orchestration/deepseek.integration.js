@@ -5,11 +5,13 @@ import { join } from 'node:path'
 import { tmpdir } from 'node:os'
 import { runDeepSeekTdd, requiredBudget } from '../../examples/run-deepseek-tdd.js'
 
-test('DeepSeek wire fixtures pass through Harness, budget and independent TDD', async t => {
+import { runDeepSeekTemplate } from '../../examples/run-deepseek-template.js'
+
+for (const run of [runDeepSeekTdd, runDeepSeekTemplate]) test(`DeepSeek wire fixtures through ${run.name}`, async t => {
   const dir = await mkdtemp(join(tmpdir(), 'deepseek-tdd-'))
   t.after(() => rm(dir, { force: true, recursive: true }))
   let calls = 0
-  const result = await runDeepSeekTdd({ out: join(dir, 'bank'), budget: requiredBudget, dockerImage: process.env.TEST_EVALUATION_IMAGE,
+  const result = await run({ out: join(dir, 'bank'), budget: requiredBudget, dockerImage: process.env.TEST_EVALUATION_IMAGE,
     key: 'fixture', execute: true, fetchImpl: async (_, req) => {
       calls++
       if (calls === 2) assert.match(JSON.parse(req.body).messages[0].content, /subject.cjs/)

@@ -447,10 +447,12 @@ class ColonyManager:
         reward_mode: str = "global_improvement",
         replication_mode: str = "mutate",
         elite_strength: float = 0.1,
+        order_evaluator=None,
     ):
         if type(max_colonies) is not int or max_colonies < 1:
             raise ValueError("max_colonies must be positive")
         self.budget = EvaluationBudget(max_evaluations, time_limit)
+        self.order_evaluator = order_evaluator
         if reward_mode not in {"global_improvement", "quality"}:
             raise ValueError("Unknown reward mode")
         if replication_mode not in {"mutate", "restart"}:
@@ -478,7 +480,10 @@ class ColonyManager:
         self.tau0 = tau0
 
     def _schedule_to_order(self, sched: Schedule) -> List[int]:
-        validate_schedule(self.inst, sched)
+        if self.order_evaluator is None:
+            validate_schedule(self.inst, sched)
+        else:
+            validate_order(self.inst, sched.order)
         if sched.order is not None:
             return list(sched.order)
         # For external schedules, ties are resolved only among eligible jobs.
@@ -511,9 +516,29 @@ class ColonyManager:
                 elite_boost=0.3,
                 budget=self.budget,
             )
+            self._configure_evaluation(col)
             self.bandit.add_colony(col)
             self.events.append({"event": "init", "colony": len(self.bandit.colonies) - 1,
                                 "evaluation": self.budget.used, "params": asdict(params)})
+
+    def _configure_evaluation(self, colony):
+        if self.order_evaluator is None:
+            return
+
+        def generate(inst, order, category="aco"):
+            validate_order(inst, order)
+            self.budget.consume()
+            score = self.order_evaluator(order)
+            if not math.isfinite(score) or score <= 0:
+                raise ValueError("Order evaluator must return a positive finite score")
+            positions = [0] * inst.n_jobs
+            for position, job in enumerate(order):
+                positions[job] = position
+            candidate = Schedule(positions, score, list(order))
+            self.budget.record(candidate, category)
+            return candidate
+
+        colony.sgs.generate = generate
 
     def _replicate_from(self, parent: AntColony):
         if not self.replication_enabled or len(self.bandit.colonies) >= self.max_colonies:
@@ -533,6 +558,7 @@ class ColonyManager:
             elite_boost=0.5,
             budget=self.budget,
         )
+        self._configure_evaluation(child)
         self.bandit.add_colony(child)
         self.events.append({"event": "replicate", "parent": self.bandit.colonies.index(parent),
                             "child": len(self.bandit.colonies) - 1,
@@ -604,7 +630,7 @@ class ColonyManager:
                 col.pheromones.deposit_on_order(best_elite_order, amount=amount)
 
         if best_sched is not None:
-            validate_schedule(self.inst, best_sched)
+            self._schedule_to_order(best_sched)
         return best_sched, best_colony
 
 
