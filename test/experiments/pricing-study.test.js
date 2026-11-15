@@ -15,3 +15,13 @@ test('repository pricing case preserves baseline and produces expected RED', asy
   assert.deepEqual(failures.map(row => row.name).sort(), request.testSpec.suites[0].expectedRedTests.toSorted())
   assert.ok(failures.every(row => row.code === 'ERR_ASSERTION'))
 })
+
+test('pricing model output overlays only the permitted file', async () => {
+  const { applySnapshotPatch } = await import('../../src/orchestration/snapshot-patch.js')
+  const base = { revision: 'base', files: { 'pricing.js': 'old', 'index.js': 'pinned' } }
+  const patch = { revision: 'green', files: { 'pricing.js': 'new' } }
+  assert.deepEqual(applySnapshotPatch(base, patch, ['pricing.js']),
+    { revision: 'green', files: { 'pricing.js': 'new', 'index.js': 'pinned' } })
+  assert.throws(() => applySnapshotPatch(base, { ...patch, files: { ...patch.files, 'index.js': 'changed' } },
+    ['pricing.js']), /not editable/)
+})

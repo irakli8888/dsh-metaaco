@@ -40,7 +40,7 @@ export function pricingStudyTask(repoDirectory) {
         });`,
       } },
     ] }
-  return { baseSnapshot, request: { schemaVersion: 1, taskId: 'pricing-range', repo: 'dsh-metaaco', baseCommit: revision,
-    description: `${description}\nOnly edit ${editable}. Preserve other files when returning a full snapshot.\nSource:\n${files[editable]}`,
+  return { baseSnapshot, editablePaths: [editable], request: { schemaVersion: 1, taskId: 'pricing-range', repo: 'dsh-metaaco', baseCommit: revision,
+    description: `${description}\nOnly edit ${editable}. Return the complete contents of that file in files. Omit all other paths.\nSource:\n${files[editable]}`,
     provenance: { source: 'pinned-repository-case' }, testSpec } }
 }

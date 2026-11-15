@@ -1,3 +1,4 @@
+import { applySnapshotPatch } from './snapshot-patch.js'
 import { fields, canonicalJson, validateRequest } from '../contracts/bank.js'
 import { clone, hash, armId } from '../selector/contracts.js'
 import { readFeedback, selectWithFeedback, advanceFeedback } from '../feedback/index.js'
@@ -38,13 +39,18 @@ function redPassed(record, spec) {
 
 /** Trusted application composition. createRuntime must install only the supplied guarded adapters. */
 export async function runAdaptiveAttempt({ bank, attemptId, request: input, feedback, candidates, bindings,
-  baseSnapshot: baseInput, createRuntime, planning = null, selectionMethod, planningByArm = null, templateSelection = null, seriesBudget, evaluationDockerImage, allowLlm = false, signal }) {
+  baseSnapshot: baseInput, createRuntime, planning = null, selectionMethod, planningByArm = null, templateSelection = null, editablePaths = null, seriesBudget, evaluationDockerImage, allowLlm = false, signal }) {
   if (allowLlm !== true) throw new Error('Explicit allowLlm: true is required')
   signal?.throwIfAborted()
   if (typeof createRuntime !== 'function') throw new Error('A trusted runtime factory is required')
   const request = clone(input), base = clone(baseInput)
   feedback = clone(feedback)
   planning = planning === null ? null : clone(planning)
+  editablePaths = editablePaths === null ? null : clone(editablePaths)
+  if (editablePaths !== null && (!Array.isArray(editablePaths) || !editablePaths.length ||
+      editablePaths.some(path => typeof path !== 'string' || !Object.hasOwn(base.files ?? {}, path)))) {
+    throw new Error('Expected editable paths from the pinned snapshot')
+  }
   validateRequest(request); validateSpec(request.testSpec); validateSnapshot(base)
   if (base.revision !== request.baseCommit) throw new Error('Base snapshot revision mismatch')
   const { revision } = readFeedback(bank, feedback)
@@ -78,6 +84,7 @@ export async function runAdaptiveAttempt({ bank, attemptId, request: input, feed
   }
   try {
     if (templateSelection !== null) attach('template-selection', templateSelection)
+    if (editablePaths !== null) attach('editable-paths', editablePaths)
     attach('execution-binding', binding); attach('base-snapshot', base)
     collector.startSpan('analysis', 'analysis')
     attach('task-analysis', analyzeTask(request, { analyzedAt: selectedAt }))
@@ -112,7 +119,8 @@ export async function runAdaptiveAttempt({ bank, attemptId, request: input, feed
       verifyArtifact: async ({ taskId, artifact, signal: nodeSignal }) => {
         const name = taskId === binding.greenTaskId ? 'green' : taskId === binding.refactorTaskId ? 'refactor' : null
         if (!name) return
-        const snapshot = JSON.parse(bank.getArtifact(artifact).toString('utf8'))
+        const output = JSON.parse(bank.getArtifact(artifact).toString('utf8'))
+        const snapshot = editablePaths === null ? output : applySnapshotPatch(base, output, editablePaths)
         validateSnapshot(snapshot)
         const record = await phase(name, snapshot, nodeSignal)
         if (!passed(record)) throw new Error(`Independent ${name.toUpperCase()} gate did not pass`)
