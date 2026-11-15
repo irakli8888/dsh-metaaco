@@ -1,3 +1,6 @@
+import { StrategyBank } from '../../src/bank/index.js'
+import { advanceFeedback, readFeedback, selectWithFeedback } from '../../src/feedback/index.js'
+import { templateStudyTasks } from '../../examples/template-study-tasks.js'
 import assert from 'node:assert/strict'
 import { mkdtemp, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
@@ -46,4 +49,17 @@ export function calculateCostRange(usage, price, bounds) {
   assert.equal(calls, 7)
   assert.equal(result.budget.spentMicrounits, 35)
   assert.equal(result.budget.heldMicrounits, 0)
+  assert.deepEqual(result.runs.map(run => run.costMicrounits), [10, 25])
+  const bank = new StrategyBank({ dataDir: result.directory })
+  try {
+    const { revision } = readFeedback(bank, result.feedback)
+    const request = templateStudyTasks().find(task => task.split === 'test').request
+    const feedback = advanceFeedback(bank, { cutoff: revision.cutoff,
+      manifest: { ...revision.manifest, mode: 'frozen', splits: { ...revision.manifest.splits, test: [request.taskId] } },
+      policy: { ...revision.policy, weights: { quality: 0.6, time: 0.25, cost: 0.15 } } })
+    const candidates = bank.getAttempt('direct-v1').selection.selector.candidates
+    const decision = selectWithFeedback(bank, feedback, { request, candidates, selectedAt: revision.cutoff })
+    assert.equal(decision.training.length, 2)
+    assert.ok(decision.training.every(row => row.reason === 'verified-success' && Number.isFinite(row.reward)))
+  } finally { bank.close() }
 })

@@ -39,7 +39,7 @@ function redPassed(record, spec) {
 
 /** Trusted application composition. createRuntime must install only the supplied guarded adapters. */
 export async function runAdaptiveAttempt({ bank, attemptId, request: input, feedback, candidates, bindings,
-  baseSnapshot: baseInput, createRuntime, planning = null, selectionMethod, planningByArm = null, templateSelection = null, editablePaths = null, textEdits = false, seriesBudget, evaluationDockerImage, allowLlm = false, signal }) {
+  baseSnapshot: baseInput, createRuntime, planning = null, selectionMethod, planningByArm = null, templateSelection = null, editablePaths = null, textEdits = false, guardedCallsOnly = false, seriesBudget, evaluationDockerImage, allowLlm = false, signal }) {
   if (allowLlm !== true) throw new Error('Explicit allowLlm: true is required')
   signal?.throwIfAborted()
   if (typeof createRuntime !== 'function') throw new Error('A trusted runtime factory is required')
@@ -75,6 +75,7 @@ export async function runAdaptiveAttempt({ bank, attemptId, request: input, feed
   const chosen = decision.candidates.find(c => armId(c) === decision.selected.armId)
   const collector = new MetricsCollector({ bank, attemptId, estimates: chosen.estimates })
   const controller = new AbortController(), combined = signal ? AbortSignal.any([signal, controller.signal]) : controller.signal
+  let accountingLedgers = []
   let greenSnapshot = base
   let timedOut = false, runtime, evaluator, execution = null, error = null, timer
   if (policy.maxWallTimeMs !== null) timer = setTimeout(() => { timedOut = true; controller.abort(new Error('Attempt deadline exceeded')) }, Math.min(policy.maxWallTimeMs, 2147483647))
@@ -102,6 +103,7 @@ export async function runAdaptiveAttempt({ bank, attemptId, request: input, feed
       budgetId: `attempt/${attemptId}`, currency: policy.currency, limitMicrounits: policy.maxCostMicrounits })
     const shared = seriesBudget ? new BudgetController({ ...seriesBudget, bank }) : null
     // Reserve in both ledgers before dispatch. On an interrupted reservation the hold remains conservative.
+    accountingLedgers = [budget, shared].filter(Boolean)
     const admission = shared && budget ? {
       snapshot: () => shared.snapshot(),
       reserve(input) { shared.reserve(input); return budget.reserve(input) },
@@ -138,7 +140,22 @@ export async function runAdaptiveAttempt({ bank, attemptId, request: input, feed
     clearTimeout(timer)
   }
   const state = timedOut || combined.reason?.name === 'TimeoutError' || execution?.status === 'timeout' ? 'timeout' : combined.aborted ? 'cancelled' : error ? 'failed' : 'completed'
-  collector.finish(state) // No claim of complete provider coverage from a caller-supplied deployment.
+  let coverageComplete = false
+  if (guardedCallsOnly === true && state === 'completed' && accountingLedgers.length) {
+    const calls = bank.getEvents(attemptId).filter(event => event.kind === 'metrics-v1' && event.payload.data.type === 'call')
+      .map(event => event.payload.data.record)
+    coverageComplete = calls.length > 0 && accountingLedgers.every(ledger => {
+      const snapshot = ledger.snapshot()
+      const reservations = snapshot.reservations.filter(row => row.attemptId === attemptId)
+      return !snapshot.violated && reservations.length === calls.length && calls.every(call => {
+        const reservation = reservations.find(row => row.reservationId === call.callId)
+        return call.status === 'completed' && call.calculatedCost.currency === snapshot.currency
+          && call.calculatedCost.microunits !== null
+          && reservation?.settlement?.actualMicrounits === call.calculatedCost.microunits
+      })
+    })
+  }
+  collector.finish(state, { coverageComplete })
   const outcome = collector.snapshot()
   attach('attempt-metrics', outcome)
   if (error) bank.appendEvent(attemptId, 'orchestration-error', { kind: 'orchestration-error-v1', payload: { message: error.message, state } })

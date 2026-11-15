@@ -43,7 +43,7 @@ export async function runPricingStudy({ out, repoDirectory, dockerImage, budget,
     const runs = []
     for (const [id, candidate] of Object.entries(templateCandidates)) {
       if (contractOnly && id !== 'contract-v1') continue
-      const result = await runTemplateAttempt({ ...task, textEdits: true, bank, attemptId: id, feedback, templateCandidates,
+      const result = await runTemplateAttempt({ ...task, textEdits: true, guardedCallsOnly: true, bank, attemptId: id, feedback, templateCandidates,
         selectionMethod: { kind: 'fixed', armId: armId(candidate) }, seriesBudget, evaluationDockerImage: dockerImage,
         templateOptions: { hints: { type: 'feature' }, budgetMicrounits: allocation, model,
           resources: { agentSlots: 2, maxArtifactBytes: 24000, maxInputBytes: 48000, timeoutMs: 130000 },
@@ -80,7 +80,8 @@ export async function runPricingStudy({ out, repoDirectory, dockerImage, budget,
           } }) })
       if (result.feedbackError) throw new Error(result.feedbackError)
       feedback = result.feedback
-      runs.push({ id, state: result.attempt.state, evaluation: result.attempt.evaluation?.status })
+      runs.push({ id, state: result.attempt.state, evaluation: result.attempt.evaluation?.status,
+        costMicrounits: result.attempt.outcome?.calculated?.costs[0]?.microunits ?? null })
       if (bank.getEvents(id).some(e => e.eventId === 'dag/start') && bank.getBudget(seriesBudget.budgetId).heldMicrounits) break
     }
     return { directory, runs, feedback, budget: runs.some(({ id }) => bank.getEvents(id).some(e => e.eventId === 'dag/start'))
