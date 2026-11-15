@@ -11,7 +11,7 @@ import { runAdaptiveAttempt } from './index.js'
 
 const planner = fileURLToPath(new URL('../../python/skill_decisions.py', import.meta.url))
 
-export async function runSkillAttempt({ skills, resources, budgetMicrounits, candidate, ...attempt }) {
+export async function runSkillAttempt({ skills, resources, budgetMicrounits, requiredSkills = [], candidate, ...attempt }) {
   if (attempt.allowLlm !== true) throw new Error('Explicit allowLlm: true is required')
   const { revision: { policy } } = readFeedback(attempt.bank, attempt.feedback)
   const allowed = new Set(candidate.route.models.filter(model => policy.allowedModels.includes(model)))
@@ -21,7 +21,7 @@ export async function runSkillAttempt({ skills, resources, budgetMicrounits, can
   let selection
   try {
     const path = join(dir, 'skills.json')
-    await writeFile(path, JSON.stringify({ skills: catalog, resources,
+    await writeFile(path, JSON.stringify({ skills: catalog, resources, requiredSkills,
       budgetMicrounits: Math.min(budgetMicrounits, policy.maxCostMicrounits ?? Infinity) }), { mode: 0o600 })
     const { stdout } = await promisify(execFile)('python3', ['-B', planner, path],
       { timeout: 30000, signal: attempt.signal })

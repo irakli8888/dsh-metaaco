@@ -17,7 +17,7 @@ import { runAdaptiveAttempt } from '../../src/orchestration/index.js'
 const require = createRequire(import.meta.resolve('@deepseek-ai/dsh-agent'))
 const { LlmAdapter, LlmRuntime } = await import(require.resolve('@deepseek-ai/dsh-llm'))
 import { runTemplateAttempt } from '../../src/orchestration/template-attempt.js'
-for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failure', 'template-feedback', 'template-composed', 'skill-search']) test(`adaptive attempt through published Harness and LlmRuntime: ${mode}`, { skip: mode === 'metaaco' && !process.env.METAACO_SOURCE ? 'Set METAACO_SOURCE' : false }, async t => {
+for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failure', 'template-feedback', 'template-composed', 'skill-search', 'skill-review']) test(`adaptive attempt through published Harness and LlmRuntime: ${mode}`, { skip: mode === 'metaaco' && !process.env.METAACO_SOURCE ? 'Set METAACO_SOURCE' : false }, async t => {
   let broken = mode.endsWith('failure')
   const f = fixture(t), calls = [], children = [], releases = []
   let disposed = false, planning = null
@@ -27,7 +27,9 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
     const { stdout } = await promisify(execFile)('python3', ['-B', fileURLToPath(new URL('../../python/metaaco_dag.py', import.meta.url)), '--source', process.env.METAACO_SOURCE, '--problem', path], { timeout: 10000 })
     planning = { problem, result: JSON.parse(stdout) }
   }
-  const run = mode === 'skill-search' ? runSkillAttempt : mode.startsWith("template") ? runTemplateAttempt : runAdaptiveAttempt
+  const skillReview = mode === 'skill-review'
+  const skillSearch = mode === 'skill-search' || skillReview
+  const run = skillSearch ? runSkillAttempt : mode.startsWith("template") ? runTemplateAttempt : runAdaptiveAttempt
   const learning = mode === "template-feedback"
   const composed = mode === 'template-composed'
   const templateOptions = {
@@ -57,8 +59,9 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
     }
   }
   const options = {
-    ...(mode === 'skill-search' ? { candidate: f.candidate, budgetMicrounits: 20, resources: f.plan.resources,
-      skills: Object.fromEntries(['implement', 'refactor', 'design'].map(id => [id, [{
+    ...(skillSearch ? { candidate: f.candidate, budgetMicrounits: 20, resources: f.plan.resources,
+      requiredSkills: skillReview ? ['analyze', 'review'] : [],
+      skills: Object.fromEntries((skillReview ? ['implement', 'refactor', 'analyze', 'review'] : ['implement', 'refactor', 'design']).map(id => [id, [{
         model: f.plan.tasks[0].model, seconds: 1, costMicrounits: 4, prompt: id,
       }]])) } : {}),
     templateOptions,
@@ -88,6 +91,9 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
           async start(request) {
             const id = `child-${children.length}`, task = JSON.parse(request.prompt[0].text)
             children.push(task.task)
+            if (skillReview && task.task === 'refactor') {
+              assert.deepEqual(task.artifacts.map(artifact => artifact.name).sort(), ['implement', 'review'])
+            }
             if (composed && task.task.startsWith('Combine')) {
               assert.deepEqual(task.artifacts.map(artifact => artifact.name).sort(), ['implement', 'write-tests'])
             }
@@ -143,7 +149,10 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
     assert.deepEqual(result.execution.tasks.map(task => task.id).sort(),
       ['design', 'implement', 'integrate', 'refactor', 'write-tests'])
   }
-  assert.equal(calls.length, composed ? 5 : broken ? 1 : 2)
+  if (skillReview) {
+    assert.deepEqual(result.execution.tasks.map(task => task.id), ['analyze', 'implement', 'review', 'refactor'])
+  }
+  assert.equal(calls.length, composed ? 5 : skillReview ? 4 : broken ? 1 : 2)
   assert.equal(releases.length, calls.length); assert.equal(disposed, true)
   assert.equal(result.attempt.outcome.measured.observedCallCount, calls.length)
   assert.equal(f.bank.getBudget('attempt/integration').spentMicrounits, 3 * calls.length)

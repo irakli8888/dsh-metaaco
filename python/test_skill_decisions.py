@@ -94,3 +94,24 @@ class SkillDecisionTests(unittest.TestCase):
         self.assertTrue(any(row['dispatchOrder'] == result['dispatchOrder']
                             and row['makespanSeconds'] == result['makespanSeconds']
                             for row in trace['evaluations']))
+
+    def test_review_and_analysis_with_budgeted_model_choices(self):
+        from skill_decisions import plan_skill_graph
+        from test_metaaco_dag import problem
+
+        def route(model, seconds, cost):
+            return {'model': {'provider': 'offline', 'model': model}, 'prompt': 'Work',
+                    'seconds': seconds, 'costMicrounits': cost}
+
+        catalog = {skill: [route('small', 4, 2), route('large', 1, 8)]
+                   for skill in ['analyze', 'implement', 'review', 'refactor']}
+        for budget, expected in [(8, 'small'), (32, 'large')]:
+            result = plan_skill_graph(catalog, problem()['plan']['resources'], budget,
+                                      required_skills=['analyze', 'review'])
+            tasks = {task['id']: task for task in result['problem']['plan']['tasks']}
+            self.assertEqual(set(tasks), set(catalog))
+            self.assertEqual(tasks['implement']['dependsOn'], ['analyze'])
+            self.assertEqual(tasks['review']['dependsOn'], ['implement'])
+            self.assertEqual(tasks['refactor']['dependsOn'], ['implement', 'review'])
+            self.assertEqual(tasks['review']['model']['model'], expected)
+            self.assertLessEqual(result['estimatedCostMicrounits'], budget)
