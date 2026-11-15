@@ -38,7 +38,7 @@ function redPassed(record, spec) {
 
 /** Trusted application composition. createRuntime must install only the supplied guarded adapters. */
 export async function runAdaptiveAttempt({ bank, attemptId, request: input, feedback, candidates, bindings,
-  baseSnapshot: baseInput, createRuntime, planning = null, selectionMethod, templateSelection = null, seriesBudget, evaluationDockerImage, allowLlm = false, signal }) {
+  baseSnapshot: baseInput, createRuntime, planning = null, selectionMethod, planningByArm = null, templateSelection = null, seriesBudget, evaluationDockerImage, allowLlm = false, signal }) {
   if (allowLlm !== true) throw new Error('Explicit allowLlm: true is required')
   signal?.throwIfAborted()
   if (typeof createRuntime !== 'function') throw new Error('A trusted runtime factory is required')
@@ -54,6 +54,10 @@ export async function runAdaptiveAttempt({ bank, attemptId, request: input, feed
   const binding = bindingFor(bindings, decision.selected), policy = revision.policy
   if (seriesBudget && (seriesBudget.currency !== policy.currency || !seriesBudget.budgetId?.startsWith('series/'))) {
     throw new Error('Series budget requires a series/ ID and the policy currency')
+  }
+  if (planningByArm !== null) {
+    planning = clone(planningByArm[decision.selected.armId])
+    templateSelection = { ...templateSelection, selectedId: planning.problem.plan.name }
   }
   const planned = planning === null ? null : validateMetaacoDag(planning.result, planning.problem)
   if (planned && canonicalJson(planning.problem.plan) !== canonicalJson(binding.plan)) throw new Error('Planner problem differs from selected binding')

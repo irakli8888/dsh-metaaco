@@ -32,22 +32,31 @@ export async function runTemplateAttempt({ templateOptions, templateCandidates, 
   try {
     const path = join(dir, 'variants.json')
     await writeFile(path, JSON.stringify(spec), { mode: 0o600 })
-    const { stdout } = await execute('python3', ['-B', planner, '--problem', path],
+    const { stdout } = await execute('python3', ['-B', planner, '--problem', path, '--include-schedules'],
       { timeout: 30000, signal: attempt.signal, maxBuffer: 4 * 1024 * 1024 })
     selected = JSON.parse(stdout)
   } finally {
     await rm(dir, { recursive: true, force: true })
   }
-  const variant = spec.variants.find(item => item.id === selected.selectedId)
-  const registered = Object.hasOwn(templateCandidates, variant.id) && templateCandidates[variant.id]
-  if (!registered) throw new Error('Selected template lacks a registered strategy')
-  const candidate = { ...registered, estimates: { ...registered.estimates,
-    wallTimeMs: selected.schedule.estimates.scheduleMakespan * 1000,
-    costMicrounits: variant.costMicrounits, source: 'template forecast and MetaACO schedule',
-  } }
-  const binding = { schemaVersion: 1, armId: armId(candidate), plan: variant.problem.plan,
-    greenTaskId: variant.id === 'contract-v1' ? 'integrate' : 'implement', refactorTaskId: 'refactor' }
-  const result = await runAdaptiveAttempt({ ...attempt, candidates: [candidate], bindings: [binding],
-    templateSelection: selected, planning: { problem: variant.problem, result: selected.schedule } })
-  return { ...result, variantSelection: selected }
+  const candidates = [], bindings = [], planningByArm = Object.create(null)
+  for (const row of selected.variants.filter(row => row.schedule)) {
+    const variant = spec.variants.find(item => item.id === row.id)
+    const registered = templateCandidates[row.id]
+    const candidate = { ...registered, estimates: { ...registered.estimates,
+      wallTimeMs: row.estimatedMakespanSeconds * 1000, costMicrounits: variant.costMicrounits,
+      source: 'template forecast and MetaACO schedule',
+    } }
+    const id = armId(candidate)
+    if (Object.hasOwn(planningByArm, id)) throw new Error('Templates require distinct strategy routes')
+    candidates.push(candidate)
+    bindings.push({ schemaVersion: 1, armId: id, plan: variant.problem.plan,
+      greenTaskId: variant.id === 'contract-v1' ? 'integrate' : 'implement', refactorTaskId: 'refactor' })
+    planningByArm[id] = { problem: variant.problem, result: row.schedule }
+  }
+  const comparison = { schemaVersion: 1, fastestId: selected.selectedId,
+    variants: selected.variants.map(({ schedule, ...row }) => row) }
+  const result = await runAdaptiveAttempt({ ...attempt, candidates, bindings, planningByArm,
+    templateSelection: comparison })
+  return { ...result, variantSelection: { ...comparison, selectedId: result.attempt.selection.selector.selected
+    ? planningByArm[result.attempt.selection.selector.selected.armId].problem.plan.name : null } }
 }
