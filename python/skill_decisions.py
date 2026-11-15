@@ -71,16 +71,19 @@ def search_workflow(groups, build_candidate, budget_microunits, **search_options
 
     integer(budget_microunits, minimum=0)
     evaluated = {}
+    trace = []
+    trace_limit = 100
 
-    def evaluate(choices):
+    def measure(choices):
         key = tuple(choices.items())
         if key in evaluated:
-            return evaluated[key]['makespanSeconds'] if evaluated[key] else None
+            return evaluated[key]
         problem, cost = build_candidate(choices)
         integer(cost, minimum=0)
         if cost > budget_microunits:
-            evaluated[key] = None
-            return None
+            evaluated[key] = {'estimatedCostMicrounits': cost, 'rejected': 'over-budget',
+                              'makespanSeconds': None, 'dispatchOrder': None}
+            return evaluated[key]
         problem = validate_problem(problem)
         tasks = problem['plan']['tasks']
         ids = [task['id'] for task in tasks]
@@ -98,12 +101,22 @@ def search_workflow(groups, build_candidate, budget_microunits, **search_options
         schedule = SerialScheduleGenerator().generate(instance, order)
         validate_schedule(instance, schedule)
         evaluated[key] = {'problem': problem, 'estimatedCostMicrounits': cost,
-                          'makespanSeconds': schedule.makespan,
+                          'makespanSeconds': schedule.makespan, 'rejected': None,
                           'dispatchOrder': [ids[job] for job in sorted(order, key=lambda j: schedule.start_times[j])]}
-        return schedule.makespan
+        return evaluated[key]
+
+    def evaluate(choices):
+        row = measure(choices)
+        if len(trace) < trace_limit:
+            trace.append({'evaluation': len(trace) + 1, 'choices': dict(choices),
+                          'priority': list(choices), **{key: value for key, value in row.items()
+                                                       if key != 'problem'}})
+        return row['makespanSeconds']
 
     result = search_decisions(groups, evaluate, **search_options)
-    return {**result, **evaluated[tuple(result['choices'].items())]}
+    selected = evaluated[tuple(result['choices'].items())]
+    return {**result, **selected, 'trace': {'schemaVersion': 1, 'evaluations': trace,
+                                          'omitted': result['evaluations'] - len(trace)}}
 
 
 def plan_skill_graph(catalog, resources, budget_microunits, **options):

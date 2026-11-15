@@ -132,6 +132,8 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
   }
   if (mode === 'skill-search') {
     assert.equal(result.skillSelection.choices.design, 'design/skip')
+    assert.equal(result.skillSelection.trace.evaluations.length, result.skillSelection.evaluations)
+    assert.match(f.bank.exportJsonl(), /template-selection/)
     assert.deepEqual(result.execution.tasks.map(task => task.id), ['implement', 'refactor'])
     assert.ok(f.bank.exportJsonl().includes('template-selection'))
   }

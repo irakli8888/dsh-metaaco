@@ -80,3 +80,17 @@ class SkillDecisionTests(unittest.TestCase):
         self.assertEqual(exact, 11)
         self.assertEqual(result['makespanSeconds'], exact)
         self.assertIn('fast', result['dispatchOrder'][:2])
+
+    def test_workflow_trace_records_gate_and_priorities(self):
+        from skill_decisions import search_workflow
+        from test_metaaco_dag import problem
+
+        result = search_workflow({'slow': ['cheap', 'expensive'], 'fast': ['run-fast']},
+                                 lambda choices: (problem(), 5 if choices['slow'] == 'cheap' else 20), 5)
+        trace = result['trace']
+        self.assertEqual(trace['schemaVersion'], 1)
+        self.assertEqual(len(trace['evaluations']), result['evaluations'])
+        self.assertTrue(any(row['rejected'] == 'over-budget' for row in trace['evaluations']))
+        self.assertTrue(any(row['dispatchOrder'] == result['dispatchOrder']
+                            and row['makespanSeconds'] == result['makespanSeconds']
+                            for row in trace['evaluations']))
