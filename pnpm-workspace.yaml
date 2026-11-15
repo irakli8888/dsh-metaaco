@@ -1,0 +1,5 @@
+# Native dependencies used by the published Harness runtime.
+allowBuilds:
+  '@deepseek-ai/dsh-subprocess-local': true
+  koffi: true
+  node-pty: true

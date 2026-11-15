@@ -1,5 +1,6 @@
-This directory holds a byte-for-byte snapshot of the project owner's local
-metaACOwithCodex solver. The upstream directory has no Git metadata.
-SHA256SUMS identifies the two imported Python modules. Both use the Python
-standard library. Refresh them together and rerun the planner and integration
-tests. Pass --source to the DAG bridge for upstream development.
+This directory is based on the project owner's local metaACOwithCodex solver.
+The upstream directory has no Git metadata. The bundled metaACO.py includes
+the opt-in order evaluator for skill search. The default RCPSP mode uses the
+original schedule evaluator. SHA256SUMS identifies the bundled files.
+Both modules use the Python standard library. Pass --source to the DAG bridge
+for upstream development.

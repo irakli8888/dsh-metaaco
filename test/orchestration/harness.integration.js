@@ -1,3 +1,5 @@
+import { advanceFeedback } from '../../src/feedback/index.js'
+import { readInspection, renderInspection } from '../../src/inspector/index.js'
 import { runSkillAttempt } from '../../src/orchestration/skill-attempt.js'
 import { armId } from '../../src/selector/contracts.js'
 import { compileStrategies } from '../../src/strategy-templates.js'
@@ -17,7 +19,7 @@ import { runAdaptiveAttempt } from '../../src/orchestration/index.js'
 const require = createRequire(import.meta.resolve('@deepseek-ai/dsh-agent'))
 const { LlmAdapter, LlmRuntime } = await import(require.resolve('@deepseek-ai/dsh-llm'))
 import { runTemplateAttempt } from '../../src/orchestration/template-attempt.js'
-for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failure', 'template-feedback', 'template-composed', 'skill-search']) test(`adaptive attempt through published Harness and LlmRuntime: ${mode}`, { skip: mode === 'metaaco' && !process.env.METAACO_SOURCE ? 'Set METAACO_SOURCE' : false }, async t => {
+for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failure', 'template-feedback', 'template-composed', 'skill-search', 'skill-review', 'skill-mixed-models']) test(`adaptive attempt through published Harness and LlmRuntime: ${mode}`, { skip: mode === 'metaaco' && !process.env.METAACO_SOURCE ? 'Set METAACO_SOURCE' : false }, async t => {
   let broken = mode.endsWith('failure')
   const f = fixture(t), calls = [], children = [], releases = []
   let disposed = false, planning = null
@@ -27,7 +29,16 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
     const { stdout } = await promisify(execFile)('python3', ['-B', fileURLToPath(new URL('../../python/metaaco_dag.py', import.meta.url)), '--source', process.env.METAACO_SOURCE, '--problem', path], { timeout: 10000 })
     planning = { problem, result: JSON.parse(stdout) }
   }
-  const run = mode === 'skill-search' ? runSkillAttempt : mode.startsWith("template") ? runTemplateAttempt : runAdaptiveAttempt
+  const mixed = mode === 'skill-mixed-models'
+  const skillReview = mode === 'skill-review' || mixed
+  if (mixed) {
+    f.policy.allowedModels.push('offline/strong')
+    f.candidate.route.models.push('offline/strong')
+    f.feedback = advanceFeedback(f.bank, { manifest: f.manifest, policy: f.policy,
+      cutoff: '2000-01-01T00:00:00.000Z' })
+  }
+  const skillSearch = mode === 'skill-search' || skillReview
+  const run = skillSearch ? runSkillAttempt : mode.startsWith("template") ? runTemplateAttempt : runAdaptiveAttempt
   const learning = mode === "template-feedback"
   const composed = mode === 'template-composed'
   const templateOptions = {
@@ -57,10 +68,13 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
     }
   }
   const options = {
-    ...(mode === 'skill-search' ? { candidate: f.candidate, budgetMicrounits: 20, resources: f.plan.resources,
-      skills: Object.fromEntries(['implement', 'refactor', 'design'].map(id => [id, [{
-        model: f.plan.tasks[0].model, seconds: 1, costMicrounits: 4, prompt: id,
-      }]])) } : {}),
+    ...(skillSearch ? { candidate: f.candidate, budgetMicrounits: 20, resources: f.plan.resources,
+      requiredSkills: skillReview ? ['analyze', 'review'] : [],
+      skills: Object.fromEntries((skillReview ? ['implement', 'refactor', 'analyze', 'review'] : ['implement', 'refactor', 'design']).map(id => [id, [{
+        model: f.plan.tasks[0].model, seconds: mixed && id === 'review' ? 8 : 1, costMicrounits: 4, prompt: id,
+      }, ...(mixed && id === 'review' ? [{
+        model: { provider: 'offline', model: 'strong' }, seconds: 1, costMicrounits: 8, prompt: id,
+      }] : [])]])) } : {}),
     templateOptions,
     ...(composed ? { selectionMethod: { kind: 'fixed', armId: armId(templateCandidates[composedId]) } } : {}),
     templateCandidates, bank: f.bank, attemptId: 'integration', request: f.request,
@@ -76,7 +90,7 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
             yield { type: 'finish', reason: { kind: 'stop' } }
           }
         }
-        ctx.llm.registerAdapter(['offline'], guardAdapter(new OfflineAdapter(), () => ({ pricing: price, upperBoundMicrounits: 6 })))
+        ctx.llm.registerAdapter(['offline'], guardAdapter(new OfflineAdapter(), options => ({ pricing: { ...price, model: options.model }, upperBoundMicrounits: 6 })))
         for (const name of ['session', 'session-projection', 'agent', 'system-prompt', 'fs-local', 'working-directory', 'subprocess-local', 'sandbox-local']) {
           await ctx.plugin((await import('@deepseek-ai/dsh-' + name)).default, {})
         }
@@ -88,12 +102,15 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
           async start(request) {
             const id = `child-${children.length}`, task = JSON.parse(request.prompt[0].text)
             children.push(task.task)
+            if (skillReview && task.task === 'refactor') {
+              assert.deepEqual(task.artifacts.map(artifact => artifact.name).sort(), ['implement', 'review'])
+            }
             if (composed && task.task.startsWith('Combine')) {
               assert.deepEqual(task.artifacts.map(artifact => artifact.name).sort(), ['implement', 'write-tests'])
             }
             if (task.task === 'refactor' || task.task.startsWith('Refactor')) assert.ok(f.bank.getEvents(learning ? 'after-feedback' : 'integration').some(e => e.kind === 'evaluation-phase' && e.payload.phase === 'green'))
             const result = (async () => {
-              const prepared = await ctx.llm.prepareCall({ provider: 'offline', model: 'm' }, signal)
+              const prepared = await ctx.llm.prepareCall({ provider: 'offline', model: mixed ? request.agentOptions.model : 'm' }, signal)
               for await (const chunk of prepared.stream({ ...prepared.config, messages: [], signal })) {
                 if (chunk.type === 'finish' && chunk.reason.kind === 'error') throw new Error(chunk.reason.failure.message)
               }
@@ -132,6 +149,8 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
   }
   if (mode === 'skill-search') {
     assert.equal(result.skillSelection.choices.design, 'design/skip')
+    assert.equal(result.skillSelection.trace.evaluations.length, result.skillSelection.evaluations)
+    assert.match(f.bank.exportJsonl(), /template-selection/)
     assert.deepEqual(result.execution.tasks.map(task => task.id), ['implement', 'refactor'])
     assert.ok(f.bank.exportJsonl().includes('template-selection'))
   }
@@ -141,7 +160,19 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
     assert.deepEqual(result.execution.tasks.map(task => task.id).sort(),
       ['design', 'implement', 'integrate', 'refactor', 'write-tests'])
   }
-  assert.equal(calls.length, composed ? 5 : broken ? 1 : 2)
+  if (skillReview) {
+    assert.deepEqual(result.execution.tasks.map(task => task.id), ['analyze', 'implement', 'review', 'refactor'])
+  }
+  if (mixed) {
+    assert.deepEqual(calls, ['m', 'm', 'strong', 'm'])
+    assert.ok(result.skillSelection.trace.evaluations.some(row => row.choices.review === 'review/0'))
+    assert.ok(result.skillSelection.trace.evaluations.some(row => row.choices.review === 'review/1'))
+    if (process.env.METAACO_MIXED_REPORT) {
+      writeFileSync(process.env.METAACO_MIXED_REPORT, renderInspection(readInspection([f.dir])),
+        { flag: 'wx', mode: 0o600 })
+    }
+  }
+  assert.equal(calls.length, composed ? 5 : skillReview ? 4 : broken ? 1 : 2)
   assert.equal(releases.length, calls.length); assert.equal(disposed, true)
   assert.equal(result.attempt.outcome.measured.observedCallCount, calls.length)
   assert.equal(f.bank.getBudget('attempt/integration').spentMicrounits, 3 * calls.length)

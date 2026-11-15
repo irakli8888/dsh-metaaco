@@ -58,3 +58,60 @@ class SkillDecisionTests(unittest.TestCase):
         self.assertEqual(tasks[0]['model']['model'], 'fast')
         self.assertEqual(tasks[1]['inputs'], [{'name': 'implement', 'taskId': 'implement'}])
         self.assertEqual(result['makespanSeconds'], 4)
+
+    def test_ant_priority_matches_exhaustive_schedule_oracle(self):
+        from itertools import permutations
+        from skill_decisions import search_workflow
+        from test_metaaco_dag import problem
+        from vendor.rcpsp.core import RcpspInstance, SerialScheduleGenerator
+
+        candidate = problem()
+        plan = candidate['plan']
+        plan['tasks'].insert(1, {'id': 'docs', 'prompt': 'docs', 'slots': 1,
+                                 'dependsOn': [], 'inputs': [], 'model': None})
+        candidate['durationEstimatesSeconds'] = {'slow': 4, 'docs': 4, 'fast': 1, 'child': 10}
+        instance = RcpspInstance(4, 1, [4, 4, 1, 10], [[1]] * 4, [2],
+                                 [[], [], [3], []], [[], [], [], [2]])
+        generator = SerialScheduleGenerator()
+        exact = min(generator.generate(instance, order).makespan
+                    for order in permutations(range(4)) if order.index(2) < order.index(3))
+        groups = {task['id']: [task['id']] for task in plan['tasks']}
+        result = search_workflow(groups, lambda _: (candidate, 5), 5)
+        self.assertEqual(exact, 11)
+        self.assertEqual(result['makespanSeconds'], exact)
+        self.assertIn('fast', result['dispatchOrder'][:2])
+
+    def test_workflow_trace_records_gate_and_priorities(self):
+        from skill_decisions import search_workflow
+        from test_metaaco_dag import problem
+
+        result = search_workflow({'slow': ['cheap', 'expensive'], 'fast': ['run-fast']},
+                                 lambda choices: (problem(), 5 if choices['slow'] == 'cheap' else 20), 5)
+        trace = result['trace']
+        self.assertEqual(trace['schemaVersion'], 1)
+        self.assertEqual(len(trace['evaluations']), result['evaluations'])
+        self.assertTrue(any(row['rejected'] == 'over-budget' for row in trace['evaluations']))
+        self.assertTrue(any(row['dispatchOrder'] == result['dispatchOrder']
+                            and row['makespanSeconds'] == result['makespanSeconds']
+                            for row in trace['evaluations']))
+
+    def test_review_and_analysis_with_budgeted_model_choices(self):
+        from skill_decisions import plan_skill_graph
+        from test_metaaco_dag import problem
+
+        def route(model, seconds, cost):
+            return {'model': {'provider': 'offline', 'model': model}, 'prompt': 'Work',
+                    'seconds': seconds, 'costMicrounits': cost}
+
+        catalog = {skill: [route('small', 4, 2), route('large', 1, 8)]
+                   for skill in ['analyze', 'implement', 'review', 'refactor']}
+        for budget, expected in [(8, 'small'), (32, 'large')]:
+            result = plan_skill_graph(catalog, problem()['plan']['resources'], budget,
+                                      required_skills=['analyze', 'review'])
+            tasks = {task['id']: task for task in result['problem']['plan']['tasks']}
+            self.assertEqual(set(tasks), set(catalog))
+            self.assertEqual(tasks['implement']['dependsOn'], ['analyze'])
+            self.assertEqual(tasks['review']['dependsOn'], ['implement'])
+            self.assertEqual(tasks['refactor']['dependsOn'], ['implement', 'review'])
+            self.assertEqual(tasks['review']['model']['model'], expected)
+            self.assertLessEqual(result['estimatedCostMicrounits'], budget)

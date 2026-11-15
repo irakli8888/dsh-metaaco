@@ -71,16 +71,19 @@ def search_workflow(groups, build_candidate, budget_microunits, **search_options
 
     integer(budget_microunits, minimum=0)
     evaluated = {}
+    trace = []
+    trace_limit = 100
 
-    def evaluate(choices):
-        key = tuple(sorted(choices.items()))
+    def measure(choices):
+        key = tuple(choices.items())
         if key in evaluated:
-            return evaluated[key]['makespanSeconds'] if evaluated[key] else None
+            return evaluated[key]
         problem, cost = build_candidate(choices)
         integer(cost, minimum=0)
         if cost > budget_microunits:
-            evaluated[key] = None
-            return None
+            evaluated[key] = {'estimatedCostMicrounits': cost, 'rejected': 'over-budget',
+                              'makespanSeconds': None, 'dispatchOrder': None}
+            return evaluated[key]
         problem = validate_problem(problem)
         tasks = problem['plan']['tasks']
         ids = [task['id'] for task in tasks]
@@ -93,22 +96,37 @@ def search_workflow(groups, build_candidate, budget_microunits, **search_options
         durations = [problem['durationEstimatesSeconds'][name] for name in ids]
         instance = RcpspInstance(len(ids), 1, durations, [[task['slots']] for task in tasks],
                                  [problem['plan']['resources']['agentSlots']], successors, predecessors)
-        order = topological_order(instance)
+        priority = {skill: position for position, skill in enumerate(choices)}
+        order = topological_order(instance, [priority.get(name, len(priority)) for name in ids])
         schedule = SerialScheduleGenerator().generate(instance, order)
         validate_schedule(instance, schedule)
         evaluated[key] = {'problem': problem, 'estimatedCostMicrounits': cost,
-                          'makespanSeconds': schedule.makespan,
+                          'makespanSeconds': schedule.makespan, 'rejected': None,
                           'dispatchOrder': [ids[job] for job in sorted(order, key=lambda j: schedule.start_times[j])]}
-        return schedule.makespan
+        return evaluated[key]
+
+    def evaluate(choices):
+        row = measure(choices)
+        if len(trace) < trace_limit:
+            trace.append({'evaluation': len(trace) + 1, 'choices': dict(choices),
+                          'priority': list(choices), **{key: value for key, value in row.items()
+                                                       if key != 'problem'}})
+        return row['makespanSeconds']
 
     result = search_decisions(groups, evaluate, **search_options)
-    return {**result, **evaluated[tuple(sorted(result['choices'].items()))]}
+    selected = evaluated[tuple(result['choices'].items())]
+    return {**result, **selected, 'trace': {'schemaVersion': 1, 'evaluations': trace,
+                                          'omitted': result['evaluations'] - len(trace)}}
 
 
-def plan_skill_graph(catalog, resources, budget_microunits, **options):
+def plan_skill_graph(catalog, resources, budget_microunits, *, required_skills=(), **options):
     """Build workflow DAGs lazily from skill routes and optional branches."""
     required = {'implement', 'refactor'}
-    supported = required | {'design', 'write-tests', 'integrate'}
+    optional = {'analyze', 'design', 'write-tests', 'review'}
+    supported = required | optional | {'integrate'}
+    mandatory = set(required_skills)
+    if not mandatory <= (optional & catalog.keys()):
+        raise ValueError('Required optional skills must exist in the catalog')
     if not required <= catalog.keys() or not catalog.keys() <= supported:
         raise ValueError('Invalid skill catalog')
     if ('write-tests' in catalog) != ('integrate' in catalog):
@@ -118,19 +136,26 @@ def plan_skill_graph(catalog, resources, budget_microunits, **options):
         if not isinstance(routes, list) or not routes:
             raise ValueError('Each skill needs at least one route')
         groups[skill] = [f'{skill}/{i}' for i in range(len(routes))]
-        if skill in {'design', 'write-tests'}:
+        if skill in optional and skill not in mandatory:
             groups[skill].append(f'{skill}/skip')
 
     def build(choices):
         dependencies = {}
+        if choices.get('analyze', 'analyze/skip') != 'analyze/skip':
+            dependencies['analyze'] = []
+        context = ['analyze'] if 'analyze' in dependencies else []
         if choices.get('design', 'design/skip') != 'design/skip':
-            dependencies['design'] = []
-        context = ['design'] if 'design' in dependencies else []
+            dependencies['design'] = context
+            context = ['design']
         dependencies['implement'] = context
         if choices.get('write-tests', 'write-tests/skip') != 'write-tests/skip':
             dependencies['write-tests'] = context
             dependencies['integrate'] = ['implement', 'write-tests']
-        dependencies['refactor'] = ['integrate' if 'integrate' in dependencies else 'implement']
+        implementation = 'integrate' if 'integrate' in dependencies else 'implement'
+        dependencies['refactor'] = [implementation]
+        if choices.get('review', 'review/skip') != 'review/skip':
+            dependencies['review'] = [implementation]
+            dependencies['refactor'].append('review')
         tasks, durations, cost = [], {}, 0
         for skill, parents in dependencies.items():
             route = catalog[skill][int(choices[skill].rsplit('/', 1)[1])]
@@ -159,4 +184,4 @@ if __name__ == '__main__':
     args = parser.parse_args()
     spec = json.loads(args.catalog.read_text(encoding='utf-8'))
     print(json.dumps(plan_skill_graph(spec['skills'], spec['resources'],
-                                     spec['budgetMicrounits'], seed=args.seed)))
+                                     spec['budgetMicrounits'], required_skills=spec.get('requiredSkills', []), seed=args.seed)))
