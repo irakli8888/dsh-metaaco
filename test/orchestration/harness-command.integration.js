@@ -1,3 +1,4 @@
+import { createDeepSeekAdapter } from '../../src/adapters/harness/deepseek.js'
 import assert from 'node:assert/strict'
 import { writeFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -31,7 +32,7 @@ test('skill slash command executes through Harness and Docker with mocked API', 
       usage: { prompt_tokens: 4, prompt_cache_miss_tokens: 3, prompt_cache_hit_tokens: 1, completion_tokens: 1, total_tokens: 5 } })
   })
   const runtime = await createTextRuntime({ provider: 'unused', guardAdapter: adapter => adapter,
-    createAdapter: () => ({ adapter: { providerInfo: id => ({ id, name: id }) } }), promptFor: () => '' })
+    createAdapter: () => createDeepSeekAdapter({ key: 'fixture' }), promptFor: () => '' })
   try {
     let command
     apply({ commands: { register(value) { command = value } }, subagents: runtime.ctx.subagents,
