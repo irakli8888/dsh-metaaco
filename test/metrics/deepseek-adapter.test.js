@@ -20,3 +20,18 @@ test('guard quote bounds the exact DeepSeek request and maps billable usage', as
   assert.equal(chunks.find(chunk => chunk.type === 'usage').usage.inputTokens, 10)
   assert.equal(calls, 1)
 })
+
+test('Pro uses its own wire model, tariff and reservation', async () => {
+  const model = 'deepseek-v4-pro'
+  const { adapter, quote } = api.createDeepSeekAdapter({ key: 'fixture', fetchImpl: async (_, options) => {
+    assert.equal(JSON.parse(options.body).model, model)
+    return Response.json({ model, choices: [{ finish_reason: 'stop', message: { content: '{}' } }],
+      usage: { prompt_tokens: 12, prompt_cache_miss_tokens: 10, prompt_cache_hit_tokens: 2, completion_tokens: 1, total_tokens: 13 } })
+  } })
+  const config = { provider: 'deepseek', model, system: 'Review code' }
+  assert.equal(quote(config).upperBoundMicrounits, 1324056)
+  const call = await adapter.prepareCall('deepseek', model)
+  assert.equal(call.model.id, model)
+  assert.equal((await Array.fromAsync(call.stream(config))).at(-1).reason.kind, 'stop')
+  assert.throws(() => quote({ ...config, model: 'constructor' }), /unsupported/i)
+})

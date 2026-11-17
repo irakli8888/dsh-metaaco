@@ -9,13 +9,22 @@ const pricing = {
   rates: { inputTokens: 300000, cacheReadTokens: 6000, cacheWriteTokens: 0, outputTokens: 1200000 },
 }
 
+const tariffs = new Map([
+  [model, pricing],
+  ['deepseek-v4-pro', {
+    ...pricing, id: 'deepseek-v4-pro-peak', model: 'deepseek-v4-pro',
+    modelRevision: 'DeepSeek-V4-Pro-0813', effectiveAt: '2026-11-17T00:00:00Z',
+    rates: { inputTokens: 1320000, cacheReadTokens: 44000, cacheWriteTokens: 0, outputTokens: 3960000 },
+  }],
+])
+
 export function createDeepSeekAdapter({ key, fetchImpl = fetch }) {
   if (!key?.trim()) throw new Error('DEEPSEEK_API_KEY is required')
   function bodyFor(options) {
-    if (options.provider !== 'deepseek' || options.model !== model || options.messages?.length
+    if (options.provider !== 'deepseek' || !tariffs.has(options.model) || options.messages?.length
       || options.tools?.length || typeof options.system !== 'string' || !options.system
       || Buffer.byteLength(options.system) > 65536) throw new Error('Unsupported DeepSeek request')
-    return { model, messages: [{ role: 'user', content: options.system }],
+    return { model: options.model, messages: [{ role: 'user', content: options.system }],
       max_tokens: maxTokens, response_format: { type: 'json_object' }, stream: false, thinking: { type: 'disabled' } }
   }
   const adapter = {
@@ -23,7 +32,7 @@ export function createDeepSeekAdapter({ key, fetchImpl = fetch }) {
     providerRetryPolicy() {},
     imageRequestPricing() {},
     async prepareCall(provider, id) {
-      if (provider !== 'deepseek' || id !== model) throw new Error('Unsupported DeepSeek model')
+      if (provider !== 'deepseek' || !tariffs.has(id)) throw new Error('Unsupported DeepSeek model')
       return { model: { provider, id, name: id }, stream: adapter.stream }
     },
     async *stream(options) {
@@ -43,7 +52,7 @@ export function createDeepSeekAdapter({ key, fetchImpl = fetch }) {
       const data = reply.usage
       const usage = normalizeUsage({ inputTokens: data?.prompt_cache_miss_tokens, cacheReadTokens: data?.prompt_cache_hit_tokens,
         outputTokens: data?.completion_tokens, cacheWriteTokens: 0, totalTokens: data?.total_tokens })
-      if (reply.model !== model || [usage.inputTokens, usage.cacheReadTokens, usage.outputTokens, usage.totalTokens].includes(null)
+      if (reply.model !== body.model || [usage.inputTokens, usage.cacheReadTokens, usage.outputTokens, usage.totalTokens].includes(null)
         || usage.inputTokens + usage.cacheReadTokens !== data.prompt_tokens) throw new Error('Unexpected DeepSeek usage or model')
       yield { type: 'usage', usage }
       const choice = reply.choices?.[0]
@@ -56,7 +65,8 @@ export function createDeepSeekAdapter({ key, fetchImpl = fetch }) {
     },
   }
   return { adapter, quote(options) {
-    bodyFor(options)
+    const { model } = bodyFor(options)
+    const pricing = tariffs.get(model)
     return { pricing: structuredClone(pricing), upperBoundMicrounits: calculateCost({
       inputTokens: 1000000, cacheReadTokens: 0, outputTokens: maxTokens,
     }, pricing).microunits }
