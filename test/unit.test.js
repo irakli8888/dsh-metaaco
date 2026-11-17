@@ -112,3 +112,11 @@ test('skill command previews a configured job without opening Bank or provider',
   assert.ok(!JSON.stringify(preview).includes('private'))
   assert.equal((await command.handler({ rawInput: 'random file' })).kind, 'error')
 })
+
+test('bundle default registers a working preview without external configuration', async () => {
+  let command
+  apply({ commands: { register(value) { command = value } } }, { bundledDemo: true })
+  const response = await command.handler({ rawInput: '' })
+  assert.equal(command.name, 'metaaco')
+  assert.equal(JSON.parse(response.text).preview, true)
+})

@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'node:url'
 import { registerSkillCommand } from './src/orchestration/harness-command.js'
 import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
@@ -87,6 +88,9 @@ export async function runWorkflow(ctx, parent, input, { signal, subagentProvider
 
 /** Register a human command. A bare command previews; --allow-llm explicitly starts children. */
 export function apply(ctx, config = {}) {
+  if (config.bundledDemo === true && config.workflowFile === undefined && config.skillJobFile === undefined) {
+    config = { ...config, workflowFile: fileURLToPath(new URL('./examples/two-agents.json', import.meta.url)) }
+  }
   if (config.skillJobFile !== undefined) {
     if (typeof config.skillJobFile !== 'string' || !config.skillJobFile.trim()) {
       throw new Error('metaaco config.skillJobFile must be a nonempty string')

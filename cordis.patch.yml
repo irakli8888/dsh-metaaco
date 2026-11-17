@@ -1,0 +1,5 @@
+- insert:
+    - id: metaaco
+      name: dsh-metaaco
+      config:
+        bundledDemo: true
