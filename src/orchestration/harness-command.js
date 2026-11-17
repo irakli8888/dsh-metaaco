@@ -22,7 +22,8 @@ export function registerSkillCommand(ctx, path) {
           skills: Object.fromEntries(Object.entries(job.skills).map(([id, routes]) => [id, routes.map(route => route.model)])),
           run: '/metaaco-skills --allow-llm' }, null, 2) }
         signal?.throwIfAborted()
-        if (!agent || !ctx.subagents || !isAbsolute(job.bankDir ?? '') ||
+        const runtimeContext = agent?.ctx ?? ctx
+        if (!agent || !runtimeContext.subagents || !isAbsolute(job.bankDir ?? '') ||
             !/^sha256:[a-f0-9]{64}$/.test(job.evaluationDockerImage ?? '')) {
           throw new Error('Execution requires a Harness agent, subagents, an absolute Bank directory and a pinned Docker image')
         }
@@ -47,7 +48,7 @@ export function registerSkillCommand(ctx, path) {
             createRuntime: async ({ guardAdapter, signal: attemptSignal }) => {
               const guarded = guardAdapter(adapter, quote)
               const name = `metaaco-${randomUUID()}`
-              const dispose = ctx.subagents.registerProvider({ name, inheritsParentContext: false,
+              const dispose = runtimeContext.subagents.registerProvider({ name, inheritsParentContext: false,
                 capabilities: { agentOptions: true, agentPreset: false, outputSchema: false, depthLimit: false },
                 async start(request) {
                   const { provider, model } = request.agentOptions
@@ -66,7 +67,7 @@ export function registerSkillCommand(ctx, path) {
                   return { id: randomUUID(), result, async dispose() { controller.abort(); await result.catch(() => {}) } }
                 },
               })
-              return { ctx, parent: agent, subagentProvider: name, dispose }
+              return { ctx: runtimeContext, parent: agent, subagentProvider: name, dispose }
             },
           })
           return { kind: result.attempt.state === 'succeeded' ? 'success' : 'error',

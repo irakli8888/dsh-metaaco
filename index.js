@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 
 export const name = 'metaaco'
-export const inject = ['workflowEngine', 'commands']
+export const inject = ['commands']
 
 // This body is owned by the plugin. JSON supplies data, never executable code.
 export const SCRIPT = `
@@ -120,7 +120,7 @@ export function apply(ctx, config = {}) {
           run: '/metaaco --allow-llm',
         }, null, 2) }
       }
-      const result = await runWorkflow(ctx, agent, workflow, { signal, subagentProvider: config.subagentProvider })
+      const result = await runWorkflow(agent?.ctx ?? ctx, agent, workflow, { signal, subagentProvider: config.subagentProvider })
       return { kind: 'success', text: JSON.stringify(result, null, 2) }
     },
   })
