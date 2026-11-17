@@ -92,3 +92,23 @@ test('null child failure prevents dependent stage and still disposes run', async
   assert.deepEqual(started, ['java', 'aco'])
   assert.equal(disposed, true)
 })
+
+test('skill command previews a configured job without opening Bank or provider', async t => {
+  const { mkdtemp, writeFile, rm } = await import('node:fs/promises')
+  const { tmpdir } = await import('node:os')
+  const { join } = await import('node:path')
+  const dir = await mkdtemp(join(tmpdir(), 'metaaco-command-'))
+  t.after(() => rm(dir, { recursive: true, force: true }))
+  const file = join(dir, 'job.json')
+  await writeFile(file, JSON.stringify({ schemaVersion: 1, request: { taskId: 'demo' },
+    skills: { implement: [{ model: { provider: 'deepseek', model: 'deepseek-flash' }, prompt: 'private' }] },
+    budgetMicrounits: 602458, resources: { agentSlots: 1 } }))
+  let command
+  apply({ commands: { register(value) { command = value } } }, { skillJobFile: file })
+  assert.equal(command.name, 'metaaco-skills')
+  const preview = JSON.parse((await command.handler({ rawInput: '' })).text)
+  assert.equal(preview.preview, true)
+  assert.equal(preview.taskId, 'demo')
+  assert.ok(!JSON.stringify(preview).includes('private'))
+  assert.equal((await command.handler({ rawInput: 'random file' })).kind, 'error')
+})

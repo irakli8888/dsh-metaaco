@@ -96,3 +96,33 @@ const result = await runWorkflow(ctx, parent, workflow, {
 - У model-facing инструмента workflow parent берётся из `exec.agent`; это другой путь вызова, который этому плагину не нужен.
 
 Источники: [репозиторий Harness](https://github.com/deepseek-ai/deepseek-harness), [workflow 0.2.1-rc.2](https://www.npmjs.com/package/@deepseek-ai/dsh-workflow/v/0.2.1-rc.2), [commands 0.2.1-rc.2](https://www.npmjs.com/package/@deepseek-ai/dsh-commands/v/0.2.1-rc.2), [tool-workflow 0.2.1-rc.2](https://www.npmjs.com/package/@deepseek-ai/dsh-tool-workflow/v/0.2.1-rc.2). Исследованный открытый checkout: `22ddee3792402c3e70ec5f86a63c3e3e895a2f60`; совместимость установлена отдельным тестом на опубликованных пакетах. Интерактивная установка на исходной Linux-машине не проверялась.
+
+## Поиск по навыкам из чата Harness
+
+В профиле можно указать `skillJobFile` вместо `workflowFile` или вместе с ним.
+Для первого запуска подготовьте пример в новом приватном каталоге:
+
+```sh
+node examples/prepare-skill-job.js --out "$HOME/metaaco-chat-demo" \
+  --docker-image "$(docker image inspect node:24-alpine --format '{{.Id}}')"
+```
+
+Установите локальный пакет в профиль командой `plugin --profile web add` выше.
+В YAML-конфигурации профиля передайте абсолютный путь, напечатанный командой:
+
+```yaml
+- insert:
+    - id: metaaco
+      name: dsh-metaaco
+      config:
+        skillJobFile: /absolute/path/metaaco-chat-demo/skill-job.json
+```
+
+В чате `/metaaco-skills` показывает задачу, навыки, модели, слоты и бюджет.
+`/metaaco-skills --allow-llm` строит граф, выполняет его через Harness и
+сохраняет попытку и Docker-проверки в Bank. Для исполнения нужны Python 3,
+Docker и `DEEPSEEK_API_KEY` в окружении процесса Harness. Команда использует
+встроенный бюджетный адаптер DeepSeek API и лимит одной попытки из job.
+Подготовка примера и просмотр не обращаются к API. Новый запуск команды
+создаёт отдельную попытку. Файл задания задаёт снимок, тесты, каталог и
+ссылку на историю. Текст чата не заменяет файл задания.
