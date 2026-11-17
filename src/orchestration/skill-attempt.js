@@ -1,3 +1,4 @@
+import { routeQualityEvidence } from './route-quality.js'
 import { execFile } from 'node:child_process'
 import { mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
@@ -13,19 +14,22 @@ const planner = fileURLToPath(new URL('../../python/skill_decisions.py', import.
 
 export async function runSkillAttempt({ skills, resources, budgetMicrounits, requiredSkills = [], candidate, ...attempt }) {
   if (attempt.allowLlm !== true) throw new Error('Explicit allowLlm: true is required')
-  const { revision: { policy } } = readFeedback(attempt.bank, attempt.feedback)
+  const { revision: { policy }, snapshot } = readFeedback(attempt.bank, attempt.feedback)
   const allowed = new Set(candidate.route.models.filter(model => policy.allowedModels.includes(model)))
   const catalog = Object.fromEntries(Object.entries(skills).map(([id, routes]) => [id, routes.filter(
     ({ model }) => model && allowed.has(`${model.provider}/${model.model}`))]))
+  const qualityEvidence = routeQualityEvidence(attempt.bank, snapshot, attempt.request)
   const dir = await mkdtemp(join(tmpdir(), 'metaaco-skills-'))
   let selection
   try {
     const path = join(dir, 'skills.json')
-    await writeFile(path, JSON.stringify({ skills: catalog, resources, requiredSkills,
+    await writeFile(path, JSON.stringify({ skills: catalog, resources, requiredSkills, qualityEvidence,
       budgetMicrounits: Math.min(budgetMicrounits, policy.maxCostMicrounits ?? Infinity) }), { mode: 0o600 })
     const { stdout } = await promisify(execFile)('python3', ['-B', planner, path],
       { timeout: 30000, signal: attempt.signal })
     selection = JSON.parse(stdout)
+    selection.qualitySnapshotId = snapshot.snapshotId
+    selection.qualityRoutesObserved = qualityEvidence.length
     selection.modelAlternatives = Object.fromEntries(Object.entries(catalog).map(([skill, routes]) =>
       [skill, routes.map(({ model, seconds, costMicrounits }, index) =>
         ({ id: `${skill}/${index}`, model, seconds, costMicrounits }))]))

@@ -133,3 +133,20 @@ class SkillDecisionTests(unittest.TestCase):
             if expected == 'components':
                 self.assertEqual(set(tasks['integrate']['dependsOn']), {'implement-storage', 'implement-http'})
                 self.assertEqual(result['makespanSeconds'], 5)
+
+    def test_verified_quality_can_win_over_shorter_duration(self):
+        from skill_decisions import plan_skill_graph
+        from test_metaaco_dag import problem
+
+        def route(model, seconds):
+            return {'model': {'provider': 'offline', 'model': model}, 'prompt': 'Work',
+                    'seconds': seconds, 'costMicrounits': 1}
+
+        catalog = {'implement': [route('fast', 1), route('proven', 8)], 'refactor': [route('fast', 1)]}
+        evidence = [{'route': [['implement', 'offline', 'proven', []],
+                               ['refactor', 'offline', 'fast', ['implement']]],
+                     'successes': 3, 'attempts': 3}]
+        result = plan_skill_graph(catalog, problem()['plan']['resources'], 2, quality_evidence=evidence)
+        self.assertEqual(result['choices']['implement'], 'implement/1')
+        self.assertEqual(result['quality']['attempts'], 3)
+        self.assertEqual(result['makespanSeconds'], 9)

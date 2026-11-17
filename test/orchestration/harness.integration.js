@@ -1,4 +1,5 @@
-import { advanceFeedback } from '../../src/feedback/index.js'
+import { routeQualityEvidence } from '../../src/orchestration/route-quality.js'
+import { advanceFeedback, readFeedback } from '../../src/feedback/index.js'
 import { readInspection, renderInspection } from '../../src/inspector/index.js'
 import { runSkillAttempt } from '../../src/orchestration/skill-attempt.js'
 import { armId } from '../../src/selector/contracts.js'
@@ -163,6 +164,13 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
   }
   if (mode === 'skill-search') {
     assert.equal(result.skillSelection.choices.design, 'design/skip')
+    const { snapshot: trained } = readFeedback(f.bank, result.feedback)
+    const heldout = { ...f.request, taskId: 'heldout' }
+    const evidence = routeQualityEvidence(f.bank, trained, heldout)
+    assert.equal(evidence.length, 1)
+    assert.equal(evidence[0].successes, 1)
+    assert.equal(evidence[0].attempts, 1)
+    assert.deepEqual(routeQualityEvidence(f.bank, trained, f.request), [])
     assert.equal(result.skillSelection.trace.evaluations.length, result.skillSelection.evaluations)
     assert.match(f.bank.exportJsonl(), /template-selection/)
     assert.deepEqual(result.execution.tasks.map(task => task.id), ['implement', 'refactor'])

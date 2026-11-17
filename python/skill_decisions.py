@@ -63,13 +63,23 @@ def search_decisions(groups, evaluate, *, seed=42, max_evaluations=100):
             'score': best.makespan, 'evaluations': manager.budget.used}
 
 
-def search_workflow(groups, build_candidate, budget_microunits, **search_options):
+def search_workflow(groups, build_candidate, budget_microunits, *, quality_evidence=(), **search_options):
     """Score decoded DAGs by forecast makespan after a hard cost gate."""
     from metaaco_dag import integer, validate_problem
     from vendor.rcpsp.core import (RcpspInstance, SerialScheduleGenerator,
                                  topological_order, validate_schedule)
 
     integer(budget_microunits, minimum=0)
+    import json
+
+    def route_key(route):
+        return json.dumps(route, ensure_ascii=False)
+
+    evidence = {}
+    for row in quality_evidence:
+        integer(row['attempts'])
+        integer(row['successes'], maximum=row['attempts'], minimum=0)
+        evidence[route_key(row['route'])] = row
     evaluated = {}
     trace = []
     trace_limit = 100
@@ -100,7 +110,17 @@ def search_workflow(groups, build_candidate, budget_microunits, **search_options
         order = topological_order(instance, [priority.get(name, len(priority)) for name in ids])
         schedule = SerialScheduleGenerator().generate(instance, order)
         validate_schedule(instance, schedule)
-        evaluated[key] = {'problem': problem, 'estimatedCostMicrounits': cost,
+        route = [[task['id'], (task['model'] or {}).get('provider'), (task['model'] or {}).get('model'),
+                  sorted(task['dependsOn'])] for task in sorted(tasks, key=lambda task: task['id'])]
+        data = evidence.get(route_key(route))
+        quality = None
+        rank = 500
+        if data:
+            rank = (data['successes'] + 1) * 1000 // (data['attempts'] + 2)
+            quality = {'successes': data['successes'], 'attempts': data['attempts'],
+                       'estimatedSuccess': rank / 1000}
+        evaluated[key] = {'problem': problem, 'quality': quality,
+                          'objective': (1000 - rank) * 86401 + schedule.makespan, 'estimatedCostMicrounits': cost,
                           'makespanSeconds': schedule.makespan, 'rejected': None,
                           'dispatchOrder': [ids[job] for job in sorted(order, key=lambda j: schedule.start_times[j])]}
         return evaluated[key]
@@ -111,7 +131,7 @@ def search_workflow(groups, build_candidate, budget_microunits, **search_options
             trace.append({'evaluation': len(trace) + 1, 'choices': dict(choices),
                           'priority': list(choices), **{key: value for key, value in row.items()
                                                        if key != 'problem'}})
-        return row['makespanSeconds']
+        return row.get('objective')
 
     result = search_decisions(groups, evaluate, **search_options)
     selected = evaluated[tuple(result['choices'].items())]
@@ -193,4 +213,5 @@ if __name__ == '__main__':
     args = parser.parse_args()
     spec = json.loads(args.catalog.read_text(encoding='utf-8'))
     print(json.dumps(plan_skill_graph(spec['skills'], spec['resources'],
-                                     spec['budgetMicrounits'], required_skills=spec.get('requiredSkills', []), seed=args.seed)))
+                                     spec['budgetMicrounits'], required_skills=spec.get('requiredSkills', []),
+                                     quality_evidence=spec.get('qualityEvidence', []), seed=args.seed)))
