@@ -5,9 +5,10 @@ import { advanceFeedback, readFeedback, selectWithFeedback } from '../src/feedba
 import { templateStudyTasks } from './template-study-tasks.js'
 import { compileStrategies } from '../src/strategy-templates.js'
 
-const [bankPath, summaryPath] = process.argv.slice(2)
+const [bankPath, summaryPath, taskId = 'event-range'] = process.argv.slice(2)
 if (!bankPath || !summaryPath) throw new Error('Supply a study bank and its summary.json')
-const task = templateStudyTasks().find(({ request }) => request.taskId === 'event-range')
+const task = templateStudyTasks().find(({ request, split }) => split === 'test' && request.taskId === taskId)
+if (!task) throw new Error('Expected a held-out task ID')
 const summary = JSON.parse(readFileSync(summaryPath, 'utf8'))
 const bank = new StrategyBank({ dataDir: bankPath })
 try {

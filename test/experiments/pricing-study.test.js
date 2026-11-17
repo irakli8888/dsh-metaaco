@@ -37,3 +37,12 @@ test('compact edits require a unique match and cannot target another file', asyn
   assert.throws(() => applyTextEdits(base, { revision: 'green', edits: [{ ...edit, path: 'index.js' }] },
     ['pricing.js']), /not editable/)
 })
+
+test('component file claims reject overlaps before integration', async () => {
+  const { claimComponentFiles } = await import('../../src/orchestration/snapshot-patch.js')
+  const owners = new Map()
+  claimComponentFiles(owners, 'implement-storage', ['Storage.java'])
+  claimComponentFiles(owners, 'implement-http', ['Controller.java'])
+  assert.throws(() => claimComponentFiles(owners, 'implement-http', ['Other.java', 'Storage.java']), /Storage.java/)
+  assert.equal(owners.has('Other.java'), false)
+})

@@ -20,8 +20,12 @@ export async function runPricingStudy({ out, repoDirectory, dockerImage, budget,
     throw new Error('Supply exact preview budget, fresh output, key and pinned Docker image')
   }
   const heldout = heldoutReport ? JSON.parse(await readFile(heldoutReport, 'utf8')) : null
-  const task = heldout ? { ...templateStudyTasks().find(({ request }) => request.taskId === 'event-range'),
-    editablePaths: ['subject.cjs'] } : pricingStudyTask(repoDirectory)
+  const heldoutTask = heldout && templateStudyTasks().find(({ request, split }) =>
+    split === 'test' && request.taskId === heldout.taskId)
+  if (heldout && !heldoutTask) throw new Error('Expected a held-out task from the registered dataset')
+  const task = heldout ? { ...heldoutTask, editablePaths: ['subject.cjs'] } : pricingStudyTask(repoDirectory)
+  const expectedExport = heldout ? { 'event-range': 'eventsInRange', 'seat-cancellation': 'cancel',
+    'contact-csv': 'importContacts' }[task.request.taskId] : 'calculateCostRange'
   const directory = resolve(out)
   if (!heldout) await mkdir(directory, { mode: 0o700 })
   const bank = new StrategyBank({ dataDir: directory })
@@ -42,9 +46,10 @@ export async function runPricingStudy({ out, repoDirectory, dockerImage, budget,
       normalization: { wallTimeMs: 120000, costMicrounits: allocation }, currency: 'USD',
       allowedModels: models, allowedTools: [], maxConcurrency: 2, maxWallTimeMs: 150000,
       maxCostMicrounits: allocation, minQuality: null } })
-    const seriesBudget = { budgetId: heldout ? 'series/heldout-event-range' : 'series/pricing-study', currency: 'USD', limitMicrounits: allocation }
+    const seriesBudget = { budgetId: heldout ? `series/heldout-${task.request.taskId}` : 'series/pricing-study', currency: 'USD', limitMicrounits: allocation }
     const runs = []
-    const modes = heldout ? ['empty', 'trained'].map(mode => [`event-range-${mode}`, null, heldout.weighted[mode].feedback])
+    const modeOrder = task.request.taskId === 'seat-cancellation' ? ['trained', 'empty'] : ['empty', 'trained']
+    const modes = heldout ? modeOrder.map(mode => [`${task.request.taskId}-${mode}`, null, heldout.weighted[mode].feedback])
       : Object.entries(templateCandidates).filter(([id]) => !contractOnly || id === 'contract-v1')
     if (heldout) {
       if (heldout.taskId !== task.request.taskId) throw new Error('Held-out task mismatch')
@@ -84,7 +89,7 @@ export async function runPricingStudy({ out, repoDirectory, dockerImage, budget,
               : isDesign ? 'Return a short JSON object containing your proposed design.'
               : 'Return JSON {edits:[{path,before,after}]}. Match before exactly once in the source. Use a small anchor and return only changed text.'
             const integration = envelope.task.startsWith('Combine')
-              ? ' Apply the implementation artifact to the original source. Your final edits must export ' + (heldout ? 'eventsInRange' : 'calculateCostRange') + '. Return implementation edits even if you keep them unchanged. Do not include test files.'
+              ? ' Apply the implementation artifact to the original source. Your final edits must export ' + expectedExport + '. Return implementation edits even if you keep them unchanged. Do not include test files.'
               : ''
             return format + integration + '\n' + JSON.stringify({ ...envelope, task: envelope.task
               .replace(' Return JSON with revision and full files.', '')

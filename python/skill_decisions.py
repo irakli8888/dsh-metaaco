@@ -123,15 +123,19 @@ def plan_skill_graph(catalog, resources, budget_microunits, *, required_skills=(
     """Build workflow DAGs lazily from skill routes and optional branches."""
     required = {'implement', 'refactor'}
     optional = {'analyze', 'design', 'write-tests', 'review'}
-    supported = required | optional | {'integrate'}
+    import re
+    components = sorted(skill for skill in catalog if re.fullmatch(r'implement-[a-z0-9-]{1,53}', skill))
+    if components and (len(components) < 2 or 'integrate' not in catalog):
+        raise ValueError('Component layout requires integration and at least two components')
+    supported = required | optional | set(components) | {'integrate'}
     mandatory = set(required_skills)
     if not mandatory <= (optional & catalog.keys()):
         raise ValueError('Required optional skills must exist in the catalog')
     if not required <= catalog.keys() or not catalog.keys() <= supported:
         raise ValueError('Invalid skill catalog')
-    if ('write-tests' in catalog) != ('integrate' in catalog):
+    if ('write-tests' in catalog or bool(components)) != ('integrate' in catalog):
         raise ValueError('Test preparation requires integration')
-    groups = {}
+    groups = {'layout': ['monolith', 'components']} if components else {}
     for skill, routes in catalog.items():
         if not isinstance(routes, list) or not routes:
             raise ValueError('Each skill needs at least one route')
@@ -147,10 +151,15 @@ def plan_skill_graph(catalog, resources, budget_microunits, *, required_skills=(
         if choices.get('design', 'design/skip') != 'design/skip':
             dependencies['design'] = context
             context = ['design']
-        dependencies['implement'] = context
+        implementations = components if choices.get('layout') == 'components' else ['implement']
+        for skill in implementations:
+            dependencies[skill] = context
+        integration_inputs = list(implementations)
         if choices.get('write-tests', 'write-tests/skip') != 'write-tests/skip':
             dependencies['write-tests'] = context
-            dependencies['integrate'] = ['implement', 'write-tests']
+            integration_inputs.append('write-tests')
+        if len(integration_inputs) > 1:
+            dependencies['integrate'] = integration_inputs
         implementation = 'integrate' if 'integrate' in dependencies else 'implement'
         dependencies['refactor'] = [implementation]
         if choices.get('review', 'review/skip') != 'review/skip':

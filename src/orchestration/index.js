@@ -1,4 +1,4 @@
-import { applySnapshotPatch, applyTextEdits } from './snapshot-patch.js'
+import { applySnapshotPatch, applyTextEdits, claimComponentFiles } from './snapshot-patch.js'
 import { fields, canonicalJson, validateRequest } from '../contracts/bank.js'
 import { clone, hash, armId } from '../selector/contracts.js'
 import { readFeedback, selectWithFeedback, advanceFeedback } from '../feedback/index.js'
@@ -39,7 +39,7 @@ function redPassed(record, spec) {
 
 /** Trusted application composition. createRuntime must install only the supplied guarded adapters. */
 export async function runAdaptiveAttempt({ bank, attemptId, request: input, feedback, candidates, bindings,
-  baseSnapshot: baseInput, createRuntime, planning = null, selectionMethod, planningByArm = null, templateSelection = null, editablePaths = null, textEdits = false, guardedCallsOnly = false, seriesBudget, evaluationDockerImage, allowLlm = false, signal }) {
+  baseSnapshot: baseInput, createRuntime, planning = null, selectionMethod, planningByArm = null, templateSelection = null, editablePaths = null, textEdits = false, componentTaskIds = [], guardedCallsOnly = false, seriesBudget, evaluationDockerImage, allowLlm = false, signal }) {
   if (allowLlm !== true) throw new Error('Explicit allowLlm: true is required')
   signal?.throwIfAborted()
   if (typeof createRuntime !== 'function') throw new Error('A trusted runtime factory is required')
@@ -76,6 +76,8 @@ export async function runAdaptiveAttempt({ bank, attemptId, request: input, feed
   const collector = new MetricsCollector({ bank, attemptId, estimates: chosen.estimates })
   const controller = new AbortController(), combined = signal ? AbortSignal.any([signal, controller.signal]) : controller.signal
   let accountingLedgers = []
+  const componentNodes = new Set(componentTaskIds)
+  const componentOwners = new Map()
   let greenSnapshot = base
   let timedOut = false, runtime, evaluator, execution = null, error = null, timer
   if (policy.maxWallTimeMs !== null) timer = setTimeout(() => { timedOut = true; controller.abort(new Error('Attempt deadline exceeded')) }, Math.min(policy.maxWallTimeMs, 2147483647))
@@ -122,8 +124,15 @@ export async function runAdaptiveAttempt({ bank, attemptId, request: input, feed
       subagentProvider: runtime.subagentProvider,
       verifyArtifact: async ({ taskId, artifact, signal: nodeSignal }) => {
         const name = taskId === binding.greenTaskId ? 'green' : taskId === binding.refactorTaskId ? 'refactor' : null
-        if (!name) return
+        if (!name && !componentNodes.has(taskId)) return
         const output = JSON.parse(bank.getArtifact(artifact).toString('utf8'))
+        if (!name) {
+          if (textEdits) applyTextEdits(base, output, editablePaths)
+          else if (editablePaths === null) validateSnapshot(output)
+          else applySnapshotPatch(base, output, editablePaths)
+          claimComponentFiles(componentOwners, taskId, textEdits ? output.edits.map(edit => edit.path) : Object.keys(output.files))
+          return
+        }
         const snapshot = textEdits ? applyTextEdits(name === 'refactor' ? greenSnapshot : base, output, editablePaths)
           : editablePaths === null ? output : applySnapshotPatch(base, output, editablePaths)
         validateSnapshot(snapshot)

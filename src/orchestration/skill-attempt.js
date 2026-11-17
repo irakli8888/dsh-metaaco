@@ -41,6 +41,7 @@ export async function runSkillAttempt({ skills, resources, budgetMicrounits, req
   const binding = { schemaVersion: 1, armId: armId(routed), plan,
     greenTaskId: plan.tasks.find(task => task.id === 'refactor').dependsOn[0], refactorTaskId: 'refactor' }
   const result = await runAdaptiveAttempt({ ...attempt, candidates: [routed], bindings: [binding],
+    componentTaskIds: plan.tasks.filter(task => task.id.startsWith('implement-')).map(task => task.id),
     templateSelection: selection })
   return { ...result, skillSelection: selection }
 }

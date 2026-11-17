@@ -115,3 +115,21 @@ class SkillDecisionTests(unittest.TestCase):
             self.assertEqual(tasks['refactor']['dependsOn'], ['implement', 'review'])
             self.assertEqual(tasks['review']['model']['model'], expected)
             self.assertLessEqual(result['estimatedCostMicrounits'], budget)
+
+    def test_component_implementations_compete_with_monolith(self):
+        from skill_decisions import plan_skill_graph
+        from test_metaaco_dag import problem
+
+        def route(seconds, cost):
+            return {'model': {'provider': 'offline', 'model': 'm'}, 'prompt': 'Work',
+                    'seconds': seconds, 'costMicrounits': cost}
+
+        catalog = {'implement': [route(12, 2)], 'refactor': [route(1, 1)], 'integrate': [route(1, 1)],
+                   'implement-storage': [route(3, 3)], 'implement-http': [route(3, 3)]}
+        for budget, expected in [(3, 'monolith'), (8, 'components')]:
+            result = plan_skill_graph(catalog, problem()['plan']['resources'], budget)
+            self.assertEqual(result['choices']['layout'], expected)
+            tasks = {task['id']: task for task in result['problem']['plan']['tasks']}
+            if expected == 'components':
+                self.assertEqual(set(tasks['integrate']['dependsOn']), {'implement-storage', 'implement-http'})
+                self.assertEqual(result['makespanSeconds'], 5)

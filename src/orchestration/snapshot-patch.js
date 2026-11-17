@@ -30,3 +30,12 @@ export function applyTextEdits(base, patch, editablePaths) {
   validateSnapshot(snapshot)
   return snapshot
 }
+
+export function claimComponentFiles(owners, taskId, paths) {
+  if (!paths.length) throw new Error(`Component ${taskId} returned no file changes`)
+  for (const path of paths) {
+    const owner = owners.get(path)
+    if (owner && owner !== taskId) throw new Error(`Component file conflict: ${path} (${owner}, ${taskId})`)
+  }
+  for (const path of paths) owners.set(path, taskId)
+}
