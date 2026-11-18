@@ -46,3 +46,10 @@ test('component file claims reject overlaps before integration', async () => {
   assert.throws(() => claimComponentFiles(owners, 'implement-http', ['Other.java', 'Storage.java']), /Storage.java/)
   assert.equal(owners.has('Other.java'), false)
 })
+
+test('stock component prompts retain disjoint file ownership and shared interface', async () => {
+  const { stockComponentPrompts } = await import('../../examples/stock-component-prompts.js')
+  assert.match(stockComponentPrompts['implement-stock'], /Return only stock.cjs/)
+  assert.match(stockComponentPrompts['implement-reservation'], /Return only subject.cjs/)
+  for (const prompt of Object.values(stockComponentPrompts)) assert.match(prompt, /debit/)
+})

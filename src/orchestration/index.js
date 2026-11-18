@@ -150,7 +150,7 @@ export async function runAdaptiveAttempt({ bank, attemptId, request: input, feed
   }
   const state = timedOut || combined.reason?.name === 'TimeoutError' || execution?.status === 'timeout' ? 'timeout' : combined.aborted ? 'cancelled' : error ? 'failed' : 'completed'
   let coverageComplete = false
-  if (guardedCallsOnly === true && state === 'completed' && accountingLedgers.length) {
+  if (guardedCallsOnly === true && accountingLedgers.length) {
     const calls = bank.getEvents(attemptId).filter(event => event.kind === 'metrics-v1' && event.payload.data.type === 'call')
       .map(event => event.payload.data.record)
     coverageComplete = calls.length > 0 && accountingLedgers.every(ledger => {

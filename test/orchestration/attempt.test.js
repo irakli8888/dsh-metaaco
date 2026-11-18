@@ -39,6 +39,13 @@ test('failing GREEN blocks REFACTOR and finalizes a failed attempt with expenses
   assert.equal(r.attempt.state, 'failed'); assert.deepEqual(starts, ['green'])
   assert.equal(r.attempt.outcome.measured.knownUsage.inputTokens, 2)
 })
+test('failed GREEN with fully settled guarded calls retains complete cost', async t => {
+  const f = fixture(t)
+  const r = await runAdaptiveAttempt({ ...options(f), guardedCallsOnly: true, createRuntime: runtime([], '0') })
+  assert.equal(r.attempt.state, 'failed')
+  assert.equal(r.attempt.outcome.measured.coverageComplete, true)
+  assert.equal(r.attempt.outcome.calculated.pricingComplete, true)
+})
 test('invalid RED stops before runtime creation and held-out outcomes never update feedback', async t => {
   const f = fixture(t), starts = []
   const r = await runAdaptiveAttempt({ ...options(f), request: { ...f.request, taskId: 'heldout' }, baseSnapshot: snapshot('base'), createRuntime: runtime(starts) })
