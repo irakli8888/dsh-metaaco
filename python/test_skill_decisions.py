@@ -150,3 +150,27 @@ class SkillDecisionTests(unittest.TestCase):
         self.assertEqual(result['choices']['implement'], 'implement/1')
         self.assertEqual(result['quality']['attempts'], 3)
         self.assertEqual(result['makespanSeconds'], 9)
+
+    def test_training_explores_unobserved_feasible_route(self):
+        from skill_decisions import plan_skill_graph
+        from test_metaaco_dag import problem
+
+        def route(model, seconds, cost=1):
+            return {'model': {'provider': 'offline', 'model': model}, 'prompt': 'Work',
+                    'seconds': seconds, 'costMicrounits': cost}
+
+        catalog = {'implement': [route('known', 1), route('new', 3), route('over', 1, 9)],
+                   'refactor': [route('known', 1)]}
+        evidence = [{'route': [['implement', 'offline', 'known', []],
+                               ['refactor', 'offline', 'known', ['implement']]],
+                     'successes': 3, 'attempts': 3}]
+        resources = problem()['plan']['resources']
+        baseline = plan_skill_graph(catalog, resources, 2, quality_evidence=evidence)
+        result = plan_skill_graph(catalog, resources, 2, quality_evidence=evidence, explore_training=True)
+        self.assertEqual(baseline['choices']['implement'], 'implement/0')
+        self.assertEqual(result['choices']['implement'], 'implement/1')
+        self.assertEqual(result['score'], result['objective'])
+        self.assertEqual(result['trace'], baseline['trace'])
+        self.assertEqual(result['exploration']['distinctFeasibleRoutes'], 2)
+        self.assertEqual(result['exploration']['selectedObservedAttempts'], 0)
+        self.assertEqual(result['exploration']['optimizerWinner']['choices'], baseline['choices'])

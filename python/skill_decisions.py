@@ -63,7 +63,8 @@ def search_decisions(groups, evaluate, *, seed=42, max_evaluations=100):
             'score': best.makespan, 'evaluations': manager.budget.used}
 
 
-def search_workflow(groups, build_candidate, budget_microunits, *, quality_evidence=(), **search_options):
+def search_workflow(groups, build_candidate, budget_microunits, *, quality_evidence=(),
+                    explore_training=False, **search_options):
     """Score decoded DAGs by forecast makespan after a hard cost gate."""
     from metaaco_dag import integer, validate_problem
     from vendor.rcpsp.core import (RcpspInstance, SerialScheduleGenerator,
@@ -81,6 +82,7 @@ def search_workflow(groups, build_candidate, budget_microunits, *, quality_evide
         integer(row['successes'], maximum=row['attempts'], minimum=0)
         evidence[route_key(row['route'])] = row
     evaluated = {}
+    routes = {}
     trace = []
     trace_limit = 100
 
@@ -123,6 +125,11 @@ def search_workflow(groups, build_candidate, budget_microunits, *, quality_evide
                           'objective': (1000 - rank) * 86401 + schedule.makespan, 'estimatedCostMicrounits': cost,
                           'makespanSeconds': schedule.makespan, 'rejected': None,
                           'dispatchOrder': [ids[job] for job in sorted(order, key=lambda j: schedule.start_times[j])]}
+        if explore_training:
+            identity = route_key(route)
+            previous = routes.get(identity)
+            if previous is None or (evaluated[key]['objective'], key) < (evaluated[previous]['objective'], previous):
+                routes[identity] = key
         return evaluated[key]
 
     def evaluate(choices):
@@ -134,7 +141,23 @@ def search_workflow(groups, build_candidate, budget_microunits, *, quality_evide
         return row.get('objective')
 
     result = search_decisions(groups, evaluate, **search_options)
-    selected = evaluated[tuple(result['choices'].items())]
+    winner = tuple(result['choices'].items())
+    selected = evaluated[winner]
+    if explore_training:
+        def observed(key):
+            return (evaluated[key]['quality'] or {}).get('attempts', 0)
+
+        best_route = min(routes.values(), key=lambda key: (observed(key), evaluated[key]['objective'], key))
+        # Retain the optimizer's exact schedule when it ties the exploration policy.
+        chosen = winner if (observed(winner), selected['objective']) == (
+            observed(best_route), evaluated[best_route]['objective']) else best_route
+        selected = evaluated[chosen]
+        result = {**result, 'choices': dict(chosen), 'score': selected['objective'],
+                  'exploration': {'schemaVersion': 1, 'policy': 'least-observed-route',
+                                  'distinctFeasibleRoutes': len(routes),
+                                  'selectedObservedAttempts': observed(chosen),
+                                  'optimizerWinner': {'choices': dict(winner), 'score': result['score'],
+                                                      'observedAttempts': observed(winner)}}}
     return {**result, **selected, 'trace': {'schemaVersion': 1, 'evaluations': trace,
                                           'omitted': result['evaluations'] - len(trace)}}
 
@@ -214,4 +237,5 @@ if __name__ == '__main__':
     spec = json.loads(args.catalog.read_text(encoding='utf-8'))
     print(json.dumps(plan_skill_graph(spec['skills'], spec['resources'],
                                      spec['budgetMicrounits'], required_skills=spec.get('requiredSkills', []),
-                                     quality_evidence=spec.get('qualityEvidence', []), seed=args.seed)))
+                                     quality_evidence=spec.get('qualityEvidence', []),
+                                     explore_training=spec.get('exploreTraining') is True, seed=args.seed)))

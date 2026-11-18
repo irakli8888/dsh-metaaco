@@ -43,6 +43,7 @@ export function registerSkillCommand(ctx, path) {
             bank, feedback: job.feedback, candidate: job.candidate, request: job.request,
             baseSnapshot: job.baseSnapshot, skills: job.skills, resources: job.resources,
             requiredSkills: job.requiredSkills, budgetMicrounits: job.budgetMicrounits,
+            exploreTraining: job.exploreTraining,
             evaluationDockerImage: job.evaluationDockerImage, attemptId: randomUUID(),
             signal, allowLlm: true, guardedCallsOnly: true,
             createRuntime: async ({ guardAdapter, signal: attemptSignal }) => {
@@ -72,7 +73,8 @@ export function registerSkillCommand(ctx, path) {
           })
           return { kind: result.attempt.state === 'succeeded' ? 'success' : 'error',
             text: JSON.stringify({ attemptId: result.attempt.attemptId, state: result.attempt.state,
-              choices: result.skillSelection.choices, costs: result.attempt.outcome?.calculated?.costs, feedback: result.feedback }, null, 2) }
+              choices: result.skillSelection.choices, exploration: result.skillSelection.exploration,
+              costs: result.attempt.outcome?.calculated?.costs, feedback: result.feedback }, null, 2) }
         } finally { bank.close() }
       } catch (error) { return { kind: 'error', text: error.message } }
     },

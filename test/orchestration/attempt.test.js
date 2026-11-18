@@ -2,6 +2,8 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { fixture, snapshot, price } from '../fixtures/adaptive.js'
 import { runAdaptiveAttempt } from '../../src/orchestration/index.js'
+import { runSkillAttempt } from '../../src/orchestration/skill-attempt.js'
+import { advanceFeedback } from '../../src/feedback/index.js'
 function runtime(starts, value = 'a+b') {
   return async ({ guardAdapter, signal }) => {
     const adapter = guardAdapter({ async *stream() { yield { type: 'usage', usage: { inputTokens: 2, outputTokens: 1 } }; yield { type: 'finish', reason: { kind: 'stop' } } } }, () => ({ pricing: price, upperBoundMicrounits: 6 }))
@@ -13,6 +15,15 @@ function runtime(starts, value = 'a+b') {
   }
 }
 const options = f => ({ bank: f.bank, attemptId: 'a', request: f.request, feedback: f.feedback, candidates: [f.candidate], bindings: [f.binding], baseSnapshot: f.base, allowLlm: true })
+test('skill exploration rejects held-out tasks and frozen history before creating an attempt', async t => {
+  const f = fixture(t)
+  const frozen = advanceFeedback(f.bank, { manifest: { ...f.manifest, mode: 'frozen' },
+    policy: f.policy, cutoff: '2000-01-01T00:00:00.000Z' })
+  const base = { ...options(f), exploreTraining: true }
+  await assert.rejects(runSkillAttempt({ ...base, request: { ...f.request, taskId: 'heldout' } }), /online-train/)
+  await assert.rejects(runSkillAttempt({ ...base, feedback: frozen }), /online-train/)
+  assert.equal(f.bank.getAttempt('a'), null)
+})
 test('whole attempt independently verifies TDD, stores metrics and advances only training feedback', async t => {
   const f = fixture(t), starts = []
   const r = await runAdaptiveAttempt({ ...options(f), createRuntime: runtime(starts) })

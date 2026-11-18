@@ -12,9 +12,14 @@ import { runAdaptiveAttempt } from './index.js'
 
 const planner = fileURLToPath(new URL('../../python/skill_decisions.py', import.meta.url))
 
-export async function runSkillAttempt({ skills, resources, budgetMicrounits, requiredSkills = [], candidate, ...attempt }) {
+export async function runSkillAttempt({ skills, resources, budgetMicrounits, requiredSkills = [], candidate,
+  exploreTraining = false, ...attempt }) {
   if (attempt.allowLlm !== true) throw new Error('Explicit allowLlm: true is required')
-  const { revision: { policy }, snapshot } = readFeedback(attempt.bank, attempt.feedback)
+  const { revision: { policy, manifest }, snapshot } = readFeedback(attempt.bank, attempt.feedback)
+  if (typeof exploreTraining !== 'boolean') throw new Error('Expected boolean exploreTraining')
+  if (exploreTraining && (manifest.mode !== 'online-train' || !manifest.splits.train.includes(attempt.request.taskId))) {
+    throw new Error('Route exploration requires an online-train manifest and a training task')
+  }
   const allowed = new Set(candidate.route.models.filter(model => policy.allowedModels.includes(model)))
   const catalog = Object.fromEntries(Object.entries(skills).map(([id, routes]) => [id, routes.filter(
     ({ model }) => model && allowed.has(`${model.provider}/${model.model}`))]))
@@ -23,7 +28,7 @@ export async function runSkillAttempt({ skills, resources, budgetMicrounits, req
   let selection
   try {
     const path = join(dir, 'skills.json')
-    await writeFile(path, JSON.stringify({ skills: catalog, resources, requiredSkills, qualityEvidence,
+    await writeFile(path, JSON.stringify({ skills: catalog, resources, requiredSkills, qualityEvidence, exploreTraining,
       budgetMicrounits: Math.min(budgetMicrounits, policy.maxCostMicrounits ?? Infinity) }), { mode: 0o600 })
     const { stdout } = await promisify(execFile)('python3', ['-B', planner, path],
       { timeout: 30000, signal: attempt.signal })
