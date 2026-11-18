@@ -64,7 +64,7 @@ def search_decisions(groups, evaluate, *, seed=42, max_evaluations=100):
 
 
 def search_workflow(groups, build_candidate, budget_microunits, *, quality_evidence=(),
-                    explore_training=False, **search_options):
+                    explore_training=False, training_evidence=(), **search_options):
     """Score decoded DAGs by forecast makespan after a hard cost gate."""
     from metaaco_dag import integer, validate_problem
     from vendor.rcpsp.core import (RcpspInstance, SerialScheduleGenerator,
@@ -83,6 +83,11 @@ def search_workflow(groups, build_candidate, budget_microunits, *, quality_evide
         evidence[route_key(row['route'])] = row
     evaluated = {}
     routes = {}
+    route_attempts = {}
+    for row in training_evidence:
+        integer(row['attempts'])
+        route_attempts[route_key(row['route'])] = row['attempts']
+    observations = {}
     trace = []
     trace_limit = 100
 
@@ -127,6 +132,7 @@ def search_workflow(groups, build_candidate, budget_microunits, *, quality_evide
                           'dispatchOrder': [ids[job] for job in sorted(order, key=lambda j: schedule.start_times[j])]}
         if explore_training:
             identity = route_key(route)
+            observations[key] = route_attempts.get(identity, 0) + (data or {}).get('attempts', 0)
             previous = routes.get(identity)
             if previous is None or (evaluated[key]['objective'], key) < (evaluated[previous]['objective'], previous):
                 routes[identity] = key
@@ -145,7 +151,7 @@ def search_workflow(groups, build_candidate, budget_microunits, *, quality_evide
     selected = evaluated[winner]
     if explore_training:
         def observed(key):
-            return (evaluated[key]['quality'] or {}).get('attempts', 0)
+            return observations[key]
 
         best_route = min(routes.values(), key=lambda key: (observed(key), evaluated[key]['objective'], key))
         # Retain the optimizer's exact schedule when it ties the exploration policy.
@@ -238,4 +244,5 @@ if __name__ == '__main__':
     print(json.dumps(plan_skill_graph(spec['skills'], spec['resources'],
                                      spec['budgetMicrounits'], required_skills=spec.get('requiredSkills', []),
                                      quality_evidence=spec.get('qualityEvidence', []),
+                                     training_evidence=spec.get('trainingEvidence', []),
                                      explore_training=spec.get('exploreTraining') is True, seed=args.seed)))

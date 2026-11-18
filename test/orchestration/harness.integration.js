@@ -174,6 +174,17 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
     assert.equal(result.skillSelection.trace.evaluations.length, result.skillSelection.evaluations)
     assert.match(f.bank.exportJsonl(), /template-selection/)
     assert.deepEqual(result.execution.tasks.map(task => task.id), ['implement', 'refactor'])
+    const second = await run({ ...options, attemptId: 'explore-2', feedback: result.feedback, exploreTraining: true })
+    assert.equal(second.attempt.state, 'succeeded')
+    assert.equal(second.skillSelection.choices.design, 'design/0')
+    assert.equal(second.skillSelection.exploration.optimizerWinner.observedAttempts, 1)
+    assert.equal(second.skillSelection.exploration.selectedObservedAttempts, 0)
+    const third = await run({ ...options, attemptId: 'explore-3', feedback: second.feedback, exploreTraining: true })
+    assert.equal(third.attempt.state, 'succeeded')
+    assert.equal(third.skillSelection.choices.design, 'design/skip')
+    assert.equal(third.skillSelection.exploration.selectedObservedAttempts, 1)
+    assert.deepEqual(routeQualityEvidence(f.bank, readFeedback(f.bank, third.feedback).snapshot, f.request), [])
+    return
     assert.ok(f.bank.exportJsonl().includes('template-selection'))
   }
   if (components) {

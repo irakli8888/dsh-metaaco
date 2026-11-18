@@ -1,12 +1,12 @@
 import { analyzeTask } from '../analyzer/index.js'
 import { validateDag } from '../execution/contracts.js'
 
-export function routeQualityEvidence(bank, snapshot, request) {
+export function routeQualityEvidence(bank, snapshot, request, { sameTask = false } = {}) {
   const type = analyzeTask(request).classification.type.value
-  if (type === null) return []
+  if (type === null && !sameTask) return []
   const groups = new Map()
   for (const record of snapshot.records) {
-    if (record.taskId === request.taskId || !record.evaluationVerified) continue
+    if ((record.taskId === request.taskId) !== sameTask || !record.evaluationVerified) continue
     const success = record.state === 'succeeded' && record.evaluation.status === 'success'
     const testFailure = record.state === 'failed' && record.evaluation.evidence?.phases?.some(phase =>
       ['green', 'refactor'].includes(phase.phase) && phase.reports?.some(report =>

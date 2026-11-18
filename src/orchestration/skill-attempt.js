@@ -24,11 +24,14 @@ export async function runSkillAttempt({ skills, resources, budgetMicrounits, req
   const catalog = Object.fromEntries(Object.entries(skills).map(([id, routes]) => [id, routes.filter(
     ({ model }) => model && allowed.has(`${model.provider}/${model.model}`))]))
   const qualityEvidence = routeQualityEvidence(attempt.bank, snapshot, attempt.request)
+  const trainingEvidence = exploreTraining
+    ? routeQualityEvidence(attempt.bank, snapshot, attempt.request, { sameTask: true })
+    : []
   const dir = await mkdtemp(join(tmpdir(), 'metaaco-skills-'))
   let selection
   try {
     const path = join(dir, 'skills.json')
-    await writeFile(path, JSON.stringify({ skills: catalog, resources, requiredSkills, qualityEvidence, exploreTraining,
+    await writeFile(path, JSON.stringify({ skills: catalog, resources, requiredSkills, qualityEvidence, trainingEvidence, exploreTraining,
       budgetMicrounits: Math.min(budgetMicrounits, policy.maxCostMicrounits ?? Infinity) }), { mode: 0o600 })
     const { stdout } = await promisify(execFile)('python3', ['-B', planner, path],
       { timeout: 30000, signal: attempt.signal })
