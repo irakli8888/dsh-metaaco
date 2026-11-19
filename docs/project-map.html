@@ -674,7 +674,7 @@ code{font-family:var(--mono);font-size:.88em;color:#cfe6ff;background:rgba(124,1
         </div>
         <aside class="step-side">
           <div><h4>Артефакт шага</h4><div class="step-artifact">EvaluationResult: success / failed / inconclusive + отчёты фаз, exit codes, хеши тестов</div></div>
-          <div><h4>Не путать</h4><div class="step-warning">Пропуск тестов — не GREEN. Неполное доказательство — inconclusive, а не успех. Изоляция процессная, не OS sandbox.</div></div>
+          <div><h4>Не путать</h4><div class="step-warning">Пропуск тестов — не GREEN. Неполное доказательство — inconclusive, а не успех. Локальный evaluator предназначен для доверенного кода; реальные серии используют Docker без сети и с ресурсными лимитами.</div></div>
           <div><h4>Где смотреть</h4><p><a href="./tdd-evaluator.md">tdd-evaluator.md</a> · <a href="./deepseek-tdd.md">deepseek-tdd.md</a></p></div>
           <div><button class="map-link" type="button" data-goto="evaluator">Показать узел «TDD Evaluator» на карте ↑</button></div>
         </aside>
@@ -967,7 +967,7 @@ code{font-family:var(--mono);font-size:.88em;color:#cfe6ff;background:rgba(124,1
       </div>
       <div class="tl-item partial">
         <div class="tl-date">17 ноя 2026</div>
-        <div class="tl-body"><h3>Совместный поиск навыков и моделей <span class="tl-status partial">текущая ветка</span></h3><p>Муравьи выбирают навыки, зависимости и маршруты моделей из правил; граф строится лениво, денежный бюджет — жёсткий фильтр. На контрольном графе из четырёх узлов прогноз улучшился с 15 до 11 с и совпал с полным перебором.</p></div>
+        <div class="tl-body"><h3>Совместный поиск навыков и моделей <span class="tl-status ok">в main после PR #25</span></h3><p>Муравьи выбирают навыки, зависимости и маршруты моделей из правил; граф строится лениво, денежный бюджет — жёсткий фильтр. На контрольном графе из четырёх узлов прогноз улучшился с 15 до 11 с и совпал с полным перебором.</p></div>
       </div>
       <div class="tl-item partial">
         <div class="tl-date">17 ноя 2026</div>
@@ -1082,7 +1082,7 @@ code{font-family:var(--mono);font-size:.88em;color:#cfe6ff;background:rgba(124,1
 
 <footer class="footer wrap">
   <div>
-    <p><b>Карта проекта dsh-metaaco.</b> Собрана по документации и коду ревизии ветки <code>codex/joint-skill-scheduling</code>, 19 ноября 2026; код <code>d746332</code>. Учебная модель в симуляторе не является измерением качества и не вызывает Python-решатель. Страница не делает сетевых запросов и не запускает LLM.</p>
+    <p><b>Карта проекта dsh-metaaco.</b> Сверена с <code>main@3bfbf1f</code> после слияния PR #25, 19 ноября 2026. Результаты экспериментального поиска получены на коде <code>d746332</code>. Учебная модель в симуляторе не является измерением качества и не вызывает Python-решатель. Страница не делает сетевых запросов и не запускает LLM.</p>
     <p class="muted">Открывается локально из <code>docs/</code>; ссылки на документы — относительные.</p>
   </div>
   <a class="to-top" href="#top">Наверх ↑</a>
@@ -1328,7 +1328,7 @@ const NODES = {
       'REFACTOR зависит от GREEN и проверяется на его снимке; провал GREEN блокирует REFACTOR.',
       'Success выдаёт только evaluator. completed Harness сам по себе — не успех.'
     ],
-    limits: 'Изоляция процессная, для доверенного локального кода: это не OS sandbox. Неполные доказательства дают inconclusive.',
+    limits: 'Локальный режим предназначен для доверенного кода; Docker-режим изолирует реальные проверки без сети и с лимитами ресурсов. Неполные доказательства дают inconclusive.',
     chips: ['baseline', 'RED', 'GREEN', 'REFACTOR', 'independent'],
     refs: [['TDD Evaluator', './tdd-evaluator.md'], ['DeepSeek TDD', './deepseek-tdd.md']]
   },
