@@ -1,4 +1,5 @@
-import { advanceFeedback } from '../../src/feedback/index.js'
+import { routeQualityEvidence } from '../../src/orchestration/route-quality.js'
+import { advanceFeedback, readFeedback } from '../../src/feedback/index.js'
 import { readInspection, renderInspection } from '../../src/inspector/index.js'
 import { runSkillAttempt } from '../../src/orchestration/skill-attempt.js'
 import { armId } from '../../src/selector/contracts.js'
@@ -19,7 +20,7 @@ import { runAdaptiveAttempt } from '../../src/orchestration/index.js'
 const require = createRequire(import.meta.resolve('@deepseek-ai/dsh-agent'))
 const { LlmAdapter, LlmRuntime } = await import(require.resolve('@deepseek-ai/dsh-llm'))
 import { runTemplateAttempt } from '../../src/orchestration/template-attempt.js'
-for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failure', 'template-feedback', 'template-composed', 'skill-search', 'skill-review', 'skill-mixed-models']) test(`adaptive attempt through published Harness and LlmRuntime: ${mode}`, { skip: mode === 'metaaco' && !process.env.METAACO_SOURCE ? 'Set METAACO_SOURCE' : false }, async t => {
+for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failure', 'template-feedback', 'template-composed', 'skill-search', 'skill-review', 'skill-mixed-models', 'skill-components', 'skill-components-conflict']) test(`adaptive attempt through published Harness and LlmRuntime: ${mode}`, { skip: mode === 'metaaco' && !process.env.METAACO_SOURCE ? 'Set METAACO_SOURCE' : false }, async t => {
   let broken = mode.endsWith('failure')
   const f = fixture(t), calls = [], children = [], releases = []
   let disposed = false, planning = null
@@ -29,15 +30,24 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
     const { stdout } = await promisify(execFile)('python3', ['-B', fileURLToPath(new URL('../../python/metaaco_dag.py', import.meta.url)), '--source', process.env.METAACO_SOURCE, '--problem', path], { timeout: 10000 })
     planning = { problem, result: JSON.parse(stdout) }
   }
+  const components = mode.startsWith('skill-components')
+  const conflict = mode === 'skill-components-conflict'
   const mixed = mode === 'skill-mixed-models'
   const skillReview = mode === 'skill-review' || mixed
+  if (components) {
+    f.plan.resources.agentSlots = 2
+    f.policy.maxConcurrency = 2
+    f.candidate.route.maxConcurrency = 2
+    f.feedback = advanceFeedback(f.bank, { manifest: f.manifest, policy: f.policy,
+      cutoff: '2000-01-01T00:00:00.000Z' })
+  }
   if (mixed) {
     f.policy.allowedModels.push('offline/strong')
     f.candidate.route.models.push('offline/strong')
     f.feedback = advanceFeedback(f.bank, { manifest: f.manifest, policy: f.policy,
       cutoff: '2000-01-01T00:00:00.000Z' })
   }
-  const skillSearch = mode === 'skill-search' || skillReview
+  const skillSearch = mode === 'skill-search' || skillReview || components
   const run = skillSearch ? runSkillAttempt : mode.startsWith("template") ? runTemplateAttempt : runAdaptiveAttempt
   const learning = mode === "template-feedback"
   const composed = mode === 'template-composed'
@@ -70,8 +80,8 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
   const options = {
     ...(skillSearch ? { candidate: f.candidate, budgetMicrounits: 20, resources: f.plan.resources,
       requiredSkills: skillReview ? ['analyze', 'review'] : [],
-      skills: Object.fromEntries((skillReview ? ['implement', 'refactor', 'analyze', 'review'] : ['implement', 'refactor', 'design']).map(id => [id, [{
-        model: f.plan.tasks[0].model, seconds: mixed && id === 'review' ? 8 : 1, costMicrounits: 4, prompt: id,
+      skills: Object.fromEntries((components ? ['implement', 'implement-storage', 'implement-http', 'integrate', 'refactor'] : skillReview ? ['implement', 'refactor', 'analyze', 'review'] : ['implement', 'refactor', 'design']).map(id => [id, [{
+        model: f.plan.tasks[0].model, seconds: components && id === 'implement' ? 12 : mixed && id === 'review' ? 8 : 1, costMicrounits: 4, prompt: id,
       }, ...(mixed && id === 'review' ? [{
         model: { provider: 'offline', model: 'strong' }, seconds: 1, costMicrounits: 8, prompt: id,
       }] : [])]])) } : {}),
@@ -105,6 +115,9 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
             if (skillReview && task.task === 'refactor') {
               assert.deepEqual(task.artifacts.map(artifact => artifact.name).sort(), ['implement', 'review'])
             }
+            if (components && task.task === 'integrate') {
+              assert.deepEqual(task.artifacts.map(artifact => artifact.name).sort(), ['implement-http', 'implement-storage'])
+            }
             if (composed && task.task.startsWith('Combine')) {
               assert.deepEqual(task.artifacts.map(artifact => artifact.name).sort(), ['implement', 'write-tests'])
             }
@@ -114,7 +127,9 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
               for await (const chunk of prepared.stream({ ...prepared.config, messages: [], signal })) {
                 if (chunk.type === 'finish' && chunk.reason.kind === 'error') throw new Error(chunk.reason.failure.message)
               }
-              return { stopReason: 'completed', output: [{ type: 'text', text: JSON.stringify(snapshot(id, broken ? '0' : 'a+b')) }] }
+              return { stopReason: 'completed', output: [{ type: 'text', text: JSON.stringify(components && task.task.startsWith('implement-')
+                ? { revision: id, files: { [conflict ? 'shared.cjs' : task.task + '.cjs']: 'exports.ok = true' } }
+                : snapshot(id, broken ? '0' : 'a+b')) }] }
             })()
             return { id, result, async dispose() { releases.push(id) } }
           } })
@@ -149,10 +164,38 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
   }
   if (mode === 'skill-search') {
     assert.equal(result.skillSelection.choices.design, 'design/skip')
+    const { snapshot: trained } = readFeedback(f.bank, result.feedback)
+    const heldout = { ...f.request, taskId: 'heldout' }
+    const evidence = routeQualityEvidence(f.bank, trained, heldout)
+    assert.equal(evidence.length, 1)
+    assert.equal(evidence[0].successes, 1)
+    assert.equal(evidence[0].attempts, 1)
+    assert.deepEqual(routeQualityEvidence(f.bank, trained, f.request), [])
     assert.equal(result.skillSelection.trace.evaluations.length, result.skillSelection.evaluations)
     assert.match(f.bank.exportJsonl(), /template-selection/)
     assert.deepEqual(result.execution.tasks.map(task => task.id), ['implement', 'refactor'])
+    const second = await run({ ...options, attemptId: 'explore-2', feedback: result.feedback, exploreTraining: true })
+    assert.equal(second.attempt.state, 'succeeded')
+    assert.equal(second.skillSelection.choices.design, 'design/0')
+    assert.equal(second.skillSelection.exploration.optimizerWinner.observedAttempts, 1)
+    assert.equal(second.skillSelection.exploration.selectedObservedAttempts, 0)
+    const third = await run({ ...options, attemptId: 'explore-3', feedback: second.feedback, exploreTraining: true })
+    assert.equal(third.attempt.state, 'succeeded')
+    assert.equal(third.skillSelection.choices.design, 'design/skip')
+    assert.equal(third.skillSelection.exploration.selectedObservedAttempts, 1)
+    assert.deepEqual(routeQualityEvidence(f.bank, readFeedback(f.bank, third.feedback).snapshot, f.request), [])
+    return
     assert.ok(f.bank.exportJsonl().includes('template-selection'))
+  }
+  if (components) {
+    assert.equal(result.skillSelection.choices.layout, 'components')
+    if (conflict) {
+      assert.equal(result.attempt.state, 'failed')
+      assert.ok(result.execution.tasks.some(task => task.reason?.includes('Component file conflict')))
+      assert.ok(!children.includes('integrate'))
+      return
+    }
+    assert.ok(children.includes('integrate'))
   }
   assert.equal(result.attempt.state, broken ? 'failed' : 'succeeded')
   if (composed) {
@@ -172,7 +215,7 @@ for (const mode of ['success', 'failure', 'metaaco', 'template', 'template-failu
         { flag: 'wx', mode: 0o600 })
     }
   }
-  assert.equal(calls.length, composed ? 5 : skillReview ? 4 : broken ? 1 : 2)
+  assert.equal(calls.length, composed ? 5 : (skillReview || components) ? 4 : broken ? 1 : 2)
   assert.equal(releases.length, calls.length); assert.equal(disposed, true)
   assert.equal(result.attempt.outcome.measured.observedCallCount, calls.length)
   assert.equal(f.bank.getBudget('attempt/integration').spentMicrounits, 3 * calls.length)

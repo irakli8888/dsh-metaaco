@@ -1,0 +1,2265 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+<title>Карта проекта dsh-metaaco — как задача становится проверенным опытом</title>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#090f16; --bg2:#0c141d; --panel:#111c28; --panel2:#162432; --panel3:#1b2b3c;
+  --line:#233548; --line2:#34506b; --text:#e9f1fa; --muted:#9db1c7; --dim:#74899f;
+  --green:#5eead4; --green-dim:#2d6f66; --amber:#f3c77a; --violet:#c0a8ff;
+  --blue:#7cc7ff; --pink:#f9a8d4; --red:#fb7185;
+  --radius:16px; --radius-sm:10px;
+  --font:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:86px}
+body{
+  margin:0;background:var(--bg);color:var(--text);font:16px/1.6 var(--font);
+  background-image:
+    radial-gradient(900px 500px at 15% -5%, rgba(94,234,212,.08), transparent 60%),
+    radial-gradient(800px 450px at 92% 8%, rgba(124,199,255,.07), transparent 60%),
+    linear-gradient(180deg,#0a1119 0%,#090f16 100%);
+  background-attachment:fixed;
+}
+h1,h2,h3,h4{margin:0;line-height:1.15;letter-spacing:-.02em;font-weight:650}
+p{margin:0 0 12px}
+ul,ol{margin:0;padding:0;list-style:none}
+a{color:var(--green);text-decoration:none}
+a:hover{text-decoration:underline}
+code{font-family:var(--mono);font-size:.88em;color:#cfe6ff;background:rgba(124,199,255,.08);padding:1px 5px;border-radius:5px}
+[hidden]{display:none!important}
+.skip{position:absolute;left:-999px;top:0;background:var(--green);color:#06221d;padding:10px 14px;z-index:100;border-radius:0 0 8px 0}
+.skip:focus{left:0}
+:focus-visible{outline:2px solid var(--green);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+.section{padding:64px 0 12px}
+.section-head{max-width:780px;margin-bottom:28px}
+.eyebrow{
+  font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--green);
+  font-weight:650;margin:0 0 10px
+}
+.sub{color:var(--muted);margin-top:10px;margin-bottom:0}
+.grad{background:linear-gradient(92deg,var(--green),var(--blue) 55%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+.muted{color:var(--muted)}
+
+/* ---------- top bar ---------- */
+.topbar{position:sticky;top:0;z-index:50;background:rgba(9,15,22,.82);backdrop-filter:blur(14px);border-bottom:1px solid rgba(52,80,107,.35)}
+.topbar-inner{max-width:1240px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;gap:22px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--text);flex:none}
+.brand:hover{text-decoration:none}
+.brand-mark{
+  width:30px;height:30px;display:grid;place-items:center;border-radius:9px;font-weight:800;font-size:15px;
+  color:#06231f;background:linear-gradient(140deg,var(--green),#8be9ff);box-shadow:0 0 22px rgba(94,234,212,.25)
+}
+.brand-text{display:flex;flex-direction:column;line-height:1.1}
+.brand-text b{font-size:14px;letter-spacing:-.01em}
+.brand-text small{font-size:10px;color:var(--dim);letter-spacing:.06em;text-transform:uppercase}
+.nav{display:flex;gap:2px;overflow:auto;scrollbar-width:none;margin-left:auto}
+.nav::-webkit-scrollbar{display:none}
+.nav a{
+  color:var(--muted);font-size:13px;padding:7px 10px;border-radius:8px;white-space:nowrap;
+  border:1px solid transparent
+}
+.nav a:hover{color:var(--text);background:var(--panel);text-decoration:none}
+.nav a.active{color:var(--green);background:rgba(94,234,212,.08);border-color:rgba(94,234,212,.22)}
+
+/* ---------- hero ---------- */
+.hero{padding:58px 0 26px;display:grid;grid-template-columns:minmax(0,1.45fr) minmax(300px,.75fr);gap:44px;align-items:start}
+.hero h1{font-size:clamp(34px,4.6vw,58px);margin:0 0 18px;letter-spacing:-.035em}
+.lead{font-size:17.5px;line-height:1.65;color:#c3d3e5;max-width:640px}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin:24px 0 26px}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:10px;
+  border:1px solid var(--line2);background:var(--panel2);color:var(--text);font-family:inherit;font-size:14px;font-weight:550;
+  cursor:pointer;transition:background .15s,border-color .15s,transform .15s
+}
+.btn:hover{background:var(--panel3);border-color:#4a6b8d;text-decoration:none}
+.btn:active{transform:translateY(1px)}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn-primary{background:linear-gradient(140deg,rgba(94,234,212,.16),rgba(124,199,255,.12));border-color:rgba(94,234,212,.5);color:#d8fff9}
+.btn-primary:hover{background:linear-gradient(140deg,rgba(94,234,212,.24),rgba(124,199,255,.18))}
+.btn-ghost{background:transparent}
+.hero-facts{display:flex;flex-wrap:wrap;gap:8px 18px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:12.5px}
+.hero-facts b{color:var(--text);font-size:15px;margin-right:4px}
+.hero-card{
+  background:linear-gradient(170deg,rgba(22,36,50,.95),rgba(14,24,34,.95));
+  border:1px solid var(--line);border-radius:18px;padding:22px 22px 18px;
+  box-shadow:0 24px 60px rgba(0,0,0,.35);position:relative;overflow:hidden
+}
+.hero-card::before{content:"";position:absolute;inset:0 0 auto;height:1px;background:linear-gradient(90deg,transparent,var(--green),transparent);opacity:.6}
+.card-kicker{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:14px}
+.mini-cycle li{display:flex;align-items:center;gap:11px;padding:7px 0;font-size:13.5px;color:#cfdded;border-bottom:1px dashed rgba(52,80,107,.35)}
+.mini-cycle li:last-child{border-bottom:0}
+.mini-cycle span{
+  flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;
+  font-size:11px;font-weight:700;color:var(--green);background:rgba(94,234,212,.1);border:1px solid rgba(94,234,212,.3)
+}
+.hero-note{font-size:11.5px;color:var(--dim);margin:12px 0 0;line-height:1.5}
+
+/* ---------- principles ---------- */
+.principle-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:14px}
+.principle{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:20px 18px 16px;position:relative;transition:border-color .2s,transform .2s
+}
+.principle:hover{border-color:var(--line2);transform:translateY(-2px)}
+.p-num{font-family:var(--mono);font-size:11px;color:var(--green);letter-spacing:.1em}
+.principle h3{font-size:15.5px;margin:9px 0 8px}
+.principle p{font-size:13px;line-height:1.55;color:var(--muted);margin:0}
+.idea-band{padding:44px 0 8px}
+.idea-inner{
+  border:1px solid rgba(94,234,212,.22);border-radius:20px;padding:28px 30px;
+  background:linear-gradient(120deg,rgba(94,234,212,.07),rgba(124,199,255,.04) 55%,transparent)
+}
+.idea-text{font-size:clamp(17px,2.1vw,22px);line-height:1.5;margin:0;max-width:980px;color:#dbe8f6;letter-spacing:-.015em}
+.idea-text b{color:#fff;font-weight:650}
+
+/* ---------- map ---------- */
+.map-toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.legend-item{display:inline-flex;align-items:center;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex:none}
+.dot.ok{background:var(--green);box-shadow:0 0 8px rgba(94,234,212,.5)}
+.dot.partial{background:var(--amber);box-shadow:0 0 8px rgba(243,199,122,.4)}
+.dot.goal{background:var(--violet);box-shadow:0 0 8px rgba(192,168,255,.4)}
+.map-hint{font-size:12px;color:var(--dim)}
+.map-hint kbd{font-family:var(--mono);font-size:10px;border:1px solid var(--line2);border-bottom-width:2px;border-radius:4px;padding:1px 4px;background:#0d1823}
+.map-scroll{
+  overflow:auto;border:1px solid var(--line);border-radius:18px;
+  background:
+    radial-gradient(700px 300px at 20% 0%,rgba(94,234,212,.04),transparent 60%),
+    linear-gradient(180deg,#0d1721,#0b131c);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.02)
+}
+.map-svg{display:block;width:100%;min-width:1080px;height:auto}
+.map-svg text{font-family:var(--font);fill:var(--text)}
+.edge{fill:none;stroke:#3e5a74;stroke-width:1.4;transition:stroke .2s,opacity .2s}
+.edge.flow{stroke:#4b6d8c}
+.edge.learn{stroke:var(--amber);stroke-dasharray:5 5;opacity:.7}
+.edge.active{stroke:var(--green);stroke-width:2.4;opacity:1;filter:drop-shadow(0 0 4px rgba(94,234,212,.45))}
+.edge.learn.active{stroke:var(--amber);filter:drop-shadow(0 0 4px rgba(243,199,122,.4))}
+.edge.dim{opacity:.25}
+.edge-label.dim{opacity:.25}
+.edge-label{font-size:10.5px;fill:var(--dim);letter-spacing:.02em}
+.edge-label.active{fill:var(--green)}
+.edge-label.learn.active{fill:var(--amber)}
+.edge-label.learn{fill:var(--amber)}
+.node{cursor:pointer;outline:none}
+.node .node-bg{
+  fill:#13202d;stroke:#2d465e;stroke-width:1.2;
+  transition:fill .2s,stroke .2s,opacity .2s;rx:12
+}
+.node:hover .node-bg{fill:#18293a;stroke:#4b7295}
+.node.selected .node-bg{fill:#17302f;stroke:var(--green);stroke-width:2}
+.node.dim{opacity:.3}
+.node-title{font-size:16px;font-weight:650;letter-spacing:-.01em;pointer-events:none}
+.node-sub{font-size:11.5px;fill:var(--muted)!important;pointer-events:none}
+.node-step{font-family:var(--mono);font-size:9px;fill:var(--dim);pointer-events:none}
+.node-status{pointer-events:none}
+.node-badge{font-size:9.5px;letter-spacing:.06em;fill:var(--dim);text-transform:uppercase;pointer-events:none}
+.map-detail{
+  margin-top:16px;background:linear-gradient(170deg,var(--panel2),var(--panel));
+  border:1px solid var(--line);border-radius:18px;padding:22px 24px;
+  animation:fadeIn .25s ease
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.detail-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:4px;flex-wrap:wrap}
+.detail-head h3{font-size:22px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.detail-role{color:#c4d4e6;font-size:14px;max-width:820px;margin:6px 0 16px}
+.status{font-size:10.5px;font-weight:650;letter-spacing:.05em;text-transform:uppercase;padding:3px 8px;border-radius:999px;border:1px solid;white-space:nowrap}
+.status.ok{color:var(--green);border-color:rgba(94,234,212,.35);background:rgba(94,234,212,.08)}
+.status.partial{color:var(--amber);border-color:rgba(243,199,122,.35);background:rgba(243,199,122,.08)}
+.status.goal{color:var(--violet);border-color:rgba(192,168,255,.35);background:rgba(192,168,255,.08)}
+.detail-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:26px}
+.detail-col h4{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin:0 0 8px}
+.detail-col ul{margin:0 0 16px;padding:0}
+.detail-col li{position:relative;padding-left:16px;margin-bottom:7px;font-size:13.2px;line-height:1.5;color:#c3d3e5}
+.detail-col li::before{content:"";position:absolute;left:2px;top:9px;width:5px;height:5px;border-radius:50%;background:var(--green);opacity:.65}
+.io-list li{color:var(--muted)}
+.io-list li::before{background:var(--blue)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 14px}
+.chip{font-size:11px;font-family:var(--mono);color:#bcd3e8;background:#0e1a25;border:1px solid #294157;border-radius:6px;padding:2px 7px}
+.doc-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.doc-links a{font-size:12px;border:1px solid var(--line2);border-radius:8px;padding:5px 9px;background:#0f1a25}
+.doc-links a:hover{border-color:var(--green);text-decoration:none}
+.map-link{font:inherit;font-size:12px;color:var(--green);background:transparent;border:1px solid rgba(94,234,212,.3);border-radius:8px;padding:5px 9px;cursor:pointer}
+.map-link:hover{background:rgba(94,234,212,.08);text-decoration:none}
+.detail-limits{font-size:12.5px;color:var(--amber);border-left:2px solid rgba(243,199,122,.45);padding:8px 0 8px 12px;margin-top:12px;background:linear-gradient(90deg,rgba(243,199,122,.05),transparent)}
+.detail-limits b{color:#f6d9a2;font-weight:600}
+
+/* ---------- steps ---------- */
+.steps-bar{display:flex;gap:6px;overflow:auto;padding:4px 2px 12px;scrollbar-width:thin}
+.step-chip{
+  flex:none;display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:10px;
+  background:var(--panel);border:1px solid var(--line);color:var(--muted);font:inherit;font-size:12.5px;
+  cursor:pointer;transition:border-color .15s,color .15s,background .15s
+}
+.step-chip:hover{border-color:var(--line2);color:var(--text)}
+.step-chip[aria-selected="true"]{border-color:rgba(94,234,212,.55);background:rgba(94,234,212,.09);color:#d8fff9}
+.step-chip i{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-family:var(--mono);font-size:10px;background:rgba(255,255,255,.04);border:1px solid var(--line2)}
+.step-chip[aria-selected="true"] i{background:var(--green);color:#06231f;border-color:var(--green)}
+.step-panel{
+  background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px 28px;
+  display:grid;grid-template-columns:1.35fr .9fr;gap:34px
+}
+.step-kicker{font-family:var(--mono);font-size:11px;color:var(--green);letter-spacing:.1em;margin-bottom:8px}
+.step-panel h3{font-size:clamp(22px,2.6vw,30px);margin-bottom:8px}
+.step-lead{color:#c5d5e6;font-size:15px;margin-bottom:18px}
+.step-points li{position:relative;padding-left:20px;margin-bottom:10px;font-size:13.7px;line-height:1.55;color:#c9d8e8}
+.step-points li::before{content:"";position:absolute;left:3px;top:9px;width:6px;height:6px;border-radius:2px;background:var(--green);opacity:.7;transform:rotate(45deg)}
+.step-side{border-left:1px solid var(--line);padding-left:26px;display:flex;flex-direction:column;gap:16px}
+.step-side h4{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin:0 0 7px}
+.step-side p{font-size:13px;color:var(--muted);line-height:1.55;margin:0}
+.step-artifact{background:#0e1a24;border:1px solid #284056;border-radius:12px;padding:13px 14px;font-size:12.5px;color:#bfd4e7}
+.step-warning{background:rgba(243,199,122,.05);border:1px solid rgba(243,199,122,.22);border-radius:12px;padding:13px 14px;font-size:12.5px;color:#e9cfa1}
+.step-nav{display:flex;justify-content:space-between;gap:10px;margin-top:14px;align-items:center}
+.step-progress{font-family:var(--mono);font-size:11px;color:var(--dim)}
+
+/* ---------- simulator ---------- */
+.sim-shell{background:linear-gradient(180deg,rgba(18,30,42,.9),rgba(12,21,30,.9));border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 30px 80px rgba(0,0,0,.25)}
+.sim-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:2px 2px 14px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.sim-controls .spacer{flex:1}
+.toggle{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--muted);cursor:pointer;user-select:none;padding:5px 8px;border-radius:8px;border:1px solid transparent}
+.toggle:hover{background:rgba(255,255,255,.02)}
+.toggle input{accent-color:var(--green);width:14px;height:14px;margin:0}
+.seed-label{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--dim)}
+.seed-label input{width:64px;background:#0b141d;border:1px solid var(--line2);color:var(--text);border-radius:7px;padding:5px 7px;font:12px var(--mono)}
+.sim-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:14px;align-items:start}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
+.panel-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.panel-head h3{font-size:14px;letter-spacing:-.01em}
+.panel-kicker{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.sim-status{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-bottom:10px}
+.sim-status b{color:var(--text);font-family:var(--mono);font-weight:600}
+.budget-track{height:6px;border-radius:99px;background:#0a131c;border:1px solid #203448;overflow:hidden;margin-bottom:14px}
+.budget-fill{height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--blue));transition:width .25s}
+.gantt{width:100%;height:auto;display:block;background:#0b141d;border:1px solid #1d2f42;border-radius:10px}
+.gantt text{font-family:var(--font);fill:var(--muted)}
+.bar-label{fill:#07120f!important;font-size:9.5px;font-weight:650;pointer-events:none}
+.bar-dur{fill:rgba(7,18,15,.75)!important;font-size:8.5px;pointer-events:none}
+.axis-label{font-size:9px;fill:var(--dim)!important}
+.lane-label{font-size:9px;letter-spacing:.08em;text-transform:uppercase;fill:var(--dim)!important}
+.sim-side{display:flex;flex-direction:column;gap:14px;min-width:0}
+.sim-side .panel{padding:14px}
+.colony-table{width:100%;border-collapse:collapse;font-size:11.5px}
+.colony-table th{text-align:left;color:var(--dim);font-weight:500;font-size:10px;letter-spacing:.05em;text-transform:uppercase;padding:0 5px 7px;border-bottom:1px solid var(--line)}
+.colony-table td{padding:6px 5px;border-bottom:1px solid rgba(35,53,72,.5);color:#c6d6e6;vertical-align:middle}
+.colony-table tr.selected td{background:rgba(94,234,212,.07);color:#e7fffa}
+.colony-table tr.selected td:first-child{box-shadow:inset 2px 0 0 var(--green)}
+.colony-id{display:inline-flex;align-items:center;gap:6px;font-weight:650;color:var(--text)}
+.colony-swatch{width:8px;height:8px;border-radius:2px;display:inline-block}
+.colony-heur{display:block;font-size:8.5px;color:var(--dim);letter-spacing:.01em;margin-top:1px;white-space:nowrap}
+.badge{font-size:8.5px;text-transform:uppercase;letter-spacing:.06em;border:1px solid var(--line2);border-radius:4px;padding:1px 4px;color:var(--dim);margin-left:3px}
+.badge.new{color:var(--violet);border-color:rgba(192,168,255,.35)}
+.ucb-expl{font-size:10.5px;color:var(--dim);margin:10px 0 0;line-height:1.45}
+.sim-bottom{display:grid;grid-template-columns:1.05fr .85fr 1fr;gap:14px;margin-top:14px}
+.heatmap-wrap{overflow:auto}
+.heatmap-grid{display:grid;grid-template-columns:30px repeat(8,1fr);gap:3px;min-width:290px}
+.hm-corner,.hm-head{font-family:var(--mono);font-size:9.5px;color:var(--dim);display:grid;place-items:center;padding:2px 0}
+.hm-head{color:var(--muted)}
+.hm-rowlabel{font-family:var(--mono);font-size:9.5px;color:var(--dim);display:grid;place-items:center}
+.hm-cell{aspect-ratio:1.35;border-radius:4px;background:#0d1823;border:1px solid #1a2c3e;position:relative;transition:transform .12s}
+.hm-cell:hover{transform:scale(1.08);z-index:2}
+.hm-cell.path{border-color:rgba(94,234,212,.6);box-shadow:inset 0 0 0 1px rgba(94,234,212,.5)}
+.hm-legend{display:flex;align-items:center;gap:6px;font-size:9.5px;color:var(--dim);margin-top:8px}
+.hm-scale{width:74px;height:7px;border-radius:99px;background:linear-gradient(90deg,#122433,#5eead4)}
+.elite-list{display:flex;flex-direction:column;gap:7px}
+.elite-item{display:grid;grid-template-columns:22px 1fr auto;gap:8px;align-items:center;background:#0d1823;border:1px solid #1d2f42;border-radius:9px;padding:7px 9px;font-size:11.5px}
+.elite-rank{font-family:var(--mono);color:var(--green);font-size:10px}
+.elite-order{font-family:var(--mono);font-size:10.5px;color:#b9cee2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.elite-cmax{font-family:var(--mono);font-size:11px;color:var(--amber)}
+.elite-empty{font-size:12px;color:var(--dim);padding:8px 0}
+.log{max-height:230px;overflow:auto;font-family:var(--mono);font-size:10.5px;line-height:1.55;display:flex;flex-direction:column;gap:2px}
+.log-line{display:grid;grid-template-columns:24px 34px 1fr;gap:7px;padding:3px 5px;border-radius:5px;color:#afc4d8}
+.log-line:hover{background:rgba(255,255,255,.03)}
+.log-line .t{color:#5c7489}
+.log-line .tag{font-weight:700}
+.log-line.pull .tag{color:var(--green)}
+.log-line.new .tag{color:var(--violet)}
+.log-line.ls .tag{color:var(--amber)}
+.log-line.done .tag{color:var(--blue)}
+.log-line b{color:#e6f3ff;font-weight:600}
+.sim-note{font-size:11px;color:var(--dim);line-height:1.5;margin:12px 2px 0}
+.bruteforce{margin-top:10px;font-size:12px;color:#c9d8e8;display:none;border:1px solid rgba(124,199,255,.3);background:rgba(124,199,255,.06);border-radius:9px;padding:10px 12px}
+.bruteforce.show{display:block}
+.task-map-legend{display:flex;flex-wrap:wrap;gap:5px 12px;font-size:10.5px;color:var(--dim);margin-top:8px}
+.task-map-legend span{display:inline-flex;align-items:center;gap:5px}
+.task-map-legend i{width:7px;height:7px;border-radius:2px;display:inline-block}
+
+/* ---------- concepts ---------- */
+.concept-toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.concept-filter{
+  flex:1;min-width:220px;max-width:380px;background:var(--panel);border:1px solid var(--line2);
+  color:var(--text);border-radius:10px;padding:10px 13px;font:inherit;font-size:13.5px
+}
+.concept-filter::placeholder{color:var(--dim)}
+.concept-count{font-size:12px;color:var(--dim)}
+.concept-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+.concept{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:0;overflow:hidden}
+.concept[open]{border-color:var(--line2);background:linear-gradient(180deg,#14202d,#111b27)}
+.concept summary{
+  cursor:pointer;padding:15px 17px;list-style:none;display:flex;gap:12px;align-items:flex-start;
+  font-weight:600;font-size:14px;line-height:1.35
+}
+.concept summary::-webkit-details-marker{display:none}
+.concept summary::before{
+  content:"+";flex:none;width:18px;height:18px;border-radius:5px;display:grid;place-items:center;
+  font-family:var(--mono);font-size:13px;color:var(--green);background:rgba(94,234,212,.08);
+  border:1px solid rgba(94,234,212,.22);margin-top:1px
+}
+.concept[open] summary::before{content:"−"}
+.concept summary .c-1{display:block;font-weight:600}
+.concept summary .c-2{display:block;font-weight:400;font-size:12px;color:var(--muted);margin-top:3px;line-height:1.45}
+.concept-body{padding:0 17px 16px 47px;font-size:13px;color:#c5d5e6;line-height:1.6}
+.concept-body p{margin-bottom:10px}
+.concept-body ul{margin:0 0 10px}
+.concept-body li{position:relative;padding-left:14px;margin-bottom:6px}
+.concept-body li::before{content:"·";position:absolute;left:2px;color:var(--green)}
+.concept-note{font-size:12px;color:var(--amber);border-left:2px solid rgba(243,199,122,.4);padding-left:10px;margin:10px 0 0}
+.data-table{width:100%;border-collapse:collapse;font-size:12px;margin:8px 0}
+.data-table th{text-align:left;color:var(--dim);font-weight:500;text-transform:uppercase;font-size:9.5px;letter-spacing:.06em;padding:5px 6px;border-bottom:1px solid var(--line2)}
+.data-table td{padding:6px;border-bottom:1px solid rgba(35,53,72,.55);vertical-align:top;color:#c3d3e5}
+.data-table td:first-child{color:var(--text);font-weight:550}
+
+/* ---------- timeline ---------- */
+.timeline{position:relative;margin-top:8px}
+.timeline::before{content:"";position:absolute;left:132px;top:6px;bottom:6px;width:1px;background:linear-gradient(180deg,var(--green-dim),var(--line) 30%,var(--line))}
+.tl-item{display:grid;grid-template-columns:120px 1fr;gap:44px;position:relative;padding:9px 0 20px}
+.tl-item::before{content:"";position:absolute;left:128px;top:16px;width:9px;height:9px;border-radius:50%;background:var(--panel);border:2px solid var(--line2);z-index:1}
+.tl-item.ok::before{border-color:var(--green);background:rgba(94,234,212,.25)}
+.tl-item.partial::before{border-color:var(--amber);background:rgba(243,199,122,.25)}
+.tl-date{font-family:var(--mono);font-size:11px;color:var(--dim);padding-top:13px;text-align:right}
+.tl-body h3{font-size:15px;margin-bottom:5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tl-status{flex:none}
+.tl-body p{font-size:12.8px;color:var(--muted);margin:0;max-width:820px}
+.tl-status{font-size:9.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;border-radius:99px;border:1px solid}
+.tl-status.ok{color:var(--green);border-color:rgba(94,234,212,.3);background:rgba(94,234,212,.06)}
+.tl-status.partial{color:var(--amber);border-color:rgba(243,199,122,.3);background:rgba(243,199,122,.06)}
+.tl-status.goal{color:var(--violet);border-color:rgba(192,168,255,.3);background:rgba(192,168,255,.06)}
+
+/* ---------- limits ---------- */
+.limits-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:16px}
+.limit-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
+.limit-card h3{font-size:16px;margin-bottom:12px}
+.open-list li{display:grid;grid-template-columns:20px 1fr;gap:10px;margin-bottom:11px;font-size:13px;color:#c6d6e6;line-height:1.5}
+.open-list .status{margin-left:4px;vertical-align:1px}
+.open-list .n{font-family:var(--mono);color:var(--violet);font-size:11px;padding-top:2px}
+.reading{display:flex;flex-direction:column;gap:7px}
+.reading a{display:flex;justify-content:space-between;gap:12px;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:#0e1a24;font-size:12.5px;color:#c9dced}
+.reading a:hover{border-color:var(--line2);text-decoration:none;color:#fff}
+.reading a span{color:var(--dim);font-family:var(--mono);font-size:10px;white-space:nowrap}
+.guarantee{font-size:12px;color:var(--muted);line-height:1.55;background:#0d1823;border:1px solid #203448;border-radius:10px;padding:12px 14px;margin-top:14px}
+.guarantee b{color:var(--text)}
+
+/* ---------- footer ---------- */
+.footer{padding:52px 24px 44px;border-top:1px solid var(--line);margin-top:56px;display:flex;justify-content:space-between;gap:24px;align-items:flex-start}
+.footer p{font-size:12px;color:var(--muted);max-width:900px;line-height:1.6;margin:0 0 6px}
+.to-top{font-size:12px;white-space:nowrap}
+
+.stage-foot{display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-top:12px}
+.stage-foot .bruteforce{margin-top:0;flex:1;min-width:220px}
+.how-list{margin:0;padding:0}
+.how-list li{position:relative;padding-left:15px;font-size:12px;line-height:1.55;color:var(--muted);margin-bottom:8px}
+.how-list li::before{content:"→";position:absolute;left:0;top:0;color:var(--green);font-size:11px}
+.how-list b{color:var(--text);font-weight:600}
+.sim-disclaimer{font-size:12px;color:var(--dim);line-height:1.6;margin:14px 4px 0;max-width:1000px}
+.stage{min-width:0}
+.sim-side .panel{min-width:0;overflow-x:auto}
+
+/* ---------- responsive ---------- */
+@media(max-width:1080px){
+  .hero{grid-template-columns:1fr;gap:26px}
+  .hero-card{max-width:560px}
+  .sim-grid{grid-template-columns:1fr}
+  .sim-bottom{grid-template-columns:1fr 1fr}
+  .sim-bottom .log-panel{grid-column:1/-1}
+  .concept-grid{grid-template-columns:1fr}
+  .detail-grid{grid-template-columns:1fr}
+  .step-panel{grid-template-columns:1fr;gap:22px}
+  .step-side{border-left:0;border-top:1px solid var(--line);padding-left:0;padding-top:18px}
+  .limits-grid{grid-template-columns:1fr}
+}
+@media(max-width:760px){
+  .wrap{padding:0 16px}
+  .section{padding:44px 0 8px}
+  .hero{padding:36px 0 16px}
+  .topbar-inner{padding:8px 14px;gap:12px}
+  .brand-text small{display:none}
+  .nav a{font-size:12px;padding:6px 7px}
+  .sim-bottom{grid-template-columns:1fr}
+  .sim-bottom .log-panel{grid-column:auto}
+  .map-svg{min-width:960px}
+  .timeline::before{left:8px}
+  .tl-item{grid-template-columns:1fr;gap:8px;padding-left:28px}
+  .tl-date{text-align:left;padding-top:0}
+  .tl-item::before{left:4px;top:5px}
+  .footer{flex-direction:column}
+  .hero-facts{gap:6px 14px}
+  .step-panel{padding:20px 18px}
+  .map-detail{padding:18px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}
+}
+
+</style>
+</head>
+<body>
+<a class="skip" href="#map">Перейти к карте</a>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#top">
+      <span class="brand-mark" aria-hidden="true">M</span>
+      <span class="brand-text"><b>dsh-metaaco</b><small>карта проекта</small></span>
+    </a>
+    <nav class="nav" aria-label="Разделы карты">
+      <a href="#principles">Принципы</a>
+      <a href="#map">Карта</a>
+      <a href="#steps">Цикл</a>
+      <a href="#sim">Симулятор</a>
+      <a href="#concepts">Понятия</a>
+      <a href="#timeline">Хронология</a>
+      <a href="#runs">Запуски</a>
+      <a href="#limits">Границы</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero wrap">
+    <div class="hero-copy">
+      <p class="eyebrow">Адаптивная оркестрация задач программирования</p>
+      <h1>Задача → доказательство →<br><span class="grad">план → исполнение → опыт</span></h1>
+      <p class="lead">dsh-metaaco учится выбирать стратегию, граф работ и модели для задачи, планирует порядок работ алгоритмом муравьиной колонии и принимает результат только после независимой проверки. Эта карта объясняет, из чего собран цикл, где проходит граница доказанного и что именно делают «муравьи».</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#map">Открыть карту слоёв</a>
+        <a class="btn" href="#sim">Запустить симулятор</a>
+      </div>
+      <ul class="hero-facts" aria-label="Ключевые факты">
+        <li><b>13</b> узлов карты</li>
+        <li><b>7</b> шагов цикла</li>
+        <li><b>3</b> уровня выбора</li>
+        <li><b>4</b> фазы TDD</li>
+      </ul>
+    </div>
+    <aside class="hero-card" aria-label="Цикл одной попытки">
+      <p class="card-kicker">Одна попытка — один замкнутый цикл</p>
+      <ol class="mini-cycle">
+        <li><span>1</span>Зафиксировать задачу и тесты</li>
+        <li><span>2</span>Классифицировать до результата</li>
+        <li><span>3</span>Выбрать стратегию и маршрут</li>
+        <li><span>4</span>Спланировать DAG через MetaACO</li>
+        <li><span>5</span>Исполнить в Harness с бюджетом</li>
+        <li><span>6</span>Доказать качество независимо</li>
+        <li><span>7</span>Записать исход и обновить опыт</li>
+      </ol>
+      <p class="hero-note">Пунктирная петля на карте — обучение: только подтверждённые исходы становятся наградой.</p>
+    </aside>
+  </section>
+
+  <section id="principles" class="wrap section">
+    <div class="section-head">
+      <p class="eyebrow">Зачем всё это</p>
+      <h2>Пять принципов, из которых собран проект</h2>
+      <p class="sub">Если запомнить только этот блок — уже будет понятно, почему компонентов так много.</p>
+    </div>
+    <div class="principle-grid">
+      <article class="principle">
+        <span class="p-num">01</span>
+        <h3>Сначала доказательство, потом оптимизация</h3>
+        <p>Банк, evaluator и метрики появились раньше селектора и ACO. Оптимизатор без проверенных исходов учился бы на самоотчётах агента.</p>
+      </article>
+      <article class="principle">
+        <span class="p-num">02</span>
+        <h3>Планировщик не исполняет</h3>
+        <p>Python-MetaACO решает, <em>что</em> и <em>в каком порядке</em> запускать. Harness исполняет узлы и передаёт артефакты. Это разные ответственности и разные языки.</p>
+      </article>
+      <article class="principle">
+        <span class="p-num">03</span>
+        <h3>Две неопределённости — два алгоритма</h3>
+        <p>LinUCB выбирает стратегию и маршрут моделей по контексту. UCB внутри MetaACO решает, какой колонии дать бюджет. Это не один и тот же «UCB».</p>
+      </article>
+      <article class="principle">
+        <span class="p-num">04</span>
+        <h3>Память отдельно от текущего поиска</h3>
+        <p>Strategy Bank — постоянная история задач и попыток. EliteArchive — временная полка лучших расписаний внутри solver. Их нельзя путать.</p>
+      </article>
+      <article class="principle">
+        <span class="p-num">05</span>
+        <h3>Деньги — с гарантией, неизвестное — null</h3>
+        <p>Перед вызовом модели нужен верхний предел стоимости и резерв в ledger. Расчёт по тарифу не выдаётся за счёт провайдера, а неизвестный usage не считается нулём.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="idea-band wrap">
+    <div class="idea-inner">
+      <p class="eyebrow">Главная идея за 20 секунд</p>
+      <p class="idea-text">Это не «умный промпт». Это <b>фабрика проверенных решений</b>: она фиксирует критерии до работы, планирует граф под ограничения, исполняет его по частям, независимо проверяет и только затем превращает исход в обучающий сигнал.</p>
+    </div>
+  </section>
+
+  <section id="map" class="wrap section">
+    <div class="section-head">
+      <p class="eyebrow">Карта слоёв</p>
+      <h2>Из чего собран цикл</h2>
+      <p class="sub">Верхний ряд — путь одной задачи. Нижний — память, деньги и измерения, которые этот путь обслуживают. Нажмите на узел, чтобы увидеть роль, входы, выходы и честные ограничения.</p>
+    </div>
+    <div class="map-toolbar">
+      <div class="legend" aria-label="Легенда статусов">
+        <span class="legend-item"><i class="dot ok"></i> в коде, проверено офлайн</span>
+        <span class="legend-item"><i class="dot partial"></i> работает с оговорками</span>
+        <span class="legend-item"><i class="dot goal"></i> открытая веха, не доказано</span>
+      </div>
+      <p class="map-hint">Клик или <kbd>Tab</kbd> + <kbd>Enter</kbd> · связи подсвечиваются · <b>пунктир</b> — обучение</p>
+    </div>
+    <div class="map-scroll" id="map-scroll" tabindex="0" aria-label="Интерактивная схема компонентов. Используйте Tab для перехода между узлами">
+      <svg id="map-svg" class="map-svg" viewBox="0 0 1420 430" role="group" aria-label="Схема компонентов проекта"></svg>
+    </div>
+    <div class="map-detail" id="map-detail" aria-live="polite">
+      <noscript><p class="muted">Для интерактивной карты нужен JavaScript. Содержание также описано в разделах ниже.</p></noscript>
+    </div>
+  </section>
+
+  <section id="steps" class="wrap section">
+    <div class="section-head">
+      <p class="eyebrow">Вехи алгоритма</p>
+      <h2>Семь шагов одной попытки</h2>
+      <p class="sub">Можно читать подряд: каждый шаг опирается на предыдущий и оставляет после себя проверяемый артефакт. В конце — что именно не надо путать.</p>
+    </div>
+    <div class="steps-bar" role="tablist" aria-label="Шаги цикла">
+      <button class="step-chip" role="tab" aria-selected="true" data-step="1"><i>1</i>Задача и тесты</button>
+      <button class="step-chip" role="tab" aria-selected="false" data-step="2"><i>2</i>Анализ</button>
+      <button class="step-chip" role="tab" aria-selected="false" data-step="3"><i>3</i>Выбор</button>
+      <button class="step-chip" role="tab" aria-selected="false" data-step="4"><i>4</i>MetaACO</button>
+      <button class="step-chip" role="tab" aria-selected="false" data-step="5"><i>5</i>Исполнение</button>
+      <button class="step-chip" role="tab" aria-selected="false" data-step="6"><i>6</i>Проверка</button>
+      <button class="step-chip" role="tab" aria-selected="false" data-step="7"><i>7</i>Опыт</button>
+    </div>
+
+    <div class="step-panels">
+      <article class="step-panel" data-panel="1">
+        <div class="step-main">
+          <p class="step-kicker">ШАГ 01 · ДО ИСПОЛНЕНИЯ</p>
+          <h3>Зафиксировать задачу и проверку</h3>
+          <p class="step-lead">Пока ничего не сгенерировано, но уже известно, что будет считаться успехом.</p>
+          <ul class="step-points">
+            <li><b>TaskRequest</b>: taskId, репозиторий и baseCommit, требования, acceptance criteria.</li>
+            <li><b>TestSpec</b>: наборы тестов, закреплённые команды и <code>expectedRedTests</code>. Спека и её хеш фиксируются до патча.</li>
+            <li><b>baseSnapshot</b> <code>{revision, files}</code> обязан совпадать с baseCommit; подменить контрольные тесты файлами от агента нельзя.</li>
+            <li><b>UserPolicy</b>: разрешённые модели и инструменты, лимиты денег и времени, concurrency, минимальное качество, веса целей.</li>
+            <li>Задача заранее отнесена к train / validation / test. Признаки для истории и для нового запроса считаются одинаково.</li>
+          </ul>
+        </div>
+        <aside class="step-side">
+          <div><h4>Артефакт шага</h4><div class="step-artifact">pinned request + test spec + policy + base snapshot</div></div>
+          <div><h4>Не путать</h4><div class="step-warning">«Модель сказала, что всё готово» — не критерий. Без закреплённых тестов успех не измерим.</div></div>
+          <div><h4>Где смотреть</h4><p><a href="./tdd-evaluator.md">tdd-evaluator.md</a> · <a href="./architecture.md">architecture.md</a></p></div>
+          <div><button class="map-link" type="button" data-goto="request">Показать узел «Запрос и тесты» на карте ↑</button></div>
+        </aside>
+      </article>
+
+      <article class="step-panel" data-panel="2" hidden>
+        <div class="step-main">
+          <p class="step-kicker">ШАГ 02 · КЛАССИФИКАЦИЯ</p>
+          <h3>Понять задачу, не заглядывая в ответ</h3>
+          <p class="step-lead">Контекст нужен, чтобы сравнивать похожие задачи и выбирать маршрут по признакам, известным заранее.</p>
+          <ul class="step-points">
+            <li>Правила <b>rules-v1</b> определяют тип: bugfix, feature, refactor, testing, documentation или unknown.</li>
+            <li>Стек: python, javascript, typescript, java, rust, go, react, node, sqlite, postgres. Неизвестный стек получает отдельный признак.</li>
+            <li>Вектор <b>selector-context-v1</b> — 18 чисел: intercept + 6 типов + 10 стеков + unknown-stack.</li>
+            <li>Одинаковые правила применяются к прошлым попыткам и к новой задаче; иначе сравнение смещено в пользу одного из маршрутов.</li>
+            <li>Сложность и произвольные требования пока в вектор не входят — это заявленное ограничение, а не забытая деталь.</li>
+          </ul>
+        </div>
+        <aside class="step-side">
+          <div><h4>Артефакт шага</h4><div class="step-artifact">task-analysis с типом, стеком и 18-мерным контекстом</div></div>
+          <div><h4>Не путать</h4><div class="step-warning">Исход попытки не может быть признаком: это утечка из будущего. Анализ выполняется до первого агента.</div></div>
+          <div><h4>Где смотреть</h4><p><a href="./task-analyzer.md">task-analyzer.md</a> · <a href="./strategy-selector.md">strategy-selector.md</a></p></div>
+          <div><button class="map-link" type="button" data-goto="analyzer">Показать узел «Task Analyzer» на карте ↑</button></div>
+        </aside>
+      </article>
+
+      <article class="step-panel" data-panel="3" hidden>
+        <div class="step-main">
+          <p class="step-kicker">ШАГ 03 · ДОПУСК И ВЫБОР</p>
+          <h3>Отфильтровать кандидатов, затем учиться</h3>
+          <p class="step-lead">Сначала политика, только потом LinUCB: исследовательский бонус не обходит запреты.</p>
+          <ul class="step-points">
+            <li>Кандидат = стратегия + маршрут моделей/инструментов + прогнозы времени, денег и качества + признак TDD.</li>
+            <li>Отбрасываются запрещённые модели и инструменты, лишняя concurrency, несовместимый тип задачи и нарушение лимитов.</li>
+            <li><b>Arm</b> — это SHA-256 от стратегии и маршрута. Смена версии, модели, инструментов или concurrency создаёт новый arm; прогнозы arm не меняют.</li>
+            <li><b>Disjoint LinUCB</b>: своя ridge-модель на arm, score = xᵀA⁻¹b + α·√(xᵀA⁻¹x).</li>
+            <li>Награда: подтверждённый success ≥ 0; failed/timeout/cancelled/interrupted −1; inconclusive — <code>null</code>, модель не обучается.</li>
+            <li>Снимок истории замораживается по train-списку и cutoff. На отложенном тесте используется frozen-снимок.</li>
+          </ul>
+        </div>
+        <aside class="step-side">
+          <div><h4>Артефакт шага</h4><div class="step-artifact">SelectionDecision: выбранный arm, полная policy, причины исключения кандидатов</div></div>
+          <div><h4>Не путать</h4><div class="step-warning">Прогноз — не гарантия и не верхняя граница стоимости. Selector не резервирует деньги и не запускает модель.</div></div>
+          <div><h4>Где смотреть</h4><p><a href="./strategy-selector.md">strategy-selector.md</a> · <a href="../src/feedback/index.js">src/feedback</a></p></div>
+          <div><button class="map-link" type="button" data-goto="selector">Показать узел «Selector» на карте ↑</button></div>
+        </aside>
+      </article>
+
+      <article class="step-panel" data-panel="4" hidden>
+        <div class="step-main">
+          <p class="step-kicker">ШАГ 04 · ПЛАНИРОВАНИЕ</p>
+          <h3>Спланировать граф: MetaACO</h3>
+          <p class="step-lead">Настоящий Python-решатель переставляет альтернативы и декодирует их в допустимый DAG с приоритетами.</p>
+          <ul class="step-points">
+            <li>Модель — RCPSP: работы = шаги, длительности = прогнозы в секундах, ресурсы = слоты агентов, зависимости = DAG.</li>
+            <li>Группы решений: обязательные implement и refactor; опциональные analyze, design, write-tests, review или skip; layout monolith / components; маршрут модели для каждого навыка.</li>
+            <li>Муравей строит перестановку альтернатив. Декодер берёт первую встреченную альтернативу каждой группы — получаются навыки, модели и структура графа.</li>
+            <li>Феромон — матрица «позиция × работа». Испарение и отложение идут в собственной матрице выбранной колонии.</li>
+            <li>Из выбора строится DAG: зависимости фиксированы правилами, а перестановка задаёт приоритеты готовых узлов. Порядок — не запрет параллельности.</li>
+            <li><b>Бюджет — жёсткий фильтр</b>: вариант дороже лимита отбрасывается до исполнения. Стоимость не «компенсируется» скоростью.</li>
+            <li>SSGS (последовательная схема) ставит работы по одной на самое раннее допустимое время; Cmax — прогнозная длительность в секундах.</li>
+            <li>UCB между колониями: сначала неисследованные, затем mean + c·√(log T / mass). Награда — относительное улучшение. Колонии не работают параллельно: UCB выбирает одну на итерацию.</li>
+            <li>Элитный архив усиливает феромоны, репликация с мутацией создаёт новую колонию, локальный поиск меняет места в порядке.</li>
+            <li>Цель совместного поиска: сначала сглаженная успешность маршрута из банка, затем более короткий makespan. Неизвестный маршрут получает нейтральный приоритет.</li>
+          </ul>
+        </div>
+        <aside class="step-side">
+          <div><h4>Артефакт шага</h4><div class="step-artifact">plan v3 + trace оценок (до 100) + выбранные маршруты и приоритеты</div></div>
+          <div><h4>Не путать</h4><div class="step-warning">Cmax — прогноз, а не фактическая latency. Совпадение с перебором на одном графе не гарантирует оптимум на других.</div></div>
+          <div><h4>Где смотреть</h4><p><a href="./metaaco-algorithm.md">metaaco-algorithm.md</a> · <a href="./strategy-templates.md">strategy-templates.md</a></p></div>
+          <div><button class="map-link" type="button" data-goto="metaaco">Показать узел «MetaACO» на карте ↑</button></div>
+        </aside>
+      </article>
+
+      <article class="step-panel" data-panel="5" hidden>
+        <div class="step-main">
+          <p class="step-kicker">ШАГ 05 · ИСПОЛНЕНИЕ</p>
+          <h3>Исполнить граф с бюджетом</h3>
+          <p class="step-lead">Исполнитель не решает, что делать. Он выполняет уже проверенный план и передаёт артефакты.</p>
+          <ul class="step-points">
+            <li>Узел: <code>id</code>, prompt, dependsOn, inputs, slots, model. Зависимость без input означает только порядок, а не передачу результата.</li>
+            <li>Готовые узлы запускаются, если их slots помещаются в ёмкость. Барьеров нет: независимые ветки перекрываются во времени.</li>
+            <li>Каждый узел — отдельный Harness run. Выход — текстовый артефакт по SHA-256; потомок получает только явно указанные inputs.</li>
+            <li>Budget adapter: проверка route/consent → quote верхнего предела → резерв в SQLite ledger → dispatch. Параллельные вызовы не тратят один остаток.</li>
+            <li>К моменту создания runtime baseline и ожидаемый RED уже пройдены; иначе агенты не вызываются.</li>
+            <li>Cancel и timeout прекращают новый dispatch, отменяют активные runs и ждут освобождения handles; <code>dispose()</code> обязателен.</li>
+            <li>Автоматического retry/resume нет: после сбоя создаётся новая попытка решением оркестратора.</li>
+          </ul>
+        </div>
+        <aside class="step-side">
+          <div><h4>Артефакт шага</h4><div class="step-artifact">execution report, artifacts dag-output/&lt;id&gt;, события dag-start/task/finish</div></div>
+          <div><h4>Не путать</h4><div class="step-warning">Слоты логические, не CPU/RAM. Исполнитель не финализирует попытку и не считает деньги.</div></div>
+          <div><h4>Где смотреть</h4><p><a href="./dag-executor.md">dag-executor.md</a> · <a href="./adaptive-attempt.md">adaptive-attempt.md</a></p></div>
+          <div><button class="map-link" type="button" data-goto="executor">Показать узел «DAG Executor» на карте ↑</button></div>
+        </aside>
+      </article>
+
+      <article class="step-panel" data-panel="6" hidden>
+        <div class="step-main">
+          <p class="step-kicker">ШАГ 06 · НЕЗАВИСИМАЯ ПРОВЕРКА</p>
+          <h3>Доказать качество: baseline → RED → GREEN → REFACTOR</h3>
+          <p class="step-lead">baseline и RED выполняются до первого агента, GREEN и REFACTOR — на границах DAG. Без корректного RED патч не попадает в GREEN.</p>
+          <ul class="step-points">
+            <li><b>baseline</b> должен пройти на исходном коде — иначе задача или тесты сломаны до начала работы.</li>
+            <li><b>RED</b>: падают ровно <code>expectedRedTests</code>, и только с <code>ERR_ASSERTION</code>. Ошибка импорта, сети или runner не доказывает RED.</li>
+            <li><b>GREEN</b>: к снимку применяется вывод implement-узла; целевые, обязательные и регрессионные тесты должны пройти.</li>
+            <li><b>REFACTOR</b> прямо зависит от GREEN и получает его снимок. Провал GREEN блокирует REFACTOR.</li>
+            <li><code>verifyArtifact</code> вызывается после сохранения output, но до completed и запуска потомков — поэтому провал останавливает ветку.</li>
+            <li>Success выдаёт только evaluator. <code>stopReason: completed</code> и самоотчёт агента — не оценка корректности.</li>
+          </ul>
+        </div>
+        <aside class="step-side">
+          <div><h4>Артефакт шага</h4><div class="step-artifact">EvaluationResult: success / failed / inconclusive + отчёты фаз, exit codes, хеши тестов</div></div>
+          <div><h4>Не путать</h4><div class="step-warning">Пропуск тестов — не GREEN. Неполное доказательство — inconclusive, а не успех. Изоляция процессная, не OS sandbox.</div></div>
+          <div><h4>Где смотреть</h4><p><a href="./tdd-evaluator.md">tdd-evaluator.md</a> · <a href="./deepseek-tdd.md">deepseek-tdd.md</a></p></div>
+          <div><button class="map-link" type="button" data-goto="evaluator">Показать узел «TDD Evaluator» на карте ↑</button></div>
+        </aside>
+      </article>
+
+      <article class="step-panel" data-panel="7" hidden>
+        <div class="step-main">
+          <p class="step-kicker">ШАГ 07 · ПАМЯТЬ И ОБУЧЕНИЕ</p>
+          <h3>Сохранить опыт и замкнуть петлю</h3>
+          <p class="step-lead">Попытка становится единицей обучения, а не строчкой в чате.</p>
+          <ul class="step-points">
+            <li><b>Metrics</b>: spans фаз, usage, расчётная стоимость, coverage flag. Расходы провалов и повторов тоже сохраняются.</li>
+            <li><b>Attempt record</b>: состояние, проверки, артефакты и метрики. После падения процесса попытка становится interrupted, а не success.</li>
+            <li><b>Feedback</b>: новая immutable-версия строится только из завершённых train-попыток строго до cutoff.</li>
+            <li>Для held-out/frozen исходы сохраняются, но обучение на них запрещено. Frozen отказывает в обновлении истории.</li>
+            <li>Награда LinUCB считается по измеренному времени и расчётной стоимости подтверждённого success; inconclusive не обучает.</li>
+            <li>Неудачные исходы не удаляются. Обновление Feedback — явный шаг доверенного приложения, а не скрытая запись банка.</li>
+          </ul>
+        </div>
+        <aside class="step-side">
+          <div><h4>Артефакт шага</h4><div class="step-artifact">outcome + revision Feedback + запись попытки в Strategy Bank</div></div>
+          <div><h4>Не путать</h4><div class="step-warning">Польза обучения пока не доказана полной серией. Есть полный перебор одной учебной задачи и повторные проверки; перенос на независимые задачи требует отдельной серии.</div></div>
+          <div><h4>Где смотреть</h4><p><a href="./dag-metrics-feedback.md">dag-metrics-feedback.md</a> · <a href="./experiments.md">experiments.md</a></p></div>
+          <div><button class="map-link" type="button" data-goto="feedback">Показать узел «Feedback» на карте ↑</button></div>
+        </aside>
+      </article>
+    </div>
+    <div class="step-nav">
+      <button class="btn" id="step-prev" type="button">← Назад</button>
+      <span class="step-progress" id="step-progress">01 / 07</span>
+      <button class="btn" id="step-next" type="button">Далее →</button>
+    </div>
+  </section>
+
+  <section id="sim" class="wrap section">
+    <div class="section-head">
+      <p class="eyebrow">Симулятор · учебная модель</p>
+      <h2>Как муравьи собирают расписание</h2>
+      <p class="sub">Восемь работ, два слота, три колонии и общий бюджет оценок. Нажимайте «Шаг» и смотрите, как феромоны, UCB, элита, локальный поиск и репликация меняют план. Это не вызов Python-решателя: модель повторяет механику, но не измеряет качество LLM.</p>
+    </div>
+
+    <div class="sim-shell">
+      <div class="sim-controls">
+        <button class="btn btn-primary" id="sim-step" type="button">▶ Шаг</button>
+        <button class="btn" id="sim-auto" type="button" aria-pressed="false">Авто</button>
+        <button class="btn btn-ghost" id="sim-reset" type="button">Сброс</button>
+        <label class="toggle"><input type="checkbox" id="sim-ls" checked> локальный поиск</label>
+        <label class="toggle"><input type="checkbox" id="sim-repl" checked> репликация</label>
+        <span class="spacer"></span>
+        <label class="seed-label">seed <input id="sim-seed" type="number" value="42" min="0" max="999999" inputmode="numeric"></label>
+        <button class="btn btn-ghost" id="sim-seed-new" type="button">Новый</button>
+      </div>
+
+      <div class="sim-grid">
+        <div class="panel stage">
+          <div class="panel-head">
+            <h3>Лучшее расписание</h3>
+            <span class="panel-kicker" id="sim-iteration">итерация 0 / 60</span>
+          </div>
+          <div class="sim-status">
+            <span>оценок <b id="sim-evals">0</b> / 60</span>
+            <span>лучший Cmax <b id="sim-best">—</b></span>
+            <span>последний муравей <b id="sim-last">—</b></span>
+            <span>колоний <b id="sim-colonies">3</b></span>
+          </div>
+          <div class="budget-track" role="progressbar" aria-valuemin="0" aria-valuemax="60" aria-valuenow="0" aria-label="Бюджет оценок"><div class="budget-fill" id="sim-budget"></div></div>
+          <svg id="gantt" class="gantt" viewBox="0 0 760 158" role="img" aria-label="Диаграмма лучшего расписания по двум слотам"></svg>
+          <div class="task-map-legend" id="task-legend"></div>
+          <div class="stage-foot">
+            <button class="btn" id="sim-brute" type="button">Сравнить с полным перебором</button>
+            <div class="bruteforce" id="bruteforce" role="status"></div>
+          </div>
+          <p class="sim-note">Полосы — окна работ в лучшем найденном расписании. Цвет — тип работы, подпись — длительность. Слоты логические: два «агента» могут работать одновременно. Один шаг = один муравей; в реальном поиске на итерацию приходится несколько муравьёв.</p>
+        </div>
+
+        <div class="sim-side">
+          <div class="panel">
+            <div class="panel-head"><h3>Колонии и UCB</h3><span class="panel-kicker">кому дать бюджет</span></div>
+            <table class="colony-table">
+              <thead><tr><th>колония</th><th>α / β</th><th>ρ / q₀</th><th>запуски</th><th>награда</th><th>UCB</th><th>Cmax</th></tr></thead>
+              <tbody id="colony-body"></tbody>
+            </table>
+            <p class="ucb-expl">UCB-бонус = c·√(log T / запуски). Он помогает не застрять на первой удачной колонии. Это выбор <em>колонии</em>, а не стратегии LLM. На каждом шаге UCB выбирает ровно одну колонию.</p>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head"><h3>Феромоны</h3><span class="panel-kicker" id="hm-title">колония A</span></div>
+            <div class="heatmap-wrap"><div class="heatmap-grid" id="heatmap" role="img" aria-label="Матрица феромонов: позиция в порядке × работа"></div></div>
+            <div class="hm-legend"><span>слабее</span><span class="hm-scale"></span><span>сильнее</span><span>·</span><span>обводка — путь последнего муравья</span></div>
+            <p class="sim-note">Строки — позиции в перестановке, столбцы — работы. Испарение и отложение идут только в колонии, выбранной UCB.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="sim-bottom">
+        <div class="panel">
+          <div class="panel-head"><h3>Элитный архив</h3><span class="panel-kicker">лучшие расписания</span></div>
+          <div class="elite-list" id="elite"></div>
+          <p class="sim-note">Элита усиливает феромоны выбранной колонии. Это не Strategy Bank: архив живёт внутри поиска и не хранит историю LLM-попыток.</p>
+        </div>
+        <div class="panel log-panel">
+          <div class="panel-head"><h3>Трасса поиска</h3><span class="panel-kicker">последние события</span></div>
+          <div class="log" id="sim-log" aria-live="polite"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3>Как это читать</h3><span class="panel-kicker">механика</span></div>
+          <ul class="how-list">
+            <li><b>Муравей</b> на каждой позиции выбирает из готовых работ: τ<sup>α</sup>·η<sup>β</sup>, с вероятностью q₀ — жадно, иначе рулеткой.</li>
+            <li><b>SSGS</b> ставит работы по порядку на самое раннее допустимое время, соблюдая два слота.</li>
+            <li><b>UCB</b> выбирает колонию; <b>элита</b> подкрепляет лучший след; <b>LS</b> пробует обмены; при улучшении появляется новая колония.</li>
+            <li>Цель — минимум Cmax: момента завершения последней работы. В реальном joint-поиске качество маршрута идёт первым слагаемым, а время — вторым.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <p class="sim-disclaimer">Честно: симулятор перебирает не все возможные расписания и не доказывает оптимум. Кнопка «полный перебор» проверяет все перестановки восьми работ, но SSGS всё равно эвристика декодирования. В настоящем проекте 3 стартовые колонии и до 100 оценок; здесь — 60 оценок, один муравей на шаг и упрощённые параметры, чтобы механика оставалась наглядной и работала в браузере.</p>
+  </section>
+
+  <section id="concepts" class="wrap section">
+    <div class="section-head">
+      <p class="eyebrow">Ключевые понятия</p>
+      <h2>То, что чаще всего путают</h2>
+      <p class="sub">Раскройте карточку. Внутри — короткое различие и практическое следствие, а не пересказ документации.</p>
+    </div>
+    <div class="concept-toolbar">
+      <input class="concept-filter" id="concept-filter" type="search" placeholder="Фильтр: банк, бюджет, RED, UCB…" aria-label="Фильтр понятий">
+      <span class="concept-count" id="concept-count">10 понятий</span>
+    </div>
+    <div class="concept-grid" id="concept-grid">
+      <details class="concept" open data-keywords="три уровня выбор ucb linucb колония муравей стратегия">
+        <summary><span><span class="c-1">Три уровня выбора — не один «UCB»</span><span class="c-2">Стратегия, колония и перестановка решаются разными механизмами</span></span></summary>
+        <div class="concept-body">
+          <table class="data-table">
+            <thead><tr><th>Уровень</th><th>Кто решает</th><th>Из чего</th><th>Сигнал</th></tr></thead>
+            <tbody>
+              <tr><td>Стратегия и маршрут</td><td>disjoint LinUCB</td><td>18 признаков задачи + история</td><td>исход evaluator</td></tr>
+              <tr><td>Колония</td><td>эмпирический UCB</td><td>число выборов и награды колоний</td><td>относительное улучшение</td></tr>
+              <tr><td>Перестановка</td><td>муравей</td><td>феромоны τ, эвристика η, q₀</td><td>Cmax / оценка графа</td></tr>
+            </tbody>
+          </table>
+          <p>Верхний уровень отвечает на вопрос «какой маршрут вообще пробовать». Средний — «какой колонии дать следующий бюджет». Нижний — «в каком порядке ставить работы». Смешивать их — значит не понимать, почему в проекте два разных bandit-алгоритма.</p>
+          <p class="concept-note">Контекстный LinUCB стратегий пока не является входным вектором UCB колоний: у них разные пространства решений и разные награды.</p>
+        </div>
+      </details>
+
+      <details class="concept" data-keywords="strategy bank elite archive банк элит память расписания">
+        <summary><span><span class="c-1">Strategy Bank ≠ EliteArchive</span><span class="c-2">Постоянная история попыток и временная полка лучших расписаний</span></span></summary>
+        <div class="concept-body">
+          <p><b>Strategy Bank</b> — SQLite-хранилище: версии стратегий, задачи, попытки, события, артефакты по SHA-256. Живёт между задачами и перезапусками.</p>
+          <p><b>EliteArchive</b> — ограниченный список лучших расписаний внутри одного запуска solver. Используется для усиления феромонов и инициализации новых колоний, исчезает вместе с поиском.</p>
+          <p>Поэтому фраза «MetaACO+bank» означает доступ к <em>межзадачной</em> истории. В обоих режимах элитный архив по умолчанию включён — это не одно и то же.</p>
+          <p class="concept-note">В банке хранятся и провалы, и отмены. «Чистить неудобное» нельзя: это искажает обучение и отчётность.</p>
+        </div>
+      </details>
+
+      <details class="concept" data-keywords="прогноз измерение стоимость billing смета тариф usage">
+        <summary><span><span class="c-1">Прогноз, измерение, расчёт и счёт — четыре разные вещи</span><span class="c-2">Неизвестное значение — null, а не ноль</span></span></summary>
+        <div class="concept-body">
+          <table class="data-table">
+            <thead><tr><th>Что</th><th>Пример</th><th>Чем не является</th></tr></thead>
+            <tbody>
+              <tr><td>Прогноз</td><td>Cmax 19 с, cost 900 microunits (микродоли валюты)</td><td>не факт и не верхняя граница</td></tr>
+              <tr><td>Измерение</td><td>wall time, usage, exit code</td><td>не счёт провайдера</td></tr>
+              <tr><td>Расчёт</td><td>токены × закреплённый тариф</td><td>не подтверждённый billing</td></tr>
+              <tr><td>Счёт</td><td>подтверждённый billing провайдера</td><td>хранится отдельно и не выводится из токенов</td></tr>
+            </tbody>
+          </table>
+          <p>Прогнозы используются для допуска и планирования. После исполнения они сравниваются с измерениями, но не подменяют их. Верхняя граница стоимости появляется только из quote бюджетного адаптера.</p>
+          <p class="concept-note">Стоимость успешной попытки без полного покрытия вызовов не выдаётся: лучше null с причиной, чем красивая цифра.</p>
+        </div>
+      </details>
+
+      <details class="concept" data-keywords="completed success red green tdd evaluator предполётная проверка">
+        <summary><span><span class="c-1">completed ≠ success, а падение ≠ RED</span><span class="c-2">Успех — это доказанный исход, а не финальное сообщение агента</span></span></summary>
+        <div class="concept-body">
+          <p><code>stopReason: completed</code> значит, что Harness довёл граф до конца. Это не значит, что код правильный, тесты настоящие, а бюджет не превышен.</p>
+          <p>RED считается доказанным, только когда на исходном коде падают <b>ровно</b> ожидаемые тесты и <b>только</b> с <code>ERR_ASSERTION</code>. Сбой импорта, недоступная сеть или ошибка runner — это ошибка среды; она даёт inconclusive, а не RED.</p>
+          <p>GREEN и REFACTOR прогоняют набор заново по закреплённым тестам. Если GREEN упал, REFACTOR блокируется. Итоговый статус выставляет независимый evaluator, а не автор патча.</p>
+        </div>
+      </details>
+
+      <details class="concept" data-keywords="бюджет лимит quote резерв ledger деньги microunits">
+        <summary><span><span class="c-1">Лимит бюджета — не то же самое, что quote</span><span class="c-2">Резерв, верхний предел и фактический расход</span></span></summary>
+        <div class="concept-body">
+          <p><b>Лимит</b> (policy.maxCostMicrounits) говорит, сколько всего можно потратить. <b>Quote</b> — гарантированный верхний предел конкретного запроса, включающий input bounds, output/reasoning cap и доп. начисления. Без такого предела вызов отклоняется до сетевого I/O.</p>
+          <p>Перед dispatch сумма резервируется в SQLite ledger. Параллельные запросы не могут потратить один и тот же остаток. После нормального finish резерв сверяется с тарифом, остаток освобождается; при ошибке или неизвестном usage резерв удерживается.</p>
+          <p class="concept-note">Это защита от перерасхода, а не доказательство отсутствия скрытых retry внутри провайдерского адаптера. Их нужно отключать или закладывать в quote.</p>
+        </div>
+      </details>
+
+      <details class="concept" data-keywords="immutable версии provenance хеш arm snapshot cutoff воспроизводимость">
+        <summary><span><span class="c-1">Immutable-версии и provenance: почему всё хешируется</span><span class="c-2">armId, snapshot, cutoff и SHA-256 артефактов</span></span></summary>
+        <div class="concept-body">
+          <p>Стратегия, решение селектора, снимок истории и артефакт не перезаписываются. Новая версия — это новый объект со ссылкой на предыдущий. Поэтому можно ответить на вопрос «почему система поступила так в тот раз».</p>
+          <p><b>armId</b> — SHA-256 от стратегии и маршрута. Смена версии стратегии, модели, инструментов или concurrency создаёт новый arm: старые награды не наследуются.</p>
+          <p><b>Cutoff</b> отсекает будущее: в обучающий снимок попадают только попытки, завершённые строго до него. Хеш проверяет целостность, но не удостоверяет автора: локальный банк можно подделать.</p>
+        </div>
+      </details>
+
+      <details class="concept" data-keywords="dag слоты зависимости артефакты план v3 параллельность">
+        <summary><span><span class="c-1">DAG: зависимости — не порядок, слоты — не CPU</span><span class="c-2">Что именно гарантирует исполнитель</span></span></summary>
+        <div class="concept-body">
+          <p>План v3 задаёт узлы, зависимости, входы и веса слотов. Зависимость без input означает только «начни позже», а не автоматическую передачу результата. Артефакт передаётся, только если он явно указан во inputs.</p>
+          <p>Готовый узел запускается, если его slots помещаются в свободную ёмкость. Барьеров между независимыми ветками нет: потомок стартует сразу после своего producer. Слоты логические; они не ограничивают CPU или RAM процесса.</p>
+          <p class="concept-note">completed графа не финализирует попытку. Это делают evaluator, metrics и оркестратор отдельными шагами.</p>
+        </div>
+      </details>
+
+      <details class="concept" data-keywords="train test held-out frozen обучающая выборка утечка">
+        <summary><span><span class="c-1">Train, held-out и frozen: где можно учиться</span><span class="c-2">Почему замороженный снимок важнее «умного» обновления</span></span></summary>
+        <div class="concept-body">
+          <p>История делится по задачам и семействам заранее. Награда и обновление обучающей истории строятся только по train-попыткам, завершённым до cutoff. Validation и test не участвуют в выборе.</p>
+          <p>На отложенном тесте используется один закреплённый frozen-снимок: новые исходы можно сохранять, но нельзя подмешивать в обучение. Иначе сравнение режимов превращается в подгонку.</p>
+          <p class="concept-note">Даже одинаковый seed не делает ответы реальной LLM побитово воспроизводимыми. Воспроизводится протокол, а не текст модели.</p>
+        </div>
+      </details>
+
+      <details class="concept" data-keywords="почему не цепочка промптов chaining orchestration">
+        <summary><span><span class="c-1">Почему это не «цепочка промптов»</span><span class="c-2">Проверяемые границы вместо надежды на модель</span></span></summary>
+        <div class="concept-body">
+          <p>Цепочка промптов передаёт текст дальше и верит, что модель сделала правильно. Здесь между шагами стоят проверяемые контракты: схема плана, лимиты, резервы, независимые тесты, артефакты по хешу и явные причины отказа.</p>
+          <p>Планировщик, исполнитель и оценщик — разные компоненты с разными правами. Модель не решает, прошла ли она тесты, и не выбирает себе бюджет.</p>
+          <p class="concept-note">При этом промпт-инъекция не исчезает: JSON-envelope не защищает модель от вредоносного текста в артефакте. Права детей задаёт конфигурация профиля.</p>
+        </div>
+      </details>
+
+      <details class="concept" data-keywords="доказано открыто статус ограничения roadmap">
+        <summary><span><span class="c-1">Что уже доказано, а что только реализовано</span><span class="c-2">Три честных статуса этой карты</span></span></summary>
+        <div class="concept-body">
+          <p><b>В коде, проверено офлайн</b> — есть реализация и тесты без реальных LLM. Это не доказывает экономию или качество на живых задачах.</p>
+          <p><b>С оговорками</b> — работает, но охват, перенос или серия не завершены: cost coverage, перенос маршрутов, установка в профиль.</p>
+          <p><b>Цель</b> — заявлено в архитектуре, но не доказано: польза обучения на независимых задачах, полная серия из семи baseline, воспроизводимый релиз.</p>
+          <p class="concept-note">Зелёный статус на карте не означает «научно превосходит альтернативы». Он означает «реализовано и проверено на офлайн-тестах».</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section id="timeline" class="wrap section">
+    <div class="section-head">
+      <p class="eyebrow">Хронология</p>
+      <h2>Как проект дошёл до совместного поиска</h2>
+      <p class="sub">Порядок этапов не случайный: сначала хранение и проверка исходов, затем анализ, выбор, DAG и только потом optimizer и Feedback. Это снимок ревизии, а не вечный статус.</p>
+    </div>
+    <div class="timeline">
+      <div class="tl-item ok">
+        <div class="tl-date">25 окт 2026</div>
+        <div class="tl-body"><h3>База: Harness-адаптер и Python-мост <span class="tl-status ok">вошло в базу</span></h3><p>main@08e0a1e: фиксированные стадии, preview, явный <code>--allow-llm</code>, отмена и dispose. Python-план v1 serial-order, проверка расписания. Интеграционные тесты идут с offline-провайдером, без реальных LLM.</p></div>
+      </div>
+      <div class="tl-item ok">
+        <div class="tl-date">25 окт 2026</div>
+        <div class="tl-body"><h3>Strategy Bank <span class="tl-status ok">этап 1</span></h3><p>SQLite-банк: неизменяемые версии стратегий, задачи, попытки, события и артефакты по SHA-256. Отдельный API <code>dsh-metaaco/bank</code> и миграции.</p></div>
+      </div>
+      <div class="tl-item ok">
+        <div class="tl-date">25 окт 2026</div>
+        <div class="tl-body"><h3>Независимый TDD Evaluator <span class="tl-status ok">этап 2</span></h3><p>Закреплённые Node-тесты по фазам baseline / RED / GREEN / REFACTOR, собственные отчёты в банке. Локальный адаптер для доверенного кода.</p></div>
+      </div>
+      <div class="tl-item partial">
+        <div class="tl-date">25 окт 2026</div>
+        <div class="tl-body"><h3>Metrics и общий бюджет <span class="tl-status partial">этап 3</span></h3><p>Время, usage, закреплённые тарифы, отдельные счета провайдера и атомарные резервы SQLite. Жёсткий лимит автоматически не включается: admission применяется в инструментированной точке dispatch.</p></div>
+      </div>
+      <div class="tl-item ok">
+        <div class="tl-date">14 ноя 2026</div>
+        <div class="tl-body"><h3>Task Analyzer <span class="tl-status ok">этап 4</span></h3><p>rules-v1: тип задачи, стек, 18 признаков контекста. Классификация только по данным, доступным до исполнения.</p></div>
+      </div>
+      <div class="tl-item ok">
+        <div class="tl-date">14 ноя 2026</div>
+        <div class="tl-body"><h3>Contextual Selector <span class="tl-status ok">этап 5</span></h3><p>Disjoint LinUCB, замороженный train-снимок, фильтры политики, проверка происхождения evaluator. Ручной pipeline, без автоматического dispatch.</p></div>
+      </div>
+      <div class="tl-item ok">
+        <div class="tl-date">14 ноя 2026</div>
+        <div class="tl-body"><h3>DAG Executor: план v3 <span class="tl-status ok">этап 6</span></h3><p>Зависимости без барьеров, веса слотов, артефакты через банк, отдельные Harness runs, отмена, timeout и replay protection. Планы v1/v2 сохранили прежние интерфейсы.</p></div>
+      </div>
+      <div class="tl-item ok">
+        <div class="tl-date">14 ноя 2026</div>
+        <div class="tl-body"><h3>MetaACO → DAG <span class="tl-status ok">этап 7</span></h3><p>Настоящий ColonyManager, взвешенная модель слотов, проверка расписания на стороне Python и JS, planner artifact перед Harness.</p></div>
+      </div>
+      <div class="tl-item partial">
+        <div class="tl-date">14 ноя 2026</div>
+        <div class="tl-body"><h3>Метрики DAG и версии Feedback <span class="tl-status partial">этап 8</span></h3><p>Наблюдение исполнения, неизменяемые revisions истории, train-only обновление. Охват подтверждается для доверенного guarded dispatch по вызовам и резервациям. Неизвестные расходы сохраняются явно.</p></div>
+      </div>
+      <div class="tl-item ok">
+        <div class="tl-date">14 ноя 2026</div>
+        <div class="tl-body"><h3>Единый цикл попытки <span class="tl-status ok">этап 9</span></h3><p><code>runAdaptiveAttempt</code>: выбор, независимые gates, DAG, метрики и Feedback через программный API. Бюджет гарантируется явно обёрнутым LLM-адаптером.</p></div>
+      </div>
+      <div class="tl-item partial">
+        <div class="tl-date">15 ноя 2026</div>
+        <div class="tl-body"><h3>Шаблоны стратегий <span class="tl-status partial">компиляция</span></h3><p><code>compileStrategies</code> превращает задачу и шаблон в допустимый граф с ролями и маршрутами; до 16 вариантов сравниваются существующим MetaACO. Компилятор добавляет REFACTOR после итогового снимка реализации.</p></div>
+      </div>
+      <div class="tl-item partial">
+        <div class="tl-date">17 ноя 2026</div>
+        <div class="tl-body"><h3>Совместный поиск навыков и моделей <span class="tl-status partial">текущая ветка</span></h3><p>Муравьи выбирают навыки, зависимости и маршруты моделей из правил; граф строится лениво, денежный бюджет — жёсткий фильтр. На контрольном графе из четырёх узлов прогноз улучшился с 15 до 11 с и совпал с полным перебором.</p></div>
+      </div>
+      <div class="tl-item partial">
+        <div class="tl-date">17 ноя 2026</div>
+        <div class="tl-body"><h3>Пилоты маршрутов и переноса <span class="tl-status partial">пилот, не серия</span></h3><p>Flash-only и смешанный Flash/Pro на event-range; три пары на отложенных задачах с пустым и учебным снимком. Одна пара на задачу — не семь baseline и не статистический результат.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="runs" class="wrap section">
+    <div class="section-head">
+      <p class="eyebrow">Реальные эксперименты · 18–19 ноября 2026</p>
+      <h2>От полного перебора к выбору MetaACO</h2>
+      <p class="sub">Задача «Резервирование товара» выполнялась на Lenovo через DeepSeek Flash и Pro. Цель — измерить маршруты одной задачи, получить эталон для поиска и проверить выбранные муравьями варианты повторно.</p>
+    </div>
+    <div class="limits-grid">
+      <article class="limit-card">
+        <h3>Почему 1 836 маршрутов</h3>
+        <p>Каталог позволяет включать или пропускать анализ, проектирование и ревью, выбирая одну из двух моделей. Обязательный рефакторинг имеет две модели. Реализация выполняется одним агентом либо двумя компонентами, а тестовый план добавляется опционально.</p>
+        <p>Для монолита существует 2 × (1 + 2 × 2) = 10 сочетаний реализации, тестового плана и интеграции. Для компонентов — 2² × 2 × 3 = 24. Общий размер — 3³ × 2 × (10 + 24) = <b>1 836</b>: 540 монолитных и 1 296 компонентных вариантов.</p>
+        <p>Число относится к этому каталогу. Оно не включает все возможные промпты, зависимости и перестановки расписания. В полном переборе порядок маршрутов фиксирован; каждый получает один реальный запуск.</p>
+      </article>
+      <article class="limit-card">
+        <h3>Что происходит в каждой попытке</h3>
+        <p>Одинаковая исходная версия кода → baseline и ожидаемый RED → вызовы моделей по графу → независимый GREEN → рефакторинг → повторные тесты.</p>
+        <p>Приёмка проверяет успешное резервирование, нехватку остатка, неизвестный SKU, неизменность входных данных и сохранение version(). Модель получает задачу и артефакты родителей. Обязательные тесты закреплены заранее. Навык write-tests в этой серии создаёт короткий тестовый план; набор приёмки он не расширяет.</p>
+        <p>Тесты исполняются в Docker на Lenovo без сети, с файловой системой только для чтения, непривилегированным пользователем и ресурсными лимитами. Harness и API-клиент работают снаружи контейнера.</p>
+        <p>SQLite-банк сохраняет все исходы, код, события и отчёты тестов. Время измеряется, стоимость рассчитывается по токенам и закреплённому тарифу. Отчёт обновляется после каждой попытки.</p>
+      </article>
+      <article class="limit-card">
+        <h3>Первый полный перебор</h3>
+        <p><b>1 836/1 836</b> попыток, <b>581</b> успешная, 1 255 неуспешных. Выполнено 8 352 API-вызова. Известная расчётная стоимость — <b>$9,634925</b>, у 1 255 попыток полнота стоимости первоначально не подтверждена.</p>
+        <p>В 1 198 попытках компоненты конфликтовали за subject.cjs. Общее монолитное задание противоречило их распределению файлов. Эти исходы сохранены с причиной и ограничивают выводы о качестве компонентной стратегии.</p>
+        <p>Короткий успешный route-0001 стоил $0,000546 и занял 7,113 с. Route-0011 занял 7,097 с. Разница 16 мс при одном запуске не устанавливает устойчивого преимущества.</p>
+      </article>
+      <article class="limit-card">
+        <h3>Исправленная компонентная серия</h3>
+        <p><b>1 296/1 296</b> попыток, <b>1 171</b> успешная (90,4%), 125 неуспешных. Выполнено 8 397 API-вызовов. Известная расчётная стоимость — <b>$9,070648</b>, две попытки имеют неполный учёт.</p>
+        <p>Инструкции закрепили stock.cjs за debit, subject.cjs — за reserve. Общий интерфейс описан явно. Исправленный учёт позволяет подтвердить стоимость неуспешного решения, если все API-вызовы завершены и резервации сопоставлены.</p>
+        <p>Серия сохранена отдельно. Для последующего поиска взяты 540 монолитных наблюдений первой серии и 1 296 исправленных компонентных. Исторически успешны 1 685 маршрутов.</p>
+        <p><a href="./stock-exhaustive-correction.md">Протокол исправления</a> · <a href="../examples/run-stock-exhaustive.js">Исполняемый перебор</a></p>
+      </article>
+      <article class="limit-card">
+        <h3>Что выбрали муравьи по накопленному опыту</h3>
+        <p>Настоящий многоколониальный MetaACO выполнил десять поисков с seeds 0–9, по 100 локальных оценок. Маршруты могут посещаться повторно. Для качества использованы 1 716 подтверждённых исходов успеха или провала тестов; длительности прогнозируются по медианам измерений узлов.</p>
+        <p>Восемь поисков выбрали route-0001, один — route-0011, один — route-0069. Это выбор по полной истории той же учебной задачи. История подана экспериментальному Python-запуску явно; обычный runSkillAttempt исключает собственную задачу из прогноза качества.</p>
+        <p>Локальная оценка не вызывает DeepSeek и не доказывает прохождение тестов нового исполнения. За ней следует реальная проверка выбранного маршрута.</p>
+        <p><a href="../python/stock_experience_replay.py">Код проверки поиска</a> · <a href="./stock-metaaco-replay.md">Подробный отчёт</a></p>
+      </article>
+      <article class="limit-card">
+        <h3>Девять подтверждающих запусков</h3>
+        <ul>
+          <li>route-0001, реализация → рефакторинг: <b>3/3</b> успеха, медиана 5,041 с и $0,000522.</li>
+          <li>route-0011, реализация и тестовый план → интеграция → рефакторинг: <b>3/3</b>, 6,462 с и $0,001033.</li>
+          <li>route-0069, реализация → ревью → рефакторинг: <b>2/3</b>, 7,108 с и $0,000871. Одна попытка провалила GREEN.</li>
+        </ul>
+        <p>Медианы рассчитаны по успешным повторам. Всего 25 API-вызовов, $0,006556, полный учёт. Все этапы этих выбранных маршрутов использовали Flash.</p>
+        <p>Повторы выполнялись последовательно, переборы — четырьмя работниками. Разница нагрузки ограничивает сравнение абсолютного времени между сериями. Три повтора дают предварительную оценку стабильности.</p>
+      </article>
+    </div>
+    <p class="concept-note">Открытые проверки — семь baseline при одинаковом числе реальных исполнений, перенос на независимые задачи с замороженной историей, повторяемость результатов и восстановление полноты стоимости первой серии. Эти эксперименты подтверждают исполнение и восстановление хороших маршрутов на одной задаче. Преимущество MetaACO и обобщение опыта ещё требуют измерений.</p>
+  </section>
+
+  <section id="limits" class="wrap section">
+    <div class="section-head">
+      <p class="eyebrow">Границы карты</p>
+      <h2>Что уже работает и что пока открыто</h2>
+      <p class="sub">Карта должна быть полезной не только когда всё хорошо. Здесь перечислено, где заканчиваются доказательства.</p>
+    </div>
+    <div class="limits-grid">
+      <div class="limit-card">
+        <h3>Работает в этой ревизии</h3>
+        <ul class="open-list">
+          <li><span class="n">✓</span><span>Банк, TDD-гейты, метрики и бюджетный адаптер с офлайн-тестами.</span></li>
+          <li><span class="n">✓</span><span>Классификация задачи и выбор маршрута по замороженной истории.</span></li>
+          <li><span class="n">✓</span><span>DAG v3: зависимости, слоты, артефакты, отмена и timeout.</span></li>
+          <li><span class="n">✓</span><span>MetaACO выбирает навыки, структуру графа и модели; план проверяется независимо.</span></li>
+          <li><span class="n">✓</span><span>Сквозной офлайн-цикл: выбор → RED/GREEN → DAG → оценка → Feedback.</span></li>
+          <li><span class="n">✓</span><span>Пилоты маршрутизации и переноса на отложенных задачах, с сохранёнными расходами.</span></li>
+        </ul>
+        <div class="guarantee"><b>Проверки без реальных LLM:</b><br><code>pnpm test</code><br><code>pnpm test:integration</code><br><code>git diff --check</code><br>Интеграция использует настоящий опубликованный Harness с offline-провайдером.</div>
+      </div>
+      <div class="limit-card">
+        <h3>Открытые вехи и ограничения</h3>
+        <ul class="open-list">
+          <li><span class="n">01</span><span><b>Польза обучения не доказана.</b> <span class="status goal">цель</span> Нужна серия из семи baseline на независимых задачах с повторами и интервалами.</span></li>
+          <li><span class="n">02</span><span><b>Перенос ограничен.</b> Маршруты с иной структурой, чем в обучающей истории, пока не переносятся.</span></li>
+          <li><span class="n">03</span><span><b>Релиз не завершён.</b> Проверки установки и пилотов описаны в документации; совместимость каждого Desktop-профиля требует отдельной проверки. Публикация в npm владельцем отложена.</span></li>
+          <li><span class="n">04</span><span><b>Охват стоимости неполный.</b> Harness-наблюдатель не доказывает учёт всех физических retries и запросов.</span></li>
+          <li><span class="n">05</span><span><b>Два режима evaluator.</b> Доверенный код проверяется локально; реальные серии используют закреплённый Docker-образ без сети, с доступом к файлам только для чтения и лимитами ресурсов.</span></li>
+          <li><span class="n">06</span><span><b>Цель skill-поиска — оценка качества и прогноз времени.</b> Модели назначаются по этапам. Стоимость ограничивает допуск, но непосредственно в целевой функции этого поиска не минимизируется.</span></li>
+        </ul>
+        <p class="concept-note">Симулятор на этой странице — учебная модель на восемь работ. Он не вызывает Python-решатель и не является измерением качества.</p>
+      </div>
+    </div>
+
+    <div class="limit-card" style="margin-top:16px">
+      <h3>Что читать дальше</h3>
+      <div class="reading">
+        <a href="./architecture.md">Архитектура и правила развития <span>architecture.md</span></a>
+        <a href="./metaaco-algorithm.md">Реальный Python MetaACO: классы и механика <span>metaaco-algorithm.md</span></a>
+        <a href="./strategy-bank.md">Strategy Bank и версии стратегий <span>strategy-bank.md</span></a>
+        <a href="./tdd-evaluator.md">Независимый TDD Evaluator <span>tdd-evaluator.md</span></a>
+        <a href="./strategy-selector.md">Contextual UCB и награда <span>strategy-selector.md</span></a>
+        <a href="./dag-executor.md">План v3 и артефакты <span>dag-executor.md</span></a>
+        <a href="./adaptive-attempt.md">Единый цикл попытки и бюджет <span>adaptive-attempt.md</span></a>
+        <a href="./project-completion.md">Вехи завершения и открытые вопросы <span>project-completion.md</span></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer wrap">
+  <div>
+    <p><b>Карта проекта dsh-metaaco.</b> Собрана по документации и коду ревизии ветки <code>codex/joint-skill-scheduling</code>, 19 ноября 2026; код <code>d746332</code>. Учебная модель в симуляторе не является измерением качества и не вызывает Python-решатель. Страница не делает сетевых запросов и не запускает LLM.</p>
+    <p class="muted">Открывается локально из <code>docs/</code>; ссылки на документы — относительные.</p>
+  </div>
+  <a class="to-top" href="#top">Наверх ↑</a>
+</footer>
+
+<script>
+'use strict';
+const $ = (id) => document.getElementById(id);
+const NS = 'http://www.w3.org/2000/svg';
+
+/* ------------------------------------------------------------------ */
+/*  Навигация и подсветка текущего раздела                             */
+/* ------------------------------------------------------------------ */
+(() => {
+  const links = [...document.querySelectorAll('.nav a')];
+  const sections = links
+    .map((a) => document.querySelector(a.getAttribute('href')))
+    .filter(Boolean);
+  if (!('IntersectionObserver' in window)) return;
+  const observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      links.forEach((a) => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+    }
+  }, { rootMargin: '-35% 0px -55% 0px' });
+  sections.forEach((section) => observer.observe(section));
+})();
+
+/* ------------------------------------------------------------------ */
+/*  Шаги цикла                                                        */
+/* ------------------------------------------------------------------ */
+(() => {
+  const chips = [...document.querySelectorAll('.step-chip')];
+  const panels = [...document.querySelectorAll('.step-panel')];
+  const progress = $('step-progress');
+  const prev = $('step-prev');
+  const next = $('step-next');
+  let index = 1;
+
+  function show(n, scroll = false) {
+    index = Math.min(panels.length, Math.max(1, n));
+    chips.forEach((chip, i) => {
+      const on = i + 1 === index;
+      chip.setAttribute('aria-selected', String(on));
+      chip.tabIndex = on ? 0 : -1;
+    });
+    panels.forEach((panel) => { panel.hidden = Number(panel.dataset.panel) !== index; });
+    progress.textContent = `${String(index).padStart(2, '0')} / ${String(panels.length).padStart(2, '0')}`;
+    prev.disabled = index === 1;
+    next.disabled = index === panels.length;
+    if (scroll) chips[index - 1]?.scrollIntoView({ inline: 'nearest', block: 'nearest' });
+  }
+
+  chips.forEach((chip) => chip.addEventListener('click', () => show(Number(chip.dataset.step), true)));
+  prev.addEventListener('click', () => show(index - 1, true));
+  next.addEventListener('click', () => show(index + 1, true));
+  document.querySelector('.steps-bar').addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowRight') { event.preventDefault(); show(index + 1, true); chips[index - 1].focus(); }
+    if (event.key === 'ArrowLeft') { event.preventDefault(); show(index - 1, true); chips[index - 1].focus(); }
+  });
+  show(1);
+})();
+
+/* ------------------------------------------------------------------ */
+/*  Карта слоёв                                                       */
+/* ------------------------------------------------------------------ */
+const STATUS_LABEL = {
+  ok: 'в коде · проверено офлайн',
+  partial: 'работает с оговорками',
+  goal: 'цель, не доказано'
+};
+const STATUS_COLOR = { ok: '#5eead4', partial: '#f3c77a', goal: '#c0a8ff' };
+
+const NODES = {
+  request: {
+    x: 20, y: 26, accent: '#7cc7ff', kind: 'ВХОД', status: 'ok',
+    title: 'Запрос и тесты', sub: 'TaskRequest + TestSpec',
+    role: 'Фиксирует, что нужно сделать и как это будет проверено — до появления патча и до первого вызова модели.',
+    inputs: ['Требования, репозиторий и baseCommit, acceptance criteria.', 'TestSpec: наборы тестов, команды и expectedRedTests.', 'baseSnapshot {revision, files}.'],
+    outputs: ['TaskRequest v1 и закреплённый TestSpec.', 'baseSnapshot, совпадающий с baseCommit.', 'Границы train / validation / test для эксперимента.'],
+    how: [
+      'TestSpec и контрольные тесты закрепляются до генерации патча: подменить их выводом агента нельзя.',
+      'Ожидаемый RED — только ERR_ASSERTION и ровно по перечисленным тестам. Сбой импорта или среды — не RED.',
+      'baseSnapshot.revision обязан совпадать с request.baseCommit, иначе попытка не создаётся.'
+    ],
+    limits: 'Это контракт, а не запуск проверок. Реальные команды выполняет независимый evaluator.',
+    chips: ['TaskRequest v1', 'TestSpec', 'baseSnapshot', 'expectedRedTests'],
+    refs: [['Архитектура', './architecture.md'], ['TDD Evaluator', './tdd-evaluator.md']]
+  },
+  policy: {
+    x: 20, y: 170, accent: '#f3c77a', kind: 'ПРАВИЛА', status: 'ok',
+    title: 'Политика', sub: 'UserPolicy v1',
+    role: 'Разрешает и запрещает: модели, инструменты, деньги, время, параллельность, минимальное качество и веса целей.',
+    inputs: ['Ограничения и цели владельца.', 'Закреплённые model revisions и тарифы.'],
+    outputs: ['Policy v1: allowedModels, allowedTools, лимиты, веса, нормировки.', 'Хеш policy внутри SelectionDecision.'],
+    how: [
+      'Фильтры применяются до scoring: исследовательский бонус не обходит запрет.',
+      'Сумма весов равна 1; нормировки времени и денег фиксируются до эксперимента.',
+      'null означает «ограничение не задано», а не ноль.'
+    ],
+    limits: 'Политика не резервирует деньги и не является бюджетом. Гарантию даёт budget adapter в точке dispatch.',
+    chips: ['Policy v1', 'allowedModels', 'maxCostMicrounits', 'weights'],
+    refs: [['Selector', './strategy-selector.md'], ['Архитектура', './architecture.md']]
+  },
+  analyzer: {
+    x: 220, y: 26, accent: '#7cc7ff', kind: 'АНАЛИЗ', status: 'ok',
+    title: 'Task Analyzer', sub: 'rules-v1 · 18 признаков',
+    role: 'До исполнения присваивает задаче тип и стек, чтобы сравнивать похожие задачи и выбирать маршрут по контексту.',
+    inputs: ['TaskRequest: описание, требования, стек.'],
+    outputs: ['task-analysis с типом и стеком.', 'selector-context-v1 из 18 чисел.'],
+    how: [
+      'Типы: bugfix, feature, refactor, testing, documentation, unknown.',
+      'Стеки: python, javascript, typescript, java, rust, go, react, node, sqlite, postgres + unknown-stack.',
+      'Одинаковые правила применяются к истории и к новому запросу — иначе сравнение смещено.'
+    ],
+    limits: 'Сложность, риск и произвольные требования пока не входят в вектор. Уверенность классификации не влияет на выбор напрямую.',
+    chips: ['rules-v1', 'selector-context-v1', '18 features'],
+    refs: [['Task Analyzer', './task-analyzer.md'], ['Selector', './strategy-selector.md']]
+  },
+  selector: {
+    x: 420, y: 26, accent: '#5eead4', kind: 'ВЫБОР', status: 'ok',
+    title: 'Selector', sub: 'disjoint LinUCB',
+    role: 'Выбирает стратегию и маршрут моделей по контексту и прошлым подтверждённым исходам.',
+    inputs: ['Кандидаты с прогнозами времени, денег и качества.', 'Policy и замороженный feedback snapshot.'],
+    outputs: ['SelectionDecision: armId, strategy, route, scores.', 'Список excluded с причинами исключения.'],
+    how: [
+      'Своя ridge-модель на arm: A = λI + Σx·xᵀ, b = Σreward·x.',
+      'score = xᵀA⁻¹b + α·√(xᵀA⁻¹x); система решается через Cholesky.',
+      'Arm = SHA-256(strategy + route). Смена версии, модели или инструментов создаёт новый arm.',
+      'Reward: success ∈ [0,1]; failed/timeout/cancelled/interrupted −1; inconclusive null; только evaluator-подтверждённые исходы.'
+    ],
+    limits: 'Прогноз — не верхняя граница расходов. Selector не резервирует деньги, не запускает модель и не гарантирует прохождение тестов.',
+    chips: ['disjoint LinUCB', 'armId', 'frozen snapshot', 'reward v1'],
+    refs: [['Selector', './strategy-selector.md'], ['Feedback', './dag-metrics-feedback.md']]
+  },
+  bank: {
+    x: 420, y: 170, accent: '#c0a8ff', kind: 'ПАМЯТЬ', status: 'ok',
+    title: 'Strategy Bank', sub: 'SQLite · immutable',
+    role: 'Постоянная память проекта: версии стратегий, задачи, попытки, события и артефакты по SHA-256.',
+    inputs: ['Записи попыток от оркестратора.', 'Планы, снимки, отчёты и другие артефакты.'],
+    outputs: ['История для selector и MetaACO.', 'Воспроизводимые артефакты и события.'],
+    how: [
+      'SQLite с версионированными миграциями; версии стратегий неизменяемы.',
+      'Одна задача → много попыток → много model calls и тестовых прогонов.',
+      'Хранятся failed, timeout, cancelled и inconclusive: удалять неудобные исходы нельзя.'
+    ],
+    limits: 'Это не EliteArchive и не кеш в памяти. Хеш проверяет целостность локальной записи, но не удостоверяет автора.',
+    chips: ['SQLite', 'content-addressed', 'immutable', 'migrations'],
+    refs: [['Strategy Bank', './strategy-bank.md']]
+  },
+  feedback: {
+    x: 620, y: 300, accent: '#f3c77a', kind: 'ОБУЧЕНИЕ', status: 'partial',
+    title: 'Feedback', sub: 'immutable revisions',
+    role: 'Immutable-версия обучающей истории с cutoff и явным разделением train / held-out.',
+    inputs: ['Bank, manifest эксперимента, policy, cutoff.', 'Предыдущая revision Feedback.'],
+    outputs: ['feedback ref и snapshot с train-попытками.', 'Награды для переоценки LinUCB.'],
+    how: [
+      'advanceFeedback создаёт новую revision; режим frozen отказывает в обновлении.',
+      'В снимок входят только завершённые train-попытки строго до cutoff.',
+      'Смена policy или splits требует новой линии версий; прежние записи не перезаписываются.'
+    ],
+    limits: 'Автоматического online-цикла нет: обновление Feedback — явный шаг доверенного приложения. Ветви при конкурентном обновлении выбирает приложение.',
+    chips: ['manifest v1', 'online-train / frozen', 'cutoff', 'revision hash'],
+    refs: [['Feedback', './dag-metrics-feedback.md'], ['Эксперименты', './experiments.md']]
+  },
+  metaaco: {
+    x: 620, y: 26, accent: '#5eead4', kind: 'ПЛАНИРОВЩИК', status: 'ok',
+    title: 'MetaACO', sub: 'колонии · SSGS · UCB',
+    role: 'Ищет допустимый граф работ, маршруты моделей и приоритеты, минимизируя прогнозную длительность.',
+    inputs: ['Каталог навыков с маршрутами и прогнозами.', 'Ресурсы, денежный бюджет, quality evidence из банка.'],
+    outputs: ['plan v3 с приоритетами и назначениями моделей.', 'trace оценок (до 100) и provenance solver.'],
+    how: [
+      'Группы решений: implement/refactor, опциональные навыки или skip, layout, маршрут модели.',
+      'Муравей строит перестановку; декодер берёт первую альтернативу каждой группы.',
+      'Из выбора строится DAG; SSGS декодирует приоритеты в расписание при лимите слотов.',
+      'Колонии с разными α/β/ρ/q₀; UCB даёт бюджет; элита усиливает след; репликация мутирует параметры.',
+      'Локальный поиск меняет места; общий бюджет оценок — жёсткое ограничение.',
+      'Сначала сглаженная успешность маршрута, затем короче makespan; вариант дороже бюджета отбрасывается.'
+    ],
+    limits: 'Cmax — прогноз, не фактическая latency. Глобальный оптимум не гарантирован: совпадение с перебором на одном графе не доказывает оптимум на других.',
+    chips: ['Python', 'ColonyManager', 'SSGS', 'plan v3', 'budget gate'],
+    refs: [['MetaACO', './metaaco-algorithm.md'], ['Шаблоны и навыки', './strategy-templates.md']]
+  },
+  estimates: {
+    x: 620, y: 170, accent: '#f3c77a', kind: 'СМЕТЫ', status: 'partial',
+    title: 'Сметы', sub: 'время · деньги · качество',
+    role: 'Собирает прогнозы кандидатов и плана, сохраняя источник каждого числа.',
+    inputs: ['Estimates кандидатов и маршрутов.', 'Закреплённые тарифы и route.'],
+    outputs: ['Допуск по лимитам политики.', 'Поля прогноза в decision и плане.'],
+    how: [
+      'Прогноз хранится отдельно от измерений и не считается фактом.',
+      'Неизвестный прогноз при заданном лимите исключает кандидата.',
+      'Верхняя граница стоимости появляется только из quote бюджетного адаптера.'
+    ],
+    limits: 'Прогноз не гарантирует ни время, ни деньги. Нулевой прогноз не означает бесплатный вызов.',
+    chips: ['wallTimeMs', 'microunits', 'currency', 'source'],
+    refs: [['Selector', './strategy-selector.md'], ['Архитектура', './architecture.md']]
+  },
+  budget: {
+    x: 820, y: 170, accent: '#f3c77a', kind: 'БЮДЖЕТ', status: 'partial',
+    title: 'Бюджет', sub: 'quote · резерв · сверка',
+    role: 'Превращает лимит и quote в гарантию: резервирует деньги до dispatch и сверяет после ответа.',
+    inputs: ['Policy limit и currency.', 'Quote с гарантированным upper bound.', 'Фактический usage и тариф.'],
+    outputs: ['Резерв и расчёт в SQLite ledger.', 'Разрешение или отказ вызова.'],
+    how: [
+      'Перед вызовом проверяются consent, отмена, точный route и tool schemas.',
+      'Резерв атомарный: параллельные вызовы не делят один остаток.',
+      'Нормальный finish и известный usage → сверка с тарифом и освобождение остатка; иначе резерв удерживается.',
+      'Нарушение заявленного upper bound блокирует дальнейшие вызовы.'
+    ],
+    limits: 'Расчёт по тарифу не равен счёту провайдера. Скрытые retries внутри raw adapter не покрываются автоматически — их надо отключать или закладывать в quote.',
+    chips: ['BudgetController', 'quote upper bound', 'SQLite ledger', 'coverage flag'],
+    refs: [['Метрики', './metrics.md'], ['Единый цикл', './adaptive-attempt.md']]
+  },
+  executor: {
+    x: 820, y: 26, accent: '#7cc7ff', kind: 'ИСПОЛНИТЕЛЬ', status: 'ok',
+    title: 'DAG Executor', sub: 'plan v3 · Harness',
+    role: 'Исполняет план v3: зависимости, слоты, артефакты, отмена и timeout.',
+    inputs: ['Проверенный plan v3.', 'Runtime Harness, bank, attemptId и signal.'],
+    outputs: ['execution report по узлам.', 'artifacts dag-output/<id> и события dag-start/task/finish.'],
+    how: [
+      'Готовые узлы выбираются по приоритету, если их slots помещаются в ёмкость.',
+      'Барьеров нет: потомок стартует после своего producer, пока другая ветка ещё работает.',
+      'Каждый узел — отдельный Harness run; входы — явные артефакты с проверкой SHA-256 и размера.',
+      'verifyArtifact выполняется после output, но до completed и до запуска потомков.',
+      'Cancel и timeout прекращают новый dispatch и ждут освобождения handles.'
+    ],
+    limits: 'Слоты логические, не CPU/RAM. Исполнитель не финализирует попытку и не считает стоимость API.',
+    chips: ['plan v3', 'agentSlots', 'artifacts', 'cancel', 'timeout'],
+    refs: [['DAG Executor', './dag-executor.md']]
+  },
+  evaluator: {
+    x: 1020, y: 26, accent: '#f9a8d4', kind: 'ПРОВЕРКА', status: 'ok',
+    title: 'TDD Evaluator', sub: 'baseline · RED · GREEN',
+    role: 'Независимо доказывает качество кода по закреплённым тестам и сохраняет собственные отчёты.',
+    inputs: ['TestSpec и base snapshot.', 'Снимки GREEN/REFACTOR, команды и среда.'],
+    outputs: ['EvaluationResult v2: success / failed / inconclusive.', 'Отчёты фаз с exit codes, counts, хешами и логами.'],
+    how: [
+      'baseline и RED выполняются до dispatch: сначала проверяется исходный код, затем ожидаемое падение.',
+      'baseline должен пройти на исходном коде — иначе задача или тесты сломаны до начала.',
+      'RED: падают ровно expectedRedTests и только с ERR_ASSERTION.',
+      'GREEN: патч применён; целевые, обязательные и регрессионные тесты прошли.',
+      'REFACTOR зависит от GREEN и проверяется на его снимке; провал GREEN блокирует REFACTOR.',
+      'Success выдаёт только evaluator. completed Harness сам по себе — не успех.'
+    ],
+    limits: 'Изоляция процессная, для доверенного локального кода: это не OS sandbox. Неполные доказательства дают inconclusive.',
+    chips: ['baseline', 'RED', 'GREEN', 'REFACTOR', 'independent'],
+    refs: [['TDD Evaluator', './tdd-evaluator.md'], ['DeepSeek TDD', './deepseek-tdd.md']]
+  },
+  metrics: {
+    x: 1020, y: 170, accent: '#c0a8ff', kind: 'МЕТРИКИ', status: 'partial',
+    title: 'Метрики', sub: 'spans · usage · cost',
+    role: 'Измеряет фазы, вызовы, usage и расчётную стоимость; отделяет неизвестное от нуля.',
+    inputs: ['События исполнения и usage провайдера.', 'Тарифы и спан-разметка фаз.'],
+    outputs: ['Metrics outcome: wall time, calls, tokens, calculated cost.', 'Флаг coverage, честно показывающий неполноту.'],
+    how: [
+      'Spans на analysis, baseline, RED, DAG, GREEN, REFACTOR и cleanup.',
+      'Считаются все попытки, включая провалы и повторы.',
+      'Тариф — отдельный snapshot; расчёт не выдаётся за подтверждённый billing.'
+    ],
+    limits: 'Наблюдатель Harness не доказывает охват всех физических запросов и retries. При неполном покрытии totals остаются null.',
+    chips: ['spans', 'usage', 'pricing snapshot', 'coverage'],
+    refs: [['Метрики', './metrics.md'], ['Метрики DAG', './dag-metrics-feedback.md']]
+  },
+  attempt: {
+    x: 1220, y: 170, accent: '#7cc7ff', kind: 'ЗАПИСЬ', status: 'ok',
+    title: 'Попытка', sub: 'attempt = единица опыта',
+    role: 'Единица обучения и отчётности: состояние, проверки, артефакты и метрики одной попытки.',
+    inputs: ['SelectionDecision, execution report, evaluation, metrics.'],
+    outputs: ['Attempt record и outcome.', 'Ссылки на артефакты для Feedback.'],
+    how: [
+      'Состояния: running → succeeded / failed / inconclusive / timeout / cancelled / interrupted.',
+      'interrupted после crash не превращается в success; повтор оплаты без разрешения запрещён.',
+      'selection и bindingHash связывают решение селектора, план и исполнение.'
+    ],
+    limits: 'Ошибка записи в банк может помешать финализации: нужен явный recovery, а не догадка о результате.',
+    chips: ['attemptId', 'outcome', 'bindingHash', 'recovery'],
+    refs: [['Strategy Bank', './strategy-bank.md'], ['Единый цикл', './adaptive-attempt.md']]
+  }
+};
+
+const EDGES = [
+  { from: 'request', to: 'analyzer', d: 'M196,65 L212,65' },
+  { from: 'analyzer', to: 'selector', d: 'M396,65 L412,65' },
+  { from: 'selector', to: 'metaaco', d: 'M596,65 L612,65' },
+  { from: 'metaaco', to: 'executor', d: 'M796,65 L812,65' },
+  { from: 'executor', to: 'evaluator', d: 'M996,65 L1012,65' },
+  { from: 'evaluator', to: 'attempt', d: 'M1196,82 C1208,110 1214,150 1220,186' },
+  { from: 'policy', to: 'selector', d: 'M196,209 C300,209 440,175 506,110', label: 'фильтры', lx: 330, ly: 190 },
+  { from: 'bank', to: 'selector', d: 'M508,170 L508,110', label: 'история', lx: 516, ly: 142 },
+  { from: 'bank', to: 'metaaco', d: 'M596,204 C646,188 690,140 708,110', label: 'опыт', lx: 648, ly: 166 },
+  { from: 'metaaco', to: 'estimates', d: 'M708,104 L708,164', label: 'прогноз', lx: 716, ly: 142 },
+  { from: 'estimates', to: 'budget', d: 'M796,209 L812,209' },
+  { from: 'budget', to: 'executor', d: 'M908,170 L908,110', label: 'guard', lx: 916, ly: 142 },
+  { from: 'evaluator', to: 'metrics', d: 'M1108,104 L1108,164', label: 'измерения', lx: 1116, ly: 142 },
+  { from: 'executor', to: 'metrics', d: 'M930,104 C980,145 1045,160 1100,168' },
+  { from: 'metrics', to: 'attempt', d: 'M1196,209 L1212,209' },
+  { from: 'attempt', to: 'feedback', cls: 'learn', d: 'M1308,248 C1308,404 1240,404 1080,404 L820,404 C738,404 708,398 708,384', label: 'обучение', lx: 1000, ly: 398 },
+  { from: 'feedback', to: 'bank', cls: 'learn', d: 'M690,300 C655,284 618,268 598,252', label: 'новая версия', lx: 642, ly: 290 }
+];
+
+const NODE_W = 176;
+const NODE_H = 78;
+const mapSvg = $('map-svg');
+const detail = $('map-detail');
+const nodeElements = new Map();
+const edgeElements = [];
+let selectedNode = null;
+
+function svgEl(tag, attrs, text) {
+  const element = document.createElementNS(NS, tag);
+  for (const [key, value] of Object.entries(attrs)) element.setAttribute(key, String(value));
+  if (text !== undefined) element.textContent = text;
+  return element;
+}
+
+function buildMap() {
+  const defs = svgEl('defs', {});
+  for (const [id, color] of [['arrow', '#5d7f9d'], ['arrow-active', '#5eead4'], ['arrow-learn', '#f3c77a']]) {
+    const marker = svgEl('marker', {
+      id, viewBox: '0 0 10 10', refX: 8.5, refY: 5,
+      markerWidth: 6.5, markerHeight: 6.5, orient: 'auto-start-reverse'
+    });
+    marker.append(svgEl('path', { d: 'M0,0 L10,5 L0,10 z', fill: color }));
+    defs.append(marker);
+  }
+  mapSvg.append(defs);
+
+  const edgeClass = (edge) => 'edge ' + (edge.cls || 'flow');
+  for (const edge of EDGES) {
+    const path = svgEl('path', {
+      d: edge.d,
+      class: edgeClass(edge),
+      'marker-end': edge.cls === 'learn' ? 'url(#arrow-learn)' : 'url(#arrow)'
+    });
+    path.dataset.from = edge.from;
+    path.dataset.to = edge.to;
+    path.dataset.learn = edge.cls === 'learn' ? '1' : '0';
+    mapSvg.append(path);
+    edgeElements.push(path);
+    if (edge.label) {
+      const label = svgEl('text', {
+        x: edge.lx, y: edge.ly, class: 'edge-label' + (edge.cls === 'learn' ? ' learn' : '')
+      }, edge.label);
+      label.dataset.from = edge.from;
+      label.dataset.to = edge.to;
+      label.dataset.learn = edge.cls === 'learn' ? '1' : '0';
+      mapSvg.append(label);
+      edgeElements.push(label);
+    }
+  }
+
+  for (const [id, node] of Object.entries(NODES)) {
+    const group = svgEl('g', {
+      transform: `translate(${node.x},${node.y})`,
+      class: 'node',
+      tabindex: 0,
+      role: 'button',
+      'aria-pressed': 'false',
+      'aria-label': `${node.title}. ${node.sub}. Статус: ${STATUS_LABEL[node.status]}`
+    });
+    group.dataset.node = id;
+    group.append(svgEl('title', {}, `${node.title} — ${node.sub}`));
+    group.append(svgEl('rect', { class: 'node-bg', width: NODE_W, height: NODE_H, rx: 12 }));
+    group.append(svgEl('rect', { x: 0, y: 15, width: 3, height: NODE_H - 30, rx: 1.5, fill: node.accent, opacity: .85 }));
+    group.append(svgEl('circle', { cx: NODE_W - 12, cy: 15, r: 3.6, fill: STATUS_COLOR[node.status], class: 'node-status' }));
+    group.append(svgEl('text', { x: 13, y: 17, class: 'node-badge' }, node.kind));
+    group.append(svgEl('text', { x: 13, y: 45, class: 'node-title' }, node.title));
+    group.append(svgEl('text', { x: 13, y: 63, class: 'node-sub' }, node.sub));
+
+    const activate = () => selectNode(id);
+    group.addEventListener('click', activate);
+    group.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); activate(); }
+    });
+    mapSvg.append(group);
+    nodeElements.set(id, group);
+  }
+}
+
+function renderDetail(id) {
+  const node = NODES[id];
+  if (!node) return;
+  const list = (items) => items.map((item) => `<li>${item}</li>`).join('');
+  const refs = node.refs.map(([label, href]) => `<a href="${href}">${label}</a>`).join('');
+  detail.innerHTML = `
+    <div class="detail-head">
+      <div>
+        <p class="eyebrow" style="margin-bottom:6px">${node.kind} · узел карты</p>
+        <h3>${node.title} <span class="status ${node.status}">${STATUS_LABEL[node.status]}</span></h3>
+      </div>
+      <span class="chip">${node.sub}</span>
+    </div>
+    <p class="detail-role">${node.role}</p>
+    <div class="detail-grid">
+      <div class="detail-col">
+        <h4>Как устроено</h4>
+        <ul>${list(node.how)}</ul>
+        <div class="detail-limits"><b>Граница:</b> ${node.limits}</div>
+      </div>
+      <div class="detail-col">
+        <h4>Входы</h4>
+        <ul class="io-list">${list(node.inputs)}</ul>
+        <h4>Выходы</h4>
+        <ul class="io-list">${list(node.outputs)}</ul>
+        <div class="chips">${node.chips.map((chip) => `<span class="chip">${chip}</span>`).join('')}</div>
+        <div class="doc-links">${refs}</div>
+      </div>
+    </div>`;
+}
+
+function selectNode(id) {
+  if (!NODES[id]) return;
+  selectedNode = id;
+  nodeElements.forEach((element, nodeId) => {
+    const on = nodeId === id;
+    element.classList.toggle('selected', on);
+    element.setAttribute('aria-pressed', String(on));
+  });
+  for (const element of edgeElements) {
+    const on = element.dataset.from === id || element.dataset.to === id;
+    element.classList.toggle('active', on);
+    element.classList.toggle('dim', !on);
+    if (on && element.tagName === 'path') {
+      element.setAttribute('marker-end', element.dataset.learn === '1' ? 'url(#arrow-learn)' : 'url(#arrow-active)');
+    } else if (element.tagName === 'path') {
+      element.setAttribute('marker-end', element.dataset.learn === '1' ? 'url(#arrow-learn)' : 'url(#arrow)');
+    }
+  }
+  renderDetail(id);
+}
+
+buildMap();
+selectNode('metaaco');
+document.querySelectorAll('.map-link').forEach((button) => button.addEventListener('click', () => {
+  selectNode(button.dataset.goto);
+  const smooth = !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  document.getElementById('map').scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+}));
+
+/* ------------------------------------------------------------------ */
+/*  Фильтр понятий                                                    */
+/* ------------------------------------------------------------------ */
+(() => {
+  const input = $('concept-filter');
+  const count = $('concept-count');
+  const cards = [...document.querySelectorAll('.concept')];
+  if (!input) return;
+  input.addEventListener('input', () => {
+    const query = input.value.trim().toLowerCase();
+    let shown = 0;
+    for (const card of cards) {
+      const haystack = (card.dataset.keywords + ' ' + card.textContent).toLowerCase();
+      const match = !query || haystack.includes(query);
+      card.hidden = !match;
+      if (match) shown += 1;
+      if (query && match) card.open = true;
+    }
+    count.textContent = query ? `найдено: ${shown} из ${cards.length}` : `${cards.length} понятий`;
+  });
+})();
+
+</script>
+<script>
+'use strict';
+/* ================================================================== */
+/*  Учебная модель MetaACO: 8 работ, 2 слота, 3 колонии, 60 оценок.    */
+/*  Механика повторяет реальный solver, но не вызывает Python.        */
+/* ================================================================== */
+(() => {
+  const TASKS = [
+    { id: 'analyze', name: 'Анализ', short: 'an', d: 2, deps: [], color: '#7cc7ff' },
+    { id: 'design', name: 'Дизайн', short: 'de', d: 3, deps: ['analyze'], color: '#c0a8ff' },
+    { id: 'implement', name: 'Реализация', short: 'im', d: 6, deps: ['design'], color: '#5eead4' },
+    { id: 'tests', name: 'Тесты', short: 'wt', d: 3, deps: ['design'], color: '#f3c77a' },
+    { id: 'docs', name: 'Документы', short: 'dc', d: 2, deps: ['design'], color: '#93c5fd' },
+    { id: 'review', name: 'Ревью', short: 'rv', d: 4, deps: ['implement'], color: '#f9a8d4' },
+    { id: 'integrate', name: 'Интеграция', short: 'in', d: 3, deps: ['implement', 'tests', 'docs'], color: '#a7f3d0' },
+    { id: 'refactor', name: 'Рефактор', short: 'rf', d: 4, deps: ['review', 'integrate'], color: '#fda4af' }
+  ].map((task, index) => ({ ...task, index }));
+  const BY_ID = new Map(TASKS.map((task) => [task.id, task]));
+  const SUCCESSORS = Object.fromEntries(TASKS.map((task) => [
+    task.id, TASKS.filter((other) => other.deps.includes(task.id)).map((other) => other.id)
+  ]));
+  const SUM_D = TASKS.reduce((sum, task) => sum + task.d, 0);
+  const CAP = 2;
+  const MAX_EVAL = 60;
+  const TAU0 = 0.1;
+  const UCB_C = 1.0;
+  const ELITE_CAP = 5;
+  const COLORS = ['#5eead4', '#7cc7ff', '#c0a8ff', '#f3c77a', '#f9a8d4'];
+
+  const HEURISTIC_LABEL = {
+    min_duration: 'мин. длит.',
+    combo: 'длит. + наследники',
+    none: 'нет'
+  };
+
+  function mulberry32(a) {
+    return function random() {
+      a |= 0; a = (a + 0x6D2B79F5) | 0;
+      let t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  function feasible(order) {
+    const position = new Map(order.map((task, index) => [task.id, index]));
+    return order.every((task) => task.deps.every((dep) => position.get(dep) < position.get(task.id)));
+  }
+
+  function ssgs(order) {
+    const usage = new Array(SUM_D + 2).fill(0);
+    const start = {}, finish = {};
+    for (const task of order) {
+      let earliest = 0;
+      for (const dep of task.deps) earliest = Math.max(earliest, finish[dep] ?? 0);
+      let t = earliest;
+      for (;;) {
+        let ok = true;
+        for (let k = 0; k < task.d; k += 1) {
+          if ((usage[t + k] ?? 0) + 1 > CAP) { ok = false; break; }
+        }
+        if (ok) break;
+        t += 1;
+      }
+      start[task.id] = t;
+      finish[task.id] = t + task.d;
+      for (let k = 0; k < task.d; k += 1) usage[t + k] += 1;
+    }
+    const makespan = Math.max(...Object.values(finish));
+    const laneEnds = new Array(CAP).fill(0);
+    const lanes = {};
+    [...order].sort((a, b) => start[a.id] - start[b.id] || b.d - a.d).forEach((task) => {
+      let lane = laneEnds.findIndex((end) => end <= start[task.id]);
+      if (lane < 0) lane = 0;
+      lanes[task.id] = lane;
+      laneEnds[lane] = finish[task.id];
+    });
+    return { order, start, finish, makespan, lanes };
+  }
+
+  function heuristic(colony, task) {
+    if (colony.params.heuristic === 'min_duration') return 1 / task.d;
+    if (colony.params.heuristic === 'combo') {
+      return (1 / task.d) * (1 + 0.4 * SUCCESSORS[task.id].length);
+    }
+    return 1;
+  }
+
+  function pickWeighted(rnd, candidates, weights) {
+    const total = weights.reduce((sum, value) => sum + value, 0);
+    if (!(total > 0)) return candidates[Math.floor(rnd() * candidates.length)];
+    let point = rnd() * total;
+    for (let i = 0; i < candidates.length; i += 1) {
+      point -= weights[i];
+      if (point <= 0) return candidates[i];
+    }
+    return candidates[candidates.length - 1];
+  }
+
+  function buildAntOrder(rnd, colony) {
+    const placed = new Set();
+    const order = [];
+    for (let position = 0; position < TASKS.length; position += 1) {
+      const candidates = TASKS.filter((task) => !placed.has(task.id)
+        && task.deps.every((dep) => placed.has(dep)));
+      const weights = candidates.map((task) => Math.pow(tauAt(colony, position, task.index), colony.params.alpha)
+        * Math.pow(heuristic(colony, task), colony.params.beta));
+      const chosen = rnd() < colony.params.q0
+        ? candidates[weights.indexOf(Math.max(...weights))]
+        : pickWeighted(rnd, candidates, weights);
+      order.push(chosen);
+      placed.add(chosen.id);
+    }
+    return order;
+  }
+
+  function tauAt(colony, position, taskIndex) {
+    return colony.tau[position][taskIndex];
+  }
+
+  function evaporate(colony) {
+    for (const row of colony.tau) {
+      for (let i = 0; i < row.length; i += 1) row[i] *= (1 - colony.params.rho);
+    }
+  }
+
+  function deposit(colony, order, amount) {
+    order.forEach((task, position) => { colony.tau[position][task.index] += amount; });
+  }
+
+  function initialParams(letter) {
+    if (letter === 'A') return { alpha: 1.0, beta: 2.0, rho: 0.10, q0: 0.90, heuristic: 'min_duration', lsProb: 0.55, lsIters: 8 };
+    if (letter === 'B') return { alpha: 2.0, beta: 1.0, rho: 0.30, q0: 0.50, heuristic: 'none', lsProb: 0.45, lsIters: 8 };
+    return { alpha: 0.6, beta: 3.0, rho: 0.05, q0: 0.70, heuristic: 'combo', lsProb: 0.5, lsIters: 8 };
+  }
+
+  function createSim(seed) {
+    const random = mulberry32(seed >>> 0);
+    const colonies = [];
+    const elite = [];
+    const log = [];
+    let iteration = 0;
+    let evaluations = 0;
+    let best = null;
+    let last = null;
+    let done = false;
+    let selectedIdx = 0;
+
+    function addLog(tag, text, cls) {
+      log.push({ iteration, tag, text, cls: cls || 'pull' });
+      if (log.length > 80) log.shift();
+    }
+
+    function createColony(letter, params, boost) {
+      const tau = Array.from({ length: TASKS.length }, () => new Array(TASKS.length).fill(TAU0));
+      for (const entry of elite.slice(0, 3)) {
+        entry.order.forEach((task, position) => {
+          tau[position][task.index] += (boost ?? 0.3) * TAU0;
+        });
+      }
+      const colony = {
+        letter, params,
+        tau,
+        pulls: 0, mass: 0, reward: 0,
+        best: Infinity, bestSched: null,
+        color: COLORS[colonies.length % COLORS.length],
+        isNew: letter !== 'A' && letter !== 'B' && letter !== 'C'
+      };
+      colonies.push(colony);
+      return colony;
+    }
+
+    for (const letter of ['A', 'B', 'C']) {
+      const colony = createColony(letter, initialParams(letter));
+      addLog('new', `колония ${letter} · α ${colony.params.alpha.toFixed(1)} · β ${colony.params.beta.toFixed(1)} · ρ ${colony.params.rho.toFixed(2)} · q₀ ${colony.params.q0.toFixed(2)} · ${HEURISTIC_LABEL[colony.params.heuristic]}`, 'new');
+    }
+
+    function totalPulls() {
+      return colonies.reduce((sum, colony) => sum + colony.pulls, 0);
+    }
+
+    function selectColony() {
+      const untried = colonies.map((colony, index) => (colony.pulls === 0 ? index : -1)).filter((index) => index >= 0);
+      if (untried.length) return untried[Math.floor(random() * untried.length)];
+      const pulls = totalPulls();
+      let bestIndex = 0, bestScore = -Infinity;
+      colonies.forEach((colony, index) => {
+        const mean = colony.mass > 0 ? colony.reward / colony.mass : 0;
+        const bonus = UCB_C * Math.sqrt(Math.log(Math.max(2, pulls)) / Math.max(1, colony.mass));
+        const score = mean + bonus;
+        if (score > bestScore) { bestScore = score; bestIndex = index; }
+      });
+      return bestIndex;
+    }
+
+    function addElite(sched, colonyLetter) {
+      const key = TASKS.map((task) => sched.start[task.id]).join(',');
+      if (elite.some((entry) => entry.key === key)) return;
+      elite.push({ key, order: sched.order, sched, makespan: sched.makespan, colony: colonyLetter });
+      elite.sort((a, b) => a.makespan - b.makespan);
+      if (elite.length > ELITE_CAP) elite.pop();
+    }
+
+    function recomputeBest() {
+      let candidate = null;
+      for (const colony of colonies) {
+        if (!colony.bestSched) continue;
+        if (!candidate || colony.bestSched.makespan < candidate.sched.makespan) {
+          candidate = { sched: colony.bestSched, colony: colony.letter };
+        }
+      }
+      best = candidate;
+    }
+
+    function gauss() {
+      return (random() + random() + random() + random() - 2) / 1.1;
+    }
+    const clip = (value, low, high) => Math.max(low, Math.min(high, value));
+
+    function replicate(parent) {
+      const params = {
+        alpha: clip(parent.params.alpha + gauss() * 0.12, 0.1, 3.0),
+        beta: clip(parent.params.beta + gauss() * 0.35, 0.1, 6.0),
+        rho: clip(parent.params.rho + gauss() * 0.025, 0.01, 0.5),
+        q0: clip(parent.params.q0 + gauss() * 0.05, 0.01, 0.99),
+        heuristic: parent.params.heuristic,
+        lsProb: clip(parent.params.lsProb + gauss() * 0.08, 0.1, 0.9),
+        lsIters: 8
+      };
+      if (random() < 0.12) {
+        params.heuristic = ['min_duration', 'combo', 'none'][Math.floor(random() * 3)];
+      }
+      const letter = String.fromCharCode(65 + colonies.length);
+      const child = createColony(letter, params, 0.5);
+      addLog('rep', `репликация ${parent.letter} → ${letter} · α ${params.alpha.toFixed(1)} · β ${params.beta.toFixed(1)} · ρ ${params.rho.toFixed(2)}`, 'new');
+      return child;
+    }
+
+    function localSearch(colony, order, sched) {
+      let bestOrder = order.slice();
+      let bestSched = sched;
+      let bestCost = sched.makespan;
+      let attempts = 0, improvements = 0;
+      for (let k = 0; k < colony.params.lsIters; k += 1) {
+        if (evaluations >= MAX_EVAL) break;
+        const i = Math.floor(random() * TASKS.length);
+        const j = Math.floor(random() * TASKS.length);
+        if (i === j) continue;
+        const candidate = bestOrder.slice();
+        [candidate[i], candidate[j]] = [candidate[j], candidate[i]];
+        if (!feasible(candidate)) continue;
+        evaluations += 1;
+        attempts += 1;
+        const decoded = ssgs(candidate);
+        if (decoded.makespan < bestCost) {
+          bestCost = decoded.makespan;
+          bestOrder = candidate;
+          bestSched = decoded;
+          improvements += 1;
+        }
+      }
+      return { order: bestOrder, sched: bestSched, attempts, improvements };
+    }
+
+    function step(options = {}) {
+      if (done) return state();
+      if (evaluations >= MAX_EVAL) {
+        done = true;
+        addLog('done', `бюджет исчерпан: ${evaluations}/${MAX_EVAL} оценок · лучший ${best ? best.sched.makespan : '—'} с`, 'done');
+        return state();
+      }
+      const index = selectColony();
+      const colony = colonies[index];
+      const previousGlobal = best ? best.sched.makespan : SUM_D;
+      const antOrder = buildAntOrder(random, colony);
+      evaluations += 1;
+      iteration += 1;
+      const antSched = ssgs(antOrder);
+      let iterOrder = antOrder;
+      let iterSched = antSched;
+      let lsInfo = null;
+
+      if (options.localSearch !== false && evaluations < MAX_EVAL && random() < colony.params.lsProb) {
+        const ls = localSearch(colony, antOrder, antSched);
+          if (ls.sched.makespan < iterSched.makespan) {
+          iterOrder = ls.order;
+          iterSched = ls.sched;
+        }
+        if (ls.attempts > 0) {
+          lsInfo = ls;
+        }
+      }
+
+      if (iterSched.makespan < colony.best) {
+        colony.best = iterSched.makespan;
+        colony.bestSched = iterSched;
+      }
+      addElite(iterSched, colony.letter);
+
+      const improvement = previousGlobal > 0 && colony.best < previousGlobal
+        ? (previousGlobal - colony.best) / previousGlobal
+        : 0;
+      colony.pulls += 1;
+      colony.mass += 1;
+      colony.reward += improvement;
+
+      evaporate(colony);
+      deposit(colony, iterOrder, (TAU0 * SUM_D) / Math.max(1, iterSched.makespan));
+      if (elite.length) {
+        deposit(colony, elite[0].order, (0.1 * TAU0 * SUM_D) / Math.max(1, elite[0].makespan));
+      }
+
+      let replicated = null;
+      if (options.replication !== false && improvement > 0.02 && evaluations < MAX_EVAL && colonies.length < 5) {
+        replicated = replicate(colony);
+      }
+
+      recomputeBest();
+      selectedIdx = index;
+      last = {
+        makespan: iterSched.makespan,
+        colony: colony.letter,
+        order: iterOrder,
+        sched: iterSched,
+        ls: lsInfo,
+        improvement,
+        replicated: replicated ? replicated.letter : null
+      };
+
+      const parts = [
+        `колония <b>${colony.letter}</b>`,
+        `порядок ${iterOrder.map((task) => task.short).join('→')}`,
+        `Cmax <b>${iterSched.makespan} с</b>`,
+        `reward +${improvement.toFixed(3)}`
+      ];
+      addLog('pull', parts.join(' · '), 'pull');
+      if (lsInfo) {
+        addLog('ls', `обмены: ${lsInfo.attempts}, улучшений: ${lsInfo.improvements} → Cmax ${iterSched.makespan} с`, 'ls');
+      }
+      if (improvement > 0.02 && replicated) {
+        addLog('rep', `улучшение ${(improvement * 100).toFixed(1)}% → новая колония ${replicated.letter}`, 'new');
+      }
+      if (evaluations >= MAX_EVAL) {
+        done = true;
+        addLog('done', `бюджет исчерпан: ${evaluations}/${MAX_EVAL} · лучший ${best ? best.sched.makespan : '—'} с`, 'done');
+      }
+      return state();
+    }
+
+    function state() {
+      const pulls = totalPulls();
+      return {
+        seed, iteration, evaluations, maxEvaluations: MAX_EVAL, done, selectedIdx,
+        totalPulls: pulls,
+        last: last ? {
+          makespan: last.makespan, colony: last.colony,
+          order: last.order.map((task) => task.id),
+          sched: last.sched, ls: last.ls, improvement: last.improvement, replicated: last.replicated
+        } : null,
+        best: best ? { makespan: best.sched.makespan, colony: best.colony, sched: best.sched } : null,
+        colonies: colonies.map((colony) => ({
+          letter: colony.letter,
+          params: { ...colony.params },
+          pulls: colony.pulls, mass: colony.mass, reward: colony.reward,
+          best: Number.isFinite(colony.best) ? colony.best : null,
+          bestSched: colony.bestSched,
+          color: colony.color, isNew: colony.isNew,
+          tau: colony.tau.map((row) => row.slice())
+        })),
+        elite: elite.map((entry) => ({
+          order: entry.order.map((task) => task.id),
+          makespan: entry.makespan,
+          colony: entry.colony
+        })),
+        log: log.slice(-30)
+      };
+    }
+
+    return { step, state, maxEvaluations: MAX_EVAL };
+  }
+
+  /* --------------------------- UI --------------------------- */
+  const stage = {
+    iteration: document.getElementById('sim-iteration'),
+    evals: document.getElementById('sim-evals'),
+    best: document.getElementById('sim-best'),
+    last: document.getElementById('sim-last'),
+    colonies: document.getElementById('sim-colonies'),
+    budget: document.getElementById('sim-budget'),
+    gantt: document.getElementById('gantt'),
+    legend: document.getElementById('task-legend'),
+    colonyBody: document.getElementById('colony-body'),
+    heatmap: document.getElementById('heatmap'),
+    heatTitle: document.getElementById('hm-title'),
+    elite: document.getElementById('elite'),
+    log: document.getElementById('sim-log'),
+    brute: document.getElementById('bruteforce')
+  };
+
+  const seedInput = document.getElementById('sim-seed');
+  const stepButton = document.getElementById('sim-step');
+  const autoButton = document.getElementById('sim-auto');
+  const resetButton = document.getElementById('sim-reset');
+  const newSeedButton = document.getElementById('sim-seed-new');
+  const bruteButton = document.getElementById('sim-brute');
+  const lsToggle = document.getElementById('sim-ls');
+  const replToggle = document.getElementById('sim-repl');
+
+  let sim = createSim(42);
+  let autoTimer = null;
+
+  const svgNS = 'http://www.w3.org/2000/svg';
+  function svgNode(tag, attrs, text) {
+    const element = document.createElementNS(svgNS, tag);
+    for (const [key, value] of Object.entries(attrs)) element.setAttribute(key, String(value));
+    if (text !== undefined) element.textContent = text;
+    return element;
+  }
+
+  function renderLegend() {
+    const fragment = document.createDocumentFragment();
+    for (const task of TASKS) {
+      const item = document.createElement('span');
+      const dot = document.createElement('i');
+      dot.style.background = task.color;
+      item.append(dot, document.createTextNode(`${task.name} · ${task.d} с`));
+      item.title = task.deps.length ? `После: ${task.deps.join(', ')}` : 'Стартовая работа';
+      fragment.append(item);
+    }
+    stage.legend.replaceChildren(fragment);
+  }
+
+  function renderStatus(state) {
+    stage.iteration.textContent = `итерация ${state.iteration}`;
+    stage.evals.textContent = String(state.evaluations);
+    stage.best.textContent = state.best ? `${state.best.makespan} с · ${state.best.colony}` : '—';
+    stage.last.textContent = state.last ? `${state.last.makespan} с · ${state.last.colony}` : '—';
+    stage.colonies.textContent = String(state.colonies.length);
+    stage.budget.style.width = `${Math.round((state.evaluations / state.maxEvaluations) * 100)}%`;
+    stage.budget.parentElement.setAttribute('aria-valuenow', String(state.evaluations));
+    stage.budget.parentElement.setAttribute('aria-valuemax', String(state.maxEvaluations));
+  }
+
+  function renderGantt(state) {
+    const svg = stage.gantt;
+    svg.replaceChildren();
+    const width = 760, left = 56, right = 748, laneTop = 24, laneHeight = 38, barHeight = 24;
+    const maxTime = 26;
+    const x = (time) => left + (time / maxTime) * (right - left);
+    const axisY = laneTop + CAP * laneHeight + 4;
+
+    for (let time = 0; time <= 24; time += 2) {
+      const line = svgNode('line', {
+        x1: x(time), y1: 16, x2: x(time), y2: axisY,
+        stroke: time % 4 === 0 ? '#21384d' : '#182a3b', 'stroke-width': 1
+      });
+      svg.append(line);
+      if (time % 4 === 0) {
+        svg.append(svgNode('text', { x: x(time), y: axisY + 14, 'text-anchor': 'middle', class: 'axis-label' }, `${time} с`));
+      }
+    }
+    svg.append(svgNode('line', { x1: left, y1: axisY, x2: right, y2: axisY, stroke: '#2a4258', 'stroke-width': 1 }));
+
+    ['слот 1', 'слот 2'].forEach((label, lane) => {
+      svg.append(svgNode('text', { x: 8, y: laneTop + lane * laneHeight + 17, class: 'lane-label' }, label));
+    });
+
+    const schedule = state.best?.sched ?? state.last?.sched;
+    if (!schedule) {
+      svg.append(svgNode('text', {
+        x: width / 2, y: 70, 'text-anchor': 'middle', class: 'axis-label', 'font-size': 12
+      }, 'Нажмите «Шаг» — первый муравей построит порядок'));
+      return;
+    }
+
+    for (const task of schedule.order) {
+      const lane = schedule.lanes[task.id] ?? 0;
+      const barX = x(schedule.start[task.id]);
+      const barW = Math.max(2, x(schedule.start[task.id] + task.d) - barX);
+      const barY = laneTop + lane * laneHeight;
+      svg.append(svgNode('rect', {
+        x: barX, y: barY, width: barW, height: barHeight, rx: 5,
+        fill: task.color, opacity: 0.9, stroke: 'rgba(0,0,0,.25)'
+      }));
+      svg.append(svgNode('text', {
+        x: barX + 6, y: barY + 16, class: 'bar-label'
+      }, `${task.short} · ${task.d}с`));
+    }
+
+    const cmaxX = x(schedule.makespan);
+    svg.append(svgNode('line', {
+      x1: cmaxX, y1: 12, x2: cmaxX, y2: axisY, stroke: '#f3c77a', 'stroke-width': 1.2, 'stroke-dasharray': '3 3'
+    }));
+    svg.append(svgNode('text', {
+      x: Math.min(cmaxX - 4, right - 4), y: 11, 'text-anchor': 'end', class: 'axis-label', fill: '#f3c77a'
+    }, `Cmax ${schedule.makespan} с`));
+  }
+
+  function renderColonies(state) {
+    const rows = state.colonies.map((colony, index) => {
+      const mean = colony.mass > 0 ? colony.reward / colony.mass : 0;
+      const bonus = colony.pulls > 0 && state.totalPulls > 0
+        ? UCB_C * Math.sqrt(Math.log(Math.max(2, state.totalPulls)) / Math.max(1, colony.mass))
+        : null;
+      const ucb = bonus === null ? '—' : (mean + bonus).toFixed(2);
+      const selected = index === state.selectedIdx;
+      return `<tr class="${selected ? 'selected' : ''}">
+        <td><span class="colony-id"><span class="colony-swatch" style="background:${colony.color}"></span>${colony.letter}${colony.isNew ? '<span class="badge new">new</span>' : ''}</span><span class="colony-heur">${HEURISTIC_LABEL[colony.params.heuristic]}</span></td>
+        <td>${colony.params.alpha.toFixed(1)} / ${colony.params.beta.toFixed(1)}</td>
+        <td>${colony.params.rho.toFixed(2)} / ${colony.params.q0.toFixed(2)}</td>
+        <td>${colony.pulls}</td>
+        <td>${(mean * 100).toFixed(1)}%</td>
+        <td>${ucb}</td>
+        <td>${colony.best === null ? '—' : colony.best + ' с'}</td>
+      </tr>`;
+    });
+    stage.colonyBody.innerHTML = rows.join('');
+  }
+
+  function renderHeatmap(state) {
+    const colony = state.colonies[state.selectedIdx] ?? state.colonies[0];
+    if (!colony) return;
+    stage.heatTitle.textContent = `колония ${colony.letter}`;
+    const maxTau = Math.max(...colony.tau.flat(), 0.0001);
+    const path = new Map();
+    (state.last?.order ?? []).forEach((id, position) => path.set(position + ':' + BY_ID.get(id).index, true));
+
+    const fragment = document.createDocumentFragment();
+    const corner = document.createElement('div');
+    corner.className = 'hm-corner';
+    corner.textContent = 'поз';
+    fragment.append(corner);
+
+    for (const task of TASKS) {
+      const head = document.createElement('div');
+      head.className = 'hm-head';
+      head.textContent = task.short;
+      head.title = task.name;
+      fragment.append(head);
+    }
+
+    for (let position = 0; position < TASKS.length; position += 1) {
+      const label = document.createElement('div');
+      label.className = 'hm-rowlabel';
+      label.textContent = String(position);
+      fragment.append(label);
+      for (const task of TASKS) {
+        const tau = colony.tau[position][task.index];
+        const value = Math.min(1, tau / maxTau);
+        const cell = document.createElement('div');
+        cell.className = 'hm-cell' + (path.has(position + ':' + task.index) ? ' path' : '');
+        cell.style.background = `rgba(94,234,212,${(0.06 + 0.62 * value).toFixed(3)})`;
+        cell.title = `позиция ${position} · ${task.name}: τ = ${tau.toFixed(3)}`;
+        cell.setAttribute('aria-label', cell.title);
+        fragment.append(cell);
+      }
+    }
+    stage.heatmap.replaceChildren(fragment);
+  }
+
+  function renderElite(state) {
+    if (!state.elite.length) {
+      stage.elite.innerHTML = '<p class="elite-empty">Пока пусто: архив заполнится после первых удачных расписаний.</p>';
+      return;
+    }
+    stage.elite.innerHTML = state.elite.map((entry, index) => `
+      <div class="elite-item" title="${entry.order.map((id) => BY_ID.get(id).name).join(' → ')}">
+        <span class="elite-rank">#${index + 1}</span>
+        <span class="elite-order">${entry.order.map((id) => BY_ID.get(id).short).join(' → ')}</span>
+        <span class="elite-cmax">${entry.makespan} с · ${entry.colony}</span>
+      </div>`).join('');
+  }
+
+  function renderLog(state) {
+    const lines = [...state.log].reverse().map((line) => `
+      <div class="log-line ${line.cls}">
+        <span class="t">${line.iteration}</span>
+        <span class="tag">${line.tag}</span>
+        <span>${line.text}</span>
+      </div>`).join('');
+    stage.log.innerHTML = lines || '<p class="elite-empty">События появятся после первого шага.</p>';
+  }
+
+  function renderAll() {
+    const state = sim.state();
+    renderStatus(state);
+    renderGantt(state);
+    renderColonies(state);
+    renderHeatmap(state);
+    renderElite(state);
+    renderLog(state);
+    stepButton.disabled = state.done;
+    stepButton.textContent = state.done ? 'Бюджет исчерпан' : '▶ Шаг';
+  }
+
+  function options() {
+    return { localSearch: lsToggle.checked, replication: replToggle.checked };
+  }
+
+  function stopAuto() {
+    if (autoTimer !== null) clearInterval(autoTimer);
+    autoTimer = null;
+    autoButton.setAttribute('aria-pressed', 'false');
+    autoButton.textContent = 'Авто';
+  }
+
+  function startAuto() {
+    if (sim.state().done) return;
+    autoButton.setAttribute('aria-pressed', 'true');
+    autoButton.textContent = 'Пауза';
+    autoTimer = setInterval(() => {
+      const state = sim.step(options());
+      renderAll();
+      if (state.done) stopAuto();
+    }, 850);
+  }
+
+  function reset(seed) {
+    stopAuto();
+    const value = Number.isFinite(seed) ? seed : Number.parseInt(seedInput.value, 10);
+    const safe = Number.isFinite(value) && value >= 0 ? Math.floor(value) : 42;
+    seedInput.value = String(safe);
+    sim = createSim(safe);
+    stage.brute.classList.remove('show');
+    stage.brute.textContent = '';
+    renderAll();
+  }
+
+  stepButton.addEventListener('click', () => {
+    sim.step(options());
+    renderAll();
+  });
+
+  autoButton.addEventListener('click', () => {
+    if (autoTimer !== null) stopAuto();
+    else startAuto();
+  });
+
+  resetButton.addEventListener('click', () => reset());
+  newSeedButton.addEventListener('click', () => {
+    const seedValue = Math.floor(Math.random() * 999999) + 1;
+    seedInput.value = String(seedValue);
+    reset(seedValue);
+  });
+  seedInput.addEventListener('change', () => reset());
+
+  /* --------------------- полный перебор --------------------- */
+  function permutations(items, callback) {
+    const used = new Array(items.length).fill(false);
+    const buffer = [];
+    (function walk() {
+      if (buffer.length === items.length) { callback(buffer.slice()); return; }
+      for (let i = 0; i < items.length; i += 1) {
+        if (used[i]) continue;
+        used[i] = true;
+        buffer.push(items[i]);
+        walk();
+        buffer.pop();
+        used[i] = false;
+      }
+    })();
+  }
+
+  function factorial(n) {
+    let value = 1;
+    for (let i = 2; i <= n; i += 1) value *= i;
+    return value;
+  }
+
+  function lowerBound() {
+    const memo = new Map();
+    const longest = (task) => {
+      if (memo.has(task.id)) return memo.get(task.id);
+      const value = task.d + Math.max(0, ...task.deps.map((dep) => longest(BY_ID.get(dep))));
+      memo.set(task.id, value);
+      return value;
+    };
+    return Math.max(...TASKS.map(longest));
+  }
+
+  bruteButton.addEventListener('click', () => {
+    let optimum = Infinity;
+    let optimumOrder = null;
+    let feasibleCount = 0;
+    permutations(TASKS, (order) => {
+      if (!feasible(order)) return;
+      feasibleCount += 1;
+      const sched = ssgs(order);
+      if (sched.makespan < optimum) {
+        optimum = sched.makespan;
+        optimumOrder = order;
+      }
+    });
+    const totalPermutations = factorial(TASKS.length);
+    const state = sim.state();
+    const found = state.best ? state.best.makespan : null;
+    const lb = lowerBound();
+    let comparison;
+    if (found === null) comparison = 'Сначала сделайте хотя бы один шаг, чтобы сравнить.';
+    else if (found === optimum) comparison = 'Симулятор нашёл это же значение — для маленькой модели это ожидаемо.';
+    else comparison = `Симулятор нашёл ${found} с. Разрыв ${found - optimum} с — при 60 оценках это нормально.`;
+    stage.brute.innerHTML = `
+      <b>Лучший порядок из перебора:</b> ${optimum} с (${optimumOrder.map((task) => task.short).join(' → ')}).<br>
+      Проверено ${feasibleCount} допустимых перестановок из ${totalPermutations}. Нижняя оценка по критическому пути: ${lb} с.<br>
+      ${comparison}<br>
+      <span class="muted">Перебор идёт по приоритетам, а не по всем возможным расписаниям: декодирование выполняет тот же SSGS.</span>`;
+    stage.brute.classList.add('show');
+  });
+
+  /* --------------------------- старт --------------------------- */
+  renderLegend();
+  seedInput.value = '42';
+  renderAll();
+})();
+</script>
+</body>
+</html>

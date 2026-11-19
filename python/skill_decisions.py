@@ -63,14 +63,31 @@ def search_decisions(groups, evaluate, *, seed=42, max_evaluations=100):
             'score': best.makespan, 'evaluations': manager.budget.used}
 
 
-def search_workflow(groups, build_candidate, budget_microunits, **search_options):
+def search_workflow(groups, build_candidate, budget_microunits, *, quality_evidence=(),
+                    explore_training=False, training_evidence=(), **search_options):
     """Score decoded DAGs by forecast makespan after a hard cost gate."""
     from metaaco_dag import integer, validate_problem
     from vendor.rcpsp.core import (RcpspInstance, SerialScheduleGenerator,
                                  topological_order, validate_schedule)
 
     integer(budget_microunits, minimum=0)
+    import json
+
+    def route_key(route):
+        return json.dumps(route, ensure_ascii=False)
+
+    evidence = {}
+    for row in quality_evidence:
+        integer(row['attempts'])
+        integer(row['successes'], maximum=row['attempts'], minimum=0)
+        evidence[route_key(row['route'])] = row
     evaluated = {}
+    routes = {}
+    route_attempts = {}
+    for row in training_evidence:
+        integer(row['attempts'])
+        route_attempts[route_key(row['route'])] = row['attempts']
+    observations = {}
     trace = []
     trace_limit = 100
 
@@ -100,9 +117,25 @@ def search_workflow(groups, build_candidate, budget_microunits, **search_options
         order = topological_order(instance, [priority.get(name, len(priority)) for name in ids])
         schedule = SerialScheduleGenerator().generate(instance, order)
         validate_schedule(instance, schedule)
-        evaluated[key] = {'problem': problem, 'estimatedCostMicrounits': cost,
+        route = [[task['id'], (task['model'] or {}).get('provider'), (task['model'] or {}).get('model'),
+                  sorted(task['dependsOn'])] for task in sorted(tasks, key=lambda task: task['id'])]
+        data = evidence.get(route_key(route))
+        quality = None
+        rank = 500
+        if data:
+            rank = (data['successes'] + 1) * 1000 // (data['attempts'] + 2)
+            quality = {'successes': data['successes'], 'attempts': data['attempts'],
+                       'estimatedSuccess': rank / 1000}
+        evaluated[key] = {'problem': problem, 'quality': quality,
+                          'objective': (1000 - rank) * 86401 + schedule.makespan, 'estimatedCostMicrounits': cost,
                           'makespanSeconds': schedule.makespan, 'rejected': None,
                           'dispatchOrder': [ids[job] for job in sorted(order, key=lambda j: schedule.start_times[j])]}
+        if explore_training:
+            identity = route_key(route)
+            observations[key] = route_attempts.get(identity, 0) + (data or {}).get('attempts', 0)
+            previous = routes.get(identity)
+            if previous is None or (evaluated[key]['objective'], key) < (evaluated[previous]['objective'], previous):
+                routes[identity] = key
         return evaluated[key]
 
     def evaluate(choices):
@@ -111,10 +144,26 @@ def search_workflow(groups, build_candidate, budget_microunits, **search_options
             trace.append({'evaluation': len(trace) + 1, 'choices': dict(choices),
                           'priority': list(choices), **{key: value for key, value in row.items()
                                                        if key != 'problem'}})
-        return row['makespanSeconds']
+        return row.get('objective')
 
     result = search_decisions(groups, evaluate, **search_options)
-    selected = evaluated[tuple(result['choices'].items())]
+    winner = tuple(result['choices'].items())
+    selected = evaluated[winner]
+    if explore_training:
+        def observed(key):
+            return observations[key]
+
+        best_route = min(routes.values(), key=lambda key: (observed(key), evaluated[key]['objective'], key))
+        # Retain the optimizer's exact schedule when it ties the exploration policy.
+        chosen = winner if (observed(winner), selected['objective']) == (
+            observed(best_route), evaluated[best_route]['objective']) else best_route
+        selected = evaluated[chosen]
+        result = {**result, 'choices': dict(chosen), 'score': selected['objective'],
+                  'exploration': {'schemaVersion': 1, 'policy': 'least-observed-route',
+                                  'distinctFeasibleRoutes': len(routes),
+                                  'selectedObservedAttempts': observed(chosen),
+                                  'optimizerWinner': {'choices': dict(winner), 'score': result['score'],
+                                                      'observedAttempts': observed(winner)}}}
     return {**result, **selected, 'trace': {'schemaVersion': 1, 'evaluations': trace,
                                           'omitted': result['evaluations'] - len(trace)}}
 
@@ -123,15 +172,19 @@ def plan_skill_graph(catalog, resources, budget_microunits, *, required_skills=(
     """Build workflow DAGs lazily from skill routes and optional branches."""
     required = {'implement', 'refactor'}
     optional = {'analyze', 'design', 'write-tests', 'review'}
-    supported = required | optional | {'integrate'}
+    import re
+    components = sorted(skill for skill in catalog if re.fullmatch(r'implement-[a-z0-9-]{1,53}', skill))
+    if components and (len(components) < 2 or 'integrate' not in catalog):
+        raise ValueError('Component layout requires integration and at least two components')
+    supported = required | optional | set(components) | {'integrate'}
     mandatory = set(required_skills)
     if not mandatory <= (optional & catalog.keys()):
         raise ValueError('Required optional skills must exist in the catalog')
     if not required <= catalog.keys() or not catalog.keys() <= supported:
         raise ValueError('Invalid skill catalog')
-    if ('write-tests' in catalog) != ('integrate' in catalog):
+    if ('write-tests' in catalog or bool(components)) != ('integrate' in catalog):
         raise ValueError('Test preparation requires integration')
-    groups = {}
+    groups = {'layout': ['monolith', 'components']} if components else {}
     for skill, routes in catalog.items():
         if not isinstance(routes, list) or not routes:
             raise ValueError('Each skill needs at least one route')
@@ -147,10 +200,15 @@ def plan_skill_graph(catalog, resources, budget_microunits, *, required_skills=(
         if choices.get('design', 'design/skip') != 'design/skip':
             dependencies['design'] = context
             context = ['design']
-        dependencies['implement'] = context
+        implementations = components if choices.get('layout') == 'components' else ['implement']
+        for skill in implementations:
+            dependencies[skill] = context
+        integration_inputs = list(implementations)
         if choices.get('write-tests', 'write-tests/skip') != 'write-tests/skip':
             dependencies['write-tests'] = context
-            dependencies['integrate'] = ['implement', 'write-tests']
+            integration_inputs.append('write-tests')
+        if len(integration_inputs) > 1:
+            dependencies['integrate'] = integration_inputs
         implementation = 'integrate' if 'integrate' in dependencies else 'implement'
         dependencies['refactor'] = [implementation]
         if choices.get('review', 'review/skip') != 'review/skip':
@@ -184,4 +242,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     spec = json.loads(args.catalog.read_text(encoding='utf-8'))
     print(json.dumps(plan_skill_graph(spec['skills'], spec['resources'],
-                                     spec['budgetMicrounits'], required_skills=spec.get('requiredSkills', []), seed=args.seed)))
+                                     spec['budgetMicrounits'], required_skills=spec.get('requiredSkills', []),
+                                     quality_evidence=spec.get('qualityEvidence', []),
+                                     training_evidence=spec.get('trainingEvidence', []),
+                                     explore_training=spec.get('exploreTraining') is True, seed=args.seed)))

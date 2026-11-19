@@ -37,3 +37,19 @@ test('compact edits require a unique match and cannot target another file', asyn
   assert.throws(() => applyTextEdits(base, { revision: 'green', edits: [{ ...edit, path: 'index.js' }] },
     ['pricing.js']), /not editable/)
 })
+
+test('component file claims reject overlaps before integration', async () => {
+  const { claimComponentFiles } = await import('../../src/orchestration/snapshot-patch.js')
+  const owners = new Map()
+  claimComponentFiles(owners, 'implement-storage', ['Storage.java'])
+  claimComponentFiles(owners, 'implement-http', ['Controller.java'])
+  assert.throws(() => claimComponentFiles(owners, 'implement-http', ['Other.java', 'Storage.java']), /Storage.java/)
+  assert.equal(owners.has('Other.java'), false)
+})
+
+test('stock component prompts retain disjoint file ownership and shared interface', async () => {
+  const { stockComponentPrompts } = await import('../../examples/stock-component-prompts.js')
+  assert.match(stockComponentPrompts['implement-stock'], /Return only stock.cjs/)
+  assert.match(stockComponentPrompts['implement-reservation'], /Return only subject.cjs/)
+  for (const prompt of Object.values(stockComponentPrompts)) assert.match(prompt, /debit/)
+})

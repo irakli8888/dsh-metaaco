@@ -141,3 +141,20 @@ for (const mode of ['fixed', 'serial-order', 'start-groups', 'agent-problem']) t
     }
   }
 })
+
+test('plugin registers fixed and skill command previews together', async t => {
+  const { mkdtemp, writeFile, rm } = await import('node:fs/promises')
+  const { apply } = await import('../index.js')
+  const dir = await mkdtemp(join(tmpdir(), 'metaaco-skills-preview-'))
+  t.after(() => rm(dir, { recursive: true, force: true }))
+  const path = join(dir, 'job.json')
+  await writeFile(path, JSON.stringify({ schemaVersion: 1, request: { taskId: 'fixture' },
+    budgetMicrounits: 602458, resources: { agentSlots: 1 }, skills: {} }))
+  const registered = []
+  apply({ commands: { register: command => registered.push(command) } },
+    { skillJobFile: path, workflowFile: new URL('../examples/two-agents.json', import.meta.url).pathname })
+  assert.deepEqual(registered.map(command => command.name), ['metaaco-skills', 'metaaco'])
+  const response = await registered[0].handler({ rawInput: '', agent: {} })
+  assert.equal(response.kind, 'success')
+  assert.equal(JSON.parse(response.text).taskId, 'fixture')
+})

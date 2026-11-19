@@ -115,3 +115,62 @@ class SkillDecisionTests(unittest.TestCase):
             self.assertEqual(tasks['refactor']['dependsOn'], ['implement', 'review'])
             self.assertEqual(tasks['review']['model']['model'], expected)
             self.assertLessEqual(result['estimatedCostMicrounits'], budget)
+
+    def test_component_implementations_compete_with_monolith(self):
+        from skill_decisions import plan_skill_graph
+        from test_metaaco_dag import problem
+
+        def route(seconds, cost):
+            return {'model': {'provider': 'offline', 'model': 'm'}, 'prompt': 'Work',
+                    'seconds': seconds, 'costMicrounits': cost}
+
+        catalog = {'implement': [route(12, 2)], 'refactor': [route(1, 1)], 'integrate': [route(1, 1)],
+                   'implement-storage': [route(3, 3)], 'implement-http': [route(3, 3)]}
+        for budget, expected in [(3, 'monolith'), (8, 'components')]:
+            result = plan_skill_graph(catalog, problem()['plan']['resources'], budget)
+            self.assertEqual(result['choices']['layout'], expected)
+            tasks = {task['id']: task for task in result['problem']['plan']['tasks']}
+            if expected == 'components':
+                self.assertEqual(set(tasks['integrate']['dependsOn']), {'implement-storage', 'implement-http'})
+                self.assertEqual(result['makespanSeconds'], 5)
+
+    def test_verified_quality_can_win_over_shorter_duration(self):
+        from skill_decisions import plan_skill_graph
+        from test_metaaco_dag import problem
+
+        def route(model, seconds):
+            return {'model': {'provider': 'offline', 'model': model}, 'prompt': 'Work',
+                    'seconds': seconds, 'costMicrounits': 1}
+
+        catalog = {'implement': [route('fast', 1), route('proven', 8)], 'refactor': [route('fast', 1)]}
+        evidence = [{'route': [['implement', 'offline', 'proven', []],
+                               ['refactor', 'offline', 'fast', ['implement']]],
+                     'successes': 3, 'attempts': 3}]
+        result = plan_skill_graph(catalog, problem()['plan']['resources'], 2, quality_evidence=evidence)
+        self.assertEqual(result['choices']['implement'], 'implement/1')
+        self.assertEqual(result['quality']['attempts'], 3)
+        self.assertEqual(result['makespanSeconds'], 9)
+
+    def test_training_explores_unobserved_feasible_route(self):
+        from skill_decisions import plan_skill_graph
+        from test_metaaco_dag import problem
+
+        def route(model, seconds, cost=1):
+            return {'model': {'provider': 'offline', 'model': model}, 'prompt': 'Work',
+                    'seconds': seconds, 'costMicrounits': cost}
+
+        catalog = {'implement': [route('known', 1), route('new', 3), route('over', 1, 9)],
+                   'refactor': [route('known', 1)]}
+        evidence = [{'route': [['implement', 'offline', 'known', []],
+                               ['refactor', 'offline', 'known', ['implement']]],
+                     'successes': 3, 'attempts': 3}]
+        resources = problem()['plan']['resources']
+        baseline = plan_skill_graph(catalog, resources, 2, quality_evidence=evidence)
+        result = plan_skill_graph(catalog, resources, 2, quality_evidence=evidence, explore_training=True)
+        self.assertEqual(baseline['choices']['implement'], 'implement/0')
+        self.assertEqual(result['choices']['implement'], 'implement/1')
+        self.assertEqual(result['score'], result['objective'])
+        self.assertEqual(result['trace'], baseline['trace'])
+        self.assertEqual(result['exploration']['distinctFeasibleRoutes'], 2)
+        self.assertEqual(result['exploration']['selectedObservedAttempts'], 0)
+        self.assertEqual(result['exploration']['optimizerWinner']['choices'], baseline['choices'])
