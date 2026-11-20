@@ -1,0 +1,1639 @@
+{
+  "schemaVersion": 2,
+  "protocol": {
+    "schemaVersion": 2,
+    "id": "webhook-infrastructure-pilot-v2",
+    "sourceCommit": "fbea6c9cf14ecd71e8afbd485101a33a9a6cfd54",
+    "archiveSha256": "29a554d4371e5e18ce43aaf1d8cf135563ead30f02764a75f54ad94cd5133f6e",
+    "driverSha256": "a44e0dc626e36aaf68e76d6e989c5932c609158878b96f30da78e3ac8525a57c",
+    "methods": [
+      "direct-flash",
+      "direct-pro",
+      "fixed",
+      "components",
+      "metaaco"
+    ],
+    "seed": 7,
+    "budgetMicrounits": 2000000,
+    "evaluationDockerImage": "sha256:116b800c3754b440ee0aa3ed2f20f5bf3d99a554bfd9adeea09ea8017f6e85f5",
+    "taskHashes": {
+      "baseSnapshot": "ee03c85633fb6025b8be977511d9220d69c8f6bed12724a99d09dc1ead5ddb22",
+      "testSpec": "2d3b98e450081111bb2c9c67bf540561ec41cfe32d39b3b6aeaedc6722599d3d",
+      "contracts": "72958088c8c18f38d5f5d6bff384fd5c488fe198bb61d3b9713dba4cdba8517c"
+    },
+    "node": "v24.22.1",
+    "python": "Python 3.14.4",
+    "startedAt": "2026-11-20T22:28:01.500Z",
+    "purpose": "Infrastructure retest, not training or statistical comparison",
+    "history": "Empty isolated bank for each method; no feedback between methods",
+    "rules": [
+      "One attempt per method, no paid retries",
+      "Identical public tests and limits; explicit uncalibrated priors",
+      "MetaACO uses feasible initialization within 100 total evaluations",
+      "Shared remaining monetary budget changes per-attempt policy and may change available models",
+      "Held costs carry forward; missing accounting stops remaining series",
+      "Direct correctness and TDD compliance are reported separately",
+      "Preflight plans use total budget; actual manifests record remaining-budget plans; no manual route substitution"
+    ]
+  },
+  "spentMicrounits": 30617,
+  "heldMicrounits": 0,
+  "remainingMicrounits": 1969383,
+  "accountingComplete": true,
+  "finished": true,
+  "rows": [
+    {
+      "method": "direct-flash",
+      "startedAt": "2026-11-20T22:28:01.634Z",
+      "finishedAt": "2026-11-20T22:28:18.327Z",
+      "driverWallTimeMs": 16692.077214,
+      "state": "inconclusive",
+      "attemptCreated": true,
+      "acceptancePassed": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "accounting": {
+        "ledgerCreated": true,
+        "spentMicrounits": 3762,
+        "heldMicrounits": 0,
+        "violated": false,
+        "coverageComplete": true,
+        "source": "Persistent attempt budget; cost calculated from usage and pinned tariff"
+      },
+      "error": null,
+      "apiCalls": 1,
+      "calls": [
+        {
+          "billing": null,
+          "calculatedCost": {
+            "currency": "USD",
+            "microunits": 3762,
+            "reason": null
+          },
+          "callId": "adapter/9dc7e16c-58c8-474f-9775-8d473aacd9b7",
+          "kind": "model",
+          "latencyMs": 14044.558839000001,
+          "model": "deepseek-flash",
+          "modelRevision": "DeepSeek-V4.1-Flash-1017",
+          "pricing": {
+            "currency": "USD",
+            "effectiveAt": "2026-11-14T00:00:00Z",
+            "id": "deepseek-flash-peak",
+            "model": "deepseek-flash",
+            "modelRevision": "DeepSeek-V4.1-Flash-1017",
+            "provider": "deepseek",
+            "rates": {
+              "cacheReadTokens": 6000,
+              "cacheWriteTokens": 0,
+              "inputTokens": 300000,
+              "outputTokens": 1200000
+            },
+            "schemaVersion": 1,
+            "source": "https://api-docs.deepseek.com/quick_start/pricing/"
+          },
+          "provider": "deepseek",
+          "requestId": null,
+          "source": "guarded-adapter-stream-v1",
+          "status": "completed",
+          "usage": {
+            "cacheReadTokens": 768,
+            "cacheWriteTokens": 0,
+            "inputTokens": 178,
+            "outputTokens": 3086,
+            "reasoningTokens": null,
+            "totalTokens": 4032
+          }
+        }
+      ],
+      "measuredWallTimeMs": 16624.709853,
+      "selectionWallTimeMs": 0.6489720000000148,
+      "estimates": {
+        "costMicrounits": 6300,
+        "currency": "USD",
+        "quality": null,
+        "source": "Fixed direct forecast",
+        "wallTimeMs": 10000
+      },
+      "usage": {
+        "cacheReadTokens": 768,
+        "cacheWriteTokens": 0,
+        "inputTokens": 178,
+        "outputTokens": 3086,
+        "reasoningTokens": null,
+        "totalTokens": 4032
+      },
+      "failureReasons": [],
+      "phases": [
+        {
+          "phase": "baseline",
+          "suites": [
+            {
+              "id": "regression",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 2,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "ee03c85633fb6025b8be977511d9220d69c8f6bed12724a99d09dc1ead5ddb22",
+              "testSuiteHash": "4fbdf04942c00b184640cfb47118b122fc1b95435e0b9866499859fd986fd609",
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "suites": [
+            {
+              "id": "target",
+              "status": "failed",
+              "counts": {
+                "failed": 12,
+                "passed": 0,
+                "skipped": 0
+              },
+              "exitCode": 1,
+              "snapshotHash": "ee03c85633fb6025b8be977511d9220d69c8f6bed12724a99d09dc1ead5ddb22",
+              "testSuiteHash": "3bccf2b88b56bd6802ec99575b11bf6ec4be64efb37699d99ab17da539b265c6",
+              "failedTests": [
+                {
+                  "name": "subscription validation and duplicate id",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "event validation and case insensitive key",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 202\n"
+                },
+                {
+                  "name": "idempotent enqueue accepts reordered object keys",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "key conflict and event id conflict",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "fanout captures matching subscriptions at enqueue",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "request and returned state are isolated",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "signature hashes exact wire bytes",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "worker delivers signed event once",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "exception schedules retry and respects injected clock",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "non 2xx exhausts attempt limit",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "concurrent workers cannot send same delivery",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "recipient failures do not block others",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "suites": [
+            {
+              "id": "target",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 12,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "61350b0c3b4f909b535952a4cf4828dcd1a945461141ef96ca5654b72a0a47a4",
+              "testSuiteHash": "3bccf2b88b56bd6802ec99575b11bf6ec4be64efb37699d99ab17da539b265c6",
+              "failedTests": []
+            },
+            {
+              "id": "regression",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 2,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "61350b0c3b4f909b535952a4cf4828dcd1a945461141ef96ca5654b72a0a47a4",
+              "testSuiteHash": "4fbdf04942c00b184640cfb47118b122fc1b95435e0b9866499859fd986fd609",
+              "failedTests": []
+            }
+          ]
+        }
+      ],
+      "plan": {
+        "description": "Task-aware scenario workflow",
+        "execution": "dag",
+        "name": "scenario-direct-flash",
+        "resources": {
+          "agentSlots": 2,
+          "maxArtifactBytes": 65536,
+          "maxInputBytes": 262144,
+          "timeoutMs": 300000
+        },
+        "tasks": [
+          {
+            "dependsOn": [],
+            "id": "implement",
+            "inputs": [],
+            "model": {
+              "model": "deepseek-flash",
+              "provider": "deepseek"
+            },
+            "prompt": "{\"kind\":\"scenario-skill-v1\",\"skill\":\"implement\",\"componentId\":null}",
+            "slots": 1
+          }
+        ],
+        "version": 3
+      },
+      "executionTaskStates": [
+        {
+          "artifact": {
+            "sha256": "62abe3328afd5d26004fab5214dd98dafd21c3cc70f3638526e341f04fe44079",
+            "sizeBytes": 11040
+          },
+          "id": "implement",
+          "inputs": [],
+          "reason": null,
+          "runId": "83e9bc35-91ba-494b-bdc5-c9eeb32b5edf",
+          "state": "completed",
+          "wallTimeMs": 15299.695784
+        }
+      ],
+      "search": null
+    },
+    {
+      "method": "direct-pro",
+      "startedAt": "2026-11-20T22:28:18.329Z",
+      "finishedAt": "2026-11-20T22:28:41.829Z",
+      "driverWallTimeMs": 23500.100796000002,
+      "state": "failed",
+      "attemptCreated": true,
+      "acceptancePassed": false,
+      "correctness": "failed",
+      "tddCompliance": "failed",
+      "accounting": {
+        "ledgerCreated": true,
+        "spentMicrounits": 18048,
+        "heldMicrounits": 0,
+        "violated": false,
+        "coverageComplete": true,
+        "source": "Persistent attempt budget; cost calculated from usage and pinned tariff"
+      },
+      "error": null,
+      "apiCalls": 1,
+      "calls": [
+        {
+          "billing": null,
+          "calculatedCost": {
+            "currency": "USD",
+            "microunits": 18048,
+            "reason": null
+          },
+          "callId": "adapter/8f646457-4486-4932-97c8-54c5b7e3ab21",
+          "kind": "model",
+          "latencyMs": 21405.633111000003,
+          "model": "deepseek-v4-pro",
+          "modelRevision": "DeepSeek-V4-Pro-0813",
+          "pricing": {
+            "currency": "USD",
+            "effectiveAt": "2026-11-17T00:00:00Z",
+            "id": "deepseek-v4-pro-peak",
+            "model": "deepseek-v4-pro",
+            "modelRevision": "DeepSeek-V4-Pro-0813",
+            "provider": "deepseek",
+            "rates": {
+              "cacheReadTokens": 44000,
+              "cacheWriteTokens": 0,
+              "inputTokens": 1320000,
+              "outputTokens": 3960000
+            },
+            "schemaVersion": 1,
+            "source": "https://api-docs.deepseek.com/quick_start/pricing/"
+          },
+          "provider": "deepseek",
+          "requestId": null,
+          "source": "guarded-adapter-stream-v1",
+          "status": "completed",
+          "usage": {
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "inputTokens": 943,
+            "outputTokens": 4243,
+            "reasoningTokens": null,
+            "totalTokens": 5186
+          }
+        }
+      ],
+      "measuredWallTimeMs": 23438.998187,
+      "selectionWallTimeMs": 0.5927950000004785,
+      "estimates": {
+        "costMicrounits": 22314,
+        "currency": "USD",
+        "quality": null,
+        "source": "Fixed direct forecast",
+        "wallTimeMs": 10000
+      },
+      "usage": {
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "inputTokens": 943,
+        "outputTokens": 4243,
+        "reasoningTokens": null,
+        "totalTokens": 5186
+      },
+      "failureReasons": [
+        "Independent GREEN gate did not pass"
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "suites": [
+            {
+              "id": "regression",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 2,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "ee03c85633fb6025b8be977511d9220d69c8f6bed12724a99d09dc1ead5ddb22",
+              "testSuiteHash": "4fbdf04942c00b184640cfb47118b122fc1b95435e0b9866499859fd986fd609",
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "suites": [
+            {
+              "id": "target",
+              "status": "failed",
+              "counts": {
+                "failed": 12,
+                "passed": 0,
+                "skipped": 0
+              },
+              "exitCode": 1,
+              "snapshotHash": "ee03c85633fb6025b8be977511d9220d69c8f6bed12724a99d09dc1ead5ddb22",
+              "testSuiteHash": "3bccf2b88b56bd6802ec99575b11bf6ec4be64efb37699d99ab17da539b265c6",
+              "failedTests": [
+                {
+                  "name": "subscription validation and duplicate id",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "event validation and case insensitive key",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 202\n"
+                },
+                {
+                  "name": "idempotent enqueue accepts reordered object keys",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "key conflict and event id conflict",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "fanout captures matching subscriptions at enqueue",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "request and returned state are isolated",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "signature hashes exact wire bytes",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "worker delivers signed event once",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "exception schedules retry and respects injected clock",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "non 2xx exhausts attempt limit",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "concurrent workers cannot send same delivery",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "recipient failures do not block others",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "suites": [
+            {
+              "id": "target",
+              "status": "failed",
+              "counts": {
+                "failed": 12,
+                "passed": 0,
+                "skipped": 0
+              },
+              "exitCode": 1,
+              "snapshotHash": "b3ac67ee5fb307e8e7c1d40d5986bcd881243f08e4bce30ec37ccb58a422614f",
+              "testSuiteHash": "3bccf2b88b56bd6802ec99575b11bf6ec4be64efb37699d99ab17da539b265c6",
+              "failedTests": [
+                {
+                  "name": "subscription validation and duplicate id",
+                  "message": "Expected values to be strictly equal:\n\nundefined !== 201\n"
+                },
+                {
+                  "name": "event validation and case insensitive key",
+                  "message": "Expected values to be strictly equal:\n\nundefined !== 202\n"
+                },
+                {
+                  "name": "idempotent enqueue accepts reordered object keys",
+                  "message": "Expected values to be strictly equal:\n\nundefined !== 201\n"
+                },
+                {
+                  "name": "key conflict and event id conflict",
+                  "message": "Expected values to be strictly equal:\n\nundefined !== 201\n"
+                },
+                {
+                  "name": "fanout captures matching subscriptions at enqueue",
+                  "message": "Expected values to be strictly equal:\n\nundefined !== 201\n"
+                },
+                {
+                  "name": "request and returned state are isolated",
+                  "message": "Expected values to be strictly equal:\n\nundefined !== 201\n"
+                },
+                {
+                  "name": "signature hashes exact wire bytes",
+                  "message": "Expected values to be strictly equal:\n\nundefined !== 201\n"
+                },
+                {
+                  "name": "worker delivers signed event once",
+                  "message": "Expected values to be strictly equal:\n\nundefined !== 201\n"
+                },
+                {
+                  "name": "exception schedules retry and respects injected clock",
+                  "message": "Expected values to be strictly equal:\n\nundefined !== 201\n"
+                },
+                {
+                  "name": "non 2xx exhausts attempt limit",
+                  "message": "Expected values to be strictly equal:\n\nundefined !== 201\n"
+                },
+                {
+                  "name": "concurrent workers cannot send same delivery",
+                  "message": "Expected values to be strictly equal:\n\nundefined !== 201\n"
+                },
+                {
+                  "name": "recipient failures do not block others",
+                  "message": "Expected values to be strictly equal:\n\nundefined !== 201\n"
+                }
+              ]
+            },
+            {
+              "id": "regression",
+              "status": "error",
+              "counts": {
+                "failed": 2,
+                "passed": 0,
+                "skipped": 0
+              },
+              "exitCode": 1,
+              "snapshotHash": "b3ac67ee5fb307e8e7c1d40d5986bcd881243f08e4bce30ec37ccb58a422614f",
+              "testSuiteHash": "4fbdf04942c00b184640cfb47118b122fc1b95435e0b9866499859fd986fd609",
+              "failedTests": [
+                {
+                  "name": "existing version and health stay compatible",
+                  "message": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ Promise {\n+   Symbol(async_id_symbol): 43,\n+   Symbol(trigger_async_id_symbol): 17,\n+   {\n+     body: {\n+       ok: true,\n+       version: 1\n+     },\n+     status: 200\n- {\n-   body: {\n-     ok: true,\n-     version: 1\n    },\n-   status: 200\n  }\n"
+                },
+                {
+                  "name": "unknown route keeps 404",
+                  "message": "Expected values to be strictly equal:\n\nundefined !== 404\n"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "plan": {
+        "description": "Task-aware scenario workflow",
+        "execution": "dag",
+        "name": "scenario-direct-pro",
+        "resources": {
+          "agentSlots": 2,
+          "maxArtifactBytes": 65536,
+          "maxInputBytes": 262144,
+          "timeoutMs": 300000
+        },
+        "tasks": [
+          {
+            "dependsOn": [],
+            "id": "implement",
+            "inputs": [],
+            "model": {
+              "model": "deepseek-v4-pro",
+              "provider": "deepseek"
+            },
+            "prompt": "{\"kind\":\"scenario-skill-v1\",\"skill\":\"implement\",\"componentId\":null}",
+            "slots": 1
+          }
+        ],
+        "version": 3
+      },
+      "executionTaskStates": [
+        {
+          "artifact": {
+            "sha256": "07e5ca2c95c183e3d12cd140880ca4b1a958243970f22ce16cd78a898ae465a6",
+            "sizeBytes": 15159
+          },
+          "id": "implement",
+          "inputs": [],
+          "reason": "Independent GREEN gate did not pass",
+          "runId": "fbb01015-646f-48b0-9f0c-6a93fcf1fd7c",
+          "state": "failed",
+          "wallTimeMs": 22515.591814000003
+        }
+      ],
+      "search": null
+    },
+    {
+      "method": "fixed",
+      "startedAt": "2026-11-20T22:28:41.830Z",
+      "finishedAt": "2026-11-20T22:28:52.320Z",
+      "driverWallTimeMs": 10489.606249999997,
+      "state": "failed",
+      "attemptCreated": true,
+      "acceptancePassed": false,
+      "correctness": null,
+      "tddCompliance": null,
+      "accounting": {
+        "ledgerCreated": true,
+        "spentMicrounits": 3842,
+        "heldMicrounits": 0,
+        "violated": false,
+        "coverageComplete": true,
+        "source": "Persistent attempt budget; cost calculated from usage and pinned tariff"
+      },
+      "error": null,
+      "apiCalls": 1,
+      "calls": [
+        {
+          "billing": null,
+          "calculatedCost": {
+            "currency": "USD",
+            "microunits": 3842,
+            "reason": null
+          },
+          "callId": "adapter/346b8506-f45f-4593-9e54-8d406465e35a",
+          "kind": "model",
+          "latencyMs": 9150.542599,
+          "model": "deepseek-flash",
+          "modelRevision": "DeepSeek-V4.1-Flash-1017",
+          "pricing": {
+            "currency": "USD",
+            "effectiveAt": "2026-11-14T00:00:00Z",
+            "id": "deepseek-flash-peak",
+            "model": "deepseek-flash",
+            "modelRevision": "DeepSeek-V4.1-Flash-1017",
+            "provider": "deepseek",
+            "rates": {
+              "cacheReadTokens": 6000,
+              "cacheWriteTokens": 0,
+              "inputTokens": 300000,
+              "outputTokens": 1200000
+            },
+            "schemaVersion": 1,
+            "source": "https://api-docs.deepseek.com/quick_start/pricing/"
+          },
+          "provider": "deepseek",
+          "requestId": null,
+          "source": "guarded-adapter-stream-v1",
+          "status": "completed",
+          "usage": {
+            "cacheReadTokens": 768,
+            "cacheWriteTokens": 0,
+            "inputTokens": 178,
+            "outputTokens": 3153,
+            "reasoningTokens": null,
+            "totalTokens": 4099
+          }
+        }
+      ],
+      "measuredWallTimeMs": 10406.889257000003,
+      "selectionWallTimeMs": 0.525247000005038,
+      "estimates": {
+        "costMicrounits": 12600,
+        "currency": "USD",
+        "quality": null,
+        "source": "uncalibrated equal 10-second duration and explicit input/output token priors; tariff bounds separate",
+        "wallTimeMs": 20000
+      },
+      "usage": {
+        "cacheReadTokens": 768,
+        "cacheWriteTokens": 0,
+        "inputTokens": 178,
+        "outputTokens": 3153,
+        "reasoningTokens": null,
+        "totalTokens": 4099
+      },
+      "failureReasons": [
+        "Harness error: WorkflowError: child agent run failed: Error: Final snapshot changed the pinned specification"
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "suites": [
+            {
+              "id": "regression",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 2,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "ee03c85633fb6025b8be977511d9220d69c8f6bed12724a99d09dc1ead5ddb22",
+              "testSuiteHash": "4fbdf04942c00b184640cfb47118b122fc1b95435e0b9866499859fd986fd609",
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "suites": [
+            {
+              "id": "target",
+              "status": "failed",
+              "counts": {
+                "failed": 12,
+                "passed": 0,
+                "skipped": 0
+              },
+              "exitCode": 1,
+              "snapshotHash": "ee03c85633fb6025b8be977511d9220d69c8f6bed12724a99d09dc1ead5ddb22",
+              "testSuiteHash": "3bccf2b88b56bd6802ec99575b11bf6ec4be64efb37699d99ab17da539b265c6",
+              "failedTests": [
+                {
+                  "name": "subscription validation and duplicate id",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "event validation and case insensitive key",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 202\n"
+                },
+                {
+                  "name": "idempotent enqueue accepts reordered object keys",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "key conflict and event id conflict",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "fanout captures matching subscriptions at enqueue",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "request and returned state are isolated",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "signature hashes exact wire bytes",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "worker delivers signed event once",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "exception schedules retry and respects injected clock",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "non 2xx exhausts attempt limit",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "concurrent workers cannot send same delivery",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "recipient failures do not block others",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "plan": {
+        "description": "Task-aware scenario workflow",
+        "execution": "dag",
+        "name": "scenario-fixed",
+        "resources": {
+          "agentSlots": 2,
+          "maxArtifactBytes": 65536,
+          "maxInputBytes": 262144,
+          "timeoutMs": 300000
+        },
+        "tasks": [
+          {
+            "dependsOn": [],
+            "id": "implement",
+            "inputs": [],
+            "model": {
+              "model": "deepseek-flash",
+              "provider": "deepseek"
+            },
+            "prompt": "{\"kind\":\"scenario-skill-v1\",\"skill\":\"implement\",\"componentId\":null}",
+            "slots": 1
+          },
+          {
+            "dependsOn": [
+              "implement"
+            ],
+            "id": "refactor",
+            "inputs": [
+              {
+                "name": "implement",
+                "taskId": "implement"
+              }
+            ],
+            "model": {
+              "model": "deepseek-flash",
+              "provider": "deepseek"
+            },
+            "prompt": "{\"kind\":\"scenario-skill-v1\",\"skill\":\"refactor\",\"componentId\":null}",
+            "slots": 1
+          }
+        ],
+        "version": 3
+      },
+      "executionTaskStates": [
+        {
+          "artifact": null,
+          "id": "implement",
+          "inputs": [],
+          "reason": "Harness error: WorkflowError: child agent run failed: Error: Final snapshot changed the pinned specification",
+          "runId": "a3a5b4e9-077e-454b-ae78-9e9d94378aab",
+          "state": "failed",
+          "wallTimeMs": 9375.829426000004
+        },
+        {
+          "artifact": null,
+          "id": "refactor",
+          "inputs": [],
+          "reason": "Dependency did not complete",
+          "runId": null,
+          "state": "blocked",
+          "wallTimeMs": null
+        }
+      ],
+      "search": null
+    },
+    {
+      "method": "components",
+      "startedAt": "2026-11-20T22:28:52.321Z",
+      "finishedAt": "2026-11-20T22:28:59.184Z",
+      "driverWallTimeMs": 6862.436627000003,
+      "state": "failed",
+      "attemptCreated": true,
+      "acceptancePassed": false,
+      "correctness": null,
+      "tddCompliance": null,
+      "accounting": {
+        "ledgerCreated": true,
+        "spentMicrounits": 1248,
+        "heldMicrounits": 0,
+        "violated": false,
+        "coverageComplete": true,
+        "source": "Persistent attempt budget; cost calculated from usage and pinned tariff"
+      },
+      "error": null,
+      "apiCalls": 1,
+      "calls": [
+        {
+          "billing": null,
+          "calculatedCost": {
+            "currency": "USD",
+            "microunits": 1248,
+            "reason": null
+          },
+          "callId": "adapter/05cd27f3-af7e-4a6f-8368-fabc355ae749",
+          "kind": "model",
+          "latencyMs": 5570.472301999995,
+          "model": "deepseek-flash",
+          "modelRevision": "DeepSeek-V4.1-Flash-1017",
+          "pricing": {
+            "currency": "USD",
+            "effectiveAt": "2026-11-14T00:00:00Z",
+            "id": "deepseek-flash-peak",
+            "model": "deepseek-flash",
+            "modelRevision": "DeepSeek-V4.1-Flash-1017",
+            "provider": "deepseek",
+            "rates": {
+              "cacheReadTokens": 6000,
+              "cacheWriteTokens": 0,
+              "inputTokens": 300000,
+              "outputTokens": 1200000
+            },
+            "schemaVersion": 1,
+            "source": "https://api-docs.deepseek.com/quick_start/pricing/"
+          },
+          "provider": "deepseek",
+          "requestId": null,
+          "source": "guarded-adapter-stream-v1",
+          "status": "completed",
+          "usage": {
+            "cacheReadTokens": 640,
+            "cacheWriteTokens": 0,
+            "inputTokens": 361,
+            "outputTokens": 946,
+            "reasoningTokens": null,
+            "totalTokens": 1947
+          }
+        }
+      ],
+      "measuredWallTimeMs": 6784.341486000005,
+      "selectionWallTimeMs": 0.8937569999980042,
+      "estimates": {
+        "costMicrounits": 37800,
+        "currency": "USD",
+        "quality": null,
+        "source": "uncalibrated equal 10-second duration and explicit input/output token priors; tariff bounds separate",
+        "wallTimeMs": 60000
+      },
+      "usage": {
+        "cacheReadTokens": 640,
+        "cacheWriteTokens": 0,
+        "inputTokens": 361,
+        "outputTokens": 946,
+        "reasoningTokens": null,
+        "totalTokens": 1947
+      },
+      "failureReasons": [
+        "Harness error: WorkflowError: child agent run failed: Error: Snapshot requires only revision, files"
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "suites": [
+            {
+              "id": "regression",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 2,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "ee03c85633fb6025b8be977511d9220d69c8f6bed12724a99d09dc1ead5ddb22",
+              "testSuiteHash": "4fbdf04942c00b184640cfb47118b122fc1b95435e0b9866499859fd986fd609",
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "suites": [
+            {
+              "id": "target",
+              "status": "failed",
+              "counts": {
+                "failed": 12,
+                "passed": 0,
+                "skipped": 0
+              },
+              "exitCode": 1,
+              "snapshotHash": "ee03c85633fb6025b8be977511d9220d69c8f6bed12724a99d09dc1ead5ddb22",
+              "testSuiteHash": "3bccf2b88b56bd6802ec99575b11bf6ec4be64efb37699d99ab17da539b265c6",
+              "failedTests": [
+                {
+                  "name": "subscription validation and duplicate id",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "event validation and case insensitive key",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 202\n"
+                },
+                {
+                  "name": "idempotent enqueue accepts reordered object keys",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "key conflict and event id conflict",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "fanout captures matching subscriptions at enqueue",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "request and returned state are isolated",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "signature hashes exact wire bytes",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "worker delivers signed event once",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "exception schedules retry and respects injected clock",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "non 2xx exhausts attempt limit",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "concurrent workers cannot send same delivery",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "recipient failures do not block others",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "plan": {
+        "description": "Task-aware scenario workflow",
+        "execution": "dag",
+        "name": "scenario-components",
+        "resources": {
+          "agentSlots": 2,
+          "maxArtifactBytes": 65536,
+          "maxInputBytes": 262144,
+          "timeoutMs": 300000
+        },
+        "tasks": [
+          {
+            "dependsOn": [],
+            "id": "design",
+            "inputs": [],
+            "model": {
+              "model": "deepseek-flash",
+              "provider": "deepseek"
+            },
+            "prompt": "{\"kind\":\"scenario-skill-v1\",\"skill\":\"design\",\"componentId\":null}",
+            "slots": 1
+          },
+          {
+            "dependsOn": [
+              "design"
+            ],
+            "id": "implement-a",
+            "inputs": [
+              {
+                "name": "design",
+                "taskId": "design"
+              }
+            ],
+            "model": {
+              "model": "deepseek-flash",
+              "provider": "deepseek"
+            },
+            "prompt": "{\"kind\":\"scenario-skill-v1\",\"skill\":\"component\",\"componentId\":\"a\"}",
+            "slots": 1
+          },
+          {
+            "dependsOn": [
+              "design"
+            ],
+            "id": "implement-b",
+            "inputs": [
+              {
+                "name": "design",
+                "taskId": "design"
+              }
+            ],
+            "model": {
+              "model": "deepseek-flash",
+              "provider": "deepseek"
+            },
+            "prompt": "{\"kind\":\"scenario-skill-v1\",\"skill\":\"component\",\"componentId\":\"b\"}",
+            "slots": 1
+          },
+          {
+            "dependsOn": [
+              "design"
+            ],
+            "id": "implement-c",
+            "inputs": [
+              {
+                "name": "design",
+                "taskId": "design"
+              }
+            ],
+            "model": {
+              "model": "deepseek-flash",
+              "provider": "deepseek"
+            },
+            "prompt": "{\"kind\":\"scenario-skill-v1\",\"skill\":\"component\",\"componentId\":\"c\"}",
+            "slots": 1
+          },
+          {
+            "dependsOn": [
+              "design",
+              "implement-a",
+              "implement-b",
+              "implement-c"
+            ],
+            "id": "integrate",
+            "inputs": [
+              {
+                "name": "design",
+                "taskId": "design"
+              },
+              {
+                "name": "implement-a",
+                "taskId": "implement-a"
+              },
+              {
+                "name": "implement-b",
+                "taskId": "implement-b"
+              },
+              {
+                "name": "implement-c",
+                "taskId": "implement-c"
+              }
+            ],
+            "model": {
+              "model": "deepseek-flash",
+              "provider": "deepseek"
+            },
+            "prompt": "{\"kind\":\"scenario-skill-v1\",\"skill\":\"integrate\",\"componentId\":null}",
+            "slots": 1
+          },
+          {
+            "dependsOn": [
+              "integrate"
+            ],
+            "id": "refactor",
+            "inputs": [
+              {
+                "name": "integrate",
+                "taskId": "integrate"
+              }
+            ],
+            "model": {
+              "model": "deepseek-flash",
+              "provider": "deepseek"
+            },
+            "prompt": "{\"kind\":\"scenario-skill-v1\",\"skill\":\"refactor\",\"componentId\":null}",
+            "slots": 1
+          }
+        ],
+        "version": 3
+      },
+      "executionTaskStates": [
+        {
+          "artifact": null,
+          "id": "design",
+          "inputs": [],
+          "reason": "Harness error: WorkflowError: child agent run failed: Error: Snapshot requires only revision, files",
+          "runId": "d8e90bf9-9382-44f1-9a7a-68d6b2c0c4f1",
+          "state": "failed",
+          "wallTimeMs": 5793.3558369999955
+        },
+        {
+          "artifact": null,
+          "id": "implement-a",
+          "inputs": [],
+          "reason": "Dependency did not complete",
+          "runId": null,
+          "state": "blocked",
+          "wallTimeMs": null
+        },
+        {
+          "artifact": null,
+          "id": "implement-b",
+          "inputs": [],
+          "reason": "Dependency did not complete",
+          "runId": null,
+          "state": "blocked",
+          "wallTimeMs": null
+        },
+        {
+          "artifact": null,
+          "id": "implement-c",
+          "inputs": [],
+          "reason": "Dependency did not complete",
+          "runId": null,
+          "state": "blocked",
+          "wallTimeMs": null
+        },
+        {
+          "artifact": null,
+          "id": "integrate",
+          "inputs": [],
+          "reason": "Dependency did not complete",
+          "runId": null,
+          "state": "blocked",
+          "wallTimeMs": null
+        },
+        {
+          "artifact": null,
+          "id": "refactor",
+          "inputs": [],
+          "reason": "Dependency did not complete",
+          "runId": null,
+          "state": "blocked",
+          "wallTimeMs": null
+        }
+      ],
+      "search": null
+    },
+    {
+      "method": "metaaco",
+      "startedAt": "2026-11-20T22:28:59.185Z",
+      "finishedAt": "2026-11-20T22:29:10.343Z",
+      "driverWallTimeMs": 11158.259297000004,
+      "state": "failed",
+      "attemptCreated": true,
+      "acceptancePassed": false,
+      "correctness": "failed",
+      "tddCompliance": "failed",
+      "accounting": {
+        "ledgerCreated": true,
+        "spentMicrounits": 3717,
+        "heldMicrounits": 0,
+        "violated": false,
+        "coverageComplete": true,
+        "source": "Persistent attempt budget; cost calculated from usage and pinned tariff"
+      },
+      "error": null,
+      "apiCalls": 1,
+      "calls": [
+        {
+          "billing": null,
+          "calculatedCost": {
+            "currency": "USD",
+            "microunits": 3717,
+            "reason": null
+          },
+          "callId": "adapter/2cc6353a-1578-4bac-9015-1f9c644e561f",
+          "kind": "model",
+          "latencyMs": 8910.669043000009,
+          "model": "deepseek-flash",
+          "modelRevision": "DeepSeek-V4.1-Flash-1017",
+          "pricing": {
+            "currency": "USD",
+            "effectiveAt": "2026-11-14T00:00:00Z",
+            "id": "deepseek-flash-peak",
+            "model": "deepseek-flash",
+            "modelRevision": "DeepSeek-V4.1-Flash-1017",
+            "provider": "deepseek",
+            "rates": {
+              "cacheReadTokens": 6000,
+              "cacheWriteTokens": 0,
+              "inputTokens": 300000,
+              "outputTokens": 1200000
+            },
+            "schemaVersion": 1,
+            "source": "https://api-docs.deepseek.com/quick_start/pricing/"
+          },
+          "provider": "deepseek",
+          "requestId": null,
+          "source": "guarded-adapter-stream-v1",
+          "status": "completed",
+          "usage": {
+            "cacheReadTokens": 768,
+            "cacheWriteTokens": 0,
+            "inputTokens": 178,
+            "outputTokens": 3049,
+            "reasoningTokens": null,
+            "totalTokens": 3995
+          }
+        }
+      ],
+      "measuredWallTimeMs": 10970.772857999997,
+      "selectionWallTimeMs": 100.82547799999884,
+      "estimates": {
+        "costMicrounits": 12600,
+        "currency": "USD",
+        "quality": null,
+        "source": "uncalibrated equal 10-second duration and explicit input/output token priors; tariff bounds separate",
+        "wallTimeMs": 20000
+      },
+      "usage": {
+        "cacheReadTokens": 768,
+        "cacheWriteTokens": 0,
+        "inputTokens": 178,
+        "outputTokens": 3049,
+        "reasoningTokens": null,
+        "totalTokens": 3995
+      },
+      "failureReasons": [
+        "Independent GREEN gate did not pass"
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "suites": [
+            {
+              "id": "regression",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 2,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "ee03c85633fb6025b8be977511d9220d69c8f6bed12724a99d09dc1ead5ddb22",
+              "testSuiteHash": "4fbdf04942c00b184640cfb47118b122fc1b95435e0b9866499859fd986fd609",
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "suites": [
+            {
+              "id": "target",
+              "status": "failed",
+              "counts": {
+                "failed": 12,
+                "passed": 0,
+                "skipped": 0
+              },
+              "exitCode": 1,
+              "snapshotHash": "ee03c85633fb6025b8be977511d9220d69c8f6bed12724a99d09dc1ead5ddb22",
+              "testSuiteHash": "3bccf2b88b56bd6802ec99575b11bf6ec4be64efb37699d99ab17da539b265c6",
+              "failedTests": [
+                {
+                  "name": "subscription validation and duplicate id",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "event validation and case insensitive key",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 202\n"
+                },
+                {
+                  "name": "idempotent enqueue accepts reordered object keys",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "key conflict and event id conflict",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "fanout captures matching subscriptions at enqueue",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "request and returned state are isolated",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "signature hashes exact wire bytes",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "worker delivers signed event once",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "exception schedules retry and respects injected clock",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "non 2xx exhausts attempt limit",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "concurrent workers cannot send same delivery",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "recipient failures do not block others",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "suites": [
+            {
+              "id": "target",
+              "status": "failed",
+              "counts": {
+                "failed": 12,
+                "passed": 0,
+                "skipped": 0
+              },
+              "exitCode": 1,
+              "snapshotHash": "6b84b7ae1e03dee228399a50a7da4e2776fab7e10cd4aa63393a7f531142d505",
+              "testSuiteHash": "3bccf2b88b56bd6802ec99575b11bf6ec4be64efb37699d99ab17da539b265c6",
+              "failedTests": [
+                {
+                  "name": "subscription validation and duplicate id",
+                  "message": "Expected values to be strictly equal:\n\nundefined !== 201\n"
+                },
+                {
+                  "name": "event validation and case insensitive key",
+                  "message": "Expected values to be strictly equal:\n\nundefined !== 202\n"
+                },
+                {
+                  "name": "idempotent enqueue accepts reordered object keys",
+                  "message": "Expected values to be strictly equal:\n\nundefined !== 201\n"
+                },
+                {
+                  "name": "key conflict and event id conflict",
+                  "message": "Expected values to be strictly equal:\n\nundefined !== 201\n"
+                },
+                {
+                  "name": "fanout captures matching subscriptions at enqueue",
+                  "message": "Expected values to be strictly equal:\n\nundefined !== 201\n"
+                },
+                {
+                  "name": "request and returned state are isolated",
+                  "message": "Expected values to be strictly equal:\n\nundefined !== 201\n"
+                },
+                {
+                  "name": "signature hashes exact wire bytes",
+                  "message": "Expected values to be strictly equal:\n\nundefined !== 201\n"
+                },
+                {
+                  "name": "worker delivers signed event once",
+                  "message": "Expected values to be strictly equal:\n\nundefined !== 201\n"
+                },
+                {
+                  "name": "exception schedules retry and respects injected clock",
+                  "message": "Expected values to be strictly equal:\n\nundefined !== 201\n"
+                },
+                {
+                  "name": "non 2xx exhausts attempt limit",
+                  "message": "Expected values to be strictly equal:\n\nundefined !== 201\n"
+                },
+                {
+                  "name": "concurrent workers cannot send same delivery",
+                  "message": "Expected values to be strictly equal:\n\nundefined !== 201\n"
+                },
+                {
+                  "name": "recipient failures do not block others",
+                  "message": "Expected values to be strictly equal:\n\nundefined !== 201\n"
+                }
+              ]
+            },
+            {
+              "id": "regression",
+              "status": "error",
+              "counts": {
+                "failed": 2,
+                "passed": 0,
+                "skipped": 0
+              },
+              "exitCode": 1,
+              "snapshotHash": "6b84b7ae1e03dee228399a50a7da4e2776fab7e10cd4aa63393a7f531142d505",
+              "testSuiteHash": "4fbdf04942c00b184640cfb47118b122fc1b95435e0b9866499859fd986fd609",
+              "failedTests": [
+                {
+                  "name": "existing version and health stay compatible",
+                  "message": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ Promise {\n+   Symbol(async_id_symbol): 43,\n+   Symbol(trigger_async_id_symbol): 17,\n+   {\n+     body: {\n+       ok: true,\n+       version: 1\n+     },\n+     status: 200\n- {\n-   body: {\n-     ok: true,\n-     version: 1\n    },\n-   status: 200\n  }\n"
+                },
+                {
+                  "name": "unknown route keeps 404",
+                  "message": "Expected values to be strictly equal:\n\nundefined !== 404\n"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "plan": {
+        "description": "Workflow assembled by MetaACO",
+        "execution": "dag",
+        "name": "skill-search",
+        "resources": {
+          "agentSlots": 2,
+          "maxArtifactBytes": 65536,
+          "maxInputBytes": 262144,
+          "timeoutMs": 300000
+        },
+        "tasks": [
+          {
+            "dependsOn": [],
+            "id": "implement",
+            "inputs": [],
+            "model": {
+              "model": "deepseek-flash",
+              "provider": "deepseek"
+            },
+            "prompt": "{\"kind\":\"scenario-skill-v1\",\"skill\":\"implement\",\"componentId\":null}",
+            "slots": 1
+          },
+          {
+            "dependsOn": [
+              "implement"
+            ],
+            "id": "refactor",
+            "inputs": [
+              {
+                "name": "implement",
+                "taskId": "implement"
+              }
+            ],
+            "model": {
+              "model": "deepseek-flash",
+              "provider": "deepseek"
+            },
+            "prompt": "{\"kind\":\"scenario-skill-v1\",\"skill\":\"refactor\",\"componentId\":null}",
+            "slots": 1
+          }
+        ],
+        "version": 3
+      },
+      "executionTaskStates": [
+        {
+          "artifact": {
+            "sha256": "8699f3e7ae5b233ef3dd93af3a5e695da628a076aadc3ed155fb0167495e3dc8",
+            "sizeBytes": 11040
+          },
+          "id": "implement",
+          "inputs": [],
+          "reason": "Independent GREEN gate did not pass",
+          "runId": "83e2c7ad-c7a7-4017-a5be-8ff16c7d7185",
+          "state": "failed",
+          "wallTimeMs": 9993.1077
+        },
+        {
+          "artifact": null,
+          "id": "refactor",
+          "inputs": [],
+          "reason": "Dependency did not complete",
+          "runId": null,
+          "state": "blocked",
+          "wallTimeMs": null
+        }
+      ],
+      "search": {
+        "evaluations": 100,
+        "initialization": {
+          "policy": "minimum-cost-minimal-layout",
+          "choices": {
+            "layout": "monolith",
+            "implement": "implement/0",
+            "refactor": "refactor/0",
+            "design": "design/skip",
+            "integrate": "integrate/0",
+            "analyze": "analyze/skip",
+            "review": "review/skip",
+            "write-tests": "write-tests/skip",
+            "implement-a": "implement-a/0",
+            "implement-b": "implement-b/0",
+            "implement-c": "implement-c/0"
+          },
+          "structuralStartsConsidered": 2,
+          "objectiveEvaluation": 1,
+          "estimatedCostMicrounits": 12600,
+          "costIsForecast": true
+        },
+        "estimatedCostMicrounits": 12600,
+        "makespanSeconds": 20
+      }
+    }
+  ],
+  "artifactHashesVerified": true,
+  "costIsCalculatedNotInvoice": true,
+  "evidenceSha256": {
+    "summary.json": "3c22b0859dc599e82b0c81186a7c5b5693e8b0f54c3f373e1df32b9d76685f05",
+    "journal.jsonl": "2184c9eb7c0e20aba20c56831b79c5ae6f6445615d9bf2bff09b0beeccf60141",
+    "protocol.json": "5dd39c3e2fdac9ecaea2a98a2d9111a7ece493ee3b007f41614755bd27c12b85",
+    "preflight.json": "ba1ef2e7794fa92976f8a4840dc092af4a2147c1b0792f263e2f4d34948fd4d6",
+    "direct-pro/report.json": "8ac513047921db53d9f17eef4260ab19b09187857612459a1bbd2ac55f598615",
+    "direct-pro/bank-export.jsonl": "ca424a6bfd2673e2cfc1fa9bda50691503222e0ad74fbbac18a757e3ea480ec4",
+    "direct-pro/job.json": "f44f412a8d82f76611cffbabce6d833954c6e5352e40c4c97197543a730cfbf1",
+    "direct-pro/manifest.json": "505521b70d3f0494743e040ed6dd316efbc98d365f9fec6a2b7c6f3fe9a269fb",
+    "components/report.json": "f452132245d2d8d677014733aacf0deba302acbba081d20136dd5136247cf8de",
+    "components/bank-export.jsonl": "8824c796983a1bfd5ed4f1d6e80335e43f1b36c6d57a659cf8acd3b9db3f9e6c",
+    "components/job.json": "9fef9f110f648a6e089c846638c1428a3418208f028ddf04523686b1ac9a17fc",
+    "components/manifest.json": "600fe6a0d665b54b8d8cd869af7931d2e47de0a88ab47234bb3aa3aa54f515fd",
+    "fixed/report.json": "df54313c3a93bcf15df5af59c36e2aa60555ec7aac7c71d167fbd55ae89dc957",
+    "fixed/bank-export.jsonl": "4ba5f80dabcd82405c45e096c616165dbe12a582db304afe913781bcfde2d6d0",
+    "fixed/job.json": "7472abc50010e0d53a63b681b31347a3a80c0f130d29bb256f4dfa0e7be4d9ab",
+    "fixed/manifest.json": "b5a6c81e7a75c7ea2c25d2599b12a774acb542d38831e85ea4a7924587c15bc1",
+    "direct-flash/report.json": "11b9206a51fe050618d3c1dc1ee515538c122a9a28a3e522018790a959ee509e",
+    "direct-flash/bank-export.jsonl": "6351ba735c4bf3dafa0104219f40f1398b667a5b5d948df0364d083dce435ef5",
+    "direct-flash/job.json": "bb547582bac044070d9dfe33ae00e57b3a43dbf3b411ddea315d91797a9c7544",
+    "direct-flash/manifest.json": "ac3cc7eed96cb5d6d989b5330c7cbedeeee2e91b88be6cf8a5d50963c23c1a35",
+    "metaaco/report.json": "6a124b3db4dd214921315958f72b2239708698835ccabbe980fe772593d98fb4",
+    "metaaco/bank-export.jsonl": "dcc40a56656b52e0c47c8ba1e733178d99e32c471f77fdda74f6a08bf6c65186",
+    "metaaco/job.json": "380599fa1790ff38199eddf9b8188fc8ce376bf02e41c07138f97fa912f4824a",
+    "metaaco/manifest.json": "d3ab296359fc731770de426ed036011f87e62cf8df7e765b583e4ebd435cfb77",
+    "metaaco/bank/bank.sqlite": "ccaff2cd35bf092139b680995baa80dc05f4f48787e0ed226736b0752d0a2b31",
+    "metaaco/bank/artifacts/1c684a497850a17fcf506cc70a3d23aba647de5cf2efa3a3cb87ce6ade8d8d02": "1c684a497850a17fcf506cc70a3d23aba647de5cf2efa3a3cb87ce6ade8d8d02",
+    "metaaco/bank/artifacts/2d3b98e450081111bb2c9c67bf540561ec41cfe32d39b3b6aeaedc6722599d3d": "2d3b98e450081111bb2c9c67bf540561ec41cfe32d39b3b6aeaedc6722599d3d",
+    "metaaco/bank/artifacts/f135dde3a6754161219b6f82a5b4cb2121e574511f7833c098fcf16b5ecca872": "f135dde3a6754161219b6f82a5b4cb2121e574511f7833c098fcf16b5ecca872",
+    "metaaco/bank/artifacts/8699f3e7ae5b233ef3dd93af3a5e695da628a076aadc3ed155fb0167495e3dc8": "8699f3e7ae5b233ef3dd93af3a5e695da628a076aadc3ed155fb0167495e3dc8",
+    "metaaco/bank/artifacts/5fa70ef1c5da29f5dcfd6e8bc8a4bff0720c99d14b3bf331cadc613238dd4648": "5fa70ef1c5da29f5dcfd6e8bc8a4bff0720c99d14b3bf331cadc613238dd4648",
+    "metaaco/bank/artifacts/e0f254dffb7090c72ea1afe337f3da4fc79886ec4fcc79458f327c1d24e744a8": "e0f254dffb7090c72ea1afe337f3da4fc79886ec4fcc79458f327c1d24e744a8",
+    "metaaco/bank/artifacts/aa096707dfe0214fbad09f9807050710f1c6f1976f695b837b47ff2700385a0f": "aa096707dfe0214fbad09f9807050710f1c6f1976f695b837b47ff2700385a0f",
+    "metaaco/bank/artifacts/3ae112ae914d129966a6de208ae4b9ff7db89e9a12709081d754ddd159c5f073": "3ae112ae914d129966a6de208ae4b9ff7db89e9a12709081d754ddd159c5f073",
+    "metaaco/bank/artifacts/b588e49c3f98ab345f9617a4d63bf4414fb2c3f2c3ef9553f27c313794f70623": "b588e49c3f98ab345f9617a4d63bf4414fb2c3f2c3ef9553f27c313794f70623",
+    "metaaco/bank/artifacts/d94df36f02d915fbb96b7b2e38e87702bd564a69d8f03d380dd18e6953fba6b8": "d94df36f02d915fbb96b7b2e38e87702bd564a69d8f03d380dd18e6953fba6b8",
+    "metaaco/bank/artifacts/c650e6e53a8b6730a67bed3953d30fac175d4c62ae5866ffe191b1cd46d6e077": "c650e6e53a8b6730a67bed3953d30fac175d4c62ae5866ffe191b1cd46d6e077",
+    "metaaco/bank/artifacts/8b4b761a90278adacde0c11bfa490da6ec964f810b07dd70c6d1f9113f60b40a": "8b4b761a90278adacde0c11bfa490da6ec964f810b07dd70c6d1f9113f60b40a",
+    "metaaco/bank/artifacts/61586af5be235a2506ce6706f61f670b315df7fa44a7f77a1b8a080b8486e8a9": "61586af5be235a2506ce6706f61f670b315df7fa44a7f77a1b8a080b8486e8a9",
+    "metaaco/bank/artifacts/9871563705591b6b64d97484616cebd9b05ce1cfaf627124ff36cf757ee7f35b": "9871563705591b6b64d97484616cebd9b05ce1cfaf627124ff36cf757ee7f35b",
+    "metaaco/bank/artifacts/ee03c85633fb6025b8be977511d9220d69c8f6bed12724a99d09dc1ead5ddb22": "ee03c85633fb6025b8be977511d9220d69c8f6bed12724a99d09dc1ead5ddb22",
+    "metaaco/bank/artifacts/b0ffe96acf51ef018bc7ca06bfebb7848e2bf30f4c511938d15c9a318a7efd4a": "b0ffe96acf51ef018bc7ca06bfebb7848e2bf30f4c511938d15c9a318a7efd4a",
+    "metaaco/bank/artifacts/dbf1d50712334783ed21264ffd757b71043cb6b285c828183d9be13f3139e830": "dbf1d50712334783ed21264ffd757b71043cb6b285c828183d9be13f3139e830",
+    "direct-flash/bank/bank.sqlite": "9316b6934809eaa9ab9c3738624d7da0d5d91b678eabd7e16100bf51de01e9f0",
+    "direct-flash/bank/artifacts/aa21d250b8dbf61ecce2549849bac5ff6e0003fed8820d8dcde230883bd2a8ec": "aa21d250b8dbf61ecce2549849bac5ff6e0003fed8820d8dcde230883bd2a8ec",
+    "direct-flash/bank/artifacts/2d3b98e450081111bb2c9c67bf540561ec41cfe32d39b3b6aeaedc6722599d3d": "2d3b98e450081111bb2c9c67bf540561ec41cfe32d39b3b6aeaedc6722599d3d",
+    "direct-flash/bank/artifacts/4de0c44abfeab3269ed7a328a42453f6de38088ca1b55a99ae59801da19743fd": "4de0c44abfeab3269ed7a328a42453f6de38088ca1b55a99ae59801da19743fd",
+    "direct-flash/bank/artifacts/a4380899018c8d9512e85324b8400518f27d9e87058af4d896fd4aa6fa28cd99": "a4380899018c8d9512e85324b8400518f27d9e87058af4d896fd4aa6fa28cd99",
+    "direct-flash/bank/artifacts/0a38d10b6f0f38ddf2fae5bf0cd8f55948677d234afd49304736f8ad32c2e40e": "0a38d10b6f0f38ddf2fae5bf0cd8f55948677d234afd49304736f8ad32c2e40e",
+    "direct-flash/bank/artifacts/62abe3328afd5d26004fab5214dd98dafd21c3cc70f3638526e341f04fe44079": "62abe3328afd5d26004fab5214dd98dafd21c3cc70f3638526e341f04fe44079",
+    "direct-flash/bank/artifacts/4ba3e18f188881030ad668b95fcf0fd95c56399b65f7124be5232af6d7cef485": "4ba3e18f188881030ad668b95fcf0fd95c56399b65f7124be5232af6d7cef485",
+    "direct-flash/bank/artifacts/55c39b6fae342a099eada1797b9d78a69622fc27c0eaac437d0c0a5e8335c3e4": "55c39b6fae342a099eada1797b9d78a69622fc27c0eaac437d0c0a5e8335c3e4",
+    "direct-flash/bank/artifacts/033b539f7781f6bede6ca43e88e2a421f369c089aa69feeecd114f226eae13cb": "033b539f7781f6bede6ca43e88e2a421f369c089aa69feeecd114f226eae13cb",
+    "direct-flash/bank/artifacts/dbf1d50712334783ed21264ffd757b71043cb6b285c828183d9be13f3139e830": "dbf1d50712334783ed21264ffd757b71043cb6b285c828183d9be13f3139e830",
+    "direct-flash/bank/artifacts/c064cf9aeb3749d6c657fcadf63c5028bc82f8bcba0d7bf260c04bcc00bb0d3a": "c064cf9aeb3749d6c657fcadf63c5028bc82f8bcba0d7bf260c04bcc00bb0d3a",
+    "fixed/bank/bank.sqlite": "f711ba030debcf5f554ae59c4d6425b774974675adcb6f5b55ffcc73bfe239d9",
+    "fixed/bank/artifacts/2d3b98e450081111bb2c9c67bf540561ec41cfe32d39b3b6aeaedc6722599d3d": "2d3b98e450081111bb2c9c67bf540561ec41cfe32d39b3b6aeaedc6722599d3d",
+    "fixed/bank/artifacts/ec561a65323ff04dfc0187309dd2c2408489b83ff4ae8aad25fc3c166fa76de1": "ec561a65323ff04dfc0187309dd2c2408489b83ff4ae8aad25fc3c166fa76de1",
+    "fixed/bank/artifacts/f135dde3a6754161219b6f82a5b4cb2121e574511f7833c098fcf16b5ecca872": "f135dde3a6754161219b6f82a5b4cb2121e574511f7833c098fcf16b5ecca872",
+    "fixed/bank/artifacts/9fdeb7d908859826e96c1070ca6f1cd9cea46a8034010a346dce2f08b829f60a": "9fdeb7d908859826e96c1070ca6f1cd9cea46a8034010a346dce2f08b829f60a",
+    "fixed/bank/artifacts/1d04318fae0099ca60a65385a5b78d5116eb396aed8de3fa23a36c1ec7ec0059": "1d04318fae0099ca60a65385a5b78d5116eb396aed8de3fa23a36c1ec7ec0059",
+    "fixed/bank/artifacts/7af450a4e52c6308a4a95dede0f36114551a6b12a1e2c9716f7e49fbb7fe30c7": "7af450a4e52c6308a4a95dede0f36114551a6b12a1e2c9716f7e49fbb7fe30c7",
+    "fixed/bank/artifacts/1b9eb3a516d962ac6fb6f544ecf5bf07ce293dc4fc6f63ac5f5eb1c4354073b2": "1b9eb3a516d962ac6fb6f544ecf5bf07ce293dc4fc6f63ac5f5eb1c4354073b2",
+    "fixed/bank/artifacts/d45cd075b443c7e8d89661ce576797f77abbc464751a6e0945c343e040c26c60": "d45cd075b443c7e8d89661ce576797f77abbc464751a6e0945c343e040c26c60",
+    "fixed/bank/artifacts/ed9facfed21945043acf7968dea38cea83ff881f4a25cc2855c72d96540d3d18": "ed9facfed21945043acf7968dea38cea83ff881f4a25cc2855c72d96540d3d18",
+    "fixed/bank/artifacts/ee03c85633fb6025b8be977511d9220d69c8f6bed12724a99d09dc1ead5ddb22": "ee03c85633fb6025b8be977511d9220d69c8f6bed12724a99d09dc1ead5ddb22",
+    "fixed/bank/artifacts/f80c13bac52939ffece849c42ed2a229cd32cf1aab9694efa774b94b6813e69c": "f80c13bac52939ffece849c42ed2a229cd32cf1aab9694efa774b94b6813e69c",
+    "fixed/bank/artifacts/f3419ecc16efd92374133846d396d18b7e6df051db896ee387feef58815f1291": "f3419ecc16efd92374133846d396d18b7e6df051db896ee387feef58815f1291",
+    "fixed/bank/artifacts/ac53f9a0e369b11e7b84334cba4bfeff64e354bbdb186bb67810fac7db917d33": "ac53f9a0e369b11e7b84334cba4bfeff64e354bbdb186bb67810fac7db917d33",
+    "fixed/bank/artifacts/dbf1d50712334783ed21264ffd757b71043cb6b285c828183d9be13f3139e830": "dbf1d50712334783ed21264ffd757b71043cb6b285c828183d9be13f3139e830",
+    "fixed/bank/artifacts/ae82ba8f60cac7d79d08487146d3ab55182d796985b792c8d6fc58c0f9129d60": "ae82ba8f60cac7d79d08487146d3ab55182d796985b792c8d6fc58c0f9129d60",
+    "components/bank/bank.sqlite": "75e65db3aa149fe21bf4f11fce812bfb92a415f9ed6448dc335ea8fc5012caaa",
+    "components/bank/artifacts/2d3b98e450081111bb2c9c67bf540561ec41cfe32d39b3b6aeaedc6722599d3d": "2d3b98e450081111bb2c9c67bf540561ec41cfe32d39b3b6aeaedc6722599d3d",
+    "components/bank/artifacts/f135dde3a6754161219b6f82a5b4cb2121e574511f7833c098fcf16b5ecca872": "f135dde3a6754161219b6f82a5b4cb2121e574511f7833c098fcf16b5ecca872",
+    "components/bank/artifacts/82af4156d8804d4cf0ec3186c46e95ce0cf8d83ba243f4233f9b02744a4072a0": "82af4156d8804d4cf0ec3186c46e95ce0cf8d83ba243f4233f9b02744a4072a0",
+    "components/bank/artifacts/ffc0581c146d95e7fc7e22ba843d163dc8a279289d92315ac493e7179fa2609e": "ffc0581c146d95e7fc7e22ba843d163dc8a279289d92315ac493e7179fa2609e",
+    "components/bank/artifacts/e2f6f33f13320e9b477836aa3552e79e85de7fad5c4c7632c95d0841f34c5fcd": "e2f6f33f13320e9b477836aa3552e79e85de7fad5c4c7632c95d0841f34c5fcd",
+    "components/bank/artifacts/e54fe1419bc4c79d0de3f89664ccf9d081f2c9603b220a131007542624cfed7a": "e54fe1419bc4c79d0de3f89664ccf9d081f2c9603b220a131007542624cfed7a",
+    "components/bank/artifacts/489d30b70f21bc9de600a006ceca708851ee4aea92fe42a300c3f47b1dd20d56": "489d30b70f21bc9de600a006ceca708851ee4aea92fe42a300c3f47b1dd20d56",
+    "components/bank/artifacts/ee03c85633fb6025b8be977511d9220d69c8f6bed12724a99d09dc1ead5ddb22": "ee03c85633fb6025b8be977511d9220d69c8f6bed12724a99d09dc1ead5ddb22",
+    "components/bank/artifacts/6784adf238260915c7e7fd114d03af35ab120fa12d80c08481c35e68b9194f18": "6784adf238260915c7e7fd114d03af35ab120fa12d80c08481c35e68b9194f18",
+    "components/bank/artifacts/269d5f04584a1eb904ede7a3a49ac8c700a5e43e82e699c46c2e083df8501d64": "269d5f04584a1eb904ede7a3a49ac8c700a5e43e82e699c46c2e083df8501d64",
+    "components/bank/artifacts/13f3ac01e6cf115ff0852f46f6e04ae6c6497a938a444a2e6c42822cc4fbb61d": "13f3ac01e6cf115ff0852f46f6e04ae6c6497a938a444a2e6c42822cc4fbb61d",
+    "components/bank/artifacts/00a09da09eaceae3cddce57836483d070976f4d31269fd1927d2eb5c759e32e1": "00a09da09eaceae3cddce57836483d070976f4d31269fd1927d2eb5c759e32e1",
+    "components/bank/artifacts/c7122294176ca80a8cfe2bcfa667d37217ca9c459181a9a24579d77c7832fcb0": "c7122294176ca80a8cfe2bcfa667d37217ca9c459181a9a24579d77c7832fcb0",
+    "components/bank/artifacts/b6b2ea5811384a192ab69ac913836664fea47c706f0cccf31d3d01692de1bee4": "b6b2ea5811384a192ab69ac913836664fea47c706f0cccf31d3d01692de1bee4",
+    "components/bank/artifacts/0a0c474a9ca8e19ea4d9b40896ed79ddfa2b938678daa9e12dff102c574f442e": "0a0c474a9ca8e19ea4d9b40896ed79ddfa2b938678daa9e12dff102c574f442e",
+    "direct-pro/bank/bank.sqlite": "ea6ef39f8c1c79d2936fa9d78757444ec772ffc464079a6676ebe34b706d6062",
+    "direct-pro/bank/artifacts/2989eaaa481a78563d82c0a971d27b7cd2631f22a68765fdb0023a5fa5b3e883": "2989eaaa481a78563d82c0a971d27b7cd2631f22a68765fdb0023a5fa5b3e883",
+    "direct-pro/bank/artifacts/2d3b98e450081111bb2c9c67bf540561ec41cfe32d39b3b6aeaedc6722599d3d": "2d3b98e450081111bb2c9c67bf540561ec41cfe32d39b3b6aeaedc6722599d3d",
+    "direct-pro/bank/artifacts/43b6f752093b21727365b44277098b74d84d81028c2b07a7586af2348d236139": "43b6f752093b21727365b44277098b74d84d81028c2b07a7586af2348d236139",
+    "direct-pro/bank/artifacts/23596875671d6cf61fd8d2257eb684c7977de7dd4476b6ab151476ffa3eeb2e9": "23596875671d6cf61fd8d2257eb684c7977de7dd4476b6ab151476ffa3eeb2e9",
+    "direct-pro/bank/artifacts/373428b881f183ea341b5367350d8b51b5c499d99cc133384f58e786b649ae27": "373428b881f183ea341b5367350d8b51b5c499d99cc133384f58e786b649ae27",
+    "direct-pro/bank/artifacts/5f543d1072361a8bf626b859f407275b572a68b464a105aa5f3dc04a858e4fdb": "5f543d1072361a8bf626b859f407275b572a68b464a105aa5f3dc04a858e4fdb",
+    "direct-pro/bank/artifacts/de37ddc1271c148f10dfe7a73070544c198a04f42f0a510c246f39f920c30b76": "de37ddc1271c148f10dfe7a73070544c198a04f42f0a510c246f39f920c30b76",
+    "direct-pro/bank/artifacts/bd0084901037055da78242c94df74ceccec2772c81e91e5450d413f035e99525": "bd0084901037055da78242c94df74ceccec2772c81e91e5450d413f035e99525",
+    "direct-pro/bank/artifacts/915e71610a97c42fe816bf95ae07156d692ecab5ac3489c4cd66b54d3fb40217": "915e71610a97c42fe816bf95ae07156d692ecab5ac3489c4cd66b54d3fb40217",
+    "direct-pro/bank/artifacts/dbf1d50712334783ed21264ffd757b71043cb6b285c828183d9be13f3139e830": "dbf1d50712334783ed21264ffd757b71043cb6b285c828183d9be13f3139e830",
+    "direct-pro/bank/artifacts/07e5ca2c95c183e3d12cd140880ca4b1a958243970f22ce16cd78a898ae465a6": "07e5ca2c95c183e3d12cd140880ca4b1a958243970f22ce16cd78a898ae465a6"
+  },
+  "failureAudit": {
+    "direct-pro": "async handle violates synchronous public API",
+    "fixed": "README differs by one final newline; strip-equal confirmed",
+    "components": "extra top-level type key in model JSON; rejected before component implementation",
+    "metaaco": "async handle violates synchronous public API; README exact"
+  },
+  "processLogSha256": "a724263146f7ec69ae9e7ed37e3ab6bf191decbdbd526bb59af85e2ea7cf6abe"
+}
