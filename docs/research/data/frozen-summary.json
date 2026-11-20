@@ -1,0 +1,3281 @@
+{
+  "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+  "decisionHash": "2c352c9fa84be809299b6297fe7d36cde1d660418d74261fb1956d77ad8253dc",
+  "modes": [
+    {
+      "mode": "random",
+      "count": 25,
+      "states": {
+        "succeeded": 21,
+        "failed": 4
+      },
+      "successes": 21,
+      "successRate": 0.84,
+      "medianWallTimeMs": 15029.63375700009,
+      "p95WallTimeMs": 19137.062396999972,
+      "minWallTimeMs": 6364.798572,
+      "maxWallTimeMs": 21487.716258000008,
+      "knownCostMicrounits": 184892,
+      "unknownCostCount": 0,
+      "totalCostMicrounits": 184892,
+      "costPerSuccessMicrounits": 8804.380952380952
+    },
+    {
+      "mode": "fixed",
+      "count": 25,
+      "states": {
+        "succeeded": 25
+      },
+      "successes": 25,
+      "successRate": 1,
+      "medianWallTimeMs": 5180.873485999997,
+      "p95WallTimeMs": 5660.947548000142,
+      "minWallTimeMs": 4811.476884000003,
+      "maxWallTimeMs": 5775.522033000016,
+      "knownCostMicrounits": 12360,
+      "unknownCostCount": 0,
+      "totalCostMicrounits": 12360,
+      "costPerSuccessMicrounits": 494.4
+    },
+    {
+      "mode": "cheapest",
+      "count": 25,
+      "states": {
+        "succeeded": 24,
+        "failed": 1
+      },
+      "successes": 24,
+      "successRate": 0.96,
+      "medianWallTimeMs": 5089.609028000152,
+      "p95WallTimeMs": 5604.684181000019,
+      "minWallTimeMs": 2813.904663000023,
+      "maxWallTimeMs": 6298.2825619999785,
+      "knownCostMicrounits": 12778,
+      "unknownCostCount": 0,
+      "totalCostMicrounits": 12778,
+      "costPerSuccessMicrounits": 532.4166666666666
+    },
+    {
+      "mode": "historical-best",
+      "count": 25,
+      "states": {
+        "succeeded": 22,
+        "failed": 3
+      },
+      "successes": 22,
+      "successRate": 0.88,
+      "medianWallTimeMs": 7090.008160999976,
+      "p95WallTimeMs": 8674.430817000015,
+      "minWallTimeMs": 4927.499659999972,
+      "maxWallTimeMs": 8786.248353000032,
+      "knownCostMicrounits": 38471,
+      "unknownCostCount": 0,
+      "totalCostMicrounits": 38471,
+      "costPerSuccessMicrounits": 1748.6818181818182
+    },
+    {
+      "mode": "contextual-bandit",
+      "count": 25,
+      "states": {
+        "succeeded": 24,
+        "failed": 1
+      },
+      "successes": 24,
+      "successRate": 0.96,
+      "medianWallTimeMs": 5074.873534000013,
+      "p95WallTimeMs": 5471.350646000006,
+      "minWallTimeMs": 3227.7640680000186,
+      "maxWallTimeMs": 5534.05914999987,
+      "knownCostMicrounits": 11890,
+      "unknownCostCount": 0,
+      "totalCostMicrounits": 11890,
+      "costPerSuccessMicrounits": 495.4166666666667
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "count": 25,
+      "states": {
+        "succeeded": 25
+      },
+      "successes": 25,
+      "successRate": 1,
+      "medianWallTimeMs": 7776.953051999997,
+      "p95WallTimeMs": 9529.647954999993,
+      "minWallTimeMs": 4899.314662000164,
+      "maxWallTimeMs": 10509.618205999956,
+      "knownCostMicrounits": 30667,
+      "unknownCostCount": 0,
+      "totalCostMicrounits": 30667,
+      "costPerSuccessMicrounits": 1226.68
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "count": 25,
+      "states": {
+        "succeeded": 25
+      },
+      "successes": 25,
+      "successRate": 1,
+      "medianWallTimeMs": 7142.490040000004,
+      "p95WallTimeMs": 9324.835024,
+      "minWallTimeMs": 5287.708331999835,
+      "maxWallTimeMs": 10125.331003000028,
+      "knownCostMicrounits": 29226,
+      "unknownCostCount": 0,
+      "totalCostMicrounits": 29226,
+      "costPerSuccessMicrounits": 1169.04
+    }
+  ],
+  "rows": [
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 7,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0011",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 6828.639728,
+      "costMicrounits": 921,
+      "knownCostMicrounits": 921,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 19,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7583.514816000001,
+      "costMicrounits": 1385,
+      "knownCostMicrounits": 1385,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 7,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5273.531797,
+      "costMicrounits": 490,
+      "knownCostMicrounits": 490,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 11,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5278.694163,
+      "costMicrounits": 516,
+      "knownCostMicrounits": 516,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 23,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5277.310270000002,
+      "costMicrounits": 482,
+      "knownCostMicrounits": 482,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 31,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 4914.781391999997,
+      "costMicrounits": 482,
+      "knownCostMicrounits": 482,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 23,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0277",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 13075.638960999997,
+      "costMicrounits": 3471,
+      "knownCostMicrounits": 3471,
+      "modelCalls": 6,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 11,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-1780",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 21487.716258000008,
+      "costMicrounits": 12556,
+      "knownCostMicrounits": 12556,
+      "modelCalls": 7,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 31,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5326.234941000002,
+      "costMicrounits": 515,
+      "knownCostMicrounits": 515,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 19,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7057.588736999998,
+      "costMicrounits": 1354,
+      "knownCostMicrounits": 1354,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 23,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 4916.472672999997,
+      "costMicrounits": 401,
+      "knownCostMicrounits": 401,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 7,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 4964.787731000004,
+      "costMicrounits": 452,
+      "knownCostMicrounits": 452,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 7,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0541",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 17592.508711000002,
+      "costMicrounits": 8693,
+      "knownCostMicrounits": 8693,
+      "modelCalls": 7,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 31,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5022.5247910000035,
+      "costMicrounits": 567,
+      "knownCostMicrounits": 567,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 31,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-1366",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 14081.161311000003,
+      "costMicrounits": 6781,
+      "knownCostMicrounits": 6781,
+      "modelCalls": 6,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 7,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5604.684181000019,
+      "costMicrounits": 550,
+      "knownCostMicrounits": 550,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 23,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0205",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 8201.645599999989,
+      "costMicrounits": 1701,
+      "knownCostMicrounits": 1701,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 31,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 6800.477558000013,
+      "costMicrounits": 1385,
+      "knownCostMicrounits": 1385,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 11,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 9324.835024,
+      "costMicrounits": 2118,
+      "knownCostMicrounits": 2118,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 23,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0205",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7239.074869999982,
+      "costMicrounits": 1077,
+      "knownCostMicrounits": 1077,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 31,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5180.873485999997,
+      "costMicrounits": 399,
+      "knownCostMicrounits": 399,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 19,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5039.828275000007,
+      "costMicrounits": 472,
+      "knownCostMicrounits": 472,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 19,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-1487",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 13720.608829999983,
+      "costMicrounits": 6694,
+      "knownCostMicrounits": 6694,
+      "modelCalls": 6,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 7,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7088.665135999996,
+      "costMicrounits": 1710,
+      "knownCostMicrounits": 1710,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 11,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 4920.700371999992,
+      "costMicrounits": 505,
+      "knownCostMicrounits": 505,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 23,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 8674.430817000015,
+      "costMicrounits": 2036,
+      "knownCostMicrounits": 2036,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 11,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5345.941709999985,
+      "costMicrounits": 482,
+      "knownCostMicrounits": 482,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 11,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 6926.708838999999,
+      "costMicrounits": 1259,
+      "knownCostMicrounits": 1259,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 7,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5296.569603999989,
+      "costMicrounits": 486,
+      "knownCostMicrounits": 486,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 19,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5351.535953999992,
+      "costMicrounits": 488,
+      "knownCostMicrounits": 488,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 31,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0011",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 6504.447614999983,
+      "costMicrounits": 940,
+      "knownCostMicrounits": 940,
+      "modelCalls": 4,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 11,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7776.953051999997,
+      "costMicrounits": 1344,
+      "knownCostMicrounits": 1344,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 19,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5408.796682000015,
+      "costMicrounits": 605,
+      "knownCostMicrounits": 605,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 19,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 9529.647954999993,
+      "costMicrounits": 1979,
+      "knownCostMicrounits": 1979,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 23,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5205.971882000042,
+      "costMicrounits": 409,
+      "knownCostMicrounits": 409,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 11,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5295.411055999983,
+      "costMicrounits": 472,
+      "knownCostMicrounits": 472,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 31,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0011",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 6129.006753999973,
+      "costMicrounits": 903,
+      "knownCostMicrounits": 903,
+      "modelCalls": 4,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 19,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-1487",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 19137.062396999972,
+      "costMicrounits": 8645,
+      "knownCostMicrounits": 8645,
+      "modelCalls": 6,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 11,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7620.077860000019,
+      "costMicrounits": 1201,
+      "knownCostMicrounits": 1201,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 23,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0205",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 8288.333704999997,
+      "costMicrounits": 1661,
+      "knownCostMicrounits": 1661,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 19,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7397.289078000002,
+      "costMicrounits": 1498,
+      "knownCostMicrounits": 1498,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 31,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5418.590407999989,
+      "costMicrounits": 522,
+      "knownCostMicrounits": 522,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 23,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 4962.207960000029,
+      "costMicrounits": 441,
+      "knownCostMicrounits": 441,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 31,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 6668.835875000048,
+      "costMicrounits": 1350,
+      "knownCostMicrounits": 1350,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 19,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5105.4632599999895,
+      "costMicrounits": 511,
+      "knownCostMicrounits": 511,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 19,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7142.490040000004,
+      "costMicrounits": 1092,
+      "knownCostMicrounits": 1092,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 31,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5495.062735999993,
+      "costMicrounits": 516,
+      "knownCostMicrounits": 516,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 31,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5337.188950999989,
+      "costMicrounits": 515,
+      "knownCostMicrounits": 515,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 23,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 6861.779441000021,
+      "costMicrounits": 1317,
+      "knownCostMicrounits": 1317,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 7,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5004.690615999978,
+      "costMicrounits": 527,
+      "knownCostMicrounits": 527,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 23,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 4878.992618999968,
+      "costMicrounits": 527,
+      "knownCostMicrounits": 527,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 7,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5576.706397000002,
+      "costMicrounits": 490,
+      "knownCostMicrounits": 490,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 11,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-1780",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 18897.843171000015,
+      "costMicrounits": 9930,
+      "knownCostMicrounits": 9930,
+      "modelCalls": 7,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 31,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5044.101774999988,
+      "costMicrounits": 495,
+      "knownCostMicrounits": 495,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 7,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0541",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 17349.614835000015,
+      "costMicrounits": 9245,
+      "knownCostMicrounits": 9245,
+      "modelCalls": 7,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 7,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0011",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 6226.864489,
+      "costMicrounits": 985,
+      "knownCostMicrounits": 985,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 19,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 8023.598238000006,
+      "costMicrounits": 1515,
+      "knownCostMicrounits": 1515,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 11,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 4968.4193610000075,
+      "costMicrounits": 484,
+      "knownCostMicrounits": 484,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 11,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7991.686687000038,
+      "costMicrounits": 1511,
+      "knownCostMicrounits": 1511,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 11,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 4961.095073000004,
+      "costMicrounits": 509,
+      "knownCostMicrounits": 509,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 19,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5128.492899999954,
+      "costMicrounits": 489,
+      "knownCostMicrounits": 489,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 23,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5048.424413000001,
+      "costMicrounits": 593,
+      "knownCostMicrounits": 593,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 7,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 4738.272997000022,
+      "costMicrounits": 484,
+      "knownCostMicrounits": 484,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 23,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0205",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7850.853814000031,
+      "costMicrounits": 1574,
+      "knownCostMicrounits": 1574,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 19,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5028.797598999983,
+      "costMicrounits": 639,
+      "knownCostMicrounits": 639,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 7,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0003",
+      "state": "failed",
+      "verifiedSuccess": false,
+      "totalWallTimeMs": 6403.485090000031,
+      "costMicrounits": 1485,
+      "knownCostMicrounits": 1485,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 7,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5364.066382999998,
+      "costMicrounits": 590,
+      "knownCostMicrounits": 590,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 23,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0277",
+      "state": "failed",
+      "verifiedSuccess": false,
+      "totalWallTimeMs": 6364.798572,
+      "costMicrounits": 3284,
+      "knownCostMicrounits": 3284,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 31,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-1366",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 15734.216533999948,
+      "costMicrounits": 9507,
+      "knownCostMicrounits": 9507,
+      "modelCalls": 6,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 11,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7745.095332999947,
+      "costMicrounits": 1655,
+      "knownCostMicrounits": 1655,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 23,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0205",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 8515.611471000011,
+      "costMicrounits": 1659,
+      "knownCostMicrounits": 1659,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 11,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7339.596841999912,
+      "costMicrounits": 1676,
+      "knownCostMicrounits": 1676,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 19,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5306.392776999972,
+      "costMicrounits": 442,
+      "knownCostMicrounits": 442,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 23,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7355.833547999966,
+      "costMicrounits": 1193,
+      "knownCostMicrounits": 1193,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 23,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5217.375420000055,
+      "costMicrounits": 407,
+      "knownCostMicrounits": 407,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 31,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 4811.476884000003,
+      "costMicrounits": 510,
+      "knownCostMicrounits": 510,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 11,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 4868.2697069999995,
+      "costMicrounits": 419,
+      "knownCostMicrounits": 419,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 19,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7505.493905000039,
+      "costMicrounits": 1678,
+      "knownCostMicrounits": 1678,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 19,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-1487",
+      "state": "failed",
+      "verifiedSuccess": false,
+      "totalWallTimeMs": 10592.847748000058,
+      "costMicrounits": 5792,
+      "knownCostMicrounits": 5792,
+      "modelCalls": 5,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 19,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 8765.215538999997,
+      "costMicrounits": 1626,
+      "knownCostMicrounits": 1626,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 7,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0011",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 6319.4240029999055,
+      "costMicrounits": 970,
+      "knownCostMicrounits": 970,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 19,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 4873.067626999924,
+      "costMicrounits": 441,
+      "knownCostMicrounits": 441,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 23,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0277",
+      "state": "failed",
+      "verifiedSuccess": false,
+      "totalWallTimeMs": 6365.215088000055,
+      "costMicrounits": 2750,
+      "knownCostMicrounits": 2750,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 19,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 10125.331003000028,
+      "costMicrounits": 2140,
+      "knownCostMicrounits": 2140,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 11,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5313.621639000019,
+      "costMicrounits": 560,
+      "knownCostMicrounits": 560,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 7,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 6629.142862000037,
+      "costMicrounits": 1283,
+      "knownCostMicrounits": 1283,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 31,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-1366",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 15561.154365999973,
+      "costMicrounits": 7414,
+      "knownCostMicrounits": 7414,
+      "modelCalls": 6,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 19,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 4973.117367999977,
+      "costMicrounits": 481,
+      "knownCostMicrounits": 481,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 11,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7698.613021000056,
+      "costMicrounits": 1016,
+      "knownCostMicrounits": 1016,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 11,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-1780",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 15573.902824999997,
+      "costMicrounits": 7407,
+      "knownCostMicrounits": 7407,
+      "modelCalls": 7,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 23,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 4814.8353809999535,
+      "costMicrounits": 420,
+      "knownCostMicrounits": 420,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 23,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0205",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7831.789367000107,
+      "costMicrounits": 1532,
+      "knownCostMicrounits": 1532,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 7,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5387.040697999997,
+      "costMicrounits": 440,
+      "knownCostMicrounits": 440,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 7,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0541",
+      "state": "failed",
+      "verifiedSuccess": false,
+      "totalWallTimeMs": 11085.281726000016,
+      "costMicrounits": 6284,
+      "knownCostMicrounits": 6284,
+      "modelCalls": 5,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 31,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0011",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 6648.290734000038,
+      "costMicrounits": 926,
+      "knownCostMicrounits": 926,
+      "modelCalls": 4,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 7,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5166.242674000096,
+      "costMicrounits": 506,
+      "knownCostMicrounits": 506,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 23,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 4877.967977000051,
+      "costMicrounits": 554,
+      "knownCostMicrounits": 554,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 31,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5471.350646000006,
+      "costMicrounits": 442,
+      "knownCostMicrounits": 442,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 7,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 4933.905856000027,
+      "costMicrounits": 477,
+      "knownCostMicrounits": 477,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 7,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5074.873534000013,
+      "costMicrounits": 485,
+      "knownCostMicrounits": 485,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 31,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7407.9860120000085,
+      "costMicrounits": 1358,
+      "knownCostMicrounits": 1358,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 11,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5171.227013000054,
+      "costMicrounits": 566,
+      "knownCostMicrounits": 566,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 31,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5466.047324000043,
+      "costMicrounits": 554,
+      "knownCostMicrounits": 554,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 31,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5180.125746999984,
+      "costMicrounits": 441,
+      "knownCostMicrounits": 441,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 11,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7501.867853999953,
+      "costMicrounits": 1257,
+      "knownCostMicrounits": 1257,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 19,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 4795.871411000029,
+      "costMicrounits": 402,
+      "knownCostMicrounits": 402,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 23,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7074.414423999959,
+      "costMicrounits": 1482,
+      "knownCostMicrounits": 1482,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 11,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7090.008160999976,
+      "costMicrounits": 1296,
+      "knownCostMicrounits": 1296,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 19,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 4877.908192000003,
+      "costMicrounits": 414,
+      "knownCostMicrounits": 414,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 23,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5280.407590000075,
+      "costMicrounits": 485,
+      "knownCostMicrounits": 485,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 23,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 4914.696957999957,
+      "costMicrounits": 456,
+      "knownCostMicrounits": 456,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 11,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-1780",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 15593.33315099997,
+      "costMicrounits": 6863,
+      "knownCostMicrounits": 6863,
+      "modelCalls": 7,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 7,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5224.965442999965,
+      "costMicrounits": 441,
+      "knownCostMicrounits": 441,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 19,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7450.094709999976,
+      "costMicrounits": 1681,
+      "knownCostMicrounits": 1681,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 23,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5185.189098999952,
+      "costMicrounits": 564,
+      "knownCostMicrounits": 564,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 31,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5175.349213000038,
+      "costMicrounits": 522,
+      "knownCostMicrounits": 522,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 31,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0011",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 6263.621338999947,
+      "costMicrounits": 914,
+      "knownCostMicrounits": 914,
+      "modelCalls": 4,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 19,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-1487",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 15029.63375700009,
+      "costMicrounits": 8040,
+      "knownCostMicrounits": 8040,
+      "modelCalls": 6,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 19,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7909.733822999988,
+      "costMicrounits": 1392,
+      "knownCostMicrounits": 1392,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 31,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5775.522033000016,
+      "costMicrounits": 559,
+      "knownCostMicrounits": 559,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 7,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0011",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 6767.518229999929,
+      "costMicrounits": 1054,
+      "knownCostMicrounits": 1054,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 7,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7554.566537000006,
+      "costMicrounits": 1712,
+      "knownCostMicrounits": 1712,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 23,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0277",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 14307.963015999994,
+      "costMicrounits": 4967,
+      "knownCostMicrounits": 4967,
+      "modelCalls": 6,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 11,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7747.821407000069,
+      "costMicrounits": 1256,
+      "knownCostMicrounits": 1256,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 31,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-1366",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 13966.938380000065,
+      "costMicrounits": 7633,
+      "knownCostMicrounits": 7633,
+      "modelCalls": 6,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 19,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 8447.934697000077,
+      "costMicrounits": 1478,
+      "knownCostMicrounits": 1478,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 31,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 8786.248353000032,
+      "costMicrounits": 2069,
+      "knownCostMicrounits": 2069,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 23,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0205",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7122.7963750000345,
+      "costMicrounits": 1193,
+      "knownCostMicrounits": 1193,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 7,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5443.258905999945,
+      "costMicrounits": 407,
+      "knownCostMicrounits": 407,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 19,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "failed",
+      "verifiedSuccess": false,
+      "totalWallTimeMs": 2813.904663000023,
+      "costMicrounits": 205,
+      "knownCostMicrounits": 205,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 7,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 4998.365770999924,
+      "costMicrounits": 546,
+      "knownCostMicrounits": 546,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 11,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5149.040216000052,
+      "costMicrounits": 645,
+      "knownCostMicrounits": 645,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 31,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5323.739669999923,
+      "costMicrounits": 549,
+      "knownCostMicrounits": 549,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 11,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5246.450594000053,
+      "costMicrounits": 425,
+      "knownCostMicrounits": 425,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 31,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 4973.69526800001,
+      "costMicrounits": 499,
+      "knownCostMicrounits": 499,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 11,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 8466.328951000003,
+      "costMicrounits": 1468,
+      "knownCostMicrounits": 1468,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 11,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5243.894563000067,
+      "costMicrounits": 576,
+      "knownCostMicrounits": 576,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 7,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5259.52922799997,
+      "costMicrounits": 409,
+      "knownCostMicrounits": 409,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 23,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0205",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 10509.618205999956,
+      "costMicrounits": 2543,
+      "knownCostMicrounits": 2543,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 7,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0541",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 17914.01348700002,
+      "costMicrounits": 9906,
+      "knownCostMicrounits": 9906,
+      "modelCalls": 7,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 7,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5534.05914999987,
+      "costMicrounits": 439,
+      "knownCostMicrounits": 439,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 11,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0003",
+      "state": "failed",
+      "verifiedSuccess": false,
+      "totalWallTimeMs": 6249.963158000028,
+      "costMicrounits": 1243,
+      "knownCostMicrounits": 1243,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 23,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0277",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 14887.339289000025,
+      "costMicrounits": 3777,
+      "knownCostMicrounits": 3777,
+      "modelCalls": 6,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 23,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0205",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7780.958671000088,
+      "costMicrounits": 1426,
+      "knownCostMicrounits": 1426,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 31,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0011",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7008.992142000003,
+      "costMicrounits": 894,
+      "knownCostMicrounits": 894,
+      "modelCalls": 4,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 31,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5089.609028000152,
+      "costMicrounits": 602,
+      "knownCostMicrounits": 602,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 31,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-1366",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 18900.753865000093,
+      "costMicrounits": 11634,
+      "knownCostMicrounits": 11634,
+      "modelCalls": 6,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 11,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 4940.699326000176,
+      "costMicrounits": 479,
+      "knownCostMicrounits": 479,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 19,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "failed",
+      "verifiedSuccess": false,
+      "totalWallTimeMs": 3227.7640680000186,
+      "costMicrounits": 315,
+      "knownCostMicrounits": 315,
+      "modelCalls": 1,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 23,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0205",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7470.521452999907,
+      "costMicrounits": 1358,
+      "knownCostMicrounits": 1358,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 7,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 4899.314662000164,
+      "costMicrounits": 530,
+      "knownCostMicrounits": 530,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 31,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0003",
+      "state": "failed",
+      "verifiedSuccess": false,
+      "totalWallTimeMs": 4927.499659999972,
+      "costMicrounits": 1602,
+      "knownCostMicrounits": 1602,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 23,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 8302.580626000185,
+      "costMicrounits": 2190,
+      "knownCostMicrounits": 2190,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 11,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 8008.49356400012,
+      "costMicrounits": 1509,
+      "knownCostMicrounits": 1509,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 19,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7801.186170000117,
+      "costMicrounits": 1491,
+      "knownCostMicrounits": 1491,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 11,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 4938.786649999907,
+      "costMicrounits": 480,
+      "knownCostMicrounits": 480,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 7,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5524.385778000113,
+      "costMicrounits": 672,
+      "knownCostMicrounits": 672,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 19,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 8109.305085000116,
+      "costMicrounits": 1516,
+      "knownCostMicrounits": 1516,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 23,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5338.741985999979,
+      "costMicrounits": 434,
+      "knownCostMicrounits": 434,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 11,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 7044.972877000226,
+      "costMicrounits": 1091,
+      "knownCostMicrounits": 1091,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 7,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 4868.160647999961,
+      "costMicrounits": 406,
+      "knownCostMicrounits": 406,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 23,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5210.775897999993,
+      "costMicrounits": 589,
+      "knownCostMicrounits": 589,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 7,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0541",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 13566.878103999887,
+      "costMicrounits": 7329,
+      "knownCostMicrounits": 7329,
+      "modelCalls": 7,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 7,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0011",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 6308.895745999878,
+      "costMicrounits": 938,
+      "knownCostMicrounits": 938,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 19,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-1487",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 13943.91724300012,
+      "costMicrounits": 7099,
+      "knownCostMicrounits": 7099,
+      "modelCalls": 6,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 31,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 4973.051487999968,
+      "costMicrounits": 521,
+      "knownCostMicrounits": 521,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 11,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-1780",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 17228.125745000085,
+      "costMicrounits": 9191,
+      "knownCostMicrounits": 9191,
+      "modelCalls": 7,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 19,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5130.688777999952,
+      "costMicrounits": 442,
+      "knownCostMicrounits": 442,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 19,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 6298.2825619999785,
+      "costMicrounits": 823,
+      "knownCostMicrounits": 823,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 31,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5287.708331999835,
+      "costMicrounits": 458,
+      "knownCostMicrounits": 458,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 23,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 4972.307592999889,
+      "costMicrounits": 409,
+      "knownCostMicrounits": 409,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 11,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5319.979355999967,
+      "costMicrounits": 549,
+      "knownCostMicrounits": 549,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 31,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 5660.947548000142,
+      "costMicrounits": 580,
+      "knownCostMicrounits": 580,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 7,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 6829.3235520001035,
+      "costMicrounits": 1443,
+      "knownCostMicrounits": 1443,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 19,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "totalWallTimeMs": 8684.794475000119,
+      "costMicrounits": 1801,
+      "knownCostMicrounits": 1801,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "e12d2388414d3b821c3cb27a334e74b5338f0786e078ffbdf782573a74d62e82",
+        "sizeBytes": 984
+      }
+    }
+  ]
+}
