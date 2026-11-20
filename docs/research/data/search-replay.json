@@ -1,0 +1,209 @@
+{
+  "schemaVersion": 1,
+  "mode": "same-task-frozen-training-replay",
+  "observedRoutes": 1836,
+  "qualityEvidenceRoutes": 1716,
+  "timingSource": "median measured node wall time rounded up to seconds; forecast",
+  "runs": [
+    {
+      "seed": 0,
+      "route": "route-0069",
+      "historicalState": "succeeded",
+      "historicalWallTimeMs": 7481.194371999998,
+      "historicalCostMicrounits": 809,
+      "evaluations": 100,
+      "choices": {
+        "refactor": "refactor/0",
+        "review": "review/0",
+        "integrate": "integrate/1",
+        "implement": "implement/0",
+        "layout": "monolith",
+        "analyze": "analyze/skip",
+        "implement-reservation": "implement-reservation/0",
+        "design": "design/skip",
+        "write-tests": "write-tests/skip",
+        "implement-stock": "implement-stock/0"
+      }
+    },
+    {
+      "seed": 1,
+      "route": "route-0001",
+      "historicalState": "succeeded",
+      "historicalWallTimeMs": 7113.069337,
+      "historicalCostMicrounits": 546,
+      "evaluations": 100,
+      "choices": {
+        "implement-stock": "implement-stock/0",
+        "review": "review/skip",
+        "integrate": "integrate/1",
+        "write-tests": "write-tests/skip",
+        "design": "design/skip",
+        "refactor": "refactor/0",
+        "implement-reservation": "implement-reservation/1",
+        "implement": "implement/0",
+        "analyze": "analyze/skip",
+        "layout": "monolith"
+      }
+    },
+    {
+      "seed": 2,
+      "route": "route-0001",
+      "historicalState": "succeeded",
+      "historicalWallTimeMs": 7113.069337,
+      "historicalCostMicrounits": 546,
+      "evaluations": 100,
+      "choices": {
+        "implement": "implement/0",
+        "analyze": "analyze/skip",
+        "refactor": "refactor/0",
+        "integrate": "integrate/1",
+        "layout": "monolith",
+        "implement-stock": "implement-stock/1",
+        "implement-reservation": "implement-reservation/0",
+        "design": "design/skip",
+        "write-tests": "write-tests/skip",
+        "review": "review/skip"
+      }
+    },
+    {
+      "seed": 3,
+      "route": "route-0001",
+      "historicalState": "succeeded",
+      "historicalWallTimeMs": 7113.069337,
+      "historicalCostMicrounits": 546,
+      "evaluations": 100,
+      "choices": {
+        "write-tests": "write-tests/skip",
+        "implement": "implement/0",
+        "review": "review/skip",
+        "design": "design/skip",
+        "implement-stock": "implement-stock/0",
+        "implement-reservation": "implement-reservation/1",
+        "analyze": "analyze/skip",
+        "integrate": "integrate/1",
+        "refactor": "refactor/0",
+        "layout": "monolith"
+      }
+    },
+    {
+      "seed": 4,
+      "route": "route-0001",
+      "historicalState": "succeeded",
+      "historicalWallTimeMs": 7113.069337,
+      "historicalCostMicrounits": 546,
+      "evaluations": 100,
+      "choices": {
+        "design": "design/skip",
+        "refactor": "refactor/0",
+        "review": "review/skip",
+        "write-tests": "write-tests/skip",
+        "implement-reservation": "implement-reservation/0",
+        "analyze": "analyze/skip",
+        "layout": "monolith",
+        "integrate": "integrate/0",
+        "implement": "implement/0",
+        "implement-stock": "implement-stock/1"
+      }
+    },
+    {
+      "seed": 5,
+      "route": "route-0001",
+      "historicalState": "succeeded",
+      "historicalWallTimeMs": 7113.069337,
+      "historicalCostMicrounits": 546,
+      "evaluations": 100,
+      "choices": {
+        "design": "design/skip",
+        "analyze": "analyze/skip",
+        "review": "review/skip",
+        "write-tests": "write-tests/skip",
+        "implement-stock": "implement-stock/0",
+        "implement": "implement/0",
+        "refactor": "refactor/0",
+        "implement-reservation": "implement-reservation/1",
+        "layout": "monolith",
+        "integrate": "integrate/1"
+      }
+    },
+    {
+      "seed": 6,
+      "route": "route-0001",
+      "historicalState": "succeeded",
+      "historicalWallTimeMs": 7113.069337,
+      "historicalCostMicrounits": 546,
+      "evaluations": 100,
+      "choices": {
+        "implement-stock": "implement-stock/0",
+        "write-tests": "write-tests/skip",
+        "implement-reservation": "implement-reservation/0",
+        "integrate": "integrate/0",
+        "design": "design/skip",
+        "analyze": "analyze/skip",
+        "refactor": "refactor/0",
+        "implement": "implement/0",
+        "review": "review/skip",
+        "layout": "monolith"
+      }
+    },
+    {
+      "seed": 7,
+      "route": "route-0001",
+      "historicalState": "succeeded",
+      "historicalWallTimeMs": 7113.069337,
+      "historicalCostMicrounits": 546,
+      "evaluations": 100,
+      "choices": {
+        "layout": "monolith",
+        "implement": "implement/0",
+        "refactor": "refactor/0",
+        "write-tests": "write-tests/skip",
+        "design": "design/skip",
+        "implement-reservation": "implement-reservation/0",
+        "implement-stock": "implement-stock/0",
+        "review": "review/skip",
+        "integrate": "integrate/0",
+        "analyze": "analyze/skip"
+      }
+    },
+    {
+      "seed": 8,
+      "route": "route-0001",
+      "historicalState": "succeeded",
+      "historicalWallTimeMs": 7113.069337,
+      "historicalCostMicrounits": 546,
+      "evaluations": 100,
+      "choices": {
+        "layout": "monolith",
+        "implement": "implement/0",
+        "implement-stock": "implement-stock/0",
+        "design": "design/skip",
+        "analyze": "analyze/skip",
+        "implement-reservation": "implement-reservation/1",
+        "write-tests": "write-tests/skip",
+        "refactor": "refactor/0",
+        "review": "review/skip",
+        "integrate": "integrate/0"
+      }
+    },
+    {
+      "seed": 9,
+      "route": "route-0011",
+      "historicalState": "succeeded",
+      "historicalWallTimeMs": 7097.057537999999,
+      "historicalCostMicrounits": 934,
+      "evaluations": 100,
+      "choices": {
+        "integrate": "integrate/0",
+        "review": "review/skip",
+        "implement-stock": "implement-stock/1",
+        "analyze": "analyze/skip",
+        "design": "design/skip",
+        "write-tests": "write-tests/0",
+        "implement-reservation": "implement-reservation/1",
+        "layout": "monolith",
+        "implement": "implement/0",
+        "refactor": "refactor/0"
+      }
+    }
+  ]
+}
