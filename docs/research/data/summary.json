@@ -1,0 +1,35 @@
+{
+  "exhaustive-v1": {
+    "sourceSha256": "626cbba98eadc7c68f4b895d93012d2667eaa31cdd9459242f0586dcfe065cf3",
+    "rows": 1836,
+    "states": {
+      "succeeded": 581,
+      "failed": 1255
+    },
+    "knownMicrounits": 9634925,
+    "incompleteCosts": 1255,
+    "calls": 8352
+  },
+  "components-v2": {
+    "sourceSha256": "beaed463fd08dae1ece44647a84080eb41d891b7b177f3240aa8a23f8f427c08",
+    "rows": 1296,
+    "states": {
+      "succeeded": 1171,
+      "failed": 125
+    },
+    "knownMicrounits": 9070648,
+    "incompleteCosts": 2,
+    "calls": 8397
+  },
+  "confirmation-v1": {
+    "sourceSha256": "21037ede976167346a911ce4032d3b5808f0c9bb8d7b415e9b3e64babd91a161",
+    "rows": 9,
+    "states": {
+      "failed": 1,
+      "succeeded": 8
+    },
+    "knownMicrounits": 6556,
+    "incompleteCosts": 0,
+    "calls": 25
+  }
+}
