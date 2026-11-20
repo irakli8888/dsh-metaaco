@@ -1,28 +1,30 @@
+export const userBrief = 'Extend this webhook service with subscriptions and event ingestion. Support idempotent requests, signed delivery, retries after failures and concurrent workers without duplicate in-flight sends. Preserve existing behavior and follow the public API specification in README.md. Choose the internal architecture yourself.'
+
 export const contracts = {
-  store: 'createStore({maxAttempts=3,retryDelayMs=100}={}) returns addSubscription({id,topic,url}):boolean, enqueue(key,{id,topic,payload}):{kind:"created"|"duplicate"|"conflict",event}, getEvent(id):event|null, claim(now):job|null, settle(eventId,subscriptionId,ok,now):void. Event has id,topic,payload,deliveries:[{subscriptionId,url,status,attempts,nextAttemptAt}]. Job has eventId,subscriptionId,url,body.',
-  api: 'createApi({store}) returns handle({method,path,headers={},body}). Response is {status,body}. Existing GET /health returns {status:200,body:{ok:true,version:1}}. version() returns 1.',
-  delivery: 'async runOnce({store,sender,clock,secret}) claims at most one due job, sends {url,body,headers}, settles it, returns true if claimed or false if no work. sender returns {status}; throwing or non-2xx is failure. signature.sign(secret,body) returns lowercase hex HMAC-SHA256 of exact body string.',
+  service: 'app.cjs exports version() and createApi(options={}). The returned service has handle({method,path,headers={},body}) returning {status,body}, and async runOnce() returning true if a delivery was attempted or false if none was available. options accepts sender, clock, secret, maxAttempts=3 and retryDelayMs=100. sender({url,body,headers}) returns a Promise of {status}; clock() returns numeric time in milliseconds. Internal modules, data structures and synchronization are implementation choices.',
 }
 
 export const requirements = [
-  'Extend an existing CommonJS webhook service. Keep existing exports and health endpoint. No external dependencies or network access are required; sender and clock are injected.',
-  'POST /subscriptions accepts {id,topic,url}. id/topic match /^[a-zA-Z0-9_-]{1,64}$/. URL must be absolute HTTP or HTTPS. Return 201 with {id} on creation, 409 for duplicate subscription id, 400 for invalid input.',
-  'POST /events requires a case-insensitive Idempotency-Key header, a nonempty string of at most 128 characters. Body is {id,topic,payload}; id/topic follow the same pattern and payload is a JSON object. Return 202 with the event object. Identical key and equivalent JSON content returns the original event without new deliveries. Reusing key with different content or event id under a different key returns 409. Invalid input returns 400.',
-  'GET /events/:id returns 200 and an isolated event snapshot, or 404. Unknown routes return 404. At enqueue, capture matching subscriptions exactly once. Each delivery begins pending, attempts=0, nextAttemptAt=0. Do not mutate request bodies or leak internal mutable state through responses.',
-  'Claim atomically reserves one due pending delivery before awaiting sender and increments attempts. Concurrent runOnce calls must not send the same delivery twice. Independent recipients can progress separately.',
-  'Send exact JSON.stringify({id,topic,payload}) with content-type application/json and x-signature-sha256=sign(secret,body). Successful HTTP status 200–299 marks delivered. On exception or non-2xx, release the claim and schedule now+retryDelayMs; after maxAttempts mark failed. Delivered/failed jobs are never claimed again. Each runOnce uses a single clock() time for claim and settlement.',
-  'This is an in-memory single-process service with asynchronous concurrent workers. Do not claim persistence across process crashes or exactly-once effects at a remote receiver. Preserve all existing files needed by the final snapshot.',
+  'The service is CommonJS and runs in one process with in-memory state. Existing version()=1 and GET /health returning {status:200,body:{ok:true,version:1}} must stay compatible. Unknown routes return 404. No external dependencies or real network are required.',
+  'POST /subscriptions accepts {id,topic,url}. id/topic match /^[a-zA-Z0-9_-]{1,64}$/. URL must be absolute HTTP or HTTPS. Return 201 with {id} on creation, 409 for duplicate id and 400 for invalid input.',
+  'POST /events requires a case-insensitive Idempotency-Key header, a nonblank string of at most 128 characters. Body is {id,topic,payload}; id/topic follow the same pattern and payload is a JSON object. Return 202 with the event. Repeating a key with equivalent JSON returns the same event without extra deliveries, including reordered nested keys. Different content under the same key or an event id under another key returns 409. Invalid input returns 400.',
+  'GET /events/:id returns 200 with an isolated event snapshot or 404. Event fields are id,topic,payload,deliveries. Each delivery exposes subscriptionId,url,status,attempts,nextAttemptAt. Capture matching subscriptions when accepting an event; later subscriptions do not change it. Initial delivery values are pending,0,0. Inputs and returned snapshots must not expose shared mutable state.',
+  'runOnce attempts at most one due pending delivery. Concurrent calls must not send the same delivery simultaneously; independent recipients can progress separately. Delivered or permanently failed deliveries are not sent again. No persistence across process crashes or exactly-once effects at a remote receiver is required.',
+  'The sent body is exactly JSON.stringify({id,topic,payload}). Headers are content-type=application/json and x-signature-sha256=lowercase hex HMAC-SHA256 of those exact bytes with the configured secret. Treat HTTP 200–299 as successful delivery.',
+  'An exception or non-2xx response counts as a failed attempt. Increment attempts for each attempted send. Retry only when clock reaches the attempted send time plus retryDelayMs, default 100. After maxAttempts, default 3, expose failed; a success exposes delivered. Use the injected clock without waiting for real time in tests.',
 ]
 
-export const baseSnapshot = { revision:'webhook-base-v1', files:{
-  'app.cjs': `exports.version=()=>1;\nexports.createApi=()=>({handle:({method,path})=>method==='GET'&&path==='/health'?{status:200,body:{ok:true,version:1}}:{status:404,body:{error:'not_found'}}});\n`,
-  'store.cjs': `exports.createStore=()=>({addSubscription:()=>false,enqueue:()=>({kind:'conflict',event:null}),getEvent:()=>null,claim:()=>null,settle:()=>{}});\n`,
-  'worker.cjs': `exports.runOnce=async()=>false;\n`,
-  'signature.cjs': `exports.sign=()=>'';\n`,
-} }
+export const specification = [
+  '# Webhook service public specification',
+  '',
+  contracts.service,
+  '',
+  ...requirements.map((requirement,index)=>`${index+1}. ${requirement}`),
+  '',
+  'The external service entry point is fixed for compatibility. You may introduce any internal modules or keep the implementation in app.cjs. Preserve the existing project files in the final snapshot.',
+].join('\n')
 
-export const componentOwnership = {
-  'implement-store':['store.cjs'],
-  'implement-api':['app.cjs'],
-  'implement-delivery':['worker.cjs','signature.cjs'],
-}
+export const baseSnapshot = {revision:'webhook-base-v2',files:{
+  'app.cjs': `exports.version=()=>1;\nexports.createApi=()=>({handle:({method,path})=>method==='GET'&&path==='/health'?{status:200,body:{ok:true,version:1}}:{status:404,body:{error:'not_found'}},runOnce:async()=>false});\n`,
+  'README.md':specification,
+}}

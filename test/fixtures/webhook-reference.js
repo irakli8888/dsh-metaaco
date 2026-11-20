@@ -56,3 +56,25 @@ exports.createApi=({store})=>({handle({method,path,headers={},body}){
 }});
 `,
 }
+
+// Public service boundary adapts this particular modular oracle's private interfaces.
+webhookReferenceFiles['app.cjs'] += `
+const internalCreateApi=exports.createApi;
+exports.createApi=({sender=async()=>({status:503}),clock=Date.now,secret='',maxAttempts=3,retryDelayMs=100}={})=>{
+ const store=require('./store.cjs').createStore({maxAttempts,retryDelayMs});
+ return {...internalCreateApi({store}),runOnce:()=>require('./worker.cjs').runOnce({store,sender,clock,secret})};
+};
+`;
+
+// A single-file oracle exercises the same public tests with a different module layout.
+export const webhookMonolithicReferenceFiles = {
+  'app.cjs': [
+    'const referenceSignature={};',
+    `(()=>{const exports=referenceSignature;${webhookReferenceFiles['signature.cjs']}})();`,
+    'const referenceStore={};',
+    `(()=>{const exports=referenceStore;${webhookReferenceFiles['store.cjs']}})();`,
+    'const referenceWorker={};',
+    `(()=>{const exports=referenceWorker;${webhookReferenceFiles['worker.cjs'].replace("require('./signature.cjs')",'referenceSignature')}})();`,
+    webhookReferenceFiles['app.cjs'].replace("require('./store.cjs')",'referenceStore').replace("require('./worker.cjs')",'referenceWorker'),
+  ].join('\n'),
+}
