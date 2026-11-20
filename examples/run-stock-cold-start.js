@@ -9,7 +9,7 @@ import { coldStartProtocol, validateColdStartProtocol } from './cold-start-proto
 import { task, models, catalog, prompts } from './stock-route-catalog.js'
 import { createDeepSeekRuntime } from './deepseek-runtime.js'
 
-const {values}=parseArgs({options:{execute:{type:'boolean'},out:{type:'string'}}})
+export async function createStockStudyConfig() {
 const design=coldStartProtocol()
 const preview=validateColdStartProtocol(design)
 const routeCost=plan=>plan.tasks.reduce((n,t)=>n+(t.model.model===models[0]?301229:1324056),0)
@@ -47,10 +47,18 @@ const config={schemaVersion:1,studyId:'stock-cold-start-online-v1',task,trainTas
     contextualFeatures:'intercept-only, one fixed task',exploration:'least-observed-among-visited',
     initialForecasts:'Flash=4s, Pro=8s; technical cost reservations, not measured prices',
     seriesLimitMicrounits:null}}
+return {config,preview}
+}
+
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+const {values}=parseArgs({options:{execute:{type:'boolean'},out:{type:'string'}}})
+const {config,preview}=await createStockStudyConfig()
 if(!values.execute) console.log(JSON.stringify({...preview,implementation:'online-v1',maximumModelCalls:700*8,readyForPaidExecution:false,runnerImplemented:true,requiresLivePreflight:true},null,2))
 else {
   if(!values.out||!process.env.DEEPSEEK_API_KEY?.trim()) throw Error('Provide a fresh output path and DEEPSEEK_API_KEY')
   const result=await runOnlineStudy({out:values.out,config,allowLlm:true,search:searchOnlineSkills,
     createRuntime:args=>createDeepSeekRuntime({...args,key:process.env.DEEPSEEK_API_KEY})})
   console.log(JSON.stringify(result.summary,null,2))
+}
+
 }

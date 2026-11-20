@@ -12,7 +12,7 @@ import { validateRequest } from '../contracts/bank.js'
 import { validateSnapshot, validateSpec } from '../evaluation/runner.js'
 import { EXPERIMENT_MODES, summarizeExperiment } from './index.js'
 
-function validate(config) {
+export function validateStudyConfig(config) {
   if (config.schemaVersion !== 1 || !/^[a-z0-9-]+$/.test(config.studyId)) throw Error('Invalid online study')
   validateRequest(config.task.request); validateSpec(config.task.request.testSpec); validateSnapshot(config.task.baseSnapshot)
   validatePolicy(config.policy)
@@ -83,7 +83,7 @@ export async function runOnlineStudy({out, config: input, createRuntime, search,
   signal?.throwIfAborted()
   if (!isAbsolute(out)) throw Error('Absolute output path required')
   const config = structuredClone(input)
-  validate(config)
+  validateStudyConfig(config)
   if (typeof createRuntime !== 'function') throw Error('Trusted runtime factory required')
   if (config.modes.some(m => m.startsWith('metaaco-')) && typeof search !== 'function') throw Error('Trusted skill search required')
   await mkdir(out, {mode:0o700})
