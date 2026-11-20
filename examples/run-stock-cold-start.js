@@ -26,6 +26,14 @@ async function hashes(directory,prefix='') {
   }
   return result
 }
+function sourceCommit() {
+  try { return execFileSync('git', ['rev-parse', 'HEAD'], {cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore']}).trim() }
+  catch {
+    const revision = process.env.METAACO_SOURCE_COMMIT
+    if (!/^[a-f0-9]{40}$/.test(revision ?? '')) throw Error('An exported tree requires METAACO_SOURCE_COMMIT with its full source commit')
+    return revision
+  }
+}
 const config={schemaVersion:1,studyId:'stock-cold-start-online-v1',task,trainTaskIds:[task.request.taskId],
   modes:design.modes,seeds:design.seeds,attemptsPerCell:design.attemptsPerCell,fixedRouteId:'route-0001',routes,skills,
   evaluationDockerImage:design.dockerImage,
@@ -33,7 +41,7 @@ const config={schemaVersion:1,studyId:'stock-cold-start-online-v1',task,trainTas
     normalization:{wallTimeMs:120000,costMicrounits:1000000},currency:'USD',allowedModels:models.map(m=>'deepseek/'+m),
     allowedTools:[],maxConcurrency:2,maxWallTimeMs:120000,maxCostMicrounits:11916504,minQuality:null},
   runtimeConfig:{source:'createDeepSeekRuntime',designHash:preview.sha256,
-    commit:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),
+    commit:sourceCommit(),
     files:{src:await hashes('src'),python:await hashes('python'),examples:await hashes('examples')},
     reward:'verified-success=1; failed/timeout/cancelled/interrupted=-1; inconclusive=null',
     contextualFeatures:'intercept-only, one fixed task',exploration:'least-observed-among-visited',
