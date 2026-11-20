@@ -8,8 +8,8 @@ import {webhookScenario} from './webhook-scenario/index.js'
 import {prepareScenarioJob,planScenarioJob,runScenarioTrial,SCENARIO_METHODS} from '../src/experiments/scenario-study.js'
 
 const {values}=parseArgs({options:{execute:{type:'boolean',default:false},method:{type:'string',default:'metaaco'},
-  seed:{type:'string',default:'7'},out:{type:'string'},'docker-image':{type:'string'},'budget-microunits':{type:'string'}}})
-const job=prepareScenarioJob(await webhookScenario(),{method:values.method,seed:Number(values.seed)})
+  seed:{type:'string',default:'7'},'scenario-version':{type:'string',default:'2'},out:{type:'string'},'docker-image':{type:'string'},'budget-microunits':{type:'string'}}})
+const job=prepareScenarioJob(await webhookScenario({version:Number(values['scenario-version'])}),{method:values.method,seed:Number(values.seed)})
 if(values['budget-microunits']!==undefined){
   const limit=Number(values['budget-microunits'])
   if(!Number.isSafeInteger(limit)||limit<=0)throw Error('Budget must be a positive safe integer')
@@ -26,7 +26,7 @@ if(!values.execute){
   if(!values['budget-microunits'])throw Error('Execute requires an explicit --budget-microunits cap')
   if(!process.env.DEEPSEEK_API_KEY)throw Error('DEEPSEEK_API_KEY is required')
   const files=['package.json','pnpm-lock.yaml','python/skill_decisions.py','python/metaaco_dag.py','src/experiments/scenario-study.js',
-    'src/experiments/scenario-runtime.js','src/experiments/output-budget.js','src/adapters/harness/deepseek.js','examples/run-webhook-scenario.js']
+    'src/experiments/scenario-runtime.js','src/experiments/scenario-response.js','src/experiments/output-budget.js','src/adapters/harness/deepseek.js','examples/run-webhook-scenario.js']
   const root=fileURLToPath(new URL('../',import.meta.url))
   let commit=null,dirty=null
   try{

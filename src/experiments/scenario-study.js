@@ -12,6 +12,7 @@ import {runDirectAttempt} from './direct-attempt.js'
 import {validateDag} from '../execution/contracts.js'
 import {validateSnapshot,validateSpec} from '../evaluation/runner.js'
 import {createDeepSeekAdapter} from '../adapters/harness/deepseek.js'
+import {responseContractFor} from './scenario-response.js'
 import {calculateCost} from '../metrics/pricing.js'
 import {skillDescriptor,createScenarioRuntime} from './scenario-runtime.js'
 
@@ -22,6 +23,7 @@ const models=['deepseek-flash','deepseek-v4-pro']
 export function prepareScenarioJob(scenario,{method='metaaco',seed=7}={}) {
   if(!SCENARIO_METHODS.includes(method)||!Number.isInteger(seed)||seed<0||seed>0xffffffff)throw Error('Invalid scenario method or seed')
   validateSnapshot(scenario.baseSnapshot);validateSpec(scenario.request.testSpec)
+  const jobVersion=responseContractFor(scenario)?3:2
   const limits={...SCENARIO_LIMITS},componentIds=['a','b','c']
   const {quote}=createDeepSeekAdapter({key:'offline-quote-only',...limits})
   const prices=Object.fromEntries(models.map(model=>[model,quote({provider:'deepseek',model,system:'Pinned scenario request'})]))
@@ -38,10 +40,10 @@ export function prepareScenarioJob(scenario,{method='metaaco',seed=7}={}) {
     skills[skill]=models.map(model=>({model:{provider:'deepseek',model},prompt:instruction(skill.startsWith('implement-')?'component':skill,skill.startsWith('implement-')?skill.slice(10):null),
       seconds:10,costMicrounits:forecasts[model].costMicrounits}))
   }
-  const policy={schemaVersion:1,revision:'scenario-v2',alpha:0,lambda:1,weights:{quality:1,time:0,cost:0},
+  const policy={schemaVersion:1,revision:`scenario-v${jobVersion}`,alpha:0,lambda:1,weights:{quality:1,time:0,cost:0},
     normalization:{wallTimeMs:300000,costMicrounits:1000000},currency:'USD',allowedModels:models.map(model=>'deepseek/'+model),
     allowedTools:[],maxConcurrency:2,maxWallTimeMs:300000,maxCostMicrounits:9*prices[models[1]].upperBoundMicrounits,minQuality:null}
-  return {schemaVersion:2,scenario:structuredClone(scenario),method,seed,limits,componentIds,resources,skills,policy,prices,forecasts,
+  return {schemaVersion:jobVersion,scenario:structuredClone(scenario),method,seed,limits,componentIds,resources,skills,policy,prices,forecasts,
     history:'empty; no stock observations',forecastSource:'uncalibrated equal 10-second duration and explicit input/output token priors; tariff bounds separate'}
 }
 

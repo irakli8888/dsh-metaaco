@@ -1,5 +1,6 @@
 import { createDeepSeekAdapter } from '../adapters/harness/deepseek.js'
 import { validateFiles, validateSnapshot } from '../evaluation/runner.js'
+import {responseContractFor,responseSchema,decodeScenarioResponse} from './scenario-response.js'
 import { createOutputBudget } from './output-budget.js'
 import { createTextRuntime } from '../../examples/offline-runtime.js'
 
@@ -9,8 +10,9 @@ export function skillDescriptor(skill, componentId=null) {
 
 export function validateArchitecture(value, scenario, componentIds) {
   if(value?.schemaVersion!==1||!Array.isArray(value.components)||value.components.length!==componentIds.length) throw Error('Invalid architecture schema')
+  const readOnly=responseContractFor(scenario)?.readOnlyFiles??[]
   const owners=new Set(),ids=new Set()
-  const forbidden=new Set(['architecture.json',...scenario.request.testSpec.suites.flatMap(s=>Object.keys(s.files))])
+  const forbidden=new Set(['architecture.json',...readOnly,...scenario.request.testSpec.suites.flatMap(s=>Object.keys(s.files))])
   for(const component of value.components) {
     if(!componentIds.includes(component.id)||ids.has(component.id)||typeof component.contract!=='string'||!component.contract.trim()||component.contract.length>16000||!Array.isArray(component.files)||!component.files.length) throw Error('Invalid architecture component')
     ids.add(component.id)
@@ -20,7 +22,7 @@ export function validateArchitecture(value, scenario, componentIds) {
       owners.add(path)
     }
   }
-  for(const path of Object.keys(scenario.baseSnapshot.files).filter(path=>path.endsWith('.cjs'))) {
+  for(const path of Object.keys(scenario.baseSnapshot.files).filter(path=>path.endsWith('.cjs')&&!readOnly.includes(path))) {
     if(!owners.has(path)) throw Error('Architecture omits an existing source file')
   }
   return value
@@ -41,6 +43,7 @@ function architectureFrom(envelope,scenario,componentIds) {
 
 export function scenarioPrompt(envelope,scenario,componentIds) {
   const role=descriptor(envelope)
+  const contract=responseContractFor(scenario)
   let instruction
   if(role.skill==='design') instruction=`Choose the internal architecture yourself. Return only architecture.json in files. Its JSON must have schemaVersion:1 and components:[{id,files,contract}]. Use exactly component ids ${JSON.stringify(componentIds)}. Choose disjoint .cjs file ownership covering existing source files. Each contract describes responsibilities and interfaces agreed before parallel coding. Do not implement source files in this step.`
   else if(role.skill==='component') {
@@ -54,6 +57,19 @@ export function scenarioPrompt(envelope,scenario,componentIds) {
   else if(role.skill==='integrate') instruction='Integrate all supplied component outputs using their architecture artifact and public requirements. Return a complete production snapshot including unchanged project files. Resolve interface inconsistencies.'
   else if(role.skill==='refactor') instruction='Refactor while preserving verified behavior. Return a complete production snapshot including unchanged project files.'
   else instruction='Implement the task. Choose the internal architecture yourself. Return the complete production snapshot including unchanged project files.'
+  if(contract){
+    if(role.skill==='design')instruction=`Choose the internal architecture yourself. Respond with components directly, not a files wrapper or JSON encoded inside a string. Use exactly component ids ${JSON.stringify(componentIds)}. Choose disjoint .cjs files covering editable existing sources. Each contract defines responsibilities and private interfaces. The host serializes architecture.json for dependent agents. Do not implement source files in this step.`
+    else if(['implement','integrate','refactor'].includes(role.skill))instruction=instruction.replace('including unchanged project files','excluding read-only files')+' Return every editable existing source file and any added implementation files.'
+    return [
+      'Complete this coding task. Return one JSON object, without Markdown fences. Do not include evaluator tests in files.',
+      `Response discriminator: ${JSON.stringify({schemaVersion:2,kind:role.skill==='design'?'architecture':'files'})}. Include all other required fields from the schema below.`,
+      'The following JSON Schema describes the response; do not return the schema itself or extra keys such as type or properties:',
+      JSON.stringify(responseSchema(role.skill,componentIds)),
+      scenario.request.description,instruction,
+      `Read-only files: ${JSON.stringify(contract.readOnlyFiles)}. The host restores these verbatim. Omit them from your files; never regenerate or reformat them.`,
+      'Parent artifacts:',JSON.stringify(envelope.artifacts),
+    ].join('\n')
+  }
   return [
     'Complete this coding task. Return only a JSON object with exactly two keys: revision and files.',
     'revision must be a nonempty string. files maps relative paths to full contents. Do not include evaluator tests.',
@@ -64,10 +80,12 @@ export function scenarioPrompt(envelope,scenario,componentIds) {
 }
 
 export function validateScenarioOutput(output,envelope,scenario,componentIds) {
-  const snapshot=JSON.parse(output)
-  validateSnapshot(snapshot)
   const role=descriptor(envelope)
+  const contract=responseContractFor(scenario)
+  const snapshot=contract?decodeScenarioResponse(output,role.skill):JSON.parse(output)
+  validateSnapshot(snapshot)
   const paths=Object.keys(snapshot.files)
+  if(contract&&paths.some(path=>contract.readOnlyFiles.includes(path)))throw Error('Model output contains host-managed read-only files')
   const protectedTests=new Set(scenario.request.testSpec.suites.flatMap(s=>Object.keys(s.files)))
   if(paths.some(path=>protectedTests.has(path)||path.includes('.test.')))throw Error('Model output contains control tests')
   if(role.skill==='design') {
@@ -79,9 +97,18 @@ export function validateScenarioOutput(output,envelope,scenario,componentIds) {
     if(!assignment||JSON.stringify(paths.sort())!==JSON.stringify([...assignment.files].sort()))throw Error('Component violated architecture ownership')
   }else if(['implement','integrate','refactor'].includes(role.skill)) {
     for(const [path,content]of Object.entries(scenario.baseSnapshot.files)) {
+      if(contract?.readOnlyFiles.includes(path))continue
       if(!Object.hasOwn(snapshot.files,path))throw Error('Final snapshot omitted an existing project file')
-      if(path.endsWith('.md')&&snapshot.files[path]!==content)throw Error('Final snapshot changed the pinned specification')
+      if(!contract&&path.endsWith('.md')&&snapshot.files[path]!==content)throw Error('Final snapshot changed the pinned specification')
     }
+  }
+  if(contract){
+    if(['implement','integrate','refactor'].includes(role.skill)){
+      snapshot.files={...snapshot.files,...Object.fromEntries(contract.readOnlyFiles.map(path=>[path,scenario.baseSnapshot.files[path]]))}
+    }
+    const notePaths={analyze:'analysis.md',review:'review.md','write-tests':'test-plan.md'}
+    if(notePaths[role.skill]&&(paths.length!==1||paths[0]!==notePaths[role.skill]))throw Error('Notes must contain only the assigned note file')
+    return JSON.stringify(snapshot)
   }
   return output
 }
@@ -103,7 +130,9 @@ export async function createScenarioRuntime({guardAdapter,signal,key,fetchImpl,s
     },
     outputFor:(output,envelope)=>{
       save(`scenario-output-${++artifactIndex}`,output)
-      return validateScenarioOutput(output,envelope,scenario,componentIds)
+      const normalized=validateScenarioOutput(output,envelope,scenario,componentIds)
+      if(responseContractFor(scenario))save(`scenario-normalized-${artifactIndex}`,normalized)
+      return normalized
     },
   })
   return {...runtime,async dispose(){

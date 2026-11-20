@@ -186,3 +186,20 @@ $0.030617, held=0. Direct Flash прошёл приёмку; Pro и MetaACO на
 Fixed изменил финальный newline README, design вернул лишнее поле JSON. Полного
 TDD success нет, параллельные компоненты в реальном API пока не исполнялись.
 [Результаты и план устранения проблем обмена](webhook-pilot-v2-results.md).
+
+## Новый обмен: webhook-retry-v3
+
+После пилота добавлен opt-in v3, не изменяющий исторические v2 payload и результаты.
+Команда бесплатного preview:
+
+```sh
+node examples/run-webhook-scenario.js --scenario-version 3 --method components
+```
+
+`examples/prepare-webhook-scenario.js` также принимает --scenario-version 3.
+Модель возвращает versioned architecture/files DTO; host сериализует architecture.json
+и восстанавливает readOnlyFiles из исходного снимка. README не генерируется повторно.
+Wire response и нормализованный Snapshot сохраняются отдельно. Публичная спецификация
+явно требует синхронные createApi/handle; тестовые исходники не менялись и по-прежнему
+ловят async handle. [Контракты, совместимость и ограничения](../adr/0013-typed-responses-and-readonly-files.md).
+Платных прогонов v3 этой доработкой не выполнялось; будущий запуск требует нового протокола.

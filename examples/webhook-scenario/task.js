@@ -28,3 +28,17 @@ export const baseSnapshot = {revision:'webhook-base-v2',files:{
   'app.cjs': `exports.version=()=>1;\nexports.createApi=()=>({handle:({method,path})=>method==='GET'&&path==='/health'?{status:200,body:{ok:true,version:1}}:{status:404,body:{error:'not_found'}},runOnce:async()=>false});\n`,
   'README.md':specification,
 }}
+
+
+/** Explicit new public wording, without changing historical v2 exports. */
+export function webhookTask(version=2){
+  if(![2,3].includes(version))throw Error('Unsupported webhook scenario version')
+  if(version===2)return structuredClone({userBrief,contracts,requirements,baseSnapshot})
+  const service=contracts.service.replace('createApi(options={}). The returned service has handle',
+    'createApi(options={}) synchronously. The returned service has synchronous handle').replace('returning {status,body},',
+    'which must synchronously return an ordinary {status,body} object, never a Promise or thenable,')
+  const v3Requirements=[requirements[0]+' createApi and handle are synchronous; only runOnce and the injected sender are asynchronous.',...requirements.slice(1)]
+  const readme=specification.replace(contracts.service,service).replace('1. '+requirements[0],'1. '+v3Requirements[0])
+  return {userBrief,contracts:{service},requirements:v3Requirements,
+    baseSnapshot:{revision:'webhook-base-v3',files:{...baseSnapshot.files,'README.md':readme}}}
+}
