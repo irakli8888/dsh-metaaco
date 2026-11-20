@@ -189,3 +189,32 @@ class SkillDecisionTests(unittest.TestCase):
         self.assertEqual(tasks['implement-a']['dependsOn'], ['design'])
         self.assertIn('design', tasks['integrate']['dependsOn'])
         self.assertTrue(any(row.get('rejected') == 'missing-component-design' for row in result['trace']['evaluations']))
+
+
+class FeasibleInitializationTests(unittest.TestCase):
+    def test_sparse_feasible_catalog_seed_is_evaluated_inside_metaaco_budget(self):
+        from skill_decisions import plan_skill_graph
+        from test_metaaco_dag import problem
+        route = lambda cost: {'model': {'provider':'offline','model':str(cost)}, 'seconds':10, 'costMicrounits':cost, 'prompt':'Implement'}
+        catalog = {skill:[route(309831),route(1352441)] for skill in
+                   ['implement','refactor','design','integrate','analyze','review','write-tests','implement-a','implement-b','implement-c']}
+        result=plan_skill_graph(catalog,problem()['plan']['resources'],987446,
+                               seed=7,component_design_required=True,ensure_feasible_start=True)
+        self.assertLessEqual(result['evaluations'],100)
+        self.assertEqual(result['initialization']['policy'],'minimum-cost-minimal-layout')
+        self.assertEqual(result['trace']['evaluations'][0]['estimatedCostMicrounits'],619662)
+        self.assertIsNone(result['trace']['evaluations'][0]['rejected'])
+        self.assertGreater(result['evaluations'],1)
+
+
+    def test_initialization_does_not_replace_colony_search_or_exceed_budget(self):
+        from skill_decisions import search_decisions
+        result=search_decisions({'model':['cheap','better']},lambda c: 10 if c['model']=='cheap' else 1,
+                                initial_choices={'model':'cheap'},seed=7,max_evaluations=20)
+        self.assertEqual(result['score'],1)
+        self.assertGreater(result['evaluations'],1)
+        limited=search_decisions({'model':['cheap','better']},lambda c: 10,
+                                 initial_choices={'model':'cheap'},max_evaluations=1)
+        self.assertEqual(limited['evaluations'],1)
+        with self.assertRaisesRegex(ValueError,'No feasible'):
+            search_decisions({'model':['cheap']},lambda c:None,initial_choices={'model':'cheap'},max_evaluations=2)

@@ -1,7 +1,7 @@
 import {test} from 'node:test'
 import assert from 'node:assert/strict'
 import {webhookScenario} from '../../examples/webhook-scenario/index.js'
-import {validateArchitecture,validateScenarioOutput,skillDescriptor} from '../../src/experiments/scenario-runtime.js'
+import {validateArchitecture,validateScenarioOutput,scenarioPrompt,skillDescriptor} from '../../src/experiments/scenario-runtime.js'
 
 test('architecture defines private interfaces and disjoint ownership at runtime',async()=>{
   const scenario=await webhookScenario()
@@ -15,4 +15,12 @@ test('architecture defines private interfaces and disjoint ownership at runtime'
   const duplicate=structuredClone(architecture);duplicate.components[1].files=['app.cjs']
   assert.throws(()=>validateArchitecture(duplicate,scenario,['a','b']),/ownership/)
   assert.throws(()=>validateArchitecture({schemaVersion:1,components:[{id:'a',files:['../escape.cjs'],contract:'bad'}]},scenario,['a']),/path/i)
+})
+
+
+test('prompt identifies immutable specification and validator rejects edits',async()=>{
+  const scenario=await webhookScenario()
+  const envelope={task:skillDescriptor('implement'),artifacts:[]}
+  assert.match(scenarioPrompt(envelope,scenario,['a','b','c']),/Immutable project files:.*README.md/)
+  assert.throws(()=>validateScenarioOutput(JSON.stringify({revision:'invalid',files:{...scenario.baseSnapshot.files,'README.md':'Changed'}}),envelope,scenario,['a','b','c']),/pinned specification/)
 })

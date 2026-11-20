@@ -6,12 +6,13 @@ import {tmpdir} from 'node:os'
 import {StrategyBank} from '../../src/bank/index.js'
 import {webhookScenario} from '../../examples/webhook-scenario/index.js'
 import {webhookReferenceFiles} from '../fixtures/webhook-reference.js'
-import {prepareScenarioJob,planScenarioJob,runScenarioJob,SCENARIO_METHODS} from '../../src/experiments/scenario-study.js'
+import {prepareScenarioJob,planScenarioJob,runScenarioJob,runScenarioTrial,SCENARIO_METHODS} from '../../src/experiments/scenario-study.js'
 
 // Synthetic provider responses, real Harness and independent evaluator; no network or credentials.
 for(const method of SCENARIO_METHODS)test(`scenario ${method} preserves limits and independently verifies generated output`,async()=>{
   const scenario=await webhookScenario()
   const job=prepareScenarioJob(scenario,{method})
+  if(method!=='direct-pro')job.policy.maxCostMicrounits=987446
   const planned=await planScenarioJob(job)
   assert.ok(planned.plan.tasks.length)
   const root=await mkdtemp(join(tmpdir(),'webhook-launch-test-'))
@@ -37,6 +38,8 @@ for(const method of SCENARIO_METHODS)test(`scenario ${method} preserves limits a
   }
   try{
     const result=await runScenarioJob({job,out:join(root,'run'),key:'synthetic-test-only',fetchImpl,allowLlm:true})
+    assert.equal(result.accounting.heldMicrounits,0)
+    assert.ok(result.accounting.spentMicrounits>0)
     assert.equal(result.acceptancePassed,true,JSON.stringify(result))
     assert.ok(calls.length)
     assert.ok(calls.every(call=>call.max_tokens===8192))
@@ -70,5 +73,20 @@ test('invalid architecture retains charged call and raw output without dispatchi
       const accounting=bank.getBudget('attempt/scenario-attempt')
       assert.ok(accounting.spentMicrounits>0)
     }finally{bank.close()}
+  }finally{await rm(root,{recursive:true,force:true})}
+})
+
+
+test('incomplete API call keeps its monetary reservation in trial report',async()=>{
+  const root=await mkdtemp(join(tmpdir(),'scenario-unknown-api-'))
+  try{
+    const job=prepareScenarioJob(await webhookScenario(),{method:'direct-flash'})
+    job.policy.maxCostMicrounits=1000000
+    const report=await runScenarioTrial({job,out:join(root,'run'),key:'synthetic-test-only',allowLlm:true,
+      fetchImpl:async()=>{throw Error('Synthetic network interruption')}})
+    assert.equal(report.acceptancePassed,false)
+    assert.equal(report.accounting.ledgerCreated,true)
+    assert.equal(report.accounting.heldMicrounits,job.prices['deepseek-flash'].upperBoundMicrounits)
+    assert.equal(report.accounting.coverageComplete,false)
   }finally{await rm(root,{recursive:true,force:true})}
 })

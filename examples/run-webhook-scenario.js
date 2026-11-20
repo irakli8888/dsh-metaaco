@@ -5,7 +5,7 @@ import {execFileSync} from 'node:child_process'
 import {resolve} from 'node:path'
 import {fileURLToPath} from 'node:url'
 import {webhookScenario} from './webhook-scenario/index.js'
-import {prepareScenarioJob,planScenarioJob,runScenarioJob,SCENARIO_METHODS} from '../src/experiments/scenario-study.js'
+import {prepareScenarioJob,planScenarioJob,runScenarioTrial,SCENARIO_METHODS} from '../src/experiments/scenario-study.js'
 
 const {values}=parseArgs({options:{execute:{type:'boolean',default:false},method:{type:'string',default:'metaaco'},
   seed:{type:'string',default:'7'},out:{type:'string'},'docker-image':{type:'string'},'budget-microunits':{type:'string'}}})
@@ -39,8 +39,9 @@ if(!values.execute){
   const stop=()=>controller.abort(new Error('Interrupted by operator'))
   process.once('SIGINT',stop);process.once('SIGTERM',stop)
   try{
-    const report=await runScenarioJob({job,out:resolve(values.out),evaluationDockerImage:values['docker-image'],key:process.env.DEEPSEEK_API_KEY,
+    const report=await runScenarioTrial({job,out:resolve(values.out),evaluationDockerImage:values['docker-image'],key:process.env.DEEPSEEK_API_KEY,
       allowLlm:true,signal:controller.signal})
     console.log(JSON.stringify(report,null,2))
+    if(!report.acceptancePassed)process.exitCode=1
   }finally{process.removeListener('SIGINT',stop);process.removeListener('SIGTERM',stop)}
 }

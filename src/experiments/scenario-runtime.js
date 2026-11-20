@@ -58,6 +58,7 @@ export function scenarioPrompt(envelope,scenario,componentIds) {
     'Complete this coding task. Return only a JSON object with exactly two keys: revision and files.',
     'revision must be a nonempty string. files maps relative paths to full contents. Do not include evaluator tests.',
     scenario.request.description,instruction,
+    `Immutable project files: ${JSON.stringify(Object.keys(scenario.baseSnapshot.files).filter(path=>path.endsWith('.md')))}. Copy these contents verbatim from the existing project; do not summarize, reformat, or rewrite the specification.`,
     'Parent artifacts:',JSON.stringify(envelope.artifacts),
   ].join('\n')
 }
