@@ -481,3 +481,32 @@ README задают внешнее поведение. Внутренние stor
 [Описание v2](webhook-scenario.md) фиксирует ограничения. Динамическая декомпозиция
 из architecture artifact ещё требует реализации. Число маршрутов новой версии
 не закреплено, модельных запусков не было.
+
+
+### 2026-11-21 — launcher webhook v2 и равные лимиты (ветка codex/cold-start-launch)
+
+Продолжение после c067d31: examples/run-webhook-scenario.js, src/experiments/scenario-study.js
+и scenario-runtime.js добавляют offline preview и явное исполнение пяти режимов:
+direct-flash/direct-pro/fixed/components/metaaco. Декомпозиция требует платного design
+с versioned architecture.json; три слота заданы конфигурацией, файлы/контракты — моделью.
+MetaACO сохраняет реальный Python-поиск и trace; структурный запрет отсутствующего design
+не является оценкой качества неизвестного маршрута. Накопленная stock-история не переносится.
+
+Все режимы: 8192 output/call, 32768 output/attempt, input 262144 bytes, artifact 65536 bytes,
+2 slots, call timeout 120s, attempt deadline 300s. Forecast 10s/node — неизмеренный prior.
+Резервации стоимости пересчитаны по max_tokens; это расчёт по закреплённому тарифу,
+не счёт провайдера. Протокол/результаты прошлых серий не изменялись. Новый launcher
+не объявляется реализацией полного семиметодного эксперимента или обучением.
+
+Проверки с синтетическими ответами используют настоящие Harness/LlmRuntime и публичный
+независимый evaluator; оракул доступен только test fixture. Платных вызовов в этой работе
+нет. Подробности, команды и ограничения: [webhook-scenario.md](webhook-scenario.md).
+
+Локальная валидация этой доработки: 170 unit, 33 Python, 34 integration прошли;
+1 Docker integration пропущен без TEST_EVALUATION_IMAGE. Новый launcher отдельно
+прошёл шесть offline integration-сценариев, включая невалидный design. Preview,
+verify_data.py и git diff --check прошли. Флапавший synthetic-delay replay больше
+не требует минимального перекрытия коротких таймеров через границу subprocess;
+лимит конкурентности проверяется, а обязательное перекрытие остаётся в отдельном
+Harness integration с управляемыми барьерами. Проверки не подтверждают доступность
+Lenovo или совместимость нового сценария с его Docker; сервер в этом шаге не менялся.

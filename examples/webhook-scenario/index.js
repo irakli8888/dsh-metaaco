@@ -19,7 +19,7 @@ export async function webhookScenario() {
     decomposition:{status:'requires-design-artifact',ownership:'assigned-by-architecture-before-parallel-implementation'},
     rolePrompts:{
       analyze:'Analyze requirements and failure modes. Return analysis.md only.',
-      design:'Plan the implementation from the public requirements; propose internal interfaces and disjoint file ownership before parallel implementation. Return design.md only.',
+      design:'Plan the implementation from the public requirements; propose internal interfaces and disjoint file ownership before parallel implementation. Return architecture.json only, with schemaVersion:1 and components containing id, files and contract.',
       implement:'Implement the full requested change. Return a complete production snapshot with all existing files and any added modules.',
       'implement-component':'Implement the component assigned by the architecture artifact. Follow its agreed interfaces and return only explicitly assigned files.',
       'write-tests':'Propose additional cases in test-plan.md. Mandatory evaluator tests are pinned independently.',

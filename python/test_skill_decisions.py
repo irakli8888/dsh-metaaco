@@ -174,3 +174,18 @@ class SkillDecisionTests(unittest.TestCase):
         self.assertEqual(result['exploration']['distinctFeasibleRoutes'], 2)
         self.assertEqual(result['exploration']['selectedObservedAttempts'], 0)
         self.assertEqual(result['exploration']['optimizerWinner']['choices'], baseline['choices'])
+
+    def test_component_layout_requires_model_generated_design_when_enabled(self):
+        from skill_decisions import plan_skill_graph
+        from test_metaaco_dag import problem
+        route = lambda seconds: {'model': {'provider': 'offline', 'model': 'm'}, 'prompt': 'Work',
+                                 'seconds': seconds, 'costMicrounits': 1}
+        catalog = {'implement': [route(50)], 'design': [route(1)], 'integrate': [route(1)],
+                   'implement-a': [route(1)], 'implement-b': [route(1)], 'refactor': [route(1)]}
+        result = plan_skill_graph(catalog, problem()['plan']['resources'], 100, component_design_required=True)
+        self.assertEqual(result['choices']['layout'], 'components')
+        self.assertEqual(result['choices']['design'], 'design/0')
+        tasks = {task['id']: task for task in result['problem']['plan']['tasks']}
+        self.assertEqual(tasks['implement-a']['dependsOn'], ['design'])
+        self.assertIn('design', tasks['integrate']['dependsOn'])
+        self.assertTrue(any(row.get('rejected') == 'missing-component-design' for row in result['trace']['evaluations']))

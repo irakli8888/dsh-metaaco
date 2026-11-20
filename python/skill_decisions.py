@@ -95,7 +95,12 @@ def search_workflow(groups, build_candidate, budget_microunits, *, quality_evide
         key = tuple(choices.items())
         if key in evaluated:
             return evaluated[key]
-        problem, cost = build_candidate(choices)
+        candidate = build_candidate(choices)
+        if candidate is None:
+            evaluated[key] = {'rejected': 'missing-component-design', 'makespanSeconds': None,
+                              'dispatchOrder': None, 'estimatedCostMicrounits': None}
+            return evaluated[key]
+        problem, cost = candidate
         integer(cost, minimum=0)
         if cost > budget_microunits:
             evaluated[key] = {'estimatedCostMicrounits': cost, 'rejected': 'over-budget',
@@ -168,7 +173,8 @@ def search_workflow(groups, build_candidate, budget_microunits, *, quality_evide
                                           'omitted': result['evaluations'] - len(trace)}}
 
 
-def plan_skill_graph(catalog, resources, budget_microunits, *, required_skills=(), **options):
+def plan_skill_graph(catalog, resources, budget_microunits, *, required_skills=(),
+                    component_design_required=False, **options):
     """Build workflow DAGs lazily from skill routes and optional branches."""
     required = {'implement', 'refactor'}
     optional = {'analyze', 'design', 'write-tests', 'review'}
@@ -176,6 +182,8 @@ def plan_skill_graph(catalog, resources, budget_microunits, *, required_skills=(
     components = sorted(skill for skill in catalog if re.fullmatch(r'implement-[a-z0-9-]{1,53}', skill))
     if components and (len(components) < 2 or 'integrate' not in catalog):
         raise ValueError('Component layout requires integration and at least two components')
+    if component_design_required and components and 'design' not in catalog:
+        raise ValueError('Component design requires a design skill')
     supported = required | optional | set(components) | {'integrate'}
     mandatory = set(required_skills)
     if not mandatory <= (optional & catalog.keys()):
@@ -193,6 +201,8 @@ def plan_skill_graph(catalog, resources, budget_microunits, *, required_skills=(
             groups[skill].append(f'{skill}/skip')
 
     def build(choices):
+        if component_design_required and choices.get('layout') == 'components' and choices.get('design', 'design/skip') == 'design/skip':
+            return None
         dependencies = {}
         if choices.get('analyze', 'analyze/skip') != 'analyze/skip':
             dependencies['analyze'] = []
@@ -207,6 +217,8 @@ def plan_skill_graph(catalog, resources, budget_microunits, *, required_skills=(
         if choices.get('write-tests', 'write-tests/skip') != 'write-tests/skip':
             dependencies['write-tests'] = context
             integration_inputs.append('write-tests')
+        if component_design_required and choices.get('layout') == 'components':
+            integration_inputs.append('design')
         if len(integration_inputs) > 1:
             dependencies['integrate'] = integration_inputs
         implementation = 'integrate' if 'integrate' in dependencies else 'implement'
@@ -244,5 +256,6 @@ if __name__ == '__main__':
     print(json.dumps(plan_skill_graph(spec['skills'], spec['resources'],
                                      spec['budgetMicrounits'], required_skills=spec.get('requiredSkills', []),
                                      quality_evidence=spec.get('qualityEvidence', []),
+                                     component_design_required=spec.get('componentDesignRequired') is True,
                                      training_evidence=spec.get('trainingEvidence', []),
                                      explore_training=spec.get('exploreTraining') is True, seed=args.seed)))
