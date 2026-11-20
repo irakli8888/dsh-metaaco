@@ -7,7 +7,7 @@ import { runFrozenStudy } from '../src/experiments/frozen-online.js'
 import { searchFrozenSkills } from '../src/experiments/skill-search.js'
 import { hash } from '../src/selector/contracts.js'
 
-const {values}=parseArgs({options:{execute:{type:'boolean'},source:{type:'string'},out:{type:'string'},preflight:{type:'boolean'}}})
+const {values}=parseArgs({options:{execute:{type:'boolean'},source:{type:'string'},out:{type:'string'},preflight:{type:'boolean'},'direct-baselines':{type:'boolean'}}})
 if(!values.source) throw Error('Supply --source with the completed cold-start study directory')
 const audit=JSON.parse(await readFile(new URL('../docs/research/data/cold-start-audit.json',import.meta.url),'utf8'))
 const {sourceConfig,...experience}=await loadFrozenExperience(values.source,audit)
@@ -16,6 +16,18 @@ for(const key of ['routes','skills','task','evaluationDockerImage']) {
   if(hash(config[key])!==hash(sourceConfig[key])) throw Error(`Frozen configuration differs from training: ${key}`)
 }
 config.studyId=values.preflight?'stock-frozen-preflight-v1':'stock-frozen-exploitation-v1'
+if (values['direct-baselines']) {
+  config.studyId=values.preflight?'stock-direct-preflight-v2':'stock-frozen-direct-v2'
+  config.primaryMetric='acceptance-correctness-v2'
+  for (const [mode,model] of [['direct-flash','deepseek-flash'],['direct-pro','deepseek-v4-pro']]) {
+    const node={id:'implement',prompt:config.task.request.description,slots:1,
+      model:{provider:'deepseek',model},dependsOn:[],inputs:[]}
+    config.routes.push({id:mode,plan:{...config.routes[0].plan,name:mode,tasks:[node]},greenTaskId:'implement',refactorTaskId:null,
+      costMicrounits:model==='deepseek-flash'?301229:1324056,wallTimeMs:model==='deepseek-flash'?4000:8000})
+    config.modes.push(mode)
+  }
+}
+
 config.policy={...config.policy,alpha:0,revision:'stock-frozen-exploitation-v1'}
 if(values.preflight) config.seeds=[7]
 config.runtimeConfig={...config.runtimeConfig,exploration:'disabled-after-search',contextualFeatures:'intercept-only; alpha=0',

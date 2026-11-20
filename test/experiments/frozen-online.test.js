@@ -24,24 +24,37 @@ test('seven methods seal choices before execution and never learn from repeats',
     runtimeConfig:{source:'synthetic'},fixedRouteId:'direct',
     routes:[{id:'direct',plan:f.plan,greenTaskId:'implement',refactorTaskId:'refactor',costMicrounits:10,wallTimeMs:100}],
     skills:Object.fromEntries(f.plan.tasks.map(task=>[task.id,[{model:task.model,prompt:task.prompt,seconds:1,costMicrounits:5}]]))}
+  config.primaryMetric='acceptance-correctness-v2'
+  for(const mode of ['direct-flash','direct-pro']) {
+    config.modes.push(mode)
+    config.routes.push({id:mode,plan:{...f.plan,tasks:[f.plan.tasks[0]]},greenTaskId:'implement',refactorTaskId:null,costMicrounits:5,wallTimeMs:50})
+  }
   const experience={history:[{attemptId:'source/one',routeId:'direct',reward:1}]}
   const originalHash=hash(experience),seen=[]
   const search=async args=>{seen.push({mode:args.mode,count:args.history.length});return searchFrozenSkills(args)}
   const createRuntime=async({guardAdapter,signal,mode,repeat})=>{
     const adapter=guardAdapter({async *stream(){yield{type:'usage',usage:{inputTokens:2,outputTokens:1}};yield{type:'finish',reason:{kind:'stop'}}}},()=>({pricing:price,upperBoundMicrounits:6}))
     return {parent:{id:'parent'},subagentProvider:'offline',async dispose(){},ctx:{workflowEngine:{start(req){
-      const result=(async()=>{for await(const part of adapter.stream({...req.args.model,signal})){};return{stopReason:'completed',value:JSON.stringify(snapshot(req.args.taskId,mode==='historical-best'&&repeat===0?'0':'a+b'))}})()
+      const result=(async()=>{for await(const part of adapter.stream({...req.args.model,signal})){};return{stopReason:'completed',value:JSON.stringify(snapshot(req.args.taskId,['historical-best','direct-pro'].includes(mode)&&repeat===0?'0':'a+b'))}})()
       return{id:req.args.taskId,result,cancel(){},async dispose(){}}
     }}}}
   }
   const out=join(parent,'study')
   const result=await runFrozenStudy({out,config,experience,repeats:2,createRuntime,search,allowLlm:true})
-  assert.equal(result.rows.length,14)
-  assert.equal(result.rows.filter(r=>r.verifiedSuccess).length,13)
+  assert.equal(result.rows.length,18)
+  assert.equal(result.rows.filter(r=>r.verifiedSuccess).length,16)
   assert.equal(hash(experience),originalHash)
+  for(const row of result.rows.filter(r=>r.mode.startsWith('direct-'))) {
+    assert.equal(row.modelCalls,1)
+    const failed=row.mode==='direct-pro'&&row.repeat===0
+    assert.equal(row.correctness,failed?'failed':'passed')
+    assert.equal(row.tddCompliance,failed?'failed':'inconclusive')
+    assert.equal(row.state,failed?'failed':'inconclusive')
+    assert.equal(row.verifiedSuccess,!failed)
+  }
   assert.deepEqual(seen.map(r=>r.count).sort(),[0,1])
   const journal=(await readFile(join(out,'journal.jsonl'),'utf8')).trim().split('\n').map(JSON.parse)
-  assert.equal(journal.slice(0,7).filter(r=>r.type==='decision').length,7)
+  assert.equal(journal.slice(0,9).filter(r=>r.type==='decision').length,9)
   const decisions=journal.filter(r=>r.type==='decision')
   for(const decision of decisions) {
     assert.equal(decision.historyCount,['historical-best','contextual-bandit','metaaco-with-bank'].includes(decision.mode)?1:0)

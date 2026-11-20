@@ -116,8 +116,8 @@ function percentile(values, fraction) {
   const sorted = [...values].sort((a, b) => a - b)
   return sorted[Math.max(0, Math.ceil(sorted.length * fraction) - 1)]
 }
-export function summarizeExperiment(rows) {
-  return EXPERIMENT_MODES.map(mode => {
+export function summarizeExperiment(rows, modes = EXPERIMENT_MODES) {
+  return modes.map(mode => {
     const subset = rows.filter(r => r.mode === mode), states = {}
     for (const row of subset) states[row.state] = (states[row.state] ?? 0) + 1
     const successes = subset.filter(r => r.verifiedSuccess).length
