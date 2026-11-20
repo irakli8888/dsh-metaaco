@@ -1,0 +1,578 @@
+{
+  "schemaVersion": 1,
+  "protocol": {
+    "schemaVersion": 1,
+    "id": "webhook-infrastructure-pilot-v1",
+    "sourceCommit": "c02135a1c9b90b6fb420ac56c4e78672785fcac0",
+    "sourceArchiveSha256": "5a68d2c9586667f5c67d348d4d3fb519b33a217180c1715175bab06cef6e632b",
+    "methods": [
+      "direct-flash",
+      "direct-pro",
+      "fixed",
+      "components",
+      "metaaco"
+    ],
+    "seed": 7,
+    "budgetMicrounits": 1000000,
+    "image": "sha256:116b800c3754b440ee0aa3ed2f20f5bf3d99a554bfd9adeea09ea8017f6e85f5",
+    "node": "v24.22.1",
+    "startedAt": "2026-11-20T22:03:42.258Z",
+    "purpose": "Infrastructure pilot, not training or statistical method comparison",
+    "history": "Empty per attempt; no feedback from pilot reused",
+    "forecast": "Uncalibrated equal 10s per skill/model",
+    "caveats": [
+      "Pro reservation exceeds total authorized budget",
+      "Search uses conservative tariff bounds; budget can exclude routes before quality is known",
+      "Shared remaining budget can differ across methods; no comparative efficacy claim"
+    ]
+  },
+  "rows": [
+    {
+      "method": "direct-flash",
+      "startedAt": "2026-11-20T22:03:42.262Z",
+      "finishedAt": "2026-11-20T22:03:53.056Z",
+      "state": "failed",
+      "acceptancePassed": false,
+      "spentMicrounits": 3888,
+      "heldMicrounits": 0,
+      "failureClass": null,
+      "failureReasons": [
+        "Harness error: WorkflowError: child agent run failed: Error: Final snapshot changed the pinned specification"
+      ],
+      "attemptCreated": true,
+      "apiCalls": 1,
+      "measuredWallTimeMs": 10731.601109,
+      "usage": {
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "inputTokens": 915,
+        "outputTokens": 3011,
+        "reasoningTokens": null,
+        "totalTokens": 3926
+      },
+      "costIsCalculatedNotInvoice": true,
+      "correctness": null,
+      "tddCompliance": null,
+      "tasks": [
+        {
+          "id": "implement",
+          "model": {
+            "model": "deepseek-flash",
+            "provider": "deepseek"
+          },
+          "dependsOn": []
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "suites": [
+            {
+              "id": "regression",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 2,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "ee03c85633fb6025b8be977511d9220d69c8f6bed12724a99d09dc1ead5ddb22",
+              "testSuiteHash": "4fbdf04942c00b184640cfb47118b122fc1b95435e0b9866499859fd986fd609"
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "suites": [
+            {
+              "id": "target",
+              "status": "failed",
+              "counts": {
+                "failed": 12,
+                "passed": 0,
+                "skipped": 0
+              },
+              "exitCode": 1,
+              "snapshotHash": "ee03c85633fb6025b8be977511d9220d69c8f6bed12724a99d09dc1ead5ddb22",
+              "testSuiteHash": "3bccf2b88b56bd6802ec99575b11bf6ec4be64efb37699d99ab17da539b265c6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "method": "direct-pro",
+      "startedAt": "2026-11-20T22:03:53.057Z",
+      "finishedAt": "2026-11-20T22:03:54.241Z",
+      "state": "failed",
+      "acceptancePassed": false,
+      "spentMicrounits": 0,
+      "heldMicrounits": 0,
+      "failureClass": null,
+      "failureReasons": [
+        "Harness error: WorkflowError: child agent run failed: Error: Budget unavailable or exceeded"
+      ],
+      "attemptCreated": true,
+      "apiCalls": 0,
+      "measuredWallTimeMs": 1120.9613570000001,
+      "usage": {
+        "cacheReadTokens": null,
+        "cacheWriteTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null,
+        "totalTokens": null
+      },
+      "costIsCalculatedNotInvoice": true,
+      "correctness": null,
+      "tddCompliance": null,
+      "tasks": [
+        {
+          "id": "implement",
+          "model": {
+            "model": "deepseek-v4-pro",
+            "provider": "deepseek"
+          },
+          "dependsOn": []
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "suites": [
+            {
+              "id": "regression",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 2,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "ee03c85633fb6025b8be977511d9220d69c8f6bed12724a99d09dc1ead5ddb22",
+              "testSuiteHash": "4fbdf04942c00b184640cfb47118b122fc1b95435e0b9866499859fd986fd609"
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "suites": [
+            {
+              "id": "target",
+              "status": "failed",
+              "counts": {
+                "failed": 12,
+                "passed": 0,
+                "skipped": 0
+              },
+              "exitCode": 1,
+              "snapshotHash": "ee03c85633fb6025b8be977511d9220d69c8f6bed12724a99d09dc1ead5ddb22",
+              "testSuiteHash": "3bccf2b88b56bd6802ec99575b11bf6ec4be64efb37699d99ab17da539b265c6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "method": "fixed",
+      "startedAt": "2026-11-20T22:03:54.242Z",
+      "finishedAt": "2026-11-20T22:04:16.621Z",
+      "state": "succeeded",
+      "acceptancePassed": true,
+      "spentMicrounits": 8666,
+      "heldMicrounits": 0,
+      "failureClass": null,
+      "failureReasons": [],
+      "attemptCreated": true,
+      "apiCalls": 2,
+      "measuredWallTimeMs": 22290.619529,
+      "usage": {
+        "cacheReadTokens": 1408,
+        "cacheWriteTokens": 0,
+        "inputTokens": 3827,
+        "outputTokens": 6257,
+        "reasoningTokens": null,
+        "totalTokens": 11492
+      },
+      "costIsCalculatedNotInvoice": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "tasks": [
+        {
+          "id": "implement",
+          "model": {
+            "model": "deepseek-flash",
+            "provider": "deepseek"
+          },
+          "dependsOn": []
+        },
+        {
+          "id": "refactor",
+          "model": {
+            "model": "deepseek-flash",
+            "provider": "deepseek"
+          },
+          "dependsOn": [
+            "implement"
+          ]
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "suites": [
+            {
+              "id": "regression",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 2,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "ee03c85633fb6025b8be977511d9220d69c8f6bed12724a99d09dc1ead5ddb22",
+              "testSuiteHash": "4fbdf04942c00b184640cfb47118b122fc1b95435e0b9866499859fd986fd609"
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "suites": [
+            {
+              "id": "target",
+              "status": "failed",
+              "counts": {
+                "failed": 12,
+                "passed": 0,
+                "skipped": 0
+              },
+              "exitCode": 1,
+              "snapshotHash": "ee03c85633fb6025b8be977511d9220d69c8f6bed12724a99d09dc1ead5ddb22",
+              "testSuiteHash": "3bccf2b88b56bd6802ec99575b11bf6ec4be64efb37699d99ab17da539b265c6"
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "suites": [
+            {
+              "id": "target",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 12,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "5bb4bc213d85932e934316b304310571673655c7cbcf36456bc158224809a458",
+              "testSuiteHash": "3bccf2b88b56bd6802ec99575b11bf6ec4be64efb37699d99ab17da539b265c6"
+            },
+            {
+              "id": "regression",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 2,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "5bb4bc213d85932e934316b304310571673655c7cbcf36456bc158224809a458",
+              "testSuiteHash": "4fbdf04942c00b184640cfb47118b122fc1b95435e0b9866499859fd986fd609"
+            }
+          ]
+        },
+        {
+          "phase": "refactor",
+          "suites": [
+            {
+              "id": "target",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 12,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "94f673837d01671fc6a34cdbd76516c4bda580a9e3b5230b1a8ed96907c3c95b",
+              "testSuiteHash": "3bccf2b88b56bd6802ec99575b11bf6ec4be64efb37699d99ab17da539b265c6"
+            },
+            {
+              "id": "regression",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 2,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "94f673837d01671fc6a34cdbd76516c4bda580a9e3b5230b1a8ed96907c3c95b",
+              "testSuiteHash": "4fbdf04942c00b184640cfb47118b122fc1b95435e0b9866499859fd986fd609"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "method": "components",
+      "startedAt": "2026-11-20T22:04:16.622Z",
+      "finishedAt": "2026-11-20T22:04:16.656Z",
+      "state": "failed",
+      "acceptancePassed": false,
+      "spentMicrounits": 0,
+      "heldMicrounits": 0,
+      "failureClass": "candidate-budget-rejection",
+      "failureReasons": [
+        "No admissible strategy"
+      ],
+      "attemptCreated": false,
+      "apiCalls": 0,
+      "measuredWallTimeMs": null,
+      "usage": null,
+      "costIsCalculatedNotInvoice": true,
+      "correctness": null,
+      "tddCompliance": null,
+      "tasks": [
+        {
+          "id": "design",
+          "model": {
+            "model": "deepseek-flash",
+            "provider": "deepseek"
+          },
+          "dependsOn": []
+        },
+        {
+          "id": "implement-a",
+          "model": {
+            "model": "deepseek-flash",
+            "provider": "deepseek"
+          },
+          "dependsOn": [
+            "design"
+          ]
+        },
+        {
+          "id": "implement-b",
+          "model": {
+            "model": "deepseek-flash",
+            "provider": "deepseek"
+          },
+          "dependsOn": [
+            "design"
+          ]
+        },
+        {
+          "id": "implement-c",
+          "model": {
+            "model": "deepseek-flash",
+            "provider": "deepseek"
+          },
+          "dependsOn": [
+            "design"
+          ]
+        },
+        {
+          "id": "integrate",
+          "model": {
+            "model": "deepseek-flash",
+            "provider": "deepseek"
+          },
+          "dependsOn": [
+            "design",
+            "implement-a",
+            "implement-b",
+            "implement-c"
+          ]
+        },
+        {
+          "id": "refactor",
+          "model": {
+            "model": "deepseek-flash",
+            "provider": "deepseek"
+          },
+          "dependsOn": [
+            "integrate"
+          ]
+        }
+      ],
+      "phases": []
+    },
+    {
+      "method": "metaaco",
+      "startedAt": null,
+      "finishedAt": null,
+      "state": "failed",
+      "acceptancePassed": false,
+      "spentMicrounits": 0,
+      "heldMicrounits": 0,
+      "failureClass": "local-search-no-feasible-candidate-in-100-evaluations",
+      "failureReasons": [
+        "No feasible choice found within the evaluation budget (configured limit 100; exact count not recorded; seed 7)"
+      ],
+      "attemptCreated": false,
+      "apiCalls": 0,
+      "measuredWallTimeMs": null,
+      "usage": null,
+      "costIsCalculatedNotInvoice": true,
+      "correctness": null,
+      "tddCompliance": null,
+      "tasks": null,
+      "phases": [],
+      "timingUnavailableReason": "Failed during planning; continuation driver exited before recording timestamps. Audit timestamp is not execution duration."
+    }
+  ],
+  "spentMicrounits": 12554,
+  "heldMicrounits": 0,
+  "remainingMicrounits": 987446,
+  "artifactHashesVerified": true,
+  "evidenceSha256": {
+    "direct-flash/report.json": "343ced4372ad82fa7980fc18db8041fd22921ffa11688d78185945d5338cce69",
+    "direct-flash/bank-export.jsonl": "5114a63eeba8918328d8e2553fc8bd4e4dd117e288ebf592560a8f752da357ce",
+    "direct-flash/job.json": "05884be7c16796d79b4a61e1da1f294f730a9f848e8580782b7e5108a127f2c0",
+    "direct-flash/manifest.json": "60cc0b1b7a4b1212613992c12746c7d895f71b931be22270fd4d9b3465ca6061",
+    "direct-flash/bank/bank.sqlite": "76848218e7d84cee9e80f34fff1adba25c2893aa735a00dd02d4f4caeb0ab6f2",
+    "direct-flash/bank/artifacts/2d3b98e450081111bb2c9c67bf540561ec41cfe32d39b3b6aeaedc6722599d3d": "2d3b98e450081111bb2c9c67bf540561ec41cfe32d39b3b6aeaedc6722599d3d",
+    "direct-flash/bank/artifacts/021c5b90a3527bb3554235f79f62f66131383d5cc05701caff857edf8f3ec116": "021c5b90a3527bb3554235f79f62f66131383d5cc05701caff857edf8f3ec116",
+    "direct-flash/bank/artifacts/be9f2edbff3aa05d21ede44deff8e9a370ffb9094441461105237651f95f128f": "be9f2edbff3aa05d21ede44deff8e9a370ffb9094441461105237651f95f128f",
+    "direct-flash/bank/artifacts/66e25f20d5bae3d86074a7b3216dbd1c89b9dd31c30d397ea6995d720110cf34": "66e25f20d5bae3d86074a7b3216dbd1c89b9dd31c30d397ea6995d720110cf34",
+    "direct-flash/bank/artifacts/4709eb1c21c64851a05c2c1806f50833d32eb1f6de0c18013c713e1854d193a6": "4709eb1c21c64851a05c2c1806f50833d32eb1f6de0c18013c713e1854d193a6",
+    "direct-flash/bank/artifacts/7cee54b36bbe9755641b0f0338a1feafa0d1b443a2dedafaf0de9d8322e7a974": "7cee54b36bbe9755641b0f0338a1feafa0d1b443a2dedafaf0de9d8322e7a974",
+    "direct-flash/bank/artifacts/c10563ea11380dfd50f834bfac338d637eec399e582ec357769f5be37ae99e71": "c10563ea11380dfd50f834bfac338d637eec399e582ec357769f5be37ae99e71",
+    "direct-flash/bank/artifacts/7a79d3468f1cafae8f15e0e726a9febdc1104d4de0ce60d7a46868744e943774": "7a79d3468f1cafae8f15e0e726a9febdc1104d4de0ce60d7a46868744e943774",
+    "direct-flash/bank/artifacts/55c39b6fae342a099eada1797b9d78a69622fc27c0eaac437d0c0a5e8335c3e4": "55c39b6fae342a099eada1797b9d78a69622fc27c0eaac437d0c0a5e8335c3e4",
+    "direct-pro/report.json": "8790a0d797932de7ec77af07efd66375da263ad772321b2160ef5e070e89e9f1",
+    "direct-pro/bank-export.jsonl": "af7a32ede910be9d3ad1c22faf6c514d88136ebe4efec6679f8f3ccb74d18668",
+    "direct-pro/job.json": "8720956d6f5937751b82466e0722d745b2bd7e4b26a9b9b684ec514b5ba75abb",
+    "direct-pro/manifest.json": "fc4ac5e7f70c9be00c3cb673caf5eeb27e02c6b045086dda2344d20f6f6648e9",
+    "direct-pro/bank/bank.sqlite": "e36540f4dae209b79cf818112afe3f053b5bcdd1cdbc059c43fb6c8f06a44987",
+    "direct-pro/bank/artifacts/2d3b98e450081111bb2c9c67bf540561ec41cfe32d39b3b6aeaedc6722599d3d": "2d3b98e450081111bb2c9c67bf540561ec41cfe32d39b3b6aeaedc6722599d3d",
+    "direct-pro/bank/artifacts/be0a44608a6d0fb5c2a37d5100f0456fa86d58260f6b9cc75a8a20d1467eb1ac": "be0a44608a6d0fb5c2a37d5100f0456fa86d58260f6b9cc75a8a20d1467eb1ac",
+    "direct-pro/bank/artifacts/5f543d1072361a8bf626b859f407275b572a68b464a105aa5f3dc04a858e4fdb": "5f543d1072361a8bf626b859f407275b572a68b464a105aa5f3dc04a858e4fdb",
+    "direct-pro/bank/artifacts/dbd224520074fdb332c7031f8585f006474775180f613e132b4841bc441fb2ad": "dbd224520074fdb332c7031f8585f006474775180f613e132b4841bc441fb2ad",
+    "direct-pro/bank/artifacts/4ab12a08695dcb2a0ca7bfc1b10fc705054750c7ea48eb48992730fbaa420c88": "4ab12a08695dcb2a0ca7bfc1b10fc705054750c7ea48eb48992730fbaa420c88",
+    "direct-pro/bank/artifacts/7cee54b36bbe9755641b0f0338a1feafa0d1b443a2dedafaf0de9d8322e7a974": "7cee54b36bbe9755641b0f0338a1feafa0d1b443a2dedafaf0de9d8322e7a974",
+    "direct-pro/bank/artifacts/9762c2cf540986575dce6b568846b912a32a2bf08ccfe852941f60772aba7eca": "9762c2cf540986575dce6b568846b912a32a2bf08ccfe852941f60772aba7eca",
+    "direct-pro/bank/artifacts/5906aeeaa8f4ed8a62ec7c0d82ff7965b62783fb78f7e9e1447d08e7d8cb966f": "5906aeeaa8f4ed8a62ec7c0d82ff7965b62783fb78f7e9e1447d08e7d8cb966f",
+    "fixed/report.json": "e9a6af521bd75562ca5072cd79fe087d85d28d56cba9d6d8838e8d6277d666b5",
+    "fixed/bank-export.jsonl": "099f27519467f86844d45cfa590be69902430ba45320e73c0e7cb9ecf858d8f9",
+    "fixed/job.json": "062d1472545777b3f36cb4a1d8d8391d8955067d5053517f4d27920aa23c8873",
+    "fixed/manifest.json": "9e8d0f00ff1cdbb6c8adac6db22cafe2e45c118a3b9484c01e94166efe6b26f2",
+    "fixed/bank/bank.sqlite": "90b6418405116c7b3b2baa8ce53f0b37ec462c08eb340c1868841d2659bd2655",
+    "fixed/bank/artifacts/aadd7f849622c4c4604abef68c1368ccf1dda3033f07eafa5414de1f7c93b2b1": "aadd7f849622c4c4604abef68c1368ccf1dda3033f07eafa5414de1f7c93b2b1",
+    "fixed/bank/artifacts/2d3b98e450081111bb2c9c67bf540561ec41cfe32d39b3b6aeaedc6722599d3d": "2d3b98e450081111bb2c9c67bf540561ec41cfe32d39b3b6aeaedc6722599d3d",
+    "fixed/bank/artifacts/f135dde3a6754161219b6f82a5b4cb2121e574511f7833c098fcf16b5ecca872": "f135dde3a6754161219b6f82a5b4cb2121e574511f7833c098fcf16b5ecca872",
+    "fixed/bank/artifacts/e698ce65946999e304b3bf12fe5b3bae066ad01254c98b8593475329abdb5f0e": "e698ce65946999e304b3bf12fe5b3bae066ad01254c98b8593475329abdb5f0e",
+    "fixed/bank/artifacts/1d5cda3d7ce5e3019a2efdac54023e827d425412cf3c5775eb7f7c401dfedd45": "1d5cda3d7ce5e3019a2efdac54023e827d425412cf3c5775eb7f7c401dfedd45",
+    "fixed/bank/artifacts/e6c0c74743d7492b4bcae09c7f9e5c65f64c0a0420ccd911203473f7aa83fa6c": "e6c0c74743d7492b4bcae09c7f9e5c65f64c0a0420ccd911203473f7aa83fa6c",
+    "fixed/bank/artifacts/7af450a4e52c6308a4a95dede0f36114551a6b12a1e2c9716f7e49fbb7fe30c7": "7af450a4e52c6308a4a95dede0f36114551a6b12a1e2c9716f7e49fbb7fe30c7",
+    "fixed/bank/artifacts/5f76e95b4f5768a8dad9b6610cd09e764f4d157c48063319b66aa0f26bcb38a4": "5f76e95b4f5768a8dad9b6610cd09e764f4d157c48063319b66aa0f26bcb38a4",
+    "fixed/bank/artifacts/7cee54b36bbe9755641b0f0338a1feafa0d1b443a2dedafaf0de9d8322e7a974": "7cee54b36bbe9755641b0f0338a1feafa0d1b443a2dedafaf0de9d8322e7a974",
+    "fixed/bank/artifacts/539ecf69735a02d72fb26d62b9544d9f1306cd22f6bbb85ae9cd06dc2996e4a3": "539ecf69735a02d72fb26d62b9544d9f1306cd22f6bbb85ae9cd06dc2996e4a3",
+    "fixed/bank/artifacts/96d1834d1a4fe017724e8b7c938678b9292aeaffb8f695e9e4d92d4e938f9176": "96d1834d1a4fe017724e8b7c938678b9292aeaffb8f695e9e4d92d4e938f9176",
+    "fixed/bank/artifacts/ed9facfed21945043acf7968dea38cea83ff881f4a25cc2855c72d96540d3d18": "ed9facfed21945043acf7968dea38cea83ff881f4a25cc2855c72d96540d3d18",
+    "fixed/bank/artifacts/ee03c85633fb6025b8be977511d9220d69c8f6bed12724a99d09dc1ead5ddb22": "ee03c85633fb6025b8be977511d9220d69c8f6bed12724a99d09dc1ead5ddb22",
+    "fixed/bank/artifacts/9ed9ff752396208de223fdddd2f975daa75bf5ecae71c9304b48739d5b4e5cc3": "9ed9ff752396208de223fdddd2f975daa75bf5ecae71c9304b48739d5b4e5cc3",
+    "fixed/bank/artifacts/f80c13bac52939ffece849c42ed2a229cd32cf1aab9694efa774b94b6813e69c": "f80c13bac52939ffece849c42ed2a229cd32cf1aab9694efa774b94b6813e69c",
+    "fixed/bank/artifacts/ceeb3c14647668d92b6763c433867f503eda902f844aef3f18b1d0c8499bb5ab": "ceeb3c14647668d92b6763c433867f503eda902f844aef3f18b1d0c8499bb5ab",
+    "fixed/bank/artifacts/62389f29e53c09233c078983bf597a447037538118851c836699b290dff21a44": "62389f29e53c09233c078983bf597a447037538118851c836699b290dff21a44",
+    "fixed/bank/artifacts/777af0b0200b0a7dd08f4ec3860e613da316fcc8518f62fb1fbf911e8efc3382": "777af0b0200b0a7dd08f4ec3860e613da316fcc8518f62fb1fbf911e8efc3382",
+    "fixed/bank/artifacts/0b87bb0f29ff2f50f9b86bfdad17659115c1b48c9066f7cc3401323411ff663b": "0b87bb0f29ff2f50f9b86bfdad17659115c1b48c9066f7cc3401323411ff663b",
+    "fixed/bank/artifacts/22f25667e671d53bb0d1853ee0d67bd2f30c11ac3708c8cb713a5c750fdfcb97": "22f25667e671d53bb0d1853ee0d67bd2f30c11ac3708c8cb713a5c750fdfcb97",
+    "fixed/bank/artifacts/ea5cb9be96a8cbdf8b5789063c73588cb6b747adcc050eaa56d2166a88359a4d": "ea5cb9be96a8cbdf8b5789063c73588cb6b747adcc050eaa56d2166a88359a4d",
+    "components/run-error.json": "6d43b463919f220eade369038569a9130189f42bdcce6d4f4657076d82fb7722",
+    "components/accounting-audit.json": "f584066732805e95210531af0630b3d76874a2bcb3b062a0c9ae743be606c40d",
+    "components/job.json": "e9eecd8f293701bd5d3472a0da7b6a6d2e4aa045d8ab25fe7dac1148bb8d9108",
+    "components/manifest.json": "95ae88c4363b379eb06faf392539561edc4a9414417fb34a57b5c61603050dbc",
+    "components/zero-dispatch-audit.json": "f9cb789fd27869e4737e5bcbdf2e9973f3a04f77e41cf406706c8536e4121895",
+    "components/bank/bank.sqlite": "933d41fdfd2220993609ae098265a3716c5593ebc17d39ab230938b902992682",
+    "components/bank/artifacts/f135dde3a6754161219b6f82a5b4cb2121e574511f7833c098fcf16b5ecca872": "f135dde3a6754161219b6f82a5b4cb2121e574511f7833c098fcf16b5ecca872",
+    "components/bank/artifacts/3823ae783240f92ade2f245c92b276511ac96467d5817729aa6c029dd7eb968c": "3823ae783240f92ade2f245c92b276511ac96467d5817729aa6c029dd7eb968c",
+    "metaaco/planning-error.json": "96cc40c6443b9a91a6b4fb35efdf48ff9331a91cf3eeae717a256c90b6e93597",
+    "metaaco/job.json": "7ad00ac3a7c5dcedabacfccfbc29675e08fc1faefd1d3226a5737a42953f660a",
+    "metaaco/zero-dispatch-audit.json": "5b40002b4424324f6d07dd78f665346ef8d38fe621ae30908f105db090875cca",
+    "metaaco/bank/bank.sqlite": "b1fc0cca46e489f6fac58794833e7597e4ed636e0644c5e9eaa63608db695d46"
+  },
+  "driverLimitations": [
+    "Original driver halted conservatively when no ledger existed",
+    "Continuation likewise lacked handling of pre-planning failure",
+    "Zero-dispatch audits establish no unknown API expenses for both pre-runtime failures; no paid retries performed"
+  ],
+  "driverSha256": {
+    "continue.mjs": "0b47ea5c8699cf75efb30ac8115687762dc40149dc16c5bce4f93884edce5f04",
+    "finalize.mjs": "2c07e3b16ca62ec46bd89ff96871e6684ca4106b8222c6bfb22fd4990f4390ce",
+    "pilot.mjs": "7546bfb5569f3a939d3ffe9ff2970af8867b073c67bf8d314ee7a3fc6fd4c582"
+  },
+  "dockerCalibration": {
+    "baseline": [
+      {
+        "suiteId": "regression",
+        "status": "passed",
+        "counts": {
+          "passed": 2,
+          "failed": 0,
+          "skipped": 0
+        },
+        "exitCode": 0
+      }
+    ],
+    "red": [
+      {
+        "suiteId": "target",
+        "status": "failed",
+        "counts": {
+          "passed": 0,
+          "failed": 12,
+          "skipped": 0
+        },
+        "exitCode": 1
+      }
+    ],
+    "green": [
+      {
+        "suiteId": "target",
+        "status": "passed",
+        "counts": {
+          "passed": 12,
+          "failed": 0,
+          "skipped": 0
+        },
+        "exitCode": 0
+      },
+      {
+        "suiteId": "regression",
+        "status": "passed",
+        "counts": {
+          "passed": 2,
+          "failed": 0,
+          "skipped": 0
+        },
+        "exitCode": 0
+      }
+    ],
+    "refactor": [
+      {
+        "suiteId": "target",
+        "status": "passed",
+        "counts": {
+          "passed": 12,
+          "failed": 0,
+          "skipped": 0
+        },
+        "exitCode": 0
+      },
+      {
+        "suiteId": "regression",
+        "status": "passed",
+        "counts": {
+          "passed": 2,
+          "failed": 0,
+          "skipped": 0
+        },
+        "exitCode": 0
+      }
+    ],
+    "sha256": "ba129999b4f504d899b7f616d09a2c2538353cb61fdf96d53f15b2eeab718ffd"
+  },
+  "localSearchEvaluationLimit": 100,
+  "localSearchActualEvaluations": null,
+  "localSearchTraceUnavailableReason": "Planner raised before returning selection trace; configured cap is 100."
+}
