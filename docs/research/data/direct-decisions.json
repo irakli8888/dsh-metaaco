@@ -1,0 +1,457 @@
+{
+  "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+  "decisionHash": "bd9a004b4fa3d75c3858b5448287dcde612a867ead00aa217192a119523e2a79",
+  "sourceDecisionsSha256": "eab9f66abb637e08a184dc7cc02b514245b47c77acb53368a269cf5471e7c172",
+  "decisions": [
+    {
+      "mode": "random",
+      "seed": 7,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 0.5950800000000527,
+      "routeId": "route-0541",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "random",
+      "seed": 11,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 0.40228400000000875,
+      "routeId": "route-1780",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "random",
+      "seed": 19,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 0.13523699999996097,
+      "routeId": "route-1487",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "random",
+      "seed": 23,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 0.14000599999985752,
+      "routeId": "route-0277",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "random",
+      "seed": 31,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 0.12191099999995458,
+      "routeId": "route-1366",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "fixed",
+      "seed": 7,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 0.10488899999995738,
+      "routeId": "route-0001",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "fixed",
+      "seed": 11,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 0.06453299999998308,
+      "routeId": "route-0001",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "fixed",
+      "seed": 19,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 0.10654199999999037,
+      "routeId": "route-0001",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "fixed",
+      "seed": 23,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 0.07874999999989996,
+      "routeId": "route-0001",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "fixed",
+      "seed": 31,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 0.06700699999987592,
+      "routeId": "route-0001",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "cheapest",
+      "seed": 7,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 0.2762750000001688,
+      "routeId": "route-0001",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "cheapest",
+      "seed": 11,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 0.1704939999999624,
+      "routeId": "route-0001",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "cheapest",
+      "seed": 19,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 0.0833580000000893,
+      "routeId": "route-0001",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "cheapest",
+      "seed": 23,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 0.07516199999986384,
+      "routeId": "route-0001",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "cheapest",
+      "seed": 31,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 0.07678599999985636,
+      "routeId": "route-0001",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "historical-best",
+      "seed": 7,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "historyCount": 700,
+      "selectionWallTimeMs": 14.417088000000149,
+      "routeId": "route-0003",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "historical-best",
+      "seed": 11,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "historyCount": 700,
+      "selectionWallTimeMs": 13.109667000000172,
+      "routeId": "route-0003",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "historical-best",
+      "seed": 19,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "historyCount": 700,
+      "selectionWallTimeMs": 13.583303999999998,
+      "routeId": "route-0003",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "historical-best",
+      "seed": 23,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "historyCount": 700,
+      "selectionWallTimeMs": 13.484909000000016,
+      "routeId": "route-0003",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "historical-best",
+      "seed": 31,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "historyCount": 700,
+      "selectionWallTimeMs": 13.297503000000006,
+      "routeId": "route-0003",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 7,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "historyCount": 700,
+      "selectionWallTimeMs": 18.654191000000083,
+      "routeId": "route-0001",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 11,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "historyCount": 700,
+      "selectionWallTimeMs": 17.11222399999997,
+      "routeId": "route-0001",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 19,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "historyCount": 700,
+      "selectionWallTimeMs": 17.082357999999886,
+      "routeId": "route-0001",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 23,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "historyCount": 700,
+      "selectionWallTimeMs": 21.828036999999995,
+      "routeId": "route-0001",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 31,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "historyCount": 700,
+      "selectionWallTimeMs": 17.260054000000082,
+      "routeId": "route-0001",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 7,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 148.66015099999981,
+      "routeId": "route-0001",
+      "solverSeed": 12614191,
+      "exploration": null
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 11,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 167.05370700000003,
+      "routeId": "route-0613",
+      "solverSeed": 1528545043,
+      "exploration": null
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 19,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 144.47522100000015,
+      "routeId": "route-0613",
+      "solverSeed": 1227848210,
+      "exploration": null
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 23,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 158.80972800000018,
+      "routeId": "route-0205",
+      "solverSeed": 2145197047,
+      "exploration": null
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 31,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 153.426915,
+      "routeId": "route-0011",
+      "solverSeed": 1500198844,
+      "exploration": null
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 7,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "historyCount": 700,
+      "selectionWallTimeMs": 175.44244200000003,
+      "routeId": "route-0011",
+      "solverSeed": 12614191,
+      "exploration": null
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 11,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "historyCount": 700,
+      "selectionWallTimeMs": 157.38464299999987,
+      "routeId": "route-0613",
+      "solverSeed": 1528545043,
+      "exploration": null
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 19,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "historyCount": 700,
+      "selectionWallTimeMs": 141.41440699999976,
+      "routeId": "route-0613",
+      "solverSeed": 1227848210,
+      "exploration": null
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 23,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "historyCount": 700,
+      "selectionWallTimeMs": 156.0828620000002,
+      "routeId": "route-0205",
+      "solverSeed": 2145197047,
+      "exploration": null
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 31,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "historyCount": 700,
+      "selectionWallTimeMs": 149.68780100000004,
+      "routeId": "route-0001",
+      "solverSeed": 1500198844,
+      "exploration": null
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 7,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 0.02782200000001467,
+      "routeId": "direct-flash",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 11,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 0.021259999999983847,
+      "routeId": "direct-flash",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 19,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 0.021451000000070053,
+      "routeId": "direct-flash",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 23,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 0.024235999999746127,
+      "routeId": "direct-flash",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 31,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 0.1119829999997819,
+      "routeId": "direct-flash",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 7,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 0.02406600000040271,
+      "routeId": "direct-pro",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 11,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 0.02382499999976062,
+      "routeId": "direct-pro",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 19,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 0.02849400000013702,
+      "routeId": "direct-pro",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 23,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 0.02860499999997046,
+      "routeId": "direct-pro",
+      "solverSeed": null,
+      "exploration": null
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 31,
+      "historyHash": null,
+      "historyCount": 0,
+      "selectionWallTimeMs": 0.04323199999998906,
+      "routeId": "direct-pro",
+      "solverSeed": null,
+      "exploration": null
+    }
+  ]
+}
