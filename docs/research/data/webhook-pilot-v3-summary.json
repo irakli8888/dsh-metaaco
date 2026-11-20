@@ -1,0 +1,2386 @@
+{
+  "schemaVersion": 3,
+  "protocol": {
+    "schemaVersion": 3,
+    "id": "webhook-infrastructure-pilot-v3",
+    "sourceCommit": "3fd51633a51b94470d576bee3f69a68d1e6033a0",
+    "archiveSha256": "9d7d04b9b2f87a0a1fda349dff94d57079fc9f7899805545005d1a3b79fb7430",
+    "runtimePackages": {
+      "@deepseek-ai/cordis": "4.0.5",
+      "@deepseek-ai/dsh-workflow-ptc": "0.2.1-rc.2",
+      "@deepseek-ai/dsh-agent": "0.2.1-rc.2"
+    },
+    "driverSha256": "ccc7842ed64f56188f3baae1cd9134894e1281f1e9329eee326370c7f115188b",
+    "methods": [
+      "direct-flash",
+      "direct-pro",
+      "fixed",
+      "components",
+      "metaaco"
+    ],
+    "seed": 7,
+    "budgetMicrounits": 2000000,
+    "evaluationDockerImage": "sha256:116b800c3754b440ee0aa3ed2f20f5bf3d99a554bfd9adeea09ea8017f6e85f5",
+    "taskHashes": {
+      "baseSnapshot": "908b883e19c29b03a444824ae79149695f569374502c8017a7f149c7c9e3e5da",
+      "testSpec": "b8caa792303533e6119500ad5a847a839e063eb06e6657538df318c99042452e",
+      "contracts": "fad03da2e570983374e445bd5f43914d292ef1666f32a3382f69d289a7bcfd75",
+      "responseContract": "ea28fc25a52d792e60392e79837bbff17c9722be8a7fe395688955958c38a94a"
+    },
+    "node": "v24.22.1",
+    "python": "Python 3.14.4",
+    "startedAt": "2026-11-20T22:54:44.066Z",
+    "purpose": "Infrastructure retest, not training or statistical comparison",
+    "history": "Empty isolated bank for each method; no feedback between methods",
+    "rules": [
+      "One attempt per method, no paid retries",
+      "Identical public tests and limits; explicit uncalibrated priors",
+      "Typed responses, host-restored readonly files, synchronous public API; no source rewriting",
+      "MetaACO uses feasible initialization within 100 total evaluations",
+      "Shared remaining monetary budget changes per-attempt policy and may change available models",
+      "Held costs carry forward; missing accounting stops remaining series",
+      "Direct correctness and TDD compliance are reported separately",
+      "Preflight plans use total budget; actual manifests record remaining-budget plans; no manual route substitution"
+    ]
+  },
+  "spentMicrounits": 63186,
+  "heldMicrounits": 0,
+  "remainingMicrounits": 1936814,
+  "accountingComplete": true,
+  "finished": true,
+  "rows": [
+    {
+      "method": "direct-flash",
+      "startedAt": "2026-11-20T22:54:44.190Z",
+      "finishedAt": "2026-11-20T22:54:54.912Z",
+      "driverWallTimeMs": 10721.276495,
+      "state": "inconclusive",
+      "attemptCreated": true,
+      "acceptancePassed": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "accounting": {
+        "ledgerCreated": true,
+        "spentMicrounits": 3430,
+        "heldMicrounits": 0,
+        "violated": false,
+        "coverageComplete": true,
+        "source": "Persistent attempt budget; cost calculated from usage and pinned tariff"
+      },
+      "error": null,
+      "apiCalls": 1,
+      "calls": [
+        {
+          "billing": null,
+          "calculatedCost": {
+            "currency": "USD",
+            "microunits": 3430,
+            "reason": null
+          },
+          "callId": "adapter/5a076975-b19d-4f99-b507-43809477fdd4",
+          "kind": "model",
+          "latencyMs": 8120.557927999999,
+          "model": "deepseek-flash",
+          "modelRevision": "DeepSeek-V4.1-Flash-1017",
+          "pricing": {
+            "currency": "USD",
+            "effectiveAt": "2026-11-14T00:00:00Z",
+            "id": "deepseek-flash-peak",
+            "model": "deepseek-flash",
+            "modelRevision": "DeepSeek-V4.1-Flash-1017",
+            "provider": "deepseek",
+            "rates": {
+              "cacheReadTokens": 6000,
+              "cacheWriteTokens": 0,
+              "inputTokens": 300000,
+              "outputTokens": 1200000
+            },
+            "schemaVersion": 1,
+            "source": "https://api-docs.deepseek.com/quick_start/pricing/"
+          },
+          "provider": "deepseek",
+          "requestId": null,
+          "source": "guarded-adapter-stream-v1",
+          "status": "completed",
+          "usage": {
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "inputTokens": 1091,
+            "outputTokens": 2585,
+            "reasoningTokens": null,
+            "totalTokens": 3676
+          }
+        }
+      ],
+      "measuredWallTimeMs": 10658.69036,
+      "selectionWallTimeMs": 0.6615260000000092,
+      "estimates": {
+        "costMicrounits": 6357,
+        "currency": "USD",
+        "quality": null,
+        "source": "Fixed direct forecast",
+        "wallTimeMs": 10000
+      },
+      "usage": {
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "inputTokens": 1091,
+        "outputTokens": 2585,
+        "reasoningTokens": null,
+        "totalTokens": 3676
+      },
+      "failureReasons": [],
+      "phases": [
+        {
+          "phase": "baseline",
+          "suites": [
+            {
+              "id": "regression",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 2,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "908b883e19c29b03a444824ae79149695f569374502c8017a7f149c7c9e3e5da",
+              "testSuiteHash": "4fbdf04942c00b184640cfb47118b122fc1b95435e0b9866499859fd986fd609",
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "suites": [
+            {
+              "id": "target",
+              "status": "failed",
+              "counts": {
+                "failed": 12,
+                "passed": 0,
+                "skipped": 0
+              },
+              "exitCode": 1,
+              "snapshotHash": "908b883e19c29b03a444824ae79149695f569374502c8017a7f149c7c9e3e5da",
+              "testSuiteHash": "3bccf2b88b56bd6802ec99575b11bf6ec4be64efb37699d99ab17da539b265c6",
+              "failedTests": [
+                {
+                  "name": "subscription validation and duplicate id",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "event validation and case insensitive key",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 202\n"
+                },
+                {
+                  "name": "idempotent enqueue accepts reordered object keys",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "key conflict and event id conflict",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "fanout captures matching subscriptions at enqueue",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "request and returned state are isolated",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "signature hashes exact wire bytes",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "worker delivers signed event once",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "exception schedules retry and respects injected clock",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "non 2xx exhausts attempt limit",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "concurrent workers cannot send same delivery",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "recipient failures do not block others",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "suites": [
+            {
+              "id": "target",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 12,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "7585814a3b37c4b96298d1f9f85fa930388395ac208395ce2a29685c042f9f1b",
+              "testSuiteHash": "3bccf2b88b56bd6802ec99575b11bf6ec4be64efb37699d99ab17da539b265c6",
+              "failedTests": []
+            },
+            {
+              "id": "regression",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 2,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "7585814a3b37c4b96298d1f9f85fa930388395ac208395ce2a29685c042f9f1b",
+              "testSuiteHash": "4fbdf04942c00b184640cfb47118b122fc1b95435e0b9866499859fd986fd609",
+              "failedTests": []
+            }
+          ]
+        }
+      ],
+      "plan": {
+        "description": "Task-aware scenario workflow",
+        "execution": "dag",
+        "name": "scenario-direct-flash",
+        "resources": {
+          "agentSlots": 2,
+          "maxArtifactBytes": 65536,
+          "maxInputBytes": 262144,
+          "timeoutMs": 300000
+        },
+        "tasks": [
+          {
+            "dependsOn": [],
+            "id": "implement",
+            "inputs": [],
+            "model": {
+              "model": "deepseek-flash",
+              "provider": "deepseek"
+            },
+            "prompt": "{\"kind\":\"scenario-skill-v1\",\"skill\":\"implement\",\"componentId\":null}",
+            "slots": 1
+          }
+        ],
+        "version": 3
+      },
+      "executionTaskStates": [
+        {
+          "artifact": {
+            "sha256": "6744820ea738062f2e182944e5c892fb18401a3c20313a0518ce13a87e019cc3",
+            "sizeBytes": 11644
+          },
+          "id": "implement",
+          "inputs": [],
+          "reason": null,
+          "runId": "4fab946c-7cd4-45b6-8d77-136f5fec638c",
+          "state": "completed",
+          "wallTimeMs": 9308.86091
+        }
+      ],
+      "search": null,
+      "normalizationEvidence": [
+        {
+          "rawName": "scenario-output-2",
+          "rawSha256": "1a1c2e778ff4e1791a0edc0bc8fc9299201edd805085bfba31b14d2d108cd531",
+          "normalizedName": "scenario-normalized-2",
+          "normalizedSha256": "6744820ea738062f2e182944e5c892fb18401a3c20313a0518ce13a87e019cc3",
+          "kind": "files",
+          "modelFilePaths": [
+            "app.cjs"
+          ],
+          "normalizedFilePaths": [
+            "app.cjs",
+            "README.md"
+          ],
+          "restoredReadOnlyPaths": [
+            "README.md"
+          ]
+        }
+      ]
+    },
+    {
+      "method": "direct-pro",
+      "startedAt": "2026-11-20T22:54:54.913Z",
+      "finishedAt": "2026-11-20T22:55:12.541Z",
+      "driverWallTimeMs": 17627.4864,
+      "state": "failed",
+      "attemptCreated": true,
+      "acceptancePassed": false,
+      "correctness": "failed",
+      "tddCompliance": "failed",
+      "accounting": {
+        "ledgerCreated": true,
+        "spentMicrounits": 14370,
+        "heldMicrounits": 0,
+        "violated": false,
+        "coverageComplete": true,
+        "source": "Persistent attempt budget; cost calculated from usage and pinned tariff"
+      },
+      "error": null,
+      "apiCalls": 1,
+      "calls": [
+        {
+          "billing": null,
+          "calculatedCost": {
+            "currency": "USD",
+            "microunits": 14370,
+            "reason": null
+          },
+          "callId": "adapter/7cf20e52-9b0d-4f5e-a2c1-ff995be70058",
+          "kind": "model",
+          "latencyMs": 15544.713176,
+          "model": "deepseek-v4-pro",
+          "modelRevision": "DeepSeek-V4-Pro-0813",
+          "pricing": {
+            "currency": "USD",
+            "effectiveAt": "2026-11-17T00:00:00Z",
+            "id": "deepseek-v4-pro-peak",
+            "model": "deepseek-v4-pro",
+            "modelRevision": "DeepSeek-V4-Pro-0813",
+            "provider": "deepseek",
+            "rates": {
+              "cacheReadTokens": 44000,
+              "cacheWriteTokens": 0,
+              "inputTokens": 1320000,
+              "outputTokens": 3960000
+            },
+            "schemaVersion": 1,
+            "source": "https://api-docs.deepseek.com/quick_start/pricing/"
+          },
+          "provider": "deepseek",
+          "requestId": null,
+          "source": "guarded-adapter-stream-v1",
+          "status": "completed",
+          "usage": {
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "inputTokens": 1088,
+            "outputTokens": 3266,
+            "reasoningTokens": null,
+            "totalTokens": 4354
+          }
+        }
+      ],
+      "measuredWallTimeMs": 17565.505778,
+      "selectionWallTimeMs": 0.6102790000004461,
+      "estimates": {
+        "costMicrounits": 22563,
+        "currency": "USD",
+        "quality": null,
+        "source": "Fixed direct forecast",
+        "wallTimeMs": 10000
+      },
+      "usage": {
+        "cacheReadTokens": 0,
+        "cacheWriteTokens": 0,
+        "inputTokens": 1088,
+        "outputTokens": 3266,
+        "reasoningTokens": null,
+        "totalTokens": 4354
+      },
+      "failureReasons": [
+        "Independent GREEN gate did not pass"
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "suites": [
+            {
+              "id": "regression",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 2,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "908b883e19c29b03a444824ae79149695f569374502c8017a7f149c7c9e3e5da",
+              "testSuiteHash": "4fbdf04942c00b184640cfb47118b122fc1b95435e0b9866499859fd986fd609",
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "suites": [
+            {
+              "id": "target",
+              "status": "failed",
+              "counts": {
+                "failed": 12,
+                "passed": 0,
+                "skipped": 0
+              },
+              "exitCode": 1,
+              "snapshotHash": "908b883e19c29b03a444824ae79149695f569374502c8017a7f149c7c9e3e5da",
+              "testSuiteHash": "3bccf2b88b56bd6802ec99575b11bf6ec4be64efb37699d99ab17da539b265c6",
+              "failedTests": [
+                {
+                  "name": "subscription validation and duplicate id",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "event validation and case insensitive key",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 202\n"
+                },
+                {
+                  "name": "idempotent enqueue accepts reordered object keys",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "key conflict and event id conflict",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "fanout captures matching subscriptions at enqueue",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "request and returned state are isolated",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "signature hashes exact wire bytes",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "worker delivers signed event once",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "exception schedules retry and respects injected clock",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "non 2xx exhausts attempt limit",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "concurrent workers cannot send same delivery",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "recipient failures do not block others",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "suites": [
+            {
+              "id": "target",
+              "status": "failed",
+              "counts": {
+                "failed": 4,
+                "passed": 8,
+                "skipped": 0
+              },
+              "exitCode": 1,
+              "snapshotHash": "22e7c1e9f83153bd2e04f60d303950d34511fbdb79a946e900e0f4cbfa5e078e",
+              "testSuiteHash": "3bccf2b88b56bd6802ec99575b11bf6ec4be64efb37699d99ab17da539b265c6",
+              "failedTests": [
+                {
+                  "name": "worker delivers signed event once",
+                  "message": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'pending'\n- 'delivered'\n"
+                },
+                {
+                  "name": "exception schedules retry and respects injected clock",
+                  "message": "Expected values to be strictly equal:\n\n0 !== 100\n"
+                },
+                {
+                  "name": "non 2xx exhausts attempt limit",
+                  "message": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'pending'\n- 'failed'\n"
+                },
+                {
+                  "name": "recipient failures do not block others",
+                  "message": "The expression evaluated to a falsy value:\n\n  assert.ok(read(f.api).deliveries.every(d=>d.status==='delivered'))\n"
+                }
+              ]
+            },
+            {
+              "id": "regression",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 2,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "22e7c1e9f83153bd2e04f60d303950d34511fbdb79a946e900e0f4cbfa5e078e",
+              "testSuiteHash": "4fbdf04942c00b184640cfb47118b122fc1b95435e0b9866499859fd986fd609",
+              "failedTests": []
+            }
+          ]
+        }
+      ],
+      "plan": {
+        "description": "Task-aware scenario workflow",
+        "execution": "dag",
+        "name": "scenario-direct-pro",
+        "resources": {
+          "agentSlots": 2,
+          "maxArtifactBytes": 65536,
+          "maxInputBytes": 262144,
+          "timeoutMs": 300000
+        },
+        "tasks": [
+          {
+            "dependsOn": [],
+            "id": "implement",
+            "inputs": [],
+            "model": {
+              "model": "deepseek-v4-pro",
+              "provider": "deepseek"
+            },
+            "prompt": "{\"kind\":\"scenario-skill-v1\",\"skill\":\"implement\",\"componentId\":null}",
+            "slots": 1
+          }
+        ],
+        "version": 3
+      },
+      "executionTaskStates": [
+        {
+          "artifact": {
+            "sha256": "b9cf037b967dbe7a02f148eb70c6a7ce7106e13e98679f43f1f60ecb2c784bd2",
+            "sizeBytes": 14449
+          },
+          "id": "implement",
+          "inputs": [],
+          "reason": "Independent GREEN gate did not pass",
+          "runId": "57db72b7-514f-4e70-bf26-1e3ba48f4cdb",
+          "state": "failed",
+          "wallTimeMs": 16627.729956
+        }
+      ],
+      "search": null,
+      "normalizationEvidence": [
+        {
+          "rawName": "scenario-output-2",
+          "rawSha256": "c08750a65f06a810cab1818d682e6a68563ff8268c2b50be993674181e1017a8",
+          "normalizedName": "scenario-normalized-2",
+          "normalizedSha256": "b9cf037b967dbe7a02f148eb70c6a7ce7106e13e98679f43f1f60ecb2c784bd2",
+          "kind": "files",
+          "modelFilePaths": [
+            "app.cjs"
+          ],
+          "normalizedFilePaths": [
+            "app.cjs",
+            "README.md"
+          ],
+          "restoredReadOnlyPaths": [
+            "README.md"
+          ]
+        }
+      ]
+    },
+    {
+      "method": "fixed",
+      "startedAt": "2026-11-20T22:55:12.542Z",
+      "finishedAt": "2026-11-20T22:55:31.404Z",
+      "driverWallTimeMs": 18861.753699,
+      "state": "succeeded",
+      "attemptCreated": true,
+      "acceptancePassed": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "accounting": {
+        "ledgerCreated": true,
+        "spentMicrounits": 7364,
+        "heldMicrounits": 0,
+        "violated": false,
+        "coverageComplete": true,
+        "source": "Persistent attempt budget; cost calculated from usage and pinned tariff"
+      },
+      "error": null,
+      "apiCalls": 2,
+      "calls": [
+        {
+          "billing": null,
+          "calculatedCost": {
+            "currency": "USD",
+            "microunits": 3122,
+            "reason": null
+          },
+          "callId": "adapter/0f747ddb-e11d-4350-9ac7-ddd47eb53c9f",
+          "kind": "model",
+          "latencyMs": 7709.065420999999,
+          "model": "deepseek-flash",
+          "modelRevision": "DeepSeek-V4.1-Flash-1017",
+          "pricing": {
+            "currency": "USD",
+            "effectiveAt": "2026-11-14T00:00:00Z",
+            "id": "deepseek-flash-peak",
+            "model": "deepseek-flash",
+            "modelRevision": "DeepSeek-V4.1-Flash-1017",
+            "provider": "deepseek",
+            "rates": {
+              "cacheReadTokens": 6000,
+              "cacheWriteTokens": 0,
+              "inputTokens": 300000,
+              "outputTokens": 1200000
+            },
+            "schemaVersion": 1,
+            "source": "https://api-docs.deepseek.com/quick_start/pricing/"
+          },
+          "provider": "deepseek",
+          "requestId": null,
+          "source": "guarded-adapter-stream-v1",
+          "status": "completed",
+          "usage": {
+            "cacheReadTokens": 896,
+            "cacheWriteTokens": 0,
+            "inputTokens": 195,
+            "outputTokens": 2548,
+            "reasoningTokens": null,
+            "totalTokens": 3639
+          }
+        },
+        {
+          "billing": null,
+          "calculatedCost": {
+            "currency": "USD",
+            "microunits": 4242,
+            "reason": null
+          },
+          "callId": "adapter/ec8b76f5-20be-425f-a5bb-4d499ff0009a",
+          "kind": "model",
+          "latencyMs": 7889.656448000002,
+          "model": "deepseek-flash",
+          "modelRevision": "DeepSeek-V4.1-Flash-1017",
+          "pricing": {
+            "currency": "USD",
+            "effectiveAt": "2026-11-14T00:00:00Z",
+            "id": "deepseek-flash-peak",
+            "model": "deepseek-flash",
+            "modelRevision": "DeepSeek-V4.1-Flash-1017",
+            "provider": "deepseek",
+            "rates": {
+              "cacheReadTokens": 6000,
+              "cacheWriteTokens": 0,
+              "inputTokens": 300000,
+              "outputTokens": 1200000
+            },
+            "schemaVersion": 1,
+            "source": "https://api-docs.deepseek.com/quick_start/pricing/"
+          },
+          "provider": "deepseek",
+          "requestId": null,
+          "source": "guarded-adapter-stream-v1",
+          "status": "completed",
+          "usage": {
+            "cacheReadTokens": 768,
+            "cacheWriteTokens": 0,
+            "inputTokens": 3795,
+            "outputTokens": 2582,
+            "reasoningTokens": null,
+            "totalTokens": 7145
+          }
+        }
+      ],
+      "measuredWallTimeMs": 18773.834238,
+      "selectionWallTimeMs": 0.7103379999971366,
+      "estimates": {
+        "costMicrounits": 12714,
+        "currency": "USD",
+        "quality": null,
+        "source": "uncalibrated equal 10-second duration and explicit input/output token priors; tariff bounds separate",
+        "wallTimeMs": 20000
+      },
+      "usage": {
+        "cacheReadTokens": 1664,
+        "cacheWriteTokens": 0,
+        "inputTokens": 3990,
+        "outputTokens": 5130,
+        "reasoningTokens": null,
+        "totalTokens": 10784
+      },
+      "failureReasons": [],
+      "phases": [
+        {
+          "phase": "baseline",
+          "suites": [
+            {
+              "id": "regression",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 2,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "908b883e19c29b03a444824ae79149695f569374502c8017a7f149c7c9e3e5da",
+              "testSuiteHash": "4fbdf04942c00b184640cfb47118b122fc1b95435e0b9866499859fd986fd609",
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "suites": [
+            {
+              "id": "target",
+              "status": "failed",
+              "counts": {
+                "failed": 12,
+                "passed": 0,
+                "skipped": 0
+              },
+              "exitCode": 1,
+              "snapshotHash": "908b883e19c29b03a444824ae79149695f569374502c8017a7f149c7c9e3e5da",
+              "testSuiteHash": "3bccf2b88b56bd6802ec99575b11bf6ec4be64efb37699d99ab17da539b265c6",
+              "failedTests": [
+                {
+                  "name": "subscription validation and duplicate id",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "event validation and case insensitive key",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 202\n"
+                },
+                {
+                  "name": "idempotent enqueue accepts reordered object keys",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "key conflict and event id conflict",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "fanout captures matching subscriptions at enqueue",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "request and returned state are isolated",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "signature hashes exact wire bytes",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "worker delivers signed event once",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "exception schedules retry and respects injected clock",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "non 2xx exhausts attempt limit",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "concurrent workers cannot send same delivery",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "recipient failures do not block others",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "suites": [
+            {
+              "id": "target",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 12,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "a98acf3db85e9c901f1c1ac3830e20130df349a47782d0fee12640623888d181",
+              "testSuiteHash": "3bccf2b88b56bd6802ec99575b11bf6ec4be64efb37699d99ab17da539b265c6",
+              "failedTests": []
+            },
+            {
+              "id": "regression",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 2,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "a98acf3db85e9c901f1c1ac3830e20130df349a47782d0fee12640623888d181",
+              "testSuiteHash": "4fbdf04942c00b184640cfb47118b122fc1b95435e0b9866499859fd986fd609",
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "refactor",
+          "suites": [
+            {
+              "id": "target",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 12,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "75b9c45fa497ec43ee0dfe9fe54b8150d68beec9a5222cf6c1f2ad85649c36d1",
+              "testSuiteHash": "3bccf2b88b56bd6802ec99575b11bf6ec4be64efb37699d99ab17da539b265c6",
+              "failedTests": []
+            },
+            {
+              "id": "regression",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 2,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "75b9c45fa497ec43ee0dfe9fe54b8150d68beec9a5222cf6c1f2ad85649c36d1",
+              "testSuiteHash": "4fbdf04942c00b184640cfb47118b122fc1b95435e0b9866499859fd986fd609",
+              "failedTests": []
+            }
+          ]
+        }
+      ],
+      "plan": {
+        "description": "Task-aware scenario workflow",
+        "execution": "dag",
+        "name": "scenario-fixed",
+        "resources": {
+          "agentSlots": 2,
+          "maxArtifactBytes": 65536,
+          "maxInputBytes": 262144,
+          "timeoutMs": 300000
+        },
+        "tasks": [
+          {
+            "dependsOn": [],
+            "id": "implement",
+            "inputs": [],
+            "model": {
+              "model": "deepseek-flash",
+              "provider": "deepseek"
+            },
+            "prompt": "{\"kind\":\"scenario-skill-v1\",\"skill\":\"implement\",\"componentId\":null}",
+            "slots": 1
+          },
+          {
+            "dependsOn": [
+              "implement"
+            ],
+            "id": "refactor",
+            "inputs": [
+              {
+                "name": "implement",
+                "taskId": "implement"
+              }
+            ],
+            "model": {
+              "model": "deepseek-flash",
+              "provider": "deepseek"
+            },
+            "prompt": "{\"kind\":\"scenario-skill-v1\",\"skill\":\"refactor\",\"componentId\":null}",
+            "slots": 1
+          }
+        ],
+        "version": 3
+      },
+      "executionTaskStates": [
+        {
+          "artifact": {
+            "sha256": "f693a38c317a027437855389c45aa95113d14b5779ab9df804d1c2bb9f575077",
+            "sizeBytes": 11410
+          },
+          "id": "implement",
+          "inputs": [],
+          "reason": null,
+          "runId": "494637d7-3c53-42ee-8d3d-9f5c219064b4",
+          "state": "completed",
+          "wallTimeMs": 8816.523576
+        },
+        {
+          "artifact": {
+            "sha256": "4e36e6ec5fb8e452419ab2a04bf82fb129feb667adf535ad1ff8e8f811e6234f",
+            "sizeBytes": 11429
+          },
+          "id": "refactor",
+          "inputs": [
+            {
+              "name": "implement",
+              "producer": "implement",
+              "sha256": "f693a38c317a027437855389c45aa95113d14b5779ab9df804d1c2bb9f575077",
+              "sizeBytes": 11410
+            }
+          ],
+          "reason": null,
+          "runId": "0e0aa10d-e19b-4632-9ade-300cdd4b3e1b",
+          "state": "completed",
+          "wallTimeMs": 8978.477396000002
+        }
+      ],
+      "search": null,
+      "normalizationEvidence": [
+        {
+          "rawName": "scenario-output-2",
+          "rawSha256": "21ffbd8d9a0e37493244150c57014d877c99ab619b7b7bfca1ac98fd3703447f",
+          "normalizedName": "scenario-normalized-2",
+          "normalizedSha256": "f693a38c317a027437855389c45aa95113d14b5779ab9df804d1c2bb9f575077",
+          "kind": "files",
+          "modelFilePaths": [
+            "app.cjs"
+          ],
+          "normalizedFilePaths": [
+            "app.cjs",
+            "README.md"
+          ],
+          "restoredReadOnlyPaths": [
+            "README.md"
+          ]
+        },
+        {
+          "rawName": "scenario-output-4",
+          "rawSha256": "0b5f7c2ab4c3177eba60514bba593375fd58e2da673bad1fcf2d6864bd2b1e59",
+          "normalizedName": "scenario-normalized-4",
+          "normalizedSha256": "4e36e6ec5fb8e452419ab2a04bf82fb129feb667adf535ad1ff8e8f811e6234f",
+          "kind": "files",
+          "modelFilePaths": [
+            "app.cjs"
+          ],
+          "normalizedFilePaths": [
+            "app.cjs",
+            "README.md"
+          ],
+          "restoredReadOnlyPaths": [
+            "README.md"
+          ]
+        }
+      ]
+    },
+    {
+      "method": "components",
+      "startedAt": "2026-11-20T22:55:31.405Z",
+      "finishedAt": "2026-11-20T22:56:35.028Z",
+      "driverWallTimeMs": 63622.339261,
+      "state": "succeeded",
+      "attemptCreated": true,
+      "acceptancePassed": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "accounting": {
+        "ledgerCreated": true,
+        "spentMicrounits": 31020,
+        "heldMicrounits": 0,
+        "violated": false,
+        "coverageComplete": true,
+        "source": "Persistent attempt budget; cost calculated from usage and pinned tariff"
+      },
+      "error": null,
+      "apiCalls": 6,
+      "calls": [
+        {
+          "billing": null,
+          "calculatedCost": {
+            "currency": "USD",
+            "microunits": 1716,
+            "reason": null
+          },
+          "callId": "adapter/283969f5-6139-459a-8a92-41b1b5fdbe32",
+          "kind": "model",
+          "latencyMs": 7358.200281999998,
+          "model": "deepseek-flash",
+          "modelRevision": "DeepSeek-V4.1-Flash-1017",
+          "pricing": {
+            "currency": "USD",
+            "effectiveAt": "2026-11-14T00:00:00Z",
+            "id": "deepseek-flash-peak",
+            "model": "deepseek-flash",
+            "modelRevision": "DeepSeek-V4.1-Flash-1017",
+            "provider": "deepseek",
+            "rates": {
+              "cacheReadTokens": 6000,
+              "cacheWriteTokens": 0,
+              "inputTokens": 300000,
+              "outputTokens": 1200000
+            },
+            "schemaVersion": 1,
+            "source": "https://api-docs.deepseek.com/quick_start/pricing/"
+          },
+          "provider": "deepseek",
+          "requestId": null,
+          "source": "guarded-adapter-stream-v1",
+          "status": "completed",
+          "usage": {
+            "cacheReadTokens": 0,
+            "cacheWriteTokens": 0,
+            "inputTokens": 1209,
+            "outputTokens": 1127,
+            "reasoningTokens": null,
+            "totalTokens": 2336
+          }
+        },
+        {
+          "billing": null,
+          "calculatedCost": {
+            "currency": "USD",
+            "microunits": 1667,
+            "reason": null
+          },
+          "callId": "adapter/a97c6820-db1b-46cf-8b06-a92e3ece1342",
+          "kind": "model",
+          "latencyMs": 3038.207089000003,
+          "model": "deepseek-flash",
+          "modelRevision": "DeepSeek-V4.1-Flash-1017",
+          "pricing": {
+            "currency": "USD",
+            "effectiveAt": "2026-11-14T00:00:00Z",
+            "id": "deepseek-flash-peak",
+            "model": "deepseek-flash",
+            "modelRevision": "DeepSeek-V4.1-Flash-1017",
+            "provider": "deepseek",
+            "rates": {
+              "cacheReadTokens": 6000,
+              "cacheWriteTokens": 0,
+              "inputTokens": 300000,
+              "outputTokens": 1200000
+            },
+            "schemaVersion": 1,
+            "source": "https://api-docs.deepseek.com/quick_start/pricing/"
+          },
+          "provider": "deepseek",
+          "requestId": null,
+          "source": "guarded-adapter-stream-v1",
+          "status": "completed",
+          "usage": {
+            "cacheReadTokens": 1024,
+            "cacheWriteTokens": 0,
+            "inputTokens": 2439,
+            "outputTokens": 774,
+            "reasoningTokens": null,
+            "totalTokens": 4237
+          }
+        },
+        {
+          "billing": null,
+          "calculatedCost": {
+            "currency": "USD",
+            "microunits": 4610,
+            "reason": null
+          },
+          "callId": "adapter/8ce85635-baf4-47f0-bc14-ddb99424031d",
+          "kind": "model",
+          "latencyMs": 11141.612425999992,
+          "model": "deepseek-flash",
+          "modelRevision": "DeepSeek-V4.1-Flash-1017",
+          "pricing": {
+            "currency": "USD",
+            "effectiveAt": "2026-11-14T00:00:00Z",
+            "id": "deepseek-flash-peak",
+            "model": "deepseek-flash",
+            "modelRevision": "DeepSeek-V4.1-Flash-1017",
+            "provider": "deepseek",
+            "rates": {
+              "cacheReadTokens": 6000,
+              "cacheWriteTokens": 0,
+              "inputTokens": 300000,
+              "outputTokens": 1200000
+            },
+            "schemaVersion": 1,
+            "source": "https://api-docs.deepseek.com/quick_start/pricing/"
+          },
+          "provider": "deepseek",
+          "requestId": null,
+          "source": "guarded-adapter-stream-v1",
+          "status": "completed",
+          "usage": {
+            "cacheReadTokens": 1024,
+            "cacheWriteTokens": 0,
+            "inputTokens": 2441,
+            "outputTokens": 3226,
+            "reasoningTokens": null,
+            "totalTokens": 6691
+          }
+        },
+        {
+          "billing": null,
+          "calculatedCost": {
+            "currency": "USD",
+            "microunits": 5777,
+            "reason": null
+          },
+          "callId": "adapter/0748728c-7632-4c81-8b71-99738b62b774",
+          "kind": "model",
+          "latencyMs": 14218.139015999994,
+          "model": "deepseek-flash",
+          "modelRevision": "DeepSeek-V4.1-Flash-1017",
+          "pricing": {
+            "currency": "USD",
+            "effectiveAt": "2026-11-14T00:00:00Z",
+            "id": "deepseek-flash-peak",
+            "model": "deepseek-flash",
+            "modelRevision": "DeepSeek-V4.1-Flash-1017",
+            "provider": "deepseek",
+            "rates": {
+              "cacheReadTokens": 6000,
+              "cacheWriteTokens": 0,
+              "inputTokens": 300000,
+              "outputTokens": 1200000
+            },
+            "schemaVersion": 1,
+            "source": "https://api-docs.deepseek.com/quick_start/pricing/"
+          },
+          "provider": "deepseek",
+          "requestId": null,
+          "source": "guarded-adapter-stream-v1",
+          "status": "completed",
+          "usage": {
+            "cacheReadTokens": 1920,
+            "cacheWriteTokens": 0,
+            "inputTokens": 1544,
+            "outputTokens": 4418,
+            "reasoningTokens": null,
+            "totalTokens": 7882
+          }
+        },
+        {
+          "billing": null,
+          "calculatedCost": {
+            "currency": "USD",
+            "microunits": 9330,
+            "reason": null
+          },
+          "callId": "adapter/da145e8e-3629-43f7-93ee-76738841c815",
+          "kind": "model",
+          "latencyMs": 14793.635207,
+          "model": "deepseek-flash",
+          "modelRevision": "DeepSeek-V4.1-Flash-1017",
+          "pricing": {
+            "currency": "USD",
+            "effectiveAt": "2026-11-14T00:00:00Z",
+            "id": "deepseek-flash-peak",
+            "model": "deepseek-flash",
+            "modelRevision": "DeepSeek-V4.1-Flash-1017",
+            "provider": "deepseek",
+            "rates": {
+              "cacheReadTokens": 6000,
+              "cacheWriteTokens": 0,
+              "inputTokens": 300000,
+              "outputTokens": 1200000
+            },
+            "schemaVersion": 1,
+            "source": "https://api-docs.deepseek.com/quick_start/pricing/"
+          },
+          "provider": "deepseek",
+          "requestId": null,
+          "source": "guarded-adapter-stream-v1",
+          "status": "completed",
+          "usage": {
+            "cacheReadTokens": 768,
+            "cacheWriteTokens": 0,
+            "inputTokens": 10818,
+            "outputTokens": 5066,
+            "reasoningTokens": null,
+            "totalTokens": 16652
+          }
+        },
+        {
+          "billing": null,
+          "calculatedCost": {
+            "currency": "USD",
+            "microunits": 7920,
+            "reason": null
+          },
+          "callId": "adapter/b4034583-45a5-4761-b92e-c366c91453ec",
+          "kind": "model",
+          "latencyMs": 20254.673095000006,
+          "model": "deepseek-flash",
+          "modelRevision": "DeepSeek-V4.1-Flash-1017",
+          "pricing": {
+            "currency": "USD",
+            "effectiveAt": "2026-11-14T00:00:00Z",
+            "id": "deepseek-flash-peak",
+            "model": "deepseek-flash",
+            "modelRevision": "DeepSeek-V4.1-Flash-1017",
+            "provider": "deepseek",
+            "rates": {
+              "cacheReadTokens": 6000,
+              "cacheWriteTokens": 0,
+              "inputTokens": 300000,
+              "outputTokens": 1200000
+            },
+            "schemaVersion": 1,
+            "source": "https://api-docs.deepseek.com/quick_start/pricing/"
+          },
+          "provider": "deepseek",
+          "requestId": null,
+          "source": "guarded-adapter-stream-v1",
+          "status": "completed",
+          "usage": {
+            "cacheReadTokens": 896,
+            "cacheWriteTokens": 0,
+            "inputTokens": 6455,
+            "outputTokens": 4981,
+            "reasoningTokens": null,
+            "totalTokens": 12332
+          }
+        }
+      ],
+      "measuredWallTimeMs": 63533.100811,
+      "selectionWallTimeMs": 0.775445999999647,
+      "estimates": {
+        "costMicrounits": 38142,
+        "currency": "USD",
+        "quality": null,
+        "source": "uncalibrated equal 10-second duration and explicit input/output token priors; tariff bounds separate",
+        "wallTimeMs": 60000
+      },
+      "usage": {
+        "cacheReadTokens": 5632,
+        "cacheWriteTokens": 0,
+        "inputTokens": 24906,
+        "outputTokens": 19592,
+        "reasoningTokens": null,
+        "totalTokens": 50130
+      },
+      "failureReasons": [],
+      "phases": [
+        {
+          "phase": "baseline",
+          "suites": [
+            {
+              "id": "regression",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 2,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "908b883e19c29b03a444824ae79149695f569374502c8017a7f149c7c9e3e5da",
+              "testSuiteHash": "4fbdf04942c00b184640cfb47118b122fc1b95435e0b9866499859fd986fd609",
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "suites": [
+            {
+              "id": "target",
+              "status": "failed",
+              "counts": {
+                "failed": 12,
+                "passed": 0,
+                "skipped": 0
+              },
+              "exitCode": 1,
+              "snapshotHash": "908b883e19c29b03a444824ae79149695f569374502c8017a7f149c7c9e3e5da",
+              "testSuiteHash": "3bccf2b88b56bd6802ec99575b11bf6ec4be64efb37699d99ab17da539b265c6",
+              "failedTests": [
+                {
+                  "name": "subscription validation and duplicate id",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "event validation and case insensitive key",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 202\n"
+                },
+                {
+                  "name": "idempotent enqueue accepts reordered object keys",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "key conflict and event id conflict",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "fanout captures matching subscriptions at enqueue",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "request and returned state are isolated",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "signature hashes exact wire bytes",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "worker delivers signed event once",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "exception schedules retry and respects injected clock",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "non 2xx exhausts attempt limit",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "concurrent workers cannot send same delivery",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "recipient failures do not block others",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "suites": [
+            {
+              "id": "target",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 12,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "6563665028eff2bd7f1524a0ec5bf89a9f89c2c550a3facb089587457b597301",
+              "testSuiteHash": "3bccf2b88b56bd6802ec99575b11bf6ec4be64efb37699d99ab17da539b265c6",
+              "failedTests": []
+            },
+            {
+              "id": "regression",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 2,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "6563665028eff2bd7f1524a0ec5bf89a9f89c2c550a3facb089587457b597301",
+              "testSuiteHash": "4fbdf04942c00b184640cfb47118b122fc1b95435e0b9866499859fd986fd609",
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "refactor",
+          "suites": [
+            {
+              "id": "target",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 12,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "c1941eb536206aa729886774d5637c9a6c6dc0a0651e620ecf5785d1b54273e5",
+              "testSuiteHash": "3bccf2b88b56bd6802ec99575b11bf6ec4be64efb37699d99ab17da539b265c6",
+              "failedTests": []
+            },
+            {
+              "id": "regression",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 2,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "c1941eb536206aa729886774d5637c9a6c6dc0a0651e620ecf5785d1b54273e5",
+              "testSuiteHash": "4fbdf04942c00b184640cfb47118b122fc1b95435e0b9866499859fd986fd609",
+              "failedTests": []
+            }
+          ]
+        }
+      ],
+      "plan": {
+        "description": "Task-aware scenario workflow",
+        "execution": "dag",
+        "name": "scenario-components",
+        "resources": {
+          "agentSlots": 2,
+          "maxArtifactBytes": 65536,
+          "maxInputBytes": 262144,
+          "timeoutMs": 300000
+        },
+        "tasks": [
+          {
+            "dependsOn": [],
+            "id": "design",
+            "inputs": [],
+            "model": {
+              "model": "deepseek-flash",
+              "provider": "deepseek"
+            },
+            "prompt": "{\"kind\":\"scenario-skill-v1\",\"skill\":\"design\",\"componentId\":null}",
+            "slots": 1
+          },
+          {
+            "dependsOn": [
+              "design"
+            ],
+            "id": "implement-a",
+            "inputs": [
+              {
+                "name": "design",
+                "taskId": "design"
+              }
+            ],
+            "model": {
+              "model": "deepseek-flash",
+              "provider": "deepseek"
+            },
+            "prompt": "{\"kind\":\"scenario-skill-v1\",\"skill\":\"component\",\"componentId\":\"a\"}",
+            "slots": 1
+          },
+          {
+            "dependsOn": [
+              "design"
+            ],
+            "id": "implement-b",
+            "inputs": [
+              {
+                "name": "design",
+                "taskId": "design"
+              }
+            ],
+            "model": {
+              "model": "deepseek-flash",
+              "provider": "deepseek"
+            },
+            "prompt": "{\"kind\":\"scenario-skill-v1\",\"skill\":\"component\",\"componentId\":\"b\"}",
+            "slots": 1
+          },
+          {
+            "dependsOn": [
+              "design"
+            ],
+            "id": "implement-c",
+            "inputs": [
+              {
+                "name": "design",
+                "taskId": "design"
+              }
+            ],
+            "model": {
+              "model": "deepseek-flash",
+              "provider": "deepseek"
+            },
+            "prompt": "{\"kind\":\"scenario-skill-v1\",\"skill\":\"component\",\"componentId\":\"c\"}",
+            "slots": 1
+          },
+          {
+            "dependsOn": [
+              "design",
+              "implement-a",
+              "implement-b",
+              "implement-c"
+            ],
+            "id": "integrate",
+            "inputs": [
+              {
+                "name": "design",
+                "taskId": "design"
+              },
+              {
+                "name": "implement-a",
+                "taskId": "implement-a"
+              },
+              {
+                "name": "implement-b",
+                "taskId": "implement-b"
+              },
+              {
+                "name": "implement-c",
+                "taskId": "implement-c"
+              }
+            ],
+            "model": {
+              "model": "deepseek-flash",
+              "provider": "deepseek"
+            },
+            "prompt": "{\"kind\":\"scenario-skill-v1\",\"skill\":\"integrate\",\"componentId\":null}",
+            "slots": 1
+          },
+          {
+            "dependsOn": [
+              "integrate"
+            ],
+            "id": "refactor",
+            "inputs": [
+              {
+                "name": "integrate",
+                "taskId": "integrate"
+              }
+            ],
+            "model": {
+              "model": "deepseek-flash",
+              "provider": "deepseek"
+            },
+            "prompt": "{\"kind\":\"scenario-skill-v1\",\"skill\":\"refactor\",\"componentId\":null}",
+            "slots": 1
+          }
+        ],
+        "version": 3
+      },
+      "executionTaskStates": [
+        {
+          "artifact": {
+            "sha256": "2bfd7805297a4b1c1a8647737cab03087e5d91c2fa59295b89ea64a1486e87ca",
+            "sizeBytes": 5149
+          },
+          "id": "design",
+          "inputs": [],
+          "reason": null,
+          "runId": "9998205f-e4e8-4fee-8d35-43888e05b9ec",
+          "state": "completed",
+          "wallTimeMs": 7593.5041800000035
+        },
+        {
+          "artifact": {
+            "sha256": "6e529b92af8736c83fa0251461bd183c912f898055f4f6269fcb30e4b66b8411",
+            "sizeBytes": 2591
+          },
+          "id": "implement-a",
+          "inputs": [
+            {
+              "name": "design",
+              "producer": "design",
+              "sha256": "2bfd7805297a4b1c1a8647737cab03087e5d91c2fa59295b89ea64a1486e87ca",
+              "sizeBytes": 5149
+            }
+          ],
+          "reason": null,
+          "runId": "207443d9-1f4b-4165-9a5e-357f6873d4c6",
+          "state": "completed",
+          "wallTimeMs": 3270.0733950000067
+        },
+        {
+          "artifact": {
+            "sha256": "c38dc018c0f352ed6a6c83176a615926cd1c9af33c1f0ab87af9d6985ff76826",
+            "sizeBytes": 11064
+          },
+          "id": "implement-b",
+          "inputs": [
+            {
+              "name": "design",
+              "producer": "design",
+              "sha256": "2bfd7805297a4b1c1a8647737cab03087e5d91c2fa59295b89ea64a1486e87ca",
+              "sizeBytes": 5149
+            }
+          ],
+          "reason": null,
+          "runId": "66aac951-42c4-45b7-bcc8-17b504fb865d",
+          "state": "completed",
+          "wallTimeMs": 11401.333004000007
+        },
+        {
+          "artifact": {
+            "sha256": "fdf5a7f69a147d7229dee03347ba0eb1d158acdac2a215c7f18649bfe220452f",
+            "sizeBytes": 15294
+          },
+          "id": "implement-c",
+          "inputs": [
+            {
+              "name": "design",
+              "producer": "design",
+              "sha256": "2bfd7805297a4b1c1a8647737cab03087e5d91c2fa59295b89ea64a1486e87ca",
+              "sizeBytes": 5149
+            }
+          ],
+          "reason": null,
+          "runId": "d9657180-555d-4bf1-a580-ca6474fea478",
+          "state": "completed",
+          "wallTimeMs": 14431.830415000004
+        },
+        {
+          "artifact": {
+            "sha256": "cb5cfa9267545c2fab9f90cec2bac7b5c058c2cf05ed6a6be5dcda63f2ba1efe",
+            "sizeBytes": 20065
+          },
+          "id": "integrate",
+          "inputs": [
+            {
+              "name": "design",
+              "producer": "design",
+              "sha256": "2bfd7805297a4b1c1a8647737cab03087e5d91c2fa59295b89ea64a1486e87ca",
+              "sizeBytes": 5149
+            },
+            {
+              "name": "implement-a",
+              "producer": "implement-a",
+              "sha256": "6e529b92af8736c83fa0251461bd183c912f898055f4f6269fcb30e4b66b8411",
+              "sizeBytes": 2591
+            },
+            {
+              "name": "implement-b",
+              "producer": "implement-b",
+              "sha256": "c38dc018c0f352ed6a6c83176a615926cd1c9af33c1f0ab87af9d6985ff76826",
+              "sizeBytes": 11064
+            },
+            {
+              "name": "implement-c",
+              "producer": "implement-c",
+              "sha256": "fdf5a7f69a147d7229dee03347ba0eb1d158acdac2a215c7f18649bfe220452f",
+              "sizeBytes": 15294
+            }
+          ],
+          "reason": null,
+          "runId": "4715025f-1bbf-443c-b9b5-dc245be2b691",
+          "state": "completed",
+          "wallTimeMs": 15886.064157999994
+        },
+        {
+          "artifact": {
+            "sha256": "7c7be27735457bb0704ead0795d2a41f55acb2be317dcef031b2d4b7df20171b",
+            "sizeBytes": 19770
+          },
+          "id": "refactor",
+          "inputs": [
+            {
+              "name": "integrate",
+              "producer": "integrate",
+              "sha256": "cb5cfa9267545c2fab9f90cec2bac7b5c058c2cf05ed6a6be5dcda63f2ba1efe",
+              "sizeBytes": 20065
+            }
+          ],
+          "reason": null,
+          "runId": "918ce786-444f-4ed2-8a8f-d45a0acc2598",
+          "state": "completed",
+          "wallTimeMs": 21345.662532999995
+        }
+      ],
+      "search": null,
+      "modelGeneratedArchitecture": {
+        "schemaVersion": 1,
+        "components": [
+          {
+            "id": "a",
+            "files": [
+              "app.cjs"
+            ],
+            "contract": "Entry point and HTTP routing layer (fixed compatibility surface). Keep exports.version()===1 and exports.createApi(options={}) synchronous. createApi validates/derives options (sender, clock, secret, maxAttempts default 3, retryDelayMs default 100), constructs the state store, idempotency service, subscription service, and delivery worker, and returns {handle, runOnce}. handle({method,path,headers={},body}) must synchronously return a plain {status,body} object and never a Promise/thenable; it routes GET /health (200 {ok:true,version:1}), POST /subscriptions, POST /events, GET /events/:id (decode the :id segment), and returns 404 for unknown routes/methods. runOnce() is async and delegates to the delivery worker. This file owns HTTP status mapping and body shape only; it must not contain business logic or mutable data structures. Private interface expected from component b: createStore() returning store with subscriptions collection and events collection operations; createIdempotency/store key operations. Private interface expected from component c: services exposing createSubscription(input), ingestEvent(headers,body), getEventSnapshot(id), and worker.runOnce(). No shared mutable references may escape handle responses."
+          },
+          {
+            "id": "b",
+            "files": [
+              "lib/state.cjs"
+            ],
+            "contract": "In-memory state and domain data store. Provides createStore({clock}) returning a store object that owns all mutable state and never aliases caller-provided objects or returned snapshots. Responsibilities: subscription registry keyed by id (validated {id,topic,url}); event registry keyed by event id and a separate idempotency-key registry mapping normalized key to {eventId, canonicalHash}; event records {id,topic,payload,deliveries} where each delivery is {subscriptionId,url,status,attempts,nextAttemptAt} with status one of pending/delivered/failed. Provides deep-clone-on-write and deep-clone-on-read using JSON-safe structural cloning (stable handling of nested objects/arrays so no shared mutable state is exposed). Provides canonical JSON serialization with recursively sorted object keys for idempotency equivalence comparison (array order preserved). Provides atomic claim semantics for the worker: tryClaimDueDelivery(now) that, under a single synchronous critical section (no await inside), selects at most one pending delivery whose nextAttemptAt <= now, marks it in-flight/claimed with a unique claim token so concurrent runOnce calls cannot select or send the same delivery, and returns a snapshot {eventId,subscriptionId,url,body,attempts,claimToken}; releaseClaim/settleClaim finalize outcomes. Guarantees no duplicate in-flight send of the same delivery while allowing different deliveries to be claimed independently. No persistence required. Expose helper validators for id/topic pattern /^[a-zA-Z0-9_-]{1,64}$/, absolute http/https URL, and idempotency key (case-insensitive, nonblank, <=128 chars)."
+          },
+          {
+            "id": "c",
+            "files": [
+              "lib/service.cjs"
+            ],
+            "contract": "Business services: subscriptions, event ingestion, snapshot reads, and the signed-retry delivery worker. Exports createServices({store, sender, clock, secret, maxAttempts, retryDelayMs}) returning {createSubscription, ingestEvent, getEventSnapshot, runOnce}. createSubscription(input): validate id/topic/url; 201 {id} on creation, 409 duplicate id, 400 invalid. Capture nothing for past events. ingestEvent(headers,body): require case-insensitive Idempotency-Key (nonblank string <=128 chars); validate body {id,topic,payload} with id/topic pattern and payload a JSON object; invalid -> 400. If key seen with equivalent JSON (canonical, key-order-insensitive) -> 202 same event snapshot without new deliveries; different content under same key or same event id under a different key -> 409. On first accept, capture a deep snapshot of currently matching subscriptions and create deliveries {subscriptionId,url,status:'pending',attempts:0,nextAttemptAt:0}; return 202 with isolated event snapshot including deliveries. getEventSnapshot(id): deep-cloned 200 snapshot or 404. Delivery body is exactly JSON.stringify({id,topic,payload}); headers content-type application/json and x-signature-sha256 = lowercase hex HMAC-SHA256 of those exact bytes with secret (use Node crypto). runOnce(): atomically claim at most one due pending delivery via store; if none return false; increment attempts for the attempted send; call sender({url,body,headers}) and treat HTTP 200-299 as success -> status delivered; exception or non-2xx -> status failed. On failure, if attempts >= maxAttempts set status failed (terminal), else keep pending with nextAttemptAt = clock() (time of attempted send) + retryDelayMs. Release/settle claim in finally so no delivery stays stuck; return true whenever an attempt occurred. Delivered/permanently failed deliveries never re-sent; concurrent runOnce calls cannot send the same delivery simultaneously. Must not mutate inputs or returned snapshots and must not leak store references."
+          }
+        ]
+      },
+      "normalizationEvidence": [
+        {
+          "rawName": "scenario-output-10",
+          "rawSha256": "f66d8144fe1564ec25f1ff36271992299b0d64ebc59fe6773c4c93ad48138c23",
+          "normalizedName": "scenario-normalized-10",
+          "normalizedSha256": "cb5cfa9267545c2fab9f90cec2bac7b5c058c2cf05ed6a6be5dcda63f2ba1efe",
+          "kind": "files",
+          "modelFilePaths": [
+            "app.cjs",
+            "lib/state.cjs",
+            "lib/service.cjs"
+          ],
+          "normalizedFilePaths": [
+            "app.cjs",
+            "lib/state.cjs",
+            "lib/service.cjs",
+            "README.md"
+          ],
+          "restoredReadOnlyPaths": [
+            "README.md"
+          ]
+        },
+        {
+          "rawName": "scenario-output-12",
+          "rawSha256": "8746603974bcdf0e5672082ab481e9f9f0591f2c08d22ddf075aaca63efa7a53",
+          "normalizedName": "scenario-normalized-12",
+          "normalizedSha256": "7c7be27735457bb0704ead0795d2a41f55acb2be317dcef031b2d4b7df20171b",
+          "kind": "files",
+          "modelFilePaths": [
+            "app.cjs",
+            "lib/state.cjs",
+            "lib/service.cjs"
+          ],
+          "normalizedFilePaths": [
+            "app.cjs",
+            "lib/state.cjs",
+            "lib/service.cjs",
+            "README.md"
+          ],
+          "restoredReadOnlyPaths": [
+            "README.md"
+          ]
+        },
+        {
+          "rawName": "scenario-output-2",
+          "rawSha256": "79b9e5b8941bf7bc45e26a98be1ac4983ed6a7487d9284ab9c2af54426b5d989",
+          "normalizedName": "scenario-normalized-2",
+          "normalizedSha256": "2bfd7805297a4b1c1a8647737cab03087e5d91c2fa59295b89ea64a1486e87ca",
+          "kind": "architecture",
+          "modelFilePaths": [],
+          "normalizedFilePaths": [
+            "architecture.json"
+          ],
+          "restoredReadOnlyPaths": []
+        },
+        {
+          "rawName": "scenario-output-5",
+          "rawSha256": "efeccdfd68f62a3f2ef16c91590c42217fb631c050c47d1453e4b9e5bf0d8d44",
+          "normalizedName": "scenario-normalized-5",
+          "normalizedSha256": "6e529b92af8736c83fa0251461bd183c912f898055f4f6269fcb30e4b66b8411",
+          "kind": "files",
+          "modelFilePaths": [
+            "app.cjs"
+          ],
+          "normalizedFilePaths": [
+            "app.cjs"
+          ],
+          "restoredReadOnlyPaths": []
+        },
+        {
+          "rawName": "scenario-output-7",
+          "rawSha256": "b97597d1c4402e2335e637558c59913112019c864fe3c3ed1adf5283967e58d4",
+          "normalizedName": "scenario-normalized-7",
+          "normalizedSha256": "c38dc018c0f352ed6a6c83176a615926cd1c9af33c1f0ab87af9d6985ff76826",
+          "kind": "files",
+          "modelFilePaths": [
+            "lib/state.cjs"
+          ],
+          "normalizedFilePaths": [
+            "lib/state.cjs"
+          ],
+          "restoredReadOnlyPaths": []
+        },
+        {
+          "rawName": "scenario-output-8",
+          "rawSha256": "ecb22d3241cb75bd694ec342a412ad232defdd82ef234eee1c54c3952c3b16af",
+          "normalizedName": "scenario-normalized-8",
+          "normalizedSha256": "fdf5a7f69a147d7229dee03347ba0eb1d158acdac2a215c7f18649bfe220452f",
+          "kind": "files",
+          "modelFilePaths": [
+            "lib/service.cjs"
+          ],
+          "normalizedFilePaths": [
+            "lib/service.cjs"
+          ],
+          "restoredReadOnlyPaths": []
+        }
+      ],
+      "measuredApiConcurrency": {
+        "maxOverlappingCalls": 2,
+        "intervals": [
+          {
+            "callId": "adapter/283969f5-6139-459a-8a92-41b1b5fdbe32",
+            "startMs": 48594.379346,
+            "endMs": 55952.579628,
+            "clockId": "4fc17189-3986-45cb-9d0d-566f26526f79"
+          },
+          {
+            "callId": "adapter/a97c6820-db1b-46cf-8b06-a92e3ece1342",
+            "startMs": 56188.121036,
+            "endMs": 59226.328125,
+            "clockId": "4fc17189-3986-45cb-9d0d-566f26526f79"
+          },
+          {
+            "callId": "adapter/8ce85635-baf4-47f0-bc14-ddb99424031d",
+            "startMs": 56207.151408000005,
+            "endMs": 67348.763834,
+            "clockId": "4fc17189-3986-45cb-9d0d-566f26526f79"
+          },
+          {
+            "callId": "adapter/0748728c-7632-4c81-8b71-99738b62b774",
+            "startMs": 59446.96947500001,
+            "endMs": 73665.108491,
+            "clockId": "4fc17189-3986-45cb-9d0d-566f26526f79"
+          },
+          {
+            "callId": "adapter/da145e8e-3629-43f7-93ee-76738841c815",
+            "startMs": 73898.676472,
+            "endMs": 88692.311679,
+            "clockId": "4fc17189-3986-45cb-9d0d-566f26526f79"
+          },
+          {
+            "callId": "adapter/b4034583-45a5-4761-b92e-c366c91453ec",
+            "startMs": 89780.66508899999,
+            "endMs": 110035.338184,
+            "clockId": "4fc17189-3986-45cb-9d0d-566f26526f79"
+          }
+        ],
+        "source": "Derived from guarded call completion monotonicMs minus measured latencyMs; not provider compute telemetry"
+      }
+    },
+    {
+      "method": "metaaco",
+      "startedAt": "2026-11-20T22:56:35.029Z",
+      "finishedAt": "2026-11-20T22:56:56.768Z",
+      "driverWallTimeMs": 21738.837131000008,
+      "state": "succeeded",
+      "attemptCreated": true,
+      "acceptancePassed": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "accounting": {
+        "ledgerCreated": true,
+        "spentMicrounits": 7002,
+        "heldMicrounits": 0,
+        "violated": false,
+        "coverageComplete": true,
+        "source": "Persistent attempt budget; cost calculated from usage and pinned tariff"
+      },
+      "error": null,
+      "apiCalls": 2,
+      "calls": [
+        {
+          "billing": null,
+          "calculatedCost": {
+            "currency": "USD",
+            "microunits": 3004,
+            "reason": null
+          },
+          "callId": "adapter/1e331ae2-e384-40d1-b97a-02ebbe03ef61",
+          "kind": "model",
+          "latencyMs": 8089.75269899999,
+          "model": "deepseek-flash",
+          "modelRevision": "DeepSeek-V4.1-Flash-1017",
+          "pricing": {
+            "currency": "USD",
+            "effectiveAt": "2026-11-14T00:00:00Z",
+            "id": "deepseek-flash-peak",
+            "model": "deepseek-flash",
+            "modelRevision": "DeepSeek-V4.1-Flash-1017",
+            "provider": "deepseek",
+            "rates": {
+              "cacheReadTokens": 6000,
+              "cacheWriteTokens": 0,
+              "inputTokens": 300000,
+              "outputTokens": 1200000
+            },
+            "schemaVersion": 1,
+            "source": "https://api-docs.deepseek.com/quick_start/pricing/"
+          },
+          "provider": "deepseek",
+          "requestId": null,
+          "source": "guarded-adapter-stream-v1",
+          "status": "completed",
+          "usage": {
+            "cacheReadTokens": 896,
+            "cacheWriteTokens": 0,
+            "inputTokens": 195,
+            "outputTokens": 2450,
+            "reasoningTokens": null,
+            "totalTokens": 3541
+          }
+        },
+        {
+          "billing": null,
+          "calculatedCost": {
+            "currency": "USD",
+            "microunits": 3998,
+            "reason": null
+          },
+          "callId": "adapter/0f41d076-6ef4-442e-a5c0-15f577615a5c",
+          "kind": "model",
+          "latencyMs": 10269.889877999987,
+          "model": "deepseek-flash",
+          "modelRevision": "DeepSeek-V4.1-Flash-1017",
+          "pricing": {
+            "currency": "USD",
+            "effectiveAt": "2026-11-14T00:00:00Z",
+            "id": "deepseek-flash-peak",
+            "model": "deepseek-flash",
+            "modelRevision": "DeepSeek-V4.1-Flash-1017",
+            "provider": "deepseek",
+            "rates": {
+              "cacheReadTokens": 6000,
+              "cacheWriteTokens": 0,
+              "inputTokens": 300000,
+              "outputTokens": 1200000
+            },
+            "schemaVersion": 1,
+            "source": "https://api-docs.deepseek.com/quick_start/pricing/"
+          },
+          "provider": "deepseek",
+          "requestId": null,
+          "source": "guarded-adapter-stream-v1",
+          "status": "completed",
+          "usage": {
+            "cacheReadTokens": 896,
+            "cacheWriteTokens": 0,
+            "inputTokens": 3558,
+            "outputTokens": 2437,
+            "reasoningTokens": null,
+            "totalTokens": 6891
+          }
+        }
+      ],
+      "measuredWallTimeMs": 21553.94049600001,
+      "selectionWallTimeMs": 99.04049800000212,
+      "estimates": {
+        "costMicrounits": 12714,
+        "currency": "USD",
+        "quality": null,
+        "source": "uncalibrated equal 10-second duration and explicit input/output token priors; tariff bounds separate",
+        "wallTimeMs": 20000
+      },
+      "usage": {
+        "cacheReadTokens": 1792,
+        "cacheWriteTokens": 0,
+        "inputTokens": 3753,
+        "outputTokens": 4887,
+        "reasoningTokens": null,
+        "totalTokens": 10432
+      },
+      "failureReasons": [],
+      "phases": [
+        {
+          "phase": "baseline",
+          "suites": [
+            {
+              "id": "regression",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 2,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "908b883e19c29b03a444824ae79149695f569374502c8017a7f149c7c9e3e5da",
+              "testSuiteHash": "4fbdf04942c00b184640cfb47118b122fc1b95435e0b9866499859fd986fd609",
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "suites": [
+            {
+              "id": "target",
+              "status": "failed",
+              "counts": {
+                "failed": 12,
+                "passed": 0,
+                "skipped": 0
+              },
+              "exitCode": 1,
+              "snapshotHash": "908b883e19c29b03a444824ae79149695f569374502c8017a7f149c7c9e3e5da",
+              "testSuiteHash": "3bccf2b88b56bd6802ec99575b11bf6ec4be64efb37699d99ab17da539b265c6",
+              "failedTests": [
+                {
+                  "name": "subscription validation and duplicate id",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "event validation and case insensitive key",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 202\n"
+                },
+                {
+                  "name": "idempotent enqueue accepts reordered object keys",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "key conflict and event id conflict",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "fanout captures matching subscriptions at enqueue",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "request and returned state are isolated",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "signature hashes exact wire bytes",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "worker delivers signed event once",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "exception schedules retry and respects injected clock",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "non 2xx exhausts attempt limit",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "concurrent workers cannot send same delivery",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                },
+                {
+                  "name": "recipient failures do not block others",
+                  "message": "Expected values to be strictly equal:\n\n404 !== 201\n"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "suites": [
+            {
+              "id": "target",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 12,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "6c4bb5b6840f4eee36801a5945e386cc932fdd8bf0e29414f52964aa378fe9e3",
+              "testSuiteHash": "3bccf2b88b56bd6802ec99575b11bf6ec4be64efb37699d99ab17da539b265c6",
+              "failedTests": []
+            },
+            {
+              "id": "regression",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 2,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "6c4bb5b6840f4eee36801a5945e386cc932fdd8bf0e29414f52964aa378fe9e3",
+              "testSuiteHash": "4fbdf04942c00b184640cfb47118b122fc1b95435e0b9866499859fd986fd609",
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "refactor",
+          "suites": [
+            {
+              "id": "target",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 12,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "618e0f99b4a7ca0fd68f1c597c25612bc9adec2286699f986c99ee213de36989",
+              "testSuiteHash": "3bccf2b88b56bd6802ec99575b11bf6ec4be64efb37699d99ab17da539b265c6",
+              "failedTests": []
+            },
+            {
+              "id": "regression",
+              "status": "passed",
+              "counts": {
+                "failed": 0,
+                "passed": 2,
+                "skipped": 0
+              },
+              "exitCode": 0,
+              "snapshotHash": "618e0f99b4a7ca0fd68f1c597c25612bc9adec2286699f986c99ee213de36989",
+              "testSuiteHash": "4fbdf04942c00b184640cfb47118b122fc1b95435e0b9866499859fd986fd609",
+              "failedTests": []
+            }
+          ]
+        }
+      ],
+      "plan": {
+        "description": "Workflow assembled by MetaACO",
+        "execution": "dag",
+        "name": "skill-search",
+        "resources": {
+          "agentSlots": 2,
+          "maxArtifactBytes": 65536,
+          "maxInputBytes": 262144,
+          "timeoutMs": 300000
+        },
+        "tasks": [
+          {
+            "dependsOn": [],
+            "id": "implement",
+            "inputs": [],
+            "model": {
+              "model": "deepseek-flash",
+              "provider": "deepseek"
+            },
+            "prompt": "{\"kind\":\"scenario-skill-v1\",\"skill\":\"implement\",\"componentId\":null}",
+            "slots": 1
+          },
+          {
+            "dependsOn": [
+              "implement"
+            ],
+            "id": "refactor",
+            "inputs": [
+              {
+                "name": "implement",
+                "taskId": "implement"
+              }
+            ],
+            "model": {
+              "model": "deepseek-flash",
+              "provider": "deepseek"
+            },
+            "prompt": "{\"kind\":\"scenario-skill-v1\",\"skill\":\"refactor\",\"componentId\":null}",
+            "slots": 1
+          }
+        ],
+        "version": 3
+      },
+      "executionTaskStates": [
+        {
+          "artifact": {
+            "sha256": "358f8fdb553374d9096668f3375c91b0e30dfba6727596e8c11b73c2fe7291bb",
+            "sizeBytes": 10894
+          },
+          "id": "implement",
+          "inputs": [],
+          "reason": null,
+          "runId": "61c52b1f-9d29-492f-96ca-74506fd0e970",
+          "state": "completed",
+          "wallTimeMs": 9185.559649000003
+        },
+        {
+          "artifact": {
+            "sha256": "c6ff9fc2243aa7e9bcf903c54557094939acb83bce4daccad8753299af439f2c",
+            "sizeBytes": 10990
+          },
+          "id": "refactor",
+          "inputs": [
+            {
+              "name": "implement",
+              "producer": "implement",
+              "sha256": "358f8fdb553374d9096668f3375c91b0e30dfba6727596e8c11b73c2fe7291bb",
+              "sizeBytes": 10894
+            }
+          ],
+          "reason": null,
+          "runId": "6dd15eaf-2fa2-4e5f-8061-6701678c04da",
+          "state": "completed",
+          "wallTimeMs": 11345.586533000009
+        }
+      ],
+      "search": {
+        "evaluations": 100,
+        "initialization": {
+          "policy": "minimum-cost-minimal-layout",
+          "choices": {
+            "layout": "monolith",
+            "implement": "implement/0",
+            "refactor": "refactor/0",
+            "design": "design/skip",
+            "integrate": "integrate/0",
+            "analyze": "analyze/skip",
+            "review": "review/skip",
+            "write-tests": "write-tests/skip",
+            "implement-a": "implement-a/0",
+            "implement-b": "implement-b/0",
+            "implement-c": "implement-c/0"
+          },
+          "structuralStartsConsidered": 2,
+          "objectiveEvaluation": 1,
+          "estimatedCostMicrounits": 12714,
+          "costIsForecast": true
+        },
+        "estimatedCostMicrounits": 12714,
+        "makespanSeconds": 20
+      },
+      "normalizationEvidence": [
+        {
+          "rawName": "scenario-output-2",
+          "rawSha256": "954342f57073e47058b66fad1d0e6c9ac29ae62125ae2b85a943c90c84c11f9a",
+          "normalizedName": "scenario-normalized-2",
+          "normalizedSha256": "358f8fdb553374d9096668f3375c91b0e30dfba6727596e8c11b73c2fe7291bb",
+          "kind": "files",
+          "modelFilePaths": [
+            "app.cjs"
+          ],
+          "normalizedFilePaths": [
+            "app.cjs",
+            "README.md"
+          ],
+          "restoredReadOnlyPaths": [
+            "README.md"
+          ]
+        },
+        {
+          "rawName": "scenario-output-4",
+          "rawSha256": "9b397f43518d98ba35be43a803011a817bfff6b77121ed152bb84559821c6dae",
+          "normalizedName": "scenario-normalized-4",
+          "normalizedSha256": "c6ff9fc2243aa7e9bcf903c54557094939acb83bce4daccad8753299af439f2c",
+          "kind": "files",
+          "modelFilePaths": [
+            "app.cjs"
+          ],
+          "normalizedFilePaths": [
+            "app.cjs",
+            "README.md"
+          ],
+          "restoredReadOnlyPaths": [
+            "README.md"
+          ]
+        }
+      ]
+    }
+  ],
+  "artifactHashesVerified": true,
+  "costIsCalculatedNotInvoice": true,
+  "evidenceSha256": {
+    "summary.json": "48ced434bc309855743e921b5c1dd5b4417171f07c1f41f5152cb3778358c18c",
+    "journal.jsonl": "cbf6dfb933a8b3ecbf2af1e07cd76ff8dff56ae1303347ce3d6471d2b5e6db5a",
+    "protocol.json": "d3549749050c74cbe2f83630ca0816b2c2fd8d72b0b191b61eba7963c22d1046",
+    "preflight.json": "b372fa9eb8c59af81940db23fed19a78a919256745871bea2aa1f16c39dbfc3a",
+    "direct-pro/report.json": "a4a082a6dcfb01daebd3c8addbe0b4c9613a72a8d76690f05c3c3129b3bfb57f",
+    "direct-pro/bank-export.jsonl": "18c55a283711fc77b8789c9901bcc5d264801d1f416026854b46f76285b2e2bb",
+    "direct-pro/job.json": "dc3d46db45430cb1ab284ce724ef661a92b243f83a33b3f99cc7471eca745a4a",
+    "direct-pro/manifest.json": "27b02ee46890e143dd0113295f9cc41043a43e6ca5be805293935ce9afc3b0d1",
+    "components/report.json": "54f69c310304307b498234855193f59b34ae2e77727d449f1eaff60251da3fe5",
+    "components/bank-export.jsonl": "c487456b107c7302baf4ba010e6963ae5892e2a80fb16aec61fd4338bfd0b26c",
+    "components/job.json": "91fdc0a8b18e395583d921a5182eff37fe6c94ae2098058b60a1a4f458694c16",
+    "components/manifest.json": "374eb13dcdb69a6baecd5500ce3e9815826a8ea3c3a149455b5d64226cbe7a17",
+    "fixed/report.json": "87cb0ba50dbd5e032d0fd6dd3584e4e1ac5d4c098f9aac4ba3d9341382ce934f",
+    "fixed/bank-export.jsonl": "b2281d8df54e7da8b05e41d0e054624374e1e4e57c217e3d4d896da658e2a3f5",
+    "fixed/job.json": "7e52e51589f79f5fbc51cc48646474d92ec4c1ff4b19d03100a57f024a11fc76",
+    "fixed/manifest.json": "70d83115c3705cf8584bdee5a4679ff11293937493637485f1ae1fe70a4fa3d9",
+    "direct-flash/report.json": "e0577f69d2fe7d8b3d48189bc6706768cffa1fa80da5936255906f32bf50deb2",
+    "direct-flash/bank-export.jsonl": "6c4cc18ffb4604c06f03f7f8eb9b7e838d57aaa9a0e0938767e5105272f7cdbc",
+    "direct-flash/job.json": "bb7f4755e810c49590bb672f84c3ac11ce8cf22a81331e83abd65fe1a1847d53",
+    "direct-flash/manifest.json": "9e2ec2d3d39e4f7ca2336d5d83ea30befd5129fa75795b58818cf52ba9502599",
+    "metaaco/report.json": "b33b1ee13fc396e774502995c13130409ed8eb1fb58f2bf547684a471d6c8c47",
+    "metaaco/bank-export.jsonl": "ae3cf9e280b158e5a0b566c182bcf76de92891cded43e8b7478a84d5d78f73d3",
+    "metaaco/job.json": "9f0d42e0577ec3b254e8a54995b74ec0b9381469e52ce163c169c55049889426",
+    "metaaco/manifest.json": "801425e5bb2f819d1078f06e78f262e36f217e77cdfac18b465a73db9bcad9cf",
+    "metaaco/bank/bank.sqlite": "f38c52bcdd792cd2565baa5ee1ab2e9cd1929450b368aa7c4653f82a74c0f8e5",
+    "metaaco/bank/artifacts/f135dde3a6754161219b6f82a5b4cb2121e574511f7833c098fcf16b5ecca872": "f135dde3a6754161219b6f82a5b4cb2121e574511f7833c098fcf16b5ecca872",
+    "metaaco/bank/artifacts/25384b01fccde146f3002ff5c57439473f6d391cd40f0560b6692469365ae78e": "25384b01fccde146f3002ff5c57439473f6d391cd40f0560b6692469365ae78e",
+    "metaaco/bank/artifacts/5650cb4e9e879f40638c837a526855d7204ee287a1016b441f3724ac0ece8e50": "5650cb4e9e879f40638c837a526855d7204ee287a1016b441f3724ac0ece8e50",
+    "metaaco/bank/artifacts/23dc585eb30709b581cf292b750eb72fee56635109a33ec518985fe10c54fc47": "23dc585eb30709b581cf292b750eb72fee56635109a33ec518985fe10c54fc47",
+    "metaaco/bank/artifacts/2be8ae9c41d39171aedf9395b781274376c2e56b654787f17262c466d56e5798": "2be8ae9c41d39171aedf9395b781274376c2e56b654787f17262c466d56e5798",
+    "metaaco/bank/artifacts/70229663dfbd1848edb85523769a650c3cae06e517b9e4625fb95cf9c5870360": "70229663dfbd1848edb85523769a650c3cae06e517b9e4625fb95cf9c5870360",
+    "metaaco/bank/artifacts/279e02f00a2d62dfeb88152564a29a1322a8e8a06b9d5a2183c012cad853b65d": "279e02f00a2d62dfeb88152564a29a1322a8e8a06b9d5a2183c012cad853b65d",
+    "metaaco/bank/artifacts/3ae112ae914d129966a6de208ae4b9ff7db89e9a12709081d754ddd159c5f073": "3ae112ae914d129966a6de208ae4b9ff7db89e9a12709081d754ddd159c5f073",
+    "metaaco/bank/artifacts/0b025e0040474c57eb54fe7420353445d61d834049472db82f219649e953c328": "0b025e0040474c57eb54fe7420353445d61d834049472db82f219649e953c328",
+    "metaaco/bank/artifacts/3c8de41c820e2e0ec3038b311f7467e4c07bd9ac827477414449a2adde34371b": "3c8de41c820e2e0ec3038b311f7467e4c07bd9ac827477414449a2adde34371b",
+    "metaaco/bank/artifacts/7b5a64d8f35368749d921d9ee5d4dbbb03d39567f6743066d037660fd14cdf67": "7b5a64d8f35368749d921d9ee5d4dbbb03d39567f6743066d037660fd14cdf67",
+    "metaaco/bank/artifacts/9b397f43518d98ba35be43a803011a817bfff6b77121ed152bb84559821c6dae": "9b397f43518d98ba35be43a803011a817bfff6b77121ed152bb84559821c6dae",
+    "metaaco/bank/artifacts/65fdb718da8a41dbf18013622b3ff50b56435ca81d1471fc61a53f241d8079b5": "65fdb718da8a41dbf18013622b3ff50b56435ca81d1471fc61a53f241d8079b5",
+    "metaaco/bank/artifacts/908b883e19c29b03a444824ae79149695f569374502c8017a7f149c7c9e3e5da": "908b883e19c29b03a444824ae79149695f569374502c8017a7f149c7c9e3e5da",
+    "metaaco/bank/artifacts/c650e6e53a8b6730a67bed3953d30fac175d4c62ae5866ffe191b1cd46d6e077": "c650e6e53a8b6730a67bed3953d30fac175d4c62ae5866ffe191b1cd46d6e077",
+    "metaaco/bank/artifacts/c6b33e6ea504065cb782f5499dd18e5df3793eefb3fad1565a653f74ba4434f7": "c6b33e6ea504065cb782f5499dd18e5df3793eefb3fad1565a653f74ba4434f7",
+    "metaaco/bank/artifacts/3e31676774311aeeda313ea0ca881825c4e7340d248a26b79eb08e6c127a33f4": "3e31676774311aeeda313ea0ca881825c4e7340d248a26b79eb08e6c127a33f4",
+    "metaaco/bank/artifacts/c6ff9fc2243aa7e9bcf903c54557094939acb83bce4daccad8753299af439f2c": "c6ff9fc2243aa7e9bcf903c54557094939acb83bce4daccad8753299af439f2c",
+    "metaaco/bank/artifacts/954342f57073e47058b66fad1d0e6c9ac29ae62125ae2b85a943c90c84c11f9a": "954342f57073e47058b66fad1d0e6c9ac29ae62125ae2b85a943c90c84c11f9a",
+    "metaaco/bank/artifacts/b8caa792303533e6119500ad5a847a839e063eb06e6657538df318c99042452e": "b8caa792303533e6119500ad5a847a839e063eb06e6657538df318c99042452e",
+    "metaaco/bank/artifacts/ecab89c9d41c68dd9b8530769763833c5f3d4928850cdd2736ac1819bb3e0ca8": "ecab89c9d41c68dd9b8530769763833c5f3d4928850cdd2736ac1819bb3e0ca8",
+    "metaaco/bank/artifacts/358f8fdb553374d9096668f3375c91b0e30dfba6727596e8c11b73c2fe7291bb": "358f8fdb553374d9096668f3375c91b0e30dfba6727596e8c11b73c2fe7291bb",
+    "metaaco/bank/artifacts/d50c86692d6de6fb0a054436c7b0a8503c76fd831714c793374ea0848792e3ae": "d50c86692d6de6fb0a054436c7b0a8503c76fd831714c793374ea0848792e3ae",
+    "direct-flash/bank/bank.sqlite": "35ff3916012dfa579f3f19090a442eabdbca990b8c4b87f7528602e3a89adbe9",
+    "direct-flash/bank/artifacts/c31448515cff7b762c664bc3f4ec155f05750c891b7dd672e241211bdfa42031": "c31448515cff7b762c664bc3f4ec155f05750c891b7dd672e241211bdfa42031",
+    "direct-flash/bank/artifacts/2156446d2e1d71cc56f45b15b37ebbc3023e90c41cd503a1433d28d9361996b3": "2156446d2e1d71cc56f45b15b37ebbc3023e90c41cd503a1433d28d9361996b3",
+    "direct-flash/bank/artifacts/1a1c2e778ff4e1791a0edc0bc8fc9299201edd805085bfba31b14d2d108cd531": "1a1c2e778ff4e1791a0edc0bc8fc9299201edd805085bfba31b14d2d108cd531",
+    "direct-flash/bank/artifacts/e3b9434422ef67966606768ef39a553b94dc2f9e55a55a8ddf069585769d3947": "e3b9434422ef67966606768ef39a553b94dc2f9e55a55a8ddf069585769d3947",
+    "direct-flash/bank/artifacts/eac850d229eac503583c43e20880b88fab97ed509e6ae9976c40d78b14ed4020": "eac850d229eac503583c43e20880b88fab97ed509e6ae9976c40d78b14ed4020",
+    "direct-flash/bank/artifacts/6744820ea738062f2e182944e5c892fb18401a3c20313a0518ce13a87e019cc3": "6744820ea738062f2e182944e5c892fb18401a3c20313a0518ce13a87e019cc3",
+    "direct-flash/bank/artifacts/158c1e21f105c128ede77820a6260933014fc847abb5d5f436919103bb3bfd9c": "158c1e21f105c128ede77820a6260933014fc847abb5d5f436919103bb3bfd9c",
+    "direct-flash/bank/artifacts/b8caa792303533e6119500ad5a847a839e063eb06e6657538df318c99042452e": "b8caa792303533e6119500ad5a847a839e063eb06e6657538df318c99042452e",
+    "direct-flash/bank/artifacts/ecab89c9d41c68dd9b8530769763833c5f3d4928850cdd2736ac1819bb3e0ca8": "ecab89c9d41c68dd9b8530769763833c5f3d4928850cdd2736ac1819bb3e0ca8",
+    "direct-flash/bank/artifacts/55c39b6fae342a099eada1797b9d78a69622fc27c0eaac437d0c0a5e8335c3e4": "55c39b6fae342a099eada1797b9d78a69622fc27c0eaac437d0c0a5e8335c3e4",
+    "direct-flash/bank/artifacts/ececd8d6a09e7fde2bc40a7ace867d5529ba6643b1241bba00550da6810fcb67": "ececd8d6a09e7fde2bc40a7ace867d5529ba6643b1241bba00550da6810fcb67",
+    "direct-flash/bank/artifacts/e0c03e9f271f8bb23c2e2f00bc3649a9c0e1859bdb7e476b35a84bffbebb9927": "e0c03e9f271f8bb23c2e2f00bc3649a9c0e1859bdb7e476b35a84bffbebb9927",
+    "fixed/bank/bank.sqlite": "54f77984b9b679199af519cd3f883c53dfd7bd08d8ee24971ffad46c923245fe",
+    "fixed/bank/artifacts/f135dde3a6754161219b6f82a5b4cb2121e574511f7833c098fcf16b5ecca872": "f135dde3a6754161219b6f82a5b4cb2121e574511f7833c098fcf16b5ecca872",
+    "fixed/bank/artifacts/6ea0425d96d1831bfe314f85bedd9c1d02c0ee7ebb0c462d9e9da8c01979ea9d": "6ea0425d96d1831bfe314f85bedd9c1d02c0ee7ebb0c462d9e9da8c01979ea9d",
+    "fixed/bank/artifacts/e69b2f1f35e5bd217d07fceaa7ffbb3c5c17602ad6a9774c4b8a483a311dedf1": "e69b2f1f35e5bd217d07fceaa7ffbb3c5c17602ad6a9774c4b8a483a311dedf1",
+    "fixed/bank/artifacts/3a4680c400a6f127a5fe5fc8c3b4306af6da69768f35498bdb72382fdb06cbd9": "3a4680c400a6f127a5fe5fc8c3b4306af6da69768f35498bdb72382fdb06cbd9",
+    "fixed/bank/artifacts/7af450a4e52c6308a4a95dede0f36114551a6b12a1e2c9716f7e49fbb7fe30c7": "7af450a4e52c6308a4a95dede0f36114551a6b12a1e2c9716f7e49fbb7fe30c7",
+    "fixed/bank/artifacts/f693a38c317a027437855389c45aa95113d14b5779ab9df804d1c2bb9f575077": "f693a38c317a027437855389c45aa95113d14b5779ab9df804d1c2bb9f575077",
+    "fixed/bank/artifacts/4e36e6ec5fb8e452419ab2a04bf82fb129feb667adf535ad1ff8e8f811e6234f": "4e36e6ec5fb8e452419ab2a04bf82fb129feb667adf535ad1ff8e8f811e6234f",
+    "fixed/bank/artifacts/f921cb158b1484c3625cbac7006c8b0134b6971e2c986e934dfdfe61de148aea": "f921cb158b1484c3625cbac7006c8b0134b6971e2c986e934dfdfe61de148aea",
+    "fixed/bank/artifacts/908b883e19c29b03a444824ae79149695f569374502c8017a7f149c7c9e3e5da": "908b883e19c29b03a444824ae79149695f569374502c8017a7f149c7c9e3e5da",
+    "fixed/bank/artifacts/c2b649158067f7694dec8f1dab6a108e732d79f2ccbd9b230ac7fd6123b1f565": "c2b649158067f7694dec8f1dab6a108e732d79f2ccbd9b230ac7fd6123b1f565",
+    "fixed/bank/artifacts/3c56f2c028ece4fc5295280552054c07dfc101057736168a777a2327529d68b4": "3c56f2c028ece4fc5295280552054c07dfc101057736168a777a2327529d68b4",
+    "fixed/bank/artifacts/409cd5fac1e55df6e7edd53ab2ae1a432b5cb68de336dd840cd82abceabc0e01": "409cd5fac1e55df6e7edd53ab2ae1a432b5cb68de336dd840cd82abceabc0e01",
+    "fixed/bank/artifacts/d97f9eef98cf63266adf4f43851b9604a9ffc368b512a5bfe800f1209540f494": "d97f9eef98cf63266adf4f43851b9604a9ffc368b512a5bfe800f1209540f494",
+    "fixed/bank/artifacts/0b5f7c2ab4c3177eba60514bba593375fd58e2da673bad1fcf2d6864bd2b1e59": "0b5f7c2ab4c3177eba60514bba593375fd58e2da673bad1fcf2d6864bd2b1e59",
+    "fixed/bank/artifacts/ed9facfed21945043acf7968dea38cea83ff881f4a25cc2855c72d96540d3d18": "ed9facfed21945043acf7968dea38cea83ff881f4a25cc2855c72d96540d3d18",
+    "fixed/bank/artifacts/d53e9be4d2c718e1602e971e4f18d8ba3b643d166c571dee17dc6c9f188cdbb5": "d53e9be4d2c718e1602e971e4f18d8ba3b643d166c571dee17dc6c9f188cdbb5",
+    "fixed/bank/artifacts/5d4c07a7111dc5a5a27fa320e62151fa4d6caae7d2e9ef105422d2b70e0ce5df": "5d4c07a7111dc5a5a27fa320e62151fa4d6caae7d2e9ef105422d2b70e0ce5df",
+    "fixed/bank/artifacts/21ffbd8d9a0e37493244150c57014d877c99ab619b7b7bfca1ac98fd3703447f": "21ffbd8d9a0e37493244150c57014d877c99ab619b7b7bfca1ac98fd3703447f",
+    "fixed/bank/artifacts/b8caa792303533e6119500ad5a847a839e063eb06e6657538df318c99042452e": "b8caa792303533e6119500ad5a847a839e063eb06e6657538df318c99042452e",
+    "fixed/bank/artifacts/f80c13bac52939ffece849c42ed2a229cd32cf1aab9694efa774b94b6813e69c": "f80c13bac52939ffece849c42ed2a229cd32cf1aab9694efa774b94b6813e69c",
+    "fixed/bank/artifacts/ecab89c9d41c68dd9b8530769763833c5f3d4928850cdd2736ac1819bb3e0ca8": "ecab89c9d41c68dd9b8530769763833c5f3d4928850cdd2736ac1819bb3e0ca8",
+    "fixed/bank/artifacts/1d12c6b037d02980b17db6098650b41b3c2d1b4962682eafebfe6b8f63b9d927": "1d12c6b037d02980b17db6098650b41b3c2d1b4962682eafebfe6b8f63b9d927",
+    "fixed/bank/artifacts/1482fc3928ba959f1615c863c021c79cfe3ed9293a5a0a7c4d6bbd9580c46331": "1482fc3928ba959f1615c863c021c79cfe3ed9293a5a0a7c4d6bbd9580c46331",
+    "components/bank/bank.sqlite": "8600d8b1d638e44aae6e7d5207907845e7678600564b6385bd8be538e3583693",
+    "components/bank/artifacts/0efe4913ac29e8c50b442ac0975da8f423d92b859df76693989b9b336f006bb4": "0efe4913ac29e8c50b442ac0975da8f423d92b859df76693989b9b336f006bb4",
+    "components/bank/artifacts/f135dde3a6754161219b6f82a5b4cb2121e574511f7833c098fcf16b5ecca872": "f135dde3a6754161219b6f82a5b4cb2121e574511f7833c098fcf16b5ecca872",
+    "components/bank/artifacts/1a1e73506526304474ba7117658c16e37a36acc4348865b78d426eda8f45b228": "1a1e73506526304474ba7117658c16e37a36acc4348865b78d426eda8f45b228",
+    "components/bank/artifacts/1caeca249731fa54048fe6560649f8bea1c9570c9f2f3c8c608ddc83de54af4d": "1caeca249731fa54048fe6560649f8bea1c9570c9f2f3c8c608ddc83de54af4d",
+    "components/bank/artifacts/6e529b92af8736c83fa0251461bd183c912f898055f4f6269fcb30e4b66b8411": "6e529b92af8736c83fa0251461bd183c912f898055f4f6269fcb30e4b66b8411",
+    "components/bank/artifacts/ffc0581c146d95e7fc7e22ba843d163dc8a279289d92315ac493e7179fa2609e": "ffc0581c146d95e7fc7e22ba843d163dc8a279289d92315ac493e7179fa2609e",
+    "components/bank/artifacts/efeccdfd68f62a3f2ef16c91590c42217fb631c050c47d1453e4b9e5bf0d8d44": "efeccdfd68f62a3f2ef16c91590c42217fb631c050c47d1453e4b9e5bf0d8d44",
+    "components/bank/artifacts/77cc71c53f2389aa991f17c84cf224dffe280adc58acb2d8858c2997d442b739": "77cc71c53f2389aa991f17c84cf224dffe280adc58acb2d8858c2997d442b739",
+    "components/bank/artifacts/cb5cfa9267545c2fab9f90cec2bac7b5c058c2cf05ed6a6be5dcda63f2ba1efe": "cb5cfa9267545c2fab9f90cec2bac7b5c058c2cf05ed6a6be5dcda63f2ba1efe",
+    "components/bank/artifacts/b97597d1c4402e2335e637558c59913112019c864fe3c3ed1adf5283967e58d4": "b97597d1c4402e2335e637558c59913112019c864fe3c3ed1adf5283967e58d4",
+    "components/bank/artifacts/ecb22d3241cb75bd694ec342a412ad232defdd82ef234eee1c54c3952c3b16af": "ecb22d3241cb75bd694ec342a412ad232defdd82ef234eee1c54c3952c3b16af",
+    "components/bank/artifacts/a92f2c3aca745788876a546ffa85307866da4f313ec7ca0ef3ee8d0930d54496": "a92f2c3aca745788876a546ffa85307866da4f313ec7ca0ef3ee8d0930d54496",
+    "components/bank/artifacts/d901658072328c6b1fc2a57926860b23e7362240143555ef757dfd8afaafd73a": "d901658072328c6b1fc2a57926860b23e7362240143555ef757dfd8afaafd73a",
+    "components/bank/artifacts/cfa3c00a206516519c2063391ef526f0514a1d2e655e750ca0f2bba4819224fd": "cfa3c00a206516519c2063391ef526f0514a1d2e655e750ca0f2bba4819224fd",
+    "components/bank/artifacts/2ad06632d0338b3a6cfb27697948e3372b7c83e8db7b74ac3675eaae7f40cfd8": "2ad06632d0338b3a6cfb27697948e3372b7c83e8db7b74ac3675eaae7f40cfd8",
+    "components/bank/artifacts/908b883e19c29b03a444824ae79149695f569374502c8017a7f149c7c9e3e5da": "908b883e19c29b03a444824ae79149695f569374502c8017a7f149c7c9e3e5da",
+    "components/bank/artifacts/b77d8577f54b3570243103ee1ad7bac79d8251ddf3a7ab307ecdb4ddfdfaf857": "b77d8577f54b3570243103ee1ad7bac79d8251ddf3a7ab307ecdb4ddfdfaf857",
+    "components/bank/artifacts/e54fe1419bc4c79d0de3f89664ccf9d081f2c9603b220a131007542624cfed7a": "e54fe1419bc4c79d0de3f89664ccf9d081f2c9603b220a131007542624cfed7a",
+    "components/bank/artifacts/35bb06ca357c6e054f3a83b791d0b9125e533d859d26f7ebe92bd55a996c5cd6": "35bb06ca357c6e054f3a83b791d0b9125e533d859d26f7ebe92bd55a996c5cd6",
+    "components/bank/artifacts/9f9168da13a60efbd9e097f8c1abd6aeca33302b49f40dc1ea4d9cad72334dfd": "9f9168da13a60efbd9e097f8c1abd6aeca33302b49f40dc1ea4d9cad72334dfd",
+    "components/bank/artifacts/fdf5a7f69a147d7229dee03347ba0eb1d158acdac2a215c7f18649bfe220452f": "fdf5a7f69a147d7229dee03347ba0eb1d158acdac2a215c7f18649bfe220452f",
+    "components/bank/artifacts/f66d8144fe1564ec25f1ff36271992299b0d64ebc59fe6773c4c93ad48138c23": "f66d8144fe1564ec25f1ff36271992299b0d64ebc59fe6773c4c93ad48138c23",
+    "components/bank/artifacts/35f258fbcd1dae32809ba6609fd733b3be262ec9a06de2ce79520b26cd6b1a8c": "35f258fbcd1dae32809ba6609fd733b3be262ec9a06de2ce79520b26cd6b1a8c",
+    "components/bank/artifacts/df1613ea6b06b24013dff4a205a521b7672f98da348a1535d4c1e57c58d8d56a": "df1613ea6b06b24013dff4a205a521b7672f98da348a1535d4c1e57c58d8d56a",
+    "components/bank/artifacts/58bea65302b57cb7b5c0a40ad6850a31075bd54f008da4e214a3615c13aea14d": "58bea65302b57cb7b5c0a40ad6850a31075bd54f008da4e214a3615c13aea14d",
+    "components/bank/artifacts/79b9e5b8941bf7bc45e26a98be1ac4983ed6a7487d9284ab9c2af54426b5d989": "79b9e5b8941bf7bc45e26a98be1ac4983ed6a7487d9284ab9c2af54426b5d989",
+    "components/bank/artifacts/b8caa792303533e6119500ad5a847a839e063eb06e6657538df318c99042452e": "b8caa792303533e6119500ad5a847a839e063eb06e6657538df318c99042452e",
+    "components/bank/artifacts/7c7be27735457bb0704ead0795d2a41f55acb2be317dcef031b2d4b7df20171b": "7c7be27735457bb0704ead0795d2a41f55acb2be317dcef031b2d4b7df20171b",
+    "components/bank/artifacts/c38dc018c0f352ed6a6c83176a615926cd1c9af33c1f0ab87af9d6985ff76826": "c38dc018c0f352ed6a6c83176a615926cd1c9af33c1f0ab87af9d6985ff76826",
+    "components/bank/artifacts/8746603974bcdf0e5672082ab481e9f9f0591f2c08d22ddf075aaca63efa7a53": "8746603974bcdf0e5672082ab481e9f9f0591f2c08d22ddf075aaca63efa7a53",
+    "components/bank/artifacts/c9497852c585fa533a9e0053a09e0de60e6ff37dc854dd7cf67cca882ad1b5a3": "c9497852c585fa533a9e0053a09e0de60e6ff37dc854dd7cf67cca882ad1b5a3",
+    "components/bank/artifacts/490936e30659a4bba8e092948b1a71e2debbd86f8938b3cf11b3e0b663588641": "490936e30659a4bba8e092948b1a71e2debbd86f8938b3cf11b3e0b663588641",
+    "components/bank/artifacts/0a0c474a9ca8e19ea4d9b40896ed79ddfa2b938678daa9e12dff102c574f442e": "0a0c474a9ca8e19ea4d9b40896ed79ddfa2b938678daa9e12dff102c574f442e",
+    "components/bank/artifacts/2bfd7805297a4b1c1a8647737cab03087e5d91c2fa59295b89ea64a1486e87ca": "2bfd7805297a4b1c1a8647737cab03087e5d91c2fa59295b89ea64a1486e87ca",
+    "components/bank/artifacts/0080c19670487d35e1c17d3892f7e24b7325af3e3c1582504854873765045baf": "0080c19670487d35e1c17d3892f7e24b7325af3e3c1582504854873765045baf",
+    "direct-pro/bank/bank.sqlite": "4da247645728b8c1ba3c8c12baf8e7d5e203b26c9eb37d3a27983bb2b75960c0",
+    "direct-pro/bank/artifacts/5f543d1072361a8bf626b859f407275b572a68b464a105aa5f3dc04a858e4fdb": "5f543d1072361a8bf626b859f407275b572a68b464a105aa5f3dc04a858e4fdb",
+    "direct-pro/bank/artifacts/2332e53b0df960c74f80484931cc1c75336481f7cefcb9fef68b5e09207a1c69": "2332e53b0df960c74f80484931cc1c75336481f7cefcb9fef68b5e09207a1c69",
+    "direct-pro/bank/artifacts/4554f9966932758ceec2b46e5901df1d9b5cbafd9504ba5ecee6fe9d247b7a0c": "4554f9966932758ceec2b46e5901df1d9b5cbafd9504ba5ecee6fe9d247b7a0c",
+    "direct-pro/bank/artifacts/e805104c2d8be2526e5b9ae018bfb09ef944e36baed969cb6c4d73643dd54719": "e805104c2d8be2526e5b9ae018bfb09ef944e36baed969cb6c4d73643dd54719",
+    "direct-pro/bank/artifacts/b9cf037b967dbe7a02f148eb70c6a7ce7106e13e98679f43f1f60ecb2c784bd2": "b9cf037b967dbe7a02f148eb70c6a7ce7106e13e98679f43f1f60ecb2c784bd2",
+    "direct-pro/bank/artifacts/b8caa792303533e6119500ad5a847a839e063eb06e6657538df318c99042452e": "b8caa792303533e6119500ad5a847a839e063eb06e6657538df318c99042452e",
+    "direct-pro/bank/artifacts/c08750a65f06a810cab1818d682e6a68563ff8268c2b50be993674181e1017a8": "c08750a65f06a810cab1818d682e6a68563ff8268c2b50be993674181e1017a8",
+    "direct-pro/bank/artifacts/530000a8ce29dcb7f66895cc758795a13cbef84518ab664daaa3ebdd23a481bd": "530000a8ce29dcb7f66895cc758795a13cbef84518ab664daaa3ebdd23a481bd",
+    "direct-pro/bank/artifacts/ecab89c9d41c68dd9b8530769763833c5f3d4928850cdd2736ac1819bb3e0ca8": "ecab89c9d41c68dd9b8530769763833c5f3d4928850cdd2736ac1819bb3e0ca8",
+    "direct-pro/bank/artifacts/1272db855683173048cf6d8ebe6c4077cf00d03bcab4e8a292c305cd0f61bdaf": "1272db855683173048cf6d8ebe6c4077cf00d03bcab4e8a292c305cd0f61bdaf",
+    "direct-pro/bank/artifacts/55d9fc270143bacdeb0f969d13ec56ad5857c19fa3e51ac480be1edbc45a0552": "55d9fc270143bacdeb0f969d13ec56ad5857c19fa3e51ac480be1edbc45a0552",
+    "direct-pro/bank/artifacts/25e90d8445731b87f4538d80be9001e39adf5c00c2a5f613e9ce128fb7d0e47f": "25e90d8445731b87f4538d80be9001e39adf5c00c2a5f613e9ce128fb7d0e47f"
+  },
+  "failureAudit": {
+    "direct-pro": "GREEN: 8/12 target and 2/2 regression; delivery status/retry-state assertions failed"
+  },
+  "processLogSha256": "3dbcae456ecc436fb8510a7de15b5b1a0ee56b97399a9b5064815bfe63ea51a3"
+}

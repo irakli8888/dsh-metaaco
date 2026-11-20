@@ -593,3 +593,33 @@ regression tests совпадают с v2, async mutant по-прежнему о
 владельца. Preview v3 подтвердил job schemaVersion=3, responseContract=2 и paidCalls=0.
 [Запись с хешами](data/webhook-response-v3-offline-validation.json); локальные журналы
 в work/webhook-response-v3-3fd5163/. Это не новая серия платных исходов.
+
+### 2026-11-21 — подготовка контрольного webhook-пилота v3
+
+Отдельно разрешён общий бюджет до $2. [Протокол v3](webhook-pilot-v3-protocol.md)
+зафиксирован до API-вызовов: source 3fd5163, responseContract v2, readOnlyFiles host,
+явные sync createApi/handle, пять условий по одной попытке, seed 7, пустые изолированные
+банки. Хеши 226 source-файлов на Lenovo сверены с архивом; package версии и образ
+проверены. Бесплатный preflight допустил все планы, MetaACO выбрал Flash implement →
+refactor. Ни ручной подмены маршрута, ни paid retries не предусмотрено. Это
+контроль инфраструктуры, не обучение или новый вывод о преимуществе алгоритма.
+
+### 2026-11-21 — завершение контрольного webhook-пилота v3
+
+[Итог](webhook-pilot-v3-results.md): 5 условий, 12 API-вызовов, $0.063186,
+held=0, полный учёт. Direct Flash прошёл acceptance без полного TDD. Fixed,
+Components и MetaACO прошли GREEN/REFACTOR (12+2 в каждой фазе). Pro прошёл обе
+регрессии и 8/12 target, четыре провала состояния доставок/повторов сохранены.
+
+В Components модель выбрала app.cjs, lib/state.cjs, lib/services.cjs и приватные
+контракты; реально исполнены design, три implement, integrate, refactor. Guard-call
+интервалы одного monotonic clock подтверждают два перекрывавшихся API-запроса.
+MetaACO выполнил 100 локальных оценок и исполнил выбранные Flash implement →
+refactor; forecast 20s/12714 microunits отдельно от измеренных 21.554s/7002.
+Его маршрут совпал с Fixed; компонентный baseline нельзя выдавать за выбор MetaACO.
+
+Raw/normalized артефакты, точный pinned README, costs и SHA-256 проверены.
+Платных повторов и изменений протокола по исходам не было. История в выборе пустая,
+политика не обучалась; это validation-candidate инфраструктурный пилот, не
+превосходство метода и не основание обучаться на held-out исходах. Нужны новые
+заранее определённые учебные задачи и отдельная frozen оценка переноса.
