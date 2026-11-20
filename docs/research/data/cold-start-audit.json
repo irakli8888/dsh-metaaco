@@ -1,0 +1,2654 @@
+{
+  "schemaVersion": 1,
+  "sourceConfigHash": "8298f6bc395f5cd248e418998a68032127e57a5b2de11eb9b21428d03c409f1b",
+  "sourceSummarySha256": "7e3cd1ae215c47bfe518df22d3c71e02949c88918043e5f9f96e3a7e778814f9",
+  "cells": [
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 19,
+      "feedback": {
+        "sha256": "7c2e63bc78f9227fdd2d79f8949bf2c352b968db5ff2070b9c4992bed40e457f",
+        "sizeBytes": 1107
+      },
+      "snapshotId": "3e2a38c4114b877a5f8561970080721f9c7429a53340a3a66007dbffb805b512",
+      "records": 20,
+      "routeIds": [
+        "route-0613",
+        "route-0001",
+        "route-0614",
+        "route-0205",
+        "route-0003",
+        "route-0002",
+        "route-0069",
+        "route-0239",
+        "route-0011",
+        "route-0035"
+      ],
+      "successCount": 20
+    },
+    {
+      "mode": "random",
+      "seed": 19,
+      "feedback": {
+        "sha256": "3c4b3dbf854df2c047c3de3de03a4bb90f18ae5eb3a1c99e04eb18d0bfe28fb2",
+        "sizeBytes": 1093
+      },
+      "snapshotId": "40b5710c388e087f573129f55f5d803016a657bd124fd8e3f1933aee015c7248",
+      "records": 20,
+      "routeIds": [
+        "route-1487",
+        "route-0323",
+        "route-0609",
+        "route-0904",
+        "route-1558",
+        "route-0826",
+        "route-0055",
+        "route-0837",
+        "route-1437",
+        "route-1234",
+        "route-1007",
+        "route-0501",
+        "route-1474",
+        "route-1033",
+        "route-0118",
+        "route-1752",
+        "route-1834",
+        "route-1088",
+        "route-0274",
+        "route-1079"
+      ],
+      "successCount": 19
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 7,
+      "feedback": {
+        "sha256": "58568c303884ff5cefc71893e6d2fe83367b775e0cde2dafa24b2f90d0268953",
+        "sizeBytes": 1103
+      },
+      "snapshotId": "a70c5976e91ce212bcafe28bfde9fef6a185379816eef64494ca246bdf02b66b",
+      "records": 20,
+      "routeIds": [
+        "route-0001",
+        "route-0003",
+        "route-0035",
+        "route-0002",
+        "route-0069",
+        "route-0205",
+        "route-0215",
+        "route-0025",
+        "route-0613",
+        "route-0239",
+        "route-0027",
+        "route-0011",
+        "route-0614",
+        "route-0012",
+        "route-0013",
+        "route-0623",
+        "route-0103",
+        "route-0036",
+        "route-0079",
+        "route-0023"
+      ],
+      "successCount": 19
+    },
+    {
+      "mode": "fixed",
+      "seed": 23,
+      "feedback": {
+        "sha256": "5e53720c992bac6756b194ed06251a307d4fae9e09a831448ccd3ab604e7e5a8",
+        "sizeBytes": 1092
+      },
+      "snapshotId": "f984d96d37abbf029ce9bd3b151467c2799070479c18de818324a0543cc1d004",
+      "records": 20,
+      "routeIds": [
+        "route-0001"
+      ],
+      "successCount": 19
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 31,
+      "feedback": {
+        "sha256": "e3c78818326afb7a6eeedf41b60a262da82a44d79cf64aa6cc4331d1ca98ff5f",
+        "sizeBytes": 1107
+      },
+      "snapshotId": "358f5a3c3a2db7531e3a600b313f57787a548b9fd78f6be0cc91463e2df6d116",
+      "records": 20,
+      "routeIds": [
+        "route-0011",
+        "route-0069",
+        "route-0001",
+        "route-0002",
+        "route-0012",
+        "route-0027"
+      ],
+      "successCount": 19
+    },
+    {
+      "mode": "cheapest",
+      "seed": 31,
+      "feedback": {
+        "sha256": "593f1868e148648d7ab42a2cd816aa5ae89bf92bb8712979ae3182fbac472af4",
+        "sizeBytes": 1095
+      },
+      "snapshotId": "4912df221a374cd8e4fb0299c5806185bf575f6dfc295ac81e5bdc0cac21d7d3",
+      "records": 20,
+      "routeIds": [
+        "route-0001"
+      ],
+      "successCount": 20
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 19,
+      "feedback": {
+        "sha256": "1d16d276ecfe017c33fe7c3f43a73c909c87eaf1760aced41d36c5c8b747bdfd",
+        "sizeBytes": 1104
+      },
+      "snapshotId": "0e36c9c5e669acb0160b0347b8ecadd14936a9a26e2bb24c9945f684865eba7a",
+      "records": 20,
+      "routeIds": [
+        "route-0613",
+        "route-0001",
+        "route-0614",
+        "route-0205",
+        "route-0003",
+        "route-0002",
+        "route-0069",
+        "route-0239",
+        "route-0023",
+        "route-0005",
+        "route-0011",
+        "route-0409",
+        "route-0137",
+        "route-0035",
+        "route-0681",
+        "route-0273",
+        "route-0027",
+        "route-0215",
+        "route-0036",
+        "route-0103"
+      ],
+      "successCount": 19
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 11,
+      "feedback": {
+        "sha256": "92f2b3eede4a70772e5d030f14bc594a8fccae2aff6dd3737c3d62b9ef8fa56e",
+        "sizeBytes": 1107
+      },
+      "snapshotId": "c2f6c620b8f23dc18424802ad468dcb9b87b89ee19c0634ba3222edc18bde7ec",
+      "records": 20,
+      "routeIds": [
+        "route-0613",
+        "route-0001",
+        "route-0069",
+        "route-0045",
+        "route-0205",
+        "route-0007",
+        "route-0011",
+        "route-0002"
+      ],
+      "successCount": 18
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 7,
+      "feedback": {
+        "sha256": "e886e8ec245ee08ab2942a2b294baa6edbd50248343e3baa20b5d47f6528147e",
+        "sizeBytes": 1106
+      },
+      "snapshotId": "658d105e52100f59bfb532505c8ffa9dfe0f56b965ec171d49bec5dc4e8e6a4d",
+      "records": 20,
+      "routeIds": [
+        "route-0001",
+        "route-0035",
+        "route-0003",
+        "route-0205",
+        "route-0002",
+        "route-0025",
+        "route-0011",
+        "route-0613"
+      ],
+      "successCount": 20
+    },
+    {
+      "mode": "random",
+      "seed": 31,
+      "feedback": {
+        "sha256": "717c03196b073b49cd31bf10222ba46a2caaedc38110f29fd0cd6b7ad7532111",
+        "sizeBytes": 1093
+      },
+      "snapshotId": "07d3f6e5ab203d40797ed6c04ad4b8ddc57f9cc33268bf25a9469b59a877855d",
+      "records": 20,
+      "routeIds": [
+        "route-1366",
+        "route-0575",
+        "route-0405",
+        "route-1818",
+        "route-0246",
+        "route-0404",
+        "route-0825",
+        "route-0062",
+        "route-0324",
+        "route-1663",
+        "route-1347",
+        "route-0745",
+        "route-0537",
+        "route-1010",
+        "route-1059",
+        "route-1464",
+        "route-1622",
+        "route-1489",
+        "route-0085",
+        "route-0875"
+      ],
+      "successCount": 16
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 23,
+      "feedback": {
+        "sha256": "31ff178da6cc27f13f4be00610495f20eb3d11356e79d2818653dc3577156c59",
+        "sizeBytes": 1107
+      },
+      "snapshotId": "cd9183d6373e7e3810fc7c5ff76be825126ceca37f7968b306d3fcbfbb206a66",
+      "records": 20,
+      "routeIds": [
+        "route-0205",
+        "route-0001",
+        "route-0229",
+        "route-0613",
+        "route-0614",
+        "route-0002",
+        "route-0035",
+        "route-0011",
+        "route-0239"
+      ],
+      "successCount": 20
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 7,
+      "feedback": {
+        "sha256": "3797ff0d3bc08d61292b8ff9b4138be616750f805ff297690b4d658f10921acc",
+        "sizeBytes": 1103
+      },
+      "snapshotId": "957888629949bde195d43d1e750f31e22d4d1e5dbd0a827109182e06ba741e05",
+      "records": 20,
+      "routeIds": [
+        "route-0001"
+      ],
+      "successCount": 20
+    },
+    {
+      "mode": "random",
+      "seed": 23,
+      "feedback": {
+        "sha256": "1f6d8e682d6c3f32119a0214f1f07122cbfb0c796b5764d6692a5018c7c3a8d2",
+        "sizeBytes": 1093
+      },
+      "snapshotId": "b0e770c02c5e46619f7914834897eff5c7c0275f6e352821d332650b9999819d",
+      "records": 20,
+      "routeIds": [
+        "route-0277",
+        "route-0282",
+        "route-1218",
+        "route-1654",
+        "route-0406",
+        "route-1750",
+        "route-1377",
+        "route-0094",
+        "route-1126",
+        "route-1240",
+        "route-0876",
+        "route-0085",
+        "route-1714",
+        "route-0423",
+        "route-1322",
+        "route-0681",
+        "route-1061",
+        "route-0262",
+        "route-0999"
+      ],
+      "successCount": 19
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 31,
+      "feedback": {
+        "sha256": "82864ce914920fe2c3e2488e92ddeed81b0b4f70a7e41babb0ff09c2e8180710",
+        "sizeBytes": 1104
+      },
+      "snapshotId": "bc5226da1289f84d8e7312b00e6ee768597a15eec461dee9743169183bd2544d",
+      "records": 20,
+      "routeIds": [
+        "route-0001"
+      ],
+      "successCount": 20
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 23,
+      "feedback": {
+        "sha256": "dd147ab819feb09b2c5643a252d3d58e3624c3e2408d9ced6719de03b28d67fc",
+        "sizeBytes": 1104
+      },
+      "snapshotId": "caf3828c2fc011356ac9ebc25d3c1ee49bcb8589197357b0f7e560b977a37f4a",
+      "records": 20,
+      "routeIds": [
+        "route-0205",
+        "route-0001",
+        "route-0613",
+        "route-0229",
+        "route-0069",
+        "route-0002",
+        "route-0011",
+        "route-0817",
+        "route-0614",
+        "route-1225",
+        "route-0003",
+        "route-0637",
+        "route-0681",
+        "route-0647",
+        "route-0035",
+        "route-0025",
+        "route-0012",
+        "route-0206",
+        "route-0239",
+        "route-0071"
+      ],
+      "successCount": 18
+    },
+    {
+      "mode": "historical-best",
+      "seed": 19,
+      "feedback": {
+        "sha256": "74c616fd1245b3378c9012723e8919ac1afe53a20db3b049481ede5432d1a5d4",
+        "sizeBytes": 1102
+      },
+      "snapshotId": "cd874926f99f86f153b4d9df21670aa2d029e71ca32cf202376654ab328d2110",
+      "records": 20,
+      "routeIds": [
+        "route-0001"
+      ],
+      "successCount": 20
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 31,
+      "feedback": {
+        "sha256": "1b473019306d6f13373096abf18a6f3c162d262ded98e0d4fc95a5b0362211ad",
+        "sizeBytes": 1104
+      },
+      "snapshotId": "18955b6661932489a90de7c3638ca57494e60603245fdb43615cdb2a46c87475",
+      "records": 20,
+      "routeIds": [
+        "route-0011",
+        "route-0069",
+        "route-0001",
+        "route-0002",
+        "route-0035",
+        "route-0613",
+        "route-0205",
+        "route-0103",
+        "route-0623",
+        "route-0079",
+        "route-0003",
+        "route-1225",
+        "route-0137",
+        "route-0012",
+        "route-0239",
+        "route-0013",
+        "route-0027",
+        "route-0036",
+        "route-0023",
+        "route-0273"
+      ],
+      "successCount": 19
+    },
+    {
+      "mode": "cheapest",
+      "seed": 11,
+      "feedback": {
+        "sha256": "c8c4136bedc50d2a7eb7877ca4097272ce761334c6556247a5d173401b3737ce",
+        "sizeBytes": 1095
+      },
+      "snapshotId": "cfd9b5a54cae142e7d9609938ddc7b5b800c5023d0144dc2659710f5e7ef657b",
+      "records": 20,
+      "routeIds": [
+        "route-0001"
+      ],
+      "successCount": 20
+    },
+    {
+      "mode": "random",
+      "seed": 7,
+      "feedback": {
+        "sha256": "1cb043c5ff24aeeb30af7897f4927cb332f517b02fa79ffe077a63e78c88766a",
+        "sizeBytes": 1092
+      },
+      "snapshotId": "010d0969d0f5bdec15725bfe39558816e2c44a7dde301652864cb33a70ff0431",
+      "records": 20,
+      "routeIds": [
+        "route-0541",
+        "route-1683",
+        "route-0996",
+        "route-0300",
+        "route-0777",
+        "route-1007",
+        "route-1276",
+        "route-0525",
+        "route-1297",
+        "route-1155",
+        "route-0314",
+        "route-0629",
+        "route-0513",
+        "route-1715",
+        "route-0467",
+        "route-0246",
+        "route-1388",
+        "route-0829",
+        "route-0460",
+        "route-0751"
+      ],
+      "successCount": 19
+    },
+    {
+      "mode": "cheapest",
+      "seed": 23,
+      "feedback": {
+        "sha256": "7bc02836a2e0bc4f22e26fdf5c75e0b2f71026a4d9c571cd629ceccc0991e249",
+        "sizeBytes": 1095
+      },
+      "snapshotId": "035c365b720e23ab60e7c911daa4a2a87a3e988387d10b9482f1973e3df1d344",
+      "records": 20,
+      "routeIds": [
+        "route-0001"
+      ],
+      "successCount": 20
+    },
+    {
+      "mode": "cheapest",
+      "seed": 19,
+      "feedback": {
+        "sha256": "209c129827a0032f88df69af237fc802d5a4193ffba794411e7dff67a8306a9a",
+        "sizeBytes": 1095
+      },
+      "snapshotId": "2a724ba16ca295bc022376fef073886671bfd8e2194963220ea34795f3a5bc3a",
+      "records": 20,
+      "routeIds": [
+        "route-0001"
+      ],
+      "successCount": 19
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 11,
+      "feedback": {
+        "sha256": "1c89d8889198752d8ea9f1c34e99fd65ba3314130e6d9f7aa2da45a55b7a1199",
+        "sizeBytes": 1104
+      },
+      "snapshotId": "e84f916e2551944d3d0b2bb29d8e4c2650e4ff1eed3b1c3037e636afe3dcf958",
+      "records": 20,
+      "routeIds": [
+        "route-0613",
+        "route-0001",
+        "route-0069",
+        "route-0011",
+        "route-0002",
+        "route-0035",
+        "route-0205",
+        "route-0045",
+        "route-0206",
+        "route-0070",
+        "route-0623",
+        "route-0409",
+        "route-0273",
+        "route-0003",
+        "route-0137",
+        "route-0647",
+        "route-0007",
+        "route-0079",
+        "route-0239",
+        "route-0019"
+      ],
+      "successCount": 17
+    },
+    {
+      "mode": "fixed",
+      "seed": 19,
+      "feedback": {
+        "sha256": "2d703a174181f23ecdb11777af8d9980dcdcca79cfe69bbd57f41d533d422a26",
+        "sizeBytes": 1092
+      },
+      "snapshotId": "430b5ed429196f84f7b57748612cadd9604d4a1ee7245112b5448824e3769987",
+      "records": 20,
+      "routeIds": [
+        "route-0001"
+      ],
+      "successCount": 19
+    },
+    {
+      "mode": "fixed",
+      "seed": 31,
+      "feedback": {
+        "sha256": "dd7ff54ec507f3519c4cb6c0b53690916fec6908c80bbc6c88754dfaf57ae77f",
+        "sizeBytes": 1092
+      },
+      "snapshotId": "02d68c0d05bd24edb4fe352c17ee1fd617a11118947a49fb634c3fcf2418e435",
+      "records": 20,
+      "routeIds": [
+        "route-0001"
+      ],
+      "successCount": 20
+    },
+    {
+      "mode": "historical-best",
+      "seed": 31,
+      "feedback": {
+        "sha256": "5d28e5c162924338d538673c154a9778fd29385138e1a7c976bbdddc5c487711",
+        "sizeBytes": 1102
+      },
+      "snapshotId": "4e816b0daedb3375730768430cb4c553e6f65e12506f46cd987c290055d65cb6",
+      "records": 20,
+      "routeIds": [
+        "route-0001"
+      ],
+      "successCount": 19
+    },
+    {
+      "mode": "historical-best",
+      "seed": 11,
+      "feedback": {
+        "sha256": "027cd9a7a1d06a566f4e4e00dd7924ac9590dc8725919fa504eacd7041836b14",
+        "sizeBytes": 1102
+      },
+      "snapshotId": "510a52d843968a165eccc40b509cb37b98ee8895d7f59064ad6f8269329f5d36",
+      "records": 20,
+      "routeIds": [
+        "route-0001"
+      ],
+      "successCount": 19
+    },
+    {
+      "mode": "fixed",
+      "seed": 7,
+      "feedback": {
+        "sha256": "04d9d1f9a937de7e223243fc890b5ef70c4db3af39e716e6131eab02de413602",
+        "sizeBytes": 1091
+      },
+      "snapshotId": "2526ef74951ed657c05004e11ee991cb75bd5dd64fe7098bc9a1fa206ba126d6",
+      "records": 20,
+      "routeIds": [
+        "route-0001"
+      ],
+      "successCount": 19
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 11,
+      "feedback": {
+        "sha256": "ed7c8aeb49b45f9d46399c809e9f7e3c601bbb289208f9e36381a16e682cf953",
+        "sizeBytes": 1104
+      },
+      "snapshotId": "99542bf7ea31368700bab3cb1db91c2ab594aea45ef333192528825df2ff9f03",
+      "records": 20,
+      "routeIds": [
+        "route-0001"
+      ],
+      "successCount": 20
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 23,
+      "feedback": {
+        "sha256": "a4ad204211bb0d828592192fef9546f0e76810ca3867887df244937fc8f32094",
+        "sizeBytes": 1104
+      },
+      "snapshotId": "5906984e3247f45e67b54137e170f3b93d591e43487d79247c377875ff7fcfcf",
+      "records": 20,
+      "routeIds": [
+        "route-0001"
+      ],
+      "successCount": 20
+    },
+    {
+      "mode": "historical-best",
+      "seed": 7,
+      "feedback": {
+        "sha256": "ae6e135fed1b46b1cef10cbb03cbc10ef765046005c12b126890174526ef8312",
+        "sizeBytes": 1101
+      },
+      "snapshotId": "c3c0d388cf35664e6ac9b490006b7b79e6cd14c52585e18d065963563fbb8c93",
+      "records": 20,
+      "routeIds": [
+        "route-0001"
+      ],
+      "successCount": 20
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 19,
+      "feedback": {
+        "sha256": "c0401c114a7ddc88dd33308cd742e6b5bdf1bda0f9528e652d6e926a3b5c0b98",
+        "sizeBytes": 1104
+      },
+      "snapshotId": "b8b1e255ad7492b86793f367008ca5d5d1467f239c4a6d73fb95267e9bd4904a",
+      "records": 20,
+      "routeIds": [
+        "route-0001"
+      ],
+      "successCount": 20
+    },
+    {
+      "mode": "cheapest",
+      "seed": 7,
+      "feedback": {
+        "sha256": "aa7819a38e22d6167942f0522edfcc994e63b412ac04856964834eb473cb32c5",
+        "sizeBytes": 1094
+      },
+      "snapshotId": "0dc3f906f7628b84b40f29373bab2687bf0674b5bc90eec8dc7928f22749a2c5",
+      "records": 20,
+      "routeIds": [
+        "route-0001"
+      ],
+      "successCount": 20
+    },
+    {
+      "mode": "historical-best",
+      "seed": 23,
+      "feedback": {
+        "sha256": "2c65bc7cfb81247d65e1448401e478644653cc5a5c6306072359063355a1c407",
+        "sizeBytes": 1102
+      },
+      "snapshotId": "30680b902693d3bb5ff4f356a828870495026db0106a3b52ebe8e126970dc238",
+      "records": 20,
+      "routeIds": [
+        "route-0001"
+      ],
+      "successCount": 20
+    },
+    {
+      "mode": "random",
+      "seed": 11,
+      "feedback": {
+        "sha256": "c2f28036ae16840b4240bf403fa31406105371f136bf01e2caadfbc7b15bf1fc",
+        "sizeBytes": 1093
+      },
+      "snapshotId": "28d06e40dc517e4624974302e45dbeaf39baa14e3e7a7c26c6a97cc8bf04fe1b",
+      "records": 20,
+      "routeIds": [
+        "route-1780",
+        "route-0073",
+        "route-0537",
+        "route-0028",
+        "route-0593",
+        "route-0708",
+        "route-0602",
+        "route-0927",
+        "route-0613",
+        "route-0785",
+        "route-1434",
+        "route-1606",
+        "route-0625",
+        "route-0225",
+        "route-1157",
+        "route-1171",
+        "route-1202",
+        "route-0647",
+        "route-0125",
+        "route-0145"
+      ],
+      "successCount": 19
+    },
+    {
+      "mode": "fixed",
+      "seed": 11,
+      "feedback": {
+        "sha256": "fe403f10a3645629d79f4cf5f02156461291bd6ef6981bda38fa3cf1eb81b76c",
+        "sizeBytes": 1092
+      },
+      "snapshotId": "dd5a048a8aed6964388ad7a0e9d877d80950e53dddba148532aef763af2f9aca",
+      "records": 20,
+      "routeIds": [
+        "route-0001"
+      ],
+      "successCount": 19
+    }
+  ],
+  "failures": [
+    {
+      "mode": "random",
+      "seed": 19,
+      "round": 6,
+      "routeId": "route-0055",
+      "state": "failed",
+      "failedNodes": [
+        {
+          "id": "integrate",
+          "category": "green-gate"
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "reports": [
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "error",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_TEST_FAILURE"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_TEST_FAILURE"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_TEST_FAILURE"
+                }
+              ]
+            },
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 7,
+      "round": 10,
+      "routeId": "route-0027",
+      "state": "failed",
+      "failedNodes": [
+        {
+          "id": "refactor",
+          "category": "snapshot-schema"
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "reports": [
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            },
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "fixed",
+      "seed": 23,
+      "round": 13,
+      "routeId": "route-0001",
+      "state": "failed",
+      "failedNodes": [
+        {
+          "id": "refactor",
+          "category": "snapshot-schema"
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "reports": [
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            },
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 31,
+      "round": 14,
+      "routeId": "route-0001",
+      "state": "failed",
+      "failedNodes": [
+        {
+          "id": "refactor",
+          "category": "snapshot-schema"
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "reports": [
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            },
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 19,
+      "round": 9,
+      "routeId": "route-0005",
+      "state": "failed",
+      "failedNodes": [
+        {
+          "id": "implement-stock",
+          "category": "json-syntax"
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "reports": [
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 11,
+      "round": 1,
+      "routeId": "route-0001",
+      "state": "failed",
+      "failedNodes": [
+        {
+          "id": "implement",
+          "category": "green-gate"
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "reports": [
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            },
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 11,
+      "round": 15,
+      "routeId": "route-0613",
+      "state": "failed",
+      "failedNodes": [
+        {
+          "id": "refactor",
+          "category": "snapshot-schema"
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "reports": [
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            },
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "random",
+      "seed": 31,
+      "round": 0,
+      "routeId": "route-1366",
+      "state": "failed",
+      "failedNodes": [
+        {
+          "id": "integrate",
+          "category": "green-gate"
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "reports": [
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "error",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "MODULE_NOT_FOUND"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "MODULE_NOT_FOUND"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "MODULE_NOT_FOUND"
+                }
+              ]
+            },
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "random",
+      "seed": 31,
+      "round": 1,
+      "routeId": "route-0575",
+      "state": "failed",
+      "failedNodes": [
+        {
+          "id": "integrate",
+          "category": "green-gate"
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "reports": [
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "error",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_TEST_FAILURE"
+                }
+              ]
+            },
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "random",
+      "seed": 31,
+      "round": 2,
+      "routeId": "route-0405",
+      "state": "failed",
+      "failedNodes": [
+        {
+          "id": "integrate",
+          "category": "green-gate"
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "reports": [
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "error",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            },
+            {
+              "suiteId": "regression",
+              "status": "error",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "random",
+      "seed": 31,
+      "round": 19,
+      "routeId": "route-0875",
+      "state": "failed",
+      "failedNodes": [
+        {
+          "id": "integrate",
+          "category": "snapshot-schema"
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "reports": [
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "random",
+      "seed": 23,
+      "round": 13,
+      "routeId": "route-0423",
+      "state": "failed",
+      "failedNodes": [
+        {
+          "id": "implement-reservation",
+          "category": "snapshot-schema"
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "reports": [
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 23,
+      "round": 15,
+      "routeId": "route-0025",
+      "state": "failed",
+      "failedNodes": [
+        {
+          "id": "integrate",
+          "category": "green-gate"
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "reports": [
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            },
+            {
+              "suiteId": "regression",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "version API",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 23,
+      "round": 17,
+      "routeId": "route-0206",
+      "state": "failed",
+      "failedNodes": [
+        {
+          "id": "refactor",
+          "category": "json-syntax"
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "reports": [
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            },
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 31,
+      "round": 3,
+      "routeId": "route-0002",
+      "state": "failed",
+      "failedNodes": [
+        {
+          "id": "implement",
+          "category": "green-gate"
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "reports": [
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            },
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "random",
+      "seed": 7,
+      "round": 10,
+      "routeId": "route-0314",
+      "state": "failed",
+      "failedNodes": [
+        {
+          "id": "integrate",
+          "category": "green-gate"
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "reports": [
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "error",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            },
+            {
+              "suiteId": "regression",
+              "status": "error",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "cheapest",
+      "seed": 19,
+      "round": 16,
+      "routeId": "route-0001",
+      "state": "failed",
+      "failedNodes": [
+        {
+          "id": "implement",
+          "category": "snapshot-schema"
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "reports": [
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 11,
+      "round": 14,
+      "routeId": "route-0137",
+      "state": "failed",
+      "failedNodes": [
+        {
+          "id": "refactor",
+          "category": "snapshot-schema"
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "reports": [
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            },
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 11,
+      "round": 16,
+      "routeId": "route-0007",
+      "state": "failed",
+      "failedNodes": [
+        {
+          "id": "integrate",
+          "category": "green-gate"
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "reports": [
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "error",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_TEST_FAILURE"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_TEST_FAILURE"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_TEST_FAILURE"
+                }
+              ]
+            },
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 11,
+      "round": 19,
+      "routeId": "route-0019",
+      "state": "failed",
+      "failedNodes": [
+        {
+          "id": "integrate",
+          "category": "green-gate"
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "reports": [
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "error",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_TEST_FAILURE"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_TEST_FAILURE"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_TEST_FAILURE"
+                }
+              ]
+            },
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "fixed",
+      "seed": 19,
+      "round": 15,
+      "routeId": "route-0001",
+      "state": "failed",
+      "failedNodes": [
+        {
+          "id": "implement",
+          "category": "green-gate"
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "reports": [
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            },
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "historical-best",
+      "seed": 31,
+      "round": 8,
+      "routeId": "route-0001",
+      "state": "failed",
+      "failedNodes": [
+        {
+          "id": "refactor",
+          "category": "snapshot-schema"
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "reports": [
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            },
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "historical-best",
+      "seed": 11,
+      "round": 11,
+      "routeId": "route-0001",
+      "state": "failed",
+      "failedNodes": [
+        {
+          "id": "refactor",
+          "category": "snapshot-schema"
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "reports": [
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            },
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "fixed",
+      "seed": 7,
+      "round": 0,
+      "routeId": "route-0001",
+      "state": "failed",
+      "failedNodes": [
+        {
+          "id": "refactor",
+          "category": "snapshot-schema"
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "reports": [
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            },
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "random",
+      "seed": 11,
+      "round": 1,
+      "routeId": "route-0073",
+      "state": "failed",
+      "failedNodes": [
+        {
+          "id": "refactor",
+          "category": "json-syntax"
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "reports": [
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "phase": "green",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            },
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "fixed",
+      "seed": 11,
+      "round": 11,
+      "routeId": "route-0001",
+      "state": "failed",
+      "failedNodes": [
+        {
+          "id": "implement",
+          "category": "snapshot-schema"
+        }
+      ],
+      "phases": [
+        {
+          "phase": "baseline",
+          "reports": [
+            {
+              "suiteId": "regression",
+              "status": "passed",
+              "exitCode": 0,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": []
+            }
+          ]
+        },
+        {
+          "phase": "red",
+          "reports": [
+            {
+              "suiteId": "target",
+              "status": "failed",
+              "exitCode": 1,
+              "runnerError": false,
+              "integrityError": false,
+              "failedTests": [
+                {
+                  "name": "acceptance-1",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-2",
+                  "code": "ERR_ASSERTION"
+                },
+                {
+                  "name": "acceptance-3",
+                  "code": "ERR_ASSERTION"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
