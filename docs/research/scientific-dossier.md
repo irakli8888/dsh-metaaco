@@ -537,3 +537,13 @@ README; Fixed с двумя Flash прошёл независимые GREEN/REFA
 components при $0.987446 с synthetic API. Это инфраструктурные проверки, не реальные
 API-успехи. Pro при $1 продолжает блокироваться консервативным резервом. Платных
 повторов, обучения или новой оценки преимуществ методов в этой доработке нет.
+
+Верификация исправлений: fbea6c9, archive SHA-256
+29a554d4371e5e18ce43aaf1d8cf135563ead30f02764a75f54ad94cd5133f6e.
+На Lenovo в /home/irakli/agent-lab/webhook-repair.fExFvJSU/ прошли 15 выбранных
+Node-проверок (включая настоящий Docker со synthetic API, без пропусков) и 34
+Python-теста чистого коммита с packaged vendor. Локально прошли 174 unit и 35
+integration (1 Docker scenario skipped), 35 Python; отличие Python на один тест
+обусловлено сохранённой незакоммиченной работой владельца. В PR она не включена.
+[Запись с хешами](data/webhook-repair-offline-validation.json) различает окружения.
+Журналы скопированы в work/webhook-repair-fbea6c9/. Новых платных вызовов нет.
