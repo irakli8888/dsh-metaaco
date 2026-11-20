@@ -583,3 +583,13 @@ regression tests совпадают с v2, async mutant по-прежнему о
 нормализация не переписывает код и не исправляет модельные решения автоматически.
 Старый default v2 и научные исходы не переоцениваются. Новых платных вызовов и
 обучения этой доработкой нет; успешность будущих реальных ответов ещё не проверена.
+
+Проверка нового обмена: чистый commit 3fd5163, archive SHA-256
+9d7d04b9b2f87a0a1fda349dff94d57079fc9f7899805545005d1a3b79fb7430.
+На Lenovo /home/irakli/agent-lab/webhook-response-v3.MjY8nWo7/ прошли 26 Node-проверок,
+в том числе все пять v3-режимов с настоящим Docker и synthetic API, без пропусков;
+34 Python-теста с packaged vendor. Локально 180 unit и 40 integration прошли,
+1 Docker test skipped; 35 Python включают один сохранённый незакоммиченный тест
+владельца. Preview v3 подтвердил job schemaVersion=3, responseContract=2 и paidCalls=0.
+[Запись с хешами](data/webhook-response-v3-offline-validation.json); локальные журналы
+в work/webhook-response-v3-3fd5163/. Это не новая серия платных исходов.
