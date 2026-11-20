@@ -24,7 +24,7 @@ def decode_order(groups, order):
     return choices
 
 
-def search_decisions(groups, evaluate, *, seed=42, max_evaluations=100):
+def search_decisions(groups, evaluate, *, seed=42, max_evaluations=100, initial_choices=None):
     """Run the bundled colonies with a decoded-graph scoring callback.
 
     Scores are positive integers below the infeasibility penalty. Return None
@@ -56,6 +56,19 @@ def search_decisions(groups, evaluate, *, seed=42, max_evaluations=100):
     manager = ColonyManager(carrier, random.Random(seed), max_evaluations=max_evaluations,
                             order_evaluator=score)
     manager.init_random_colonies(3)
+    if initial_choices is not None:
+        if set(initial_choices) != set(groups) or any(initial_choices[key] not in values for key, values in groups.items()):
+            raise ValueError('Initial choices must select one valid alternative per group')
+        first = list(initial_choices.values())
+        order = [alternatives.index(value) for value in first + [value for value in alternatives if value not in first]]
+        colony = manager.bandit.colonies[0]
+        manager.budget.start()
+        manager.budget.counts['initialization'] = 0
+        candidate = colony.sgs.generate(carrier, order, category='initialization')
+        if candidate.makespan != penalty:
+            colony.best_schedule, colony.best_order, colony.best_cost = candidate, list(order), candidate.makespan
+            manager.elite.add(candidate)
+            colony.pheromones.deposit_on_order(order, amount=0.3 * colony.tau0)
     best, _ = manager.run(iterations=max_evaluations, ants_per_iteration=5)
     if best is None or best.makespan == penalty:
         raise ValueError('No feasible choice found within the evaluation budget')
@@ -95,7 +108,12 @@ def search_workflow(groups, build_candidate, budget_microunits, *, quality_evide
         key = tuple(choices.items())
         if key in evaluated:
             return evaluated[key]
-        problem, cost = build_candidate(choices)
+        candidate = build_candidate(choices)
+        if candidate is None:
+            evaluated[key] = {'rejected': 'missing-component-design', 'makespanSeconds': None,
+                              'dispatchOrder': None, 'estimatedCostMicrounits': None}
+            return evaluated[key]
+        problem, cost = candidate
         integer(cost, minimum=0)
         if cost > budget_microunits:
             evaluated[key] = {'estimatedCostMicrounits': cost, 'rejected': 'over-budget',
@@ -168,7 +186,8 @@ def search_workflow(groups, build_candidate, budget_microunits, *, quality_evide
                                           'omitted': result['evaluations'] - len(trace)}}
 
 
-def plan_skill_graph(catalog, resources, budget_microunits, *, required_skills=(), **options):
+def plan_skill_graph(catalog, resources, budget_microunits, *, required_skills=(),
+                    component_design_required=False, ensure_feasible_start=False, **options):
     """Build workflow DAGs lazily from skill routes and optional branches."""
     required = {'implement', 'refactor'}
     optional = {'analyze', 'design', 'write-tests', 'review'}
@@ -176,6 +195,8 @@ def plan_skill_graph(catalog, resources, budget_microunits, *, required_skills=(
     components = sorted(skill for skill in catalog if re.fullmatch(r'implement-[a-z0-9-]{1,53}', skill))
     if components and (len(components) < 2 or 'integrate' not in catalog):
         raise ValueError('Component layout requires integration and at least two components')
+    if component_design_required and components and 'design' not in catalog:
+        raise ValueError('Component design requires a design skill')
     supported = required | optional | set(components) | {'integrate'}
     mandatory = set(required_skills)
     if not mandatory <= (optional & catalog.keys()):
@@ -193,6 +214,8 @@ def plan_skill_graph(catalog, resources, budget_microunits, *, required_skills=(
             groups[skill].append(f'{skill}/skip')
 
     def build(choices):
+        if component_design_required and choices.get('layout') == 'components' and choices.get('design', 'design/skip') == 'design/skip':
+            return None
         dependencies = {}
         if choices.get('analyze', 'analyze/skip') != 'analyze/skip':
             dependencies['analyze'] = []
@@ -207,6 +230,8 @@ def plan_skill_graph(catalog, resources, budget_microunits, *, required_skills=(
         if choices.get('write-tests', 'write-tests/skip') != 'write-tests/skip':
             dependencies['write-tests'] = context
             integration_inputs.append('write-tests')
+        if component_design_required and choices.get('layout') == 'components':
+            integration_inputs.append('design')
         if len(integration_inputs) > 1:
             dependencies['integrate'] = integration_inputs
         implementation = 'integrate' if 'integrate' in dependencies else 'implement'
@@ -228,7 +253,30 @@ def plan_skill_graph(catalog, resources, budget_microunits, *, required_skills=(
                 'description': 'Workflow assembled by MetaACO', 'resources': resources, 'tasks': tasks}
         return {'version': 2, 'plan': plan, 'durationEstimatesSeconds': durations}, cost
 
-    return search_workflow(groups, build, budget_microunits, **options)
+    initialization = None
+    if ensure_feasible_start:
+        # Structural lower-cost starts, not learned winners or a replacement solver.
+        starts = []
+        for layout in (['monolith', 'components'] if components else ['monolith']):
+            choices = {}
+            if components:
+                choices['layout'] = layout
+            for skill, routes in catalog.items():
+                if skill in optional and skill not in mandatory and not (layout == 'components' and component_design_required and skill == 'design'):
+                    choices[skill] = f'{skill}/skip'
+                else:
+                    index = min(range(len(routes)), key=lambda i: routes[i]['costMicrounits'])
+                    choices[skill] = f'{skill}/{index}'
+            candidate = build(choices)
+            if candidate is not None:
+                starts.append((candidate[1], choices))
+        cost, choices = min(starts, key=lambda row: row[0])
+        options['initial_choices'] = choices
+        initialization = {'policy': 'minimum-cost-minimal-layout', 'choices': choices,
+                          'structuralStartsConsidered': len(starts), 'objectiveEvaluation': 1,
+                          'estimatedCostMicrounits': cost, 'costIsForecast': True}
+    result = search_workflow(groups, build, budget_microunits, **options)
+    return {**result, **({'initialization': initialization} if initialization is not None else {})}
 
 
 if __name__ == '__main__':
@@ -244,5 +292,7 @@ if __name__ == '__main__':
     print(json.dumps(plan_skill_graph(spec['skills'], spec['resources'],
                                      spec['budgetMicrounits'], required_skills=spec.get('requiredSkills', []),
                                      quality_evidence=spec.get('qualityEvidence', []),
+                                     component_design_required=spec.get('componentDesignRequired') is True,
+                                     ensure_feasible_start=spec.get('ensureFeasibleStart') is True,
                                      training_evidence=spec.get('trainingEvidence', []),
                                      explore_training=spec.get('exploreTraining') is True, seed=args.seed)))

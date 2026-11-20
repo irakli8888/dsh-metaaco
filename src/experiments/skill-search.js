@@ -11,7 +11,15 @@ export const routeIdentity = plan => JSON.stringify(plan.tasks.map(task => [
 ]).sort((a,b) => a[0].localeCompare(b[0], 'en')))
 
 /** Frozen input from the online runner, never a live or external Bank. */
-export async function searchOnlineSkills({ mode, seed, round, history, config, signal }) {
+export function searchOnlineSkills(input) {
+  return searchSkills(input, input.mode === 'metaaco-with-bank')
+}
+
+export function searchFrozenSkills(input) {
+  return searchSkills(input, false)
+}
+
+async function searchSkills({ mode, seed, round, history, config, signal }, exploreTraining) {
   const byId = new Map(config.routes.map(route => [route.id, route]))
   const stats = new Map()
   for (const row of history) {
@@ -28,7 +36,7 @@ export async function searchOnlineSkills({ mode, seed, round, history, config, s
     const input=join(directory,'input.json')
     await writeFile(input,JSON.stringify({skills:config.skills,resources:config.routes[0].plan.resources,
       budgetMicrounits:config.policy.maxCostMicrounits,qualityEvidence:[...stats.values()],
-      exploreTraining:mode==='metaaco-with-bank',trainingEvidence:[]}),{mode:0o600})
+      exploreTraining,trainingEvidence:[]}),{mode:0o600})
     const solverSeed=seededIndex(seed,`round/${round}/solver`,0xffffffff)
     const {stdout}=await promisify(execFile)('python3',['-B',fileURLToPath(new URL('../../python/skill_decisions.py',import.meta.url)),input,'--seed',String(solverSeed)],{signal,timeout:30000,maxBuffer:4*1024*1024})
     const result=JSON.parse(stdout)

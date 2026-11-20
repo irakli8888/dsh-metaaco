@@ -1,7 +1,6 @@
 import { calculateCost, normalizeUsage } from '../../metrics/pricing.js'
 
 const model = 'deepseek-flash'
-const maxTokens = 1024
 const pricing = {
   schemaVersion: 1, id: 'deepseek-flash-peak', provider: 'deepseek', model,
   modelRevision: 'DeepSeek-V4.1-Flash-1017', currency: 'USD', effectiveAt: '2026-11-14T00:00:00Z',
@@ -18,12 +17,16 @@ const tariffs = new Map([
   }],
 ])
 
-export function createDeepSeekAdapter({ key, fetchImpl = fetch }) {
+export function createDeepSeekAdapter({ key, fetchImpl = fetch, maxTokens = 1024,
+  maxInputBytes = 65536, requestTimeoutMs = 30000 }) {
+  if (!Number.isSafeInteger(maxTokens) || maxTokens < 1 || maxTokens > 8192) throw new Error('Invalid output limit')
+  if (!Number.isSafeInteger(maxInputBytes) || maxInputBytes < 1 || maxInputBytes > 262144) throw new Error('Invalid input limit')
+  if (!Number.isSafeInteger(requestTimeoutMs) || requestTimeoutMs < 1 || requestTimeoutMs > 120000) throw new Error('Invalid request timeout limit')
   if (!key?.trim()) throw new Error('DEEPSEEK_API_KEY is required')
   function bodyFor(options) {
     if (options.provider !== 'deepseek' || !tariffs.has(options.model) || options.messages?.length
       || options.tools?.length || typeof options.system !== 'string' || !options.system
-      || Buffer.byteLength(options.system) > 65536) throw new Error('Unsupported DeepSeek request')
+      || Buffer.byteLength(options.system) > maxInputBytes) throw new Error('Unsupported DeepSeek request')
     return { model: options.model, messages: [{ role: 'user', content: options.system }],
       max_tokens: maxTokens, response_format: { type: 'json_object' }, stream: false, thinking: { type: 'disabled' } }
   }
@@ -37,7 +40,7 @@ export function createDeepSeekAdapter({ key, fetchImpl = fetch }) {
     },
     async *stream(options) {
       const body = bodyFor(options)
-      const timeout = AbortSignal.timeout(30000)
+      const timeout = AbortSignal.timeout(requestTimeoutMs)
       const signal = options.signal ? AbortSignal.any([options.signal, timeout]) : timeout
       signal.throwIfAborted()
       const response = await fetchImpl('https://api.deepseek.com/chat/completions', {

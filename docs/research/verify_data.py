@@ -31,4 +31,19 @@ assert all(row['evaluations'] == 100 for row in replay['runs'])
 for line in (root / 'data/SHA256SUMS').read_text().splitlines():
     expected_hash, name = line.split('  ', 1)
     assert hashlib.sha256((root / 'data' / name).read_bytes()).hexdigest() == expected_hash, name
-print('Evidence tables and checksums verified')
+cold = json.loads((root / 'data/cold-start-summary.json').read_text())
+audit = json.loads((root / 'data/cold-start-audit.json').read_text())
+assert len(cold['rows']) == 700
+assert len({(r['mode'], r['seed'], r['round']) for r in cold['rows']}) == 700
+assert all(r['historyCount'] == r['round'] for r in cold['rows'])
+assert len(audit['cells']) == 35 and all(c['records'] == 20 for c in audit['cells'])
+assert len(audit['failures']) == 26
+assert Counter(n['category'] for f in audit['failures'] for n in f['failedNodes']) == {
+    'green-gate': 11, 'snapshot-schema': 12, 'json-syntax': 3}
+assert len({r['routeId'] for r in cold['rows']}) == 128
+for cell in audit['cells']:
+    records = [r for r in cold['rows'] if (r['mode'], r['seed']) == (cell['mode'], cell['seed'])]
+    assert len(records) == 20
+    assert set(cell['routeIds']) == {r['routeId'] for r in records}
+    assert cell['successCount'] == sum(r['verifiedSuccess'] for r in records)
+print('Evidence tables, cold-start audit and checksums verified')

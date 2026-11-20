@@ -1,0 +1,4666 @@
+{
+  "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+  "decisionHash": "bd9a004b4fa3d75c3858b5448287dcde612a867ead00aa217192a119523e2a79",
+  "modes": [
+    {
+      "mode": "random",
+      "count": 25,
+      "states": {
+        "succeeded": 22,
+        "failed": 3
+      },
+      "successes": 22,
+      "successRate": 0.88,
+      "medianWallTimeMs": 15564.571896000067,
+      "p95WallTimeMs": 20667.437898000004,
+      "minWallTimeMs": 7273.302293000001,
+      "maxWallTimeMs": 23455.02661100001,
+      "knownCostMicrounits": 171054,
+      "unknownCostCount": 0,
+      "totalCostMicrounits": 171054,
+      "costPerSuccessMicrounits": 7775.181818181818
+    },
+    {
+      "mode": "fixed",
+      "count": 25,
+      "states": {
+        "succeeded": 25
+      },
+      "successes": 25,
+      "successRate": 1,
+      "medianWallTimeMs": 5226.430776000023,
+      "p95WallTimeMs": 5625.063550000079,
+      "minWallTimeMs": 4900.585175000015,
+      "maxWallTimeMs": 5653.840482999978,
+      "knownCostMicrounits": 12371,
+      "unknownCostCount": 0,
+      "totalCostMicrounits": 12371,
+      "costPerSuccessMicrounits": 494.84
+    },
+    {
+      "mode": "cheapest",
+      "count": 25,
+      "states": {
+        "succeeded": 25
+      },
+      "successes": 25,
+      "successRate": 1,
+      "medianWallTimeMs": 5340.029065000126,
+      "p95WallTimeMs": 5733.355452999938,
+      "minWallTimeMs": 4874.102560999803,
+      "maxWallTimeMs": 5762.41389299999,
+      "knownCostMicrounits": 13436,
+      "unknownCostCount": 0,
+      "totalCostMicrounits": 13436,
+      "costPerSuccessMicrounits": 537.44
+    },
+    {
+      "mode": "historical-best",
+      "count": 25,
+      "states": {
+        "succeeded": 24,
+        "failed": 1
+      },
+      "successes": 24,
+      "successRate": 0.96,
+      "medianWallTimeMs": 7236.523851000005,
+      "p95WallTimeMs": 8341.09917000006,
+      "minWallTimeMs": 5207.054051999934,
+      "maxWallTimeMs": 8844.839588000003,
+      "knownCostMicrounits": 35665,
+      "unknownCostCount": 0,
+      "totalCostMicrounits": 35665,
+      "costPerSuccessMicrounits": 1486.0416666666667
+    },
+    {
+      "mode": "contextual-bandit",
+      "count": 25,
+      "states": {
+        "succeeded": 25
+      },
+      "successes": 25,
+      "successRate": 1,
+      "medianWallTimeMs": 5124.556389000005,
+      "p95WallTimeMs": 5699.729527000105,
+      "minWallTimeMs": 4731.868864000076,
+      "maxWallTimeMs": 5718.062898000004,
+      "knownCostMicrounits": 12769,
+      "unknownCostCount": 0,
+      "totalCostMicrounits": 12769,
+      "costPerSuccessMicrounits": 510.76
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "count": 25,
+      "states": {
+        "succeeded": 23,
+        "failed": 2
+      },
+      "successes": 23,
+      "successRate": 0.92,
+      "medianWallTimeMs": 7638.312366000027,
+      "p95WallTimeMs": 9835.957792999921,
+      "minWallTimeMs": 4694.802827000007,
+      "maxWallTimeMs": 10642.011558999948,
+      "knownCostMicrounits": 30109,
+      "unknownCostCount": 0,
+      "totalCostMicrounits": 30109,
+      "costPerSuccessMicrounits": 1309.0869565217392
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "count": 25,
+      "states": {
+        "succeeded": 24,
+        "failed": 1
+      },
+      "successes": 24,
+      "successRate": 0.96,
+      "medianWallTimeMs": 7745.862690000096,
+      "p95WallTimeMs": 8947.57724100002,
+      "minWallTimeMs": 4978.865514999954,
+      "maxWallTimeMs": 9507.23404000001,
+      "knownCostMicrounits": 30188,
+      "unknownCostCount": 0,
+      "totalCostMicrounits": 30188,
+      "costPerSuccessMicrounits": 1257.8333333333333
+    },
+    {
+      "mode": "direct-flash",
+      "count": 25,
+      "states": {
+        "inconclusive": 25
+      },
+      "successes": 25,
+      "successRate": 1,
+      "medianWallTimeMs": 2990.1124319999944,
+      "p95WallTimeMs": 3450.0985830000136,
+      "minWallTimeMs": 2809.510510000051,
+      "maxWallTimeMs": 3453.8660920001566,
+      "knownCostMicrounits": 5786,
+      "unknownCostCount": 0,
+      "totalCostMicrounits": 5786,
+      "costPerSuccessMicrounits": 231.44
+    },
+    {
+      "mode": "direct-pro",
+      "count": 25,
+      "states": {
+        "inconclusive": 24,
+        "failed": 1
+      },
+      "successes": 24,
+      "successRate": 0.96,
+      "medianWallTimeMs": 3622.655926000094,
+      "p95WallTimeMs": 4001.6234379999805,
+      "minWallTimeMs": 3126.8228910000034,
+      "maxWallTimeMs": 8171.603690999997,
+      "knownCostMicrounits": 16298,
+      "unknownCostCount": 0,
+      "totalCostMicrounits": 16298,
+      "costPerSuccessMicrounits": 679.0833333333334
+    }
+  ],
+  "rows": [
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 7,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0011",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7148.470214,
+      "costMicrounits": 1113,
+      "knownCostMicrounits": 1113,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 19,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7419.129786000001,
+      "costMicrounits": 1156,
+      "knownCostMicrounits": 1156,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 7,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 4889.232983999998,
+      "costMicrounits": 540,
+      "knownCostMicrounits": 540,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 11,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5301.401399999999,
+      "costMicrounits": 563,
+      "knownCostMicrounits": 563,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 23,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5078.912811000002,
+      "costMicrounits": 547,
+      "knownCostMicrounits": 547,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 31,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5301.040257000001,
+      "costMicrounits": 558,
+      "knownCostMicrounits": 558,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 23,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0277",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 13836.198483,
+      "costMicrounits": 3924,
+      "knownCostMicrounits": 3924,
+      "modelCalls": 6,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 11,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-1780",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 18537.669990000002,
+      "costMicrounits": 9045,
+      "knownCostMicrounits": 9045,
+      "modelCalls": 7,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 31,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5855.376268000007,
+      "costMicrounits": 548,
+      "knownCostMicrounits": 548,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 19,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 6806.905102999997,
+      "costMicrounits": 1302,
+      "knownCostMicrounits": 1302,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 23,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5595.332351999998,
+      "costMicrounits": 494,
+      "knownCostMicrounits": 494,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 7,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5124.556389000005,
+      "costMicrounits": 435,
+      "knownCostMicrounits": 435,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 11,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "direct-flash",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3139.788977999997,
+      "costMicrounits": 217,
+      "knownCostMicrounits": 217,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 31,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5050.1547449999925,
+      "costMicrounits": 552,
+      "knownCostMicrounits": 552,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 31,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-1366",
+      "state": "failed",
+      "verifiedSuccess": false,
+      "correctness": "inconclusive",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 7273.302293000001,
+      "costMicrounits": 4051,
+      "knownCostMicrounits": 4051,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 7,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5406.3749030000035,
+      "costMicrounits": 570,
+      "knownCostMicrounits": 570,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 7,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "direct-pro",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3423.8395670000027,
+      "costMicrounits": 645,
+      "knownCostMicrounits": 645,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 7,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "direct-flash",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 2884.9648120000056,
+      "costMicrounits": 210,
+      "knownCostMicrounits": 210,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 31,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "direct-flash",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3178.660744000008,
+      "costMicrounits": 224,
+      "knownCostMicrounits": 224,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 19,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "direct-pro",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3126.8228910000034,
+      "costMicrounits": 601,
+      "knownCostMicrounits": 601,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 31,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5330.025756999996,
+      "costMicrounits": 474,
+      "knownCostMicrounits": 474,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 19,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5053.86200199998,
+      "costMicrounits": 491,
+      "knownCostMicrounits": 491,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 19,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-1487",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 16964.46744899999,
+      "costMicrounits": 9045,
+      "knownCostMicrounits": 9045,
+      "modelCalls": 6,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 7,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 6844.0094010000175,
+      "costMicrounits": 1296,
+      "knownCostMicrounits": 1296,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 23,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "direct-flash",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 2899.1895419999782,
+      "costMicrounits": 216,
+      "knownCostMicrounits": 216,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 23,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 6953.205733999988,
+      "costMicrounits": 1217,
+      "knownCostMicrounits": 1217,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 11,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 4992.843485000019,
+      "costMicrounits": 485,
+      "knownCostMicrounits": 485,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 11,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 8844.839588000003,
+      "costMicrounits": 2064,
+      "knownCostMicrounits": 2064,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 19,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "direct-flash",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 2931.2037850000197,
+      "costMicrounits": 212,
+      "knownCostMicrounits": 212,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 19,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5318.085051000002,
+      "costMicrounits": 561,
+      "knownCostMicrounits": 561,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 31,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0011",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 6488.393238999997,
+      "costMicrounits": 1008,
+      "knownCostMicrounits": 1008,
+      "modelCalls": 4,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 11,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0613",
+      "state": "failed",
+      "verifiedSuccess": false,
+      "correctness": "inconclusive",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 4694.802827000007,
+      "costMicrounits": 852,
+      "knownCostMicrounits": 852,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 31,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "direct-pro",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 8171.603690999997,
+      "costMicrounits": 641,
+      "knownCostMicrounits": 641,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 23,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "direct-pro",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3719.3968809999933,
+      "costMicrounits": 732,
+      "knownCostMicrounits": 732,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 23,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5405.6217710000055,
+      "costMicrounits": 422,
+      "knownCostMicrounits": 422,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 31,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7069.153519999993,
+      "costMicrounits": 1338,
+      "knownCostMicrounits": 1338,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 7,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0541",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 17520.115231000003,
+      "costMicrounits": 6633,
+      "knownCostMicrounits": 6633,
+      "modelCalls": 7,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 7,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5261.061226999998,
+      "costMicrounits": 407,
+      "knownCostMicrounits": 407,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 11,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5616.145411000005,
+      "costMicrounits": 665,
+      "knownCostMicrounits": 665,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 11,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7553.7231029999675,
+      "costMicrounits": 1369,
+      "knownCostMicrounits": 1369,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 23,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0205",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7650.471355000045,
+      "costMicrounits": 1425,
+      "knownCostMicrounits": 1425,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 19,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5273.602032999974,
+      "costMicrounits": 475,
+      "knownCostMicrounits": 475,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 23,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0205",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 8203.482607000042,
+      "costMicrounits": 1434,
+      "knownCostMicrounits": 1434,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 19,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 8372.613259000005,
+      "costMicrounits": 1461,
+      "knownCostMicrounits": 1461,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 11,
+      "repeat": 0,
+      "attemptId": "repeat-0",
+      "routeId": "direct-pro",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3522.4160050000064,
+      "costMicrounits": 649,
+      "knownCostMicrounits": 649,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 11,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5705.44491099997,
+      "costMicrounits": 587,
+      "knownCostMicrounits": 587,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 31,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0011",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 6788.350598999998,
+      "costMicrounits": 1053,
+      "knownCostMicrounits": 1053,
+      "modelCalls": 4,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 19,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-1487",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 14039.412355999986,
+      "costMicrounits": 6405,
+      "knownCostMicrounits": 6405,
+      "modelCalls": 6,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 11,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 8123.237718999968,
+      "costMicrounits": 1412,
+      "knownCostMicrounits": 1412,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 23,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0205",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7945.245788,
+      "costMicrounits": 1555,
+      "knownCostMicrounits": 1555,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 19,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7236.523851000005,
+      "costMicrounits": 1217,
+      "knownCostMicrounits": 1217,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 31,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5054.6313499999815,
+      "costMicrounits": 533,
+      "knownCostMicrounits": 533,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 23,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5122.520205000008,
+      "costMicrounits": 521,
+      "knownCostMicrounits": 521,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 11,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "direct-pro",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3725.1359880000236,
+      "costMicrounits": 649,
+      "knownCostMicrounits": 649,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 19,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5191.774082000018,
+      "costMicrounits": 512,
+      "knownCostMicrounits": 512,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 19,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 9507.23404000001,
+      "costMicrounits": 1963,
+      "knownCostMicrounits": 1963,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 31,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5321.8459489999805,
+      "costMicrounits": 551,
+      "knownCostMicrounits": 551,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 31,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 4896.961853000044,
+      "costMicrounits": 527,
+      "knownCostMicrounits": 527,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 23,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7208.319597999973,
+      "costMicrounits": 1463,
+      "knownCostMicrounits": 1463,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 7,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5478.217005000042,
+      "costMicrounits": 555,
+      "knownCostMicrounits": 555,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 23,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 4948.3191309999675,
+      "costMicrounits": 451,
+      "knownCostMicrounits": 451,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 7,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5570.578172000009,
+      "costMicrounits": 571,
+      "knownCostMicrounits": 571,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 11,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-1780",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 23455.02661100001,
+      "costMicrounits": 11193,
+      "knownCostMicrounits": 11193,
+      "modelCalls": 7,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 31,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5557.848469000019,
+      "costMicrounits": 447,
+      "knownCostMicrounits": 447,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 7,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0541",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 17802.78917199996,
+      "costMicrounits": 6748,
+      "knownCostMicrounits": 6748,
+      "modelCalls": 7,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 7,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0011",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7001.0457999999635,
+      "costMicrounits": 976,
+      "knownCostMicrounits": 976,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 19,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "direct-pro",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3562.592153000005,
+      "costMicrounits": 665,
+      "knownCostMicrounits": 665,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 11,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5209.48802400002,
+      "costMicrounits": 532,
+      "knownCostMicrounits": 532,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 31,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "direct-flash",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 2986.8647580000106,
+      "costMicrounits": 278,
+      "knownCostMicrounits": 278,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 11,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5653.840482999978,
+      "costMicrounits": 407,
+      "knownCostMicrounits": 407,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 19,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5268.413101000013,
+      "costMicrounits": 407,
+      "knownCostMicrounits": 407,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 11,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "direct-flash",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3007.745600000024,
+      "costMicrounits": 231,
+      "knownCostMicrounits": 231,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 23,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "direct-flash",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3450.0985830000136,
+      "costMicrounits": 224,
+      "knownCostMicrounits": 224,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 23,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0205",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 10642.011558999948,
+      "costMicrounits": 2207,
+      "knownCostMicrounits": 2207,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 19,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 4829.799008000002,
+      "costMicrounits": 396,
+      "knownCostMicrounits": 396,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 7,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "direct-pro",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3595.086692000041,
+      "costMicrounits": 621,
+      "knownCostMicrounits": 621,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 31,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "direct-pro",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3601.3974709999748,
+      "costMicrounits": 645,
+      "knownCostMicrounits": 645,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 23,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0277",
+      "state": "failed",
+      "verifiedSuccess": false,
+      "correctness": "inconclusive",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 7607.231145999976,
+      "costMicrounits": 3618,
+      "knownCostMicrounits": 3618,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 31,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-1366",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 14867.459236999974,
+      "costMicrounits": 6641,
+      "knownCostMicrounits": 6641,
+      "modelCalls": 6,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 11,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7782.806251000031,
+      "costMicrounits": 1566,
+      "knownCostMicrounits": 1566,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 31,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 6973.591221999959,
+      "costMicrounits": 1492,
+      "knownCostMicrounits": 1492,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 23,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5603.300799000077,
+      "costMicrounits": 594,
+      "knownCostMicrounits": 594,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 7,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5378.157002999913,
+      "costMicrounits": 484,
+      "knownCostMicrounits": 484,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 19,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "direct-flash",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3243.7251389999874,
+      "costMicrounits": 235,
+      "knownCostMicrounits": 235,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 11,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 8444.582412000047,
+      "costMicrounits": 1572,
+      "knownCostMicrounits": 1572,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 7,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7416.257778999978,
+      "costMicrounits": 1422,
+      "knownCostMicrounits": 1422,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 23,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "direct-pro",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3660.113083000062,
+      "costMicrounits": 665,
+      "knownCostMicrounits": 665,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 19,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7972.28121200006,
+      "costMicrounits": 1594,
+      "knownCostMicrounits": 1594,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 7,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "direct-flash",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3091.929535999894,
+      "costMicrounits": 285,
+      "knownCostMicrounits": 285,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 7,
+      "repeat": 1,
+      "attemptId": "repeat-1",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5733.355452999938,
+      "costMicrounits": 512,
+      "knownCostMicrounits": 512,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 23,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0205",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7638.312366000027,
+      "costMicrounits": 1372,
+      "knownCostMicrounits": 1372,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 11,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7977.653518000036,
+      "costMicrounits": 1538,
+      "knownCostMicrounits": 1538,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 11,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "direct-pro",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3770.971952999942,
+      "costMicrounits": 657,
+      "knownCostMicrounits": 657,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 7,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "direct-pro",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3654.5741319999797,
+      "costMicrounits": 645,
+      "knownCostMicrounits": 645,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 23,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 4997.361305999919,
+      "costMicrounits": 425,
+      "knownCostMicrounits": 425,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 31,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5005.915447999956,
+      "costMicrounits": 396,
+      "knownCostMicrounits": 396,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 11,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5234.52889899991,
+      "costMicrounits": 458,
+      "knownCostMicrounits": 458,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 31,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "direct-flash",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3068.6127219999908,
+      "costMicrounits": 248,
+      "knownCostMicrounits": 248,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 7,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "direct-flash",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 2867.7233739999356,
+      "costMicrounits": 226,
+      "knownCostMicrounits": 226,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 19,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7978.680021999986,
+      "costMicrounits": 1361,
+      "knownCostMicrounits": 1361,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 7,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0011",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 6247.608693000046,
+      "costMicrounits": 928,
+      "knownCostMicrounits": 928,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 19,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5718.062898000004,
+      "costMicrounits": 486,
+      "knownCostMicrounits": 486,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 23,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0277",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 12308.70154099993,
+      "costMicrounits": 3348,
+      "knownCostMicrounits": 3348,
+      "modelCalls": 6,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 19,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7987.101328999968,
+      "costMicrounits": 1451,
+      "knownCostMicrounits": 1451,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 11,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5192.8043860000325,
+      "costMicrounits": 595,
+      "knownCostMicrounits": 595,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 7,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7476.087233000086,
+      "costMicrounits": 1537,
+      "knownCostMicrounits": 1537,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 31,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-1366",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 14977.656794000068,
+      "costMicrounits": 7137,
+      "knownCostMicrounits": 7137,
+      "modelCalls": 6,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 19,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5635.406278999988,
+      "costMicrounits": 594,
+      "knownCostMicrounits": 594,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 11,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 8108.824063000036,
+      "costMicrounits": 1535,
+      "knownCostMicrounits": 1535,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 11,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-1780",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 16353.52611899993,
+      "costMicrounits": 7118,
+      "knownCostMicrounits": 7118,
+      "modelCalls": 7,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 19,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "direct-flash",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 2809.510510000051,
+      "costMicrounits": 211,
+      "knownCostMicrounits": 211,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 23,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0205",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7881.559058000101,
+      "costMicrounits": 1411,
+      "knownCostMicrounits": 1411,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 7,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5395.820753999986,
+      "costMicrounits": 545,
+      "knownCostMicrounits": 545,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 7,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0541",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 16809.297598000034,
+      "costMicrounits": 8912,
+      "knownCostMicrounits": 8912,
+      "modelCalls": 7,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 31,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0011",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 6745.959027000004,
+      "costMicrounits": 972,
+      "knownCostMicrounits": 972,
+      "modelCalls": 4,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 7,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5497.438507000101,
+      "costMicrounits": 558,
+      "knownCostMicrounits": 558,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 23,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5376.955930999946,
+      "costMicrounits": 515,
+      "knownCostMicrounits": 515,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 11,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "direct-flash",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 2957.9730020000134,
+      "costMicrounits": 230,
+      "knownCostMicrounits": 230,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 31,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "direct-pro",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3745.6239419999765,
+      "costMicrounits": 637,
+      "knownCostMicrounits": 637,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 7,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 4816.598031999893,
+      "costMicrounits": 407,
+      "knownCostMicrounits": 407,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 31,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7633.954921000055,
+      "costMicrounits": 1350,
+      "knownCostMicrounits": 1350,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 11,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5038.851512999972,
+      "costMicrounits": 509,
+      "knownCostMicrounits": 509,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 23,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "direct-flash",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 2867.1123890000163,
+      "costMicrounits": 207,
+      "knownCostMicrounits": 207,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 31,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 4998.387237000046,
+      "costMicrounits": 534,
+      "knownCostMicrounits": 534,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 11,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 8947.57724100002,
+      "costMicrounits": 1635,
+      "knownCostMicrounits": 1635,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 19,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-1487",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 20667.437898000004,
+      "costMicrounits": 8971,
+      "knownCostMicrounits": 8971,
+      "modelCalls": 6,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 31,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5342.209588000085,
+      "costMicrounits": 495,
+      "knownCostMicrounits": 495,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 23,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5182.585980000091,
+      "costMicrounits": 579,
+      "knownCostMicrounits": 579,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 23,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "direct-pro",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3211.928264999995,
+      "costMicrounits": 649,
+      "knownCostMicrounits": 649,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 19,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 8341.09917000006,
+      "costMicrounits": 1454,
+      "knownCostMicrounits": 1454,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 23,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7062.235478000017,
+      "costMicrounits": 1260,
+      "knownCostMicrounits": 1260,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 19,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "direct-pro",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3772.043568999972,
+      "costMicrounits": 641,
+      "knownCostMicrounits": 641,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 19,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 4972.487239000038,
+      "costMicrounits": 498,
+      "knownCostMicrounits": 498,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 31,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5600.095371000003,
+      "costMicrounits": 647,
+      "knownCostMicrounits": 647,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 7,
+      "repeat": 2,
+      "attemptId": "repeat-2",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5292.481136000017,
+      "costMicrounits": 424,
+      "knownCostMicrounits": 424,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 19,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5348.043892999995,
+      "costMicrounits": 689,
+      "knownCostMicrounits": 689,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 23,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7259.210105000064,
+      "costMicrounits": 1489,
+      "knownCostMicrounits": 1489,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 11,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 6633.293773000012,
+      "costMicrounits": 1193,
+      "knownCostMicrounits": 1193,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 19,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5280.138871000032,
+      "costMicrounits": 611,
+      "knownCostMicrounits": 611,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 23,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5762.41389299999,
+      "costMicrounits": 770,
+      "knownCostMicrounits": 770,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 23,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5285.999509999994,
+      "costMicrounits": 453,
+      "knownCostMicrounits": 453,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 23,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "direct-flash",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3215.605752000003,
+      "costMicrounits": 208,
+      "knownCostMicrounits": 208,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 7,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5308.943033999996,
+      "costMicrounits": 618,
+      "knownCostMicrounits": 618,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 19,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7121.442070999998,
+      "costMicrounits": 1086,
+      "knownCostMicrounits": 1086,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 31,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "direct-flash",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 2895.7989900000393,
+      "costMicrounits": 253,
+      "knownCostMicrounits": 253,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 31,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 4992.848757999949,
+      "costMicrounits": 404,
+      "knownCostMicrounits": 404,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 31,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0011",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 6616.155206000083,
+      "costMicrounits": 941,
+      "knownCostMicrounits": 941,
+      "modelCalls": 4,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 19,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-1487",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 17624.91957799997,
+      "costMicrounits": 9973,
+      "knownCostMicrounits": 9973,
+      "modelCalls": 6,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 7,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "direct-pro",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3148.2444260000484,
+      "costMicrounits": 629,
+      "knownCostMicrounits": 629,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 31,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 4900.585175000015,
+      "costMicrounits": 519,
+      "knownCostMicrounits": 519,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 7,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0011",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7278.474456999917,
+      "costMicrounits": 905,
+      "knownCostMicrounits": 905,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 7,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0003",
+      "state": "failed",
+      "verifiedSuccess": false,
+      "correctness": "inconclusive",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 5207.054051999934,
+      "costMicrounits": 984,
+      "knownCostMicrounits": 984,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 23,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0277",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 12246.28505299997,
+      "costMicrounits": 3766,
+      "knownCostMicrounits": 3766,
+      "modelCalls": 6,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 19,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "direct-pro",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3476.1002109999536,
+      "costMicrounits": 633,
+      "knownCostMicrounits": 633,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 31,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-1366",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 17412.873139999923,
+      "costMicrounits": 8501,
+      "knownCostMicrounits": 8501,
+      "modelCalls": 6,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 11,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "direct-pro",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3622.655926000094,
+      "costMicrounits": 665,
+      "knownCostMicrounits": 665,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 31,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7091.37902699993,
+      "costMicrounits": 1493,
+      "knownCostMicrounits": 1493,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 7,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "direct-flash",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 2984.2369840000756,
+      "costMicrounits": 238,
+      "knownCostMicrounits": 238,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 7,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5226.430776000023,
+      "costMicrounits": 539,
+      "knownCostMicrounits": 539,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 19,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 4972.380262000021,
+      "costMicrounits": 478,
+      "knownCostMicrounits": 478,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 7,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5609.299890999915,
+      "costMicrounits": 560,
+      "knownCostMicrounits": 560,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 31,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "direct-pro",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3665.088383000111,
+      "costMicrounits": 633,
+      "knownCostMicrounits": 633,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 23,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "direct-pro",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3590.2741799999494,
+      "costMicrounits": 641,
+      "knownCostMicrounits": 641,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 11,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5173.408773000119,
+      "costMicrounits": 494,
+      "knownCostMicrounits": 494,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 31,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5327.517060999991,
+      "costMicrounits": 708,
+      "knownCostMicrounits": 708,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 11,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 8107.696804000065,
+      "costMicrounits": 1553,
+      "knownCostMicrounits": 1553,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 11,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 4941.1551169999875,
+      "costMicrounits": 472,
+      "knownCostMicrounits": 472,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 7,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5417.287494999822,
+      "costMicrounits": 616,
+      "knownCostMicrounits": 616,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 23,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0205",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7971.2729980000295,
+      "costMicrounits": 1441,
+      "knownCostMicrounits": 1441,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 19,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "direct-flash",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 2953.0949910001364,
+      "costMicrounits": 246,
+      "knownCostMicrounits": 246,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 23,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0205",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 8209.305028000148,
+      "costMicrounits": 1482,
+      "knownCostMicrounits": 1482,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 11,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5299.588067000033,
+      "costMicrounits": 404,
+      "knownCostMicrounits": 404,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 7,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0541",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 15161.560002000071,
+      "costMicrounits": 6233,
+      "knownCostMicrounits": 6233,
+      "modelCalls": 7,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 11,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-1780",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 15564.571896000067,
+      "costMicrounits": 6039,
+      "knownCostMicrounits": 6039,
+      "modelCalls": 7,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 23,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5097.73029600014,
+      "costMicrounits": 425,
+      "knownCostMicrounits": 425,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 19,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7745.862690000096,
+      "costMicrounits": 1405,
+      "knownCostMicrounits": 1405,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 19,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0613",
+      "state": "failed",
+      "verifiedSuccess": false,
+      "correctness": "inconclusive",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 5700.961404000176,
+      "costMicrounits": 1118,
+      "knownCostMicrounits": 1118,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 11,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 8764.46337900008,
+      "costMicrounits": 1856,
+      "knownCostMicrounits": 1856,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 31,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5215.3922659999225,
+      "costMicrounits": 568,
+      "knownCostMicrounits": 568,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 11,
+      "repeat": 3,
+      "attemptId": "repeat-3",
+      "routeId": "direct-flash",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 2990.1124319999944,
+      "costMicrounits": 240,
+      "knownCostMicrounits": 240,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 7,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 4731.868864000076,
+      "costMicrounits": 480,
+      "knownCostMicrounits": 480,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 11,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7987.669666999951,
+      "costMicrounits": 1596,
+      "knownCostMicrounits": 1596,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 23,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0277",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 13881.566141000018,
+      "costMicrounits": 4287,
+      "knownCostMicrounits": 4287,
+      "modelCalls": 6,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 19,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "direct-pro",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3668.043959000148,
+      "costMicrounits": 617,
+      "knownCostMicrounits": 617,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 31,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0011",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 6293.079296999844,
+      "costMicrounits": 959,
+      "knownCostMicrounits": 959,
+      "modelCalls": 4,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 23,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "direct-pro",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3570.217668000143,
+      "costMicrounits": 621,
+      "knownCostMicrounits": 621,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 31,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-1366",
+      "state": "failed",
+      "verifiedSuccess": false,
+      "correctness": "inconclusive",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 10798.008229000028,
+      "costMicrounits": 5357,
+      "knownCostMicrounits": 5357,
+      "modelCalls": 4,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 11,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5149.721712999977,
+      "costMicrounits": 592,
+      "knownCostMicrounits": 592,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 19,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5093.38712999993,
+      "costMicrounits": 482,
+      "knownCostMicrounits": 482,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 23,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0205",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7750.20722099999,
+      "costMicrounits": 1272,
+      "knownCostMicrounits": 1272,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 7,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 4824.67875099997,
+      "costMicrounits": 407,
+      "knownCostMicrounits": 407,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 31,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7996.7425770000555,
+      "costMicrounits": 1691,
+      "knownCostMicrounits": 1691,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 23,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7121.078610999975,
+      "costMicrounits": 1532,
+      "knownCostMicrounits": 1532,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 11,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 8562.938202999998,
+      "costMicrounits": 1242,
+      "knownCostMicrounits": 1242,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 19,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 9835.957792999921,
+      "costMicrounits": 1861,
+      "knownCostMicrounits": 1861,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 19,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "direct-flash",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3138.3589360001497,
+      "costMicrounits": 286,
+      "knownCostMicrounits": 286,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 7,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5069.582024999894,
+      "costMicrounits": 634,
+      "knownCostMicrounits": 634,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 19,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7346.146407000022,
+      "costMicrounits": 1516,
+      "knownCostMicrounits": 1516,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 11,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "direct-flash",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3397.849363999907,
+      "costMicrounits": 212,
+      "knownCostMicrounits": 212,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 31,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "direct-flash",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3070.243892000057,
+      "costMicrounits": 224,
+      "knownCostMicrounits": 224,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 7,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5340.029065000126,
+      "costMicrounits": 544,
+      "knownCostMicrounits": 544,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 23,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5309.432905000169,
+      "costMicrounits": 582,
+      "knownCostMicrounits": 582,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 7,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0541",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 14193.257048000116,
+      "costMicrounits": 5814,
+      "knownCostMicrounits": 5814,
+      "modelCalls": 7,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 7,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0011",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7128.213255000068,
+      "costMicrounits": 997,
+      "knownCostMicrounits": 997,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 19,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-1487",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 16077.81337099988,
+      "costMicrounits": 7306,
+      "knownCostMicrounits": 7306,
+      "modelCalls": 6,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 31,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5113.379356000107,
+      "costMicrounits": 442,
+      "knownCostMicrounits": 442,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "random",
+      "seed": 11,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-1780",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 20091.057221000083,
+      "costMicrounits": 10989,
+      "knownCostMicrounits": 10989,
+      "modelCalls": 7,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 19,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5033.7518149998505,
+      "costMicrounits": 385,
+      "knownCostMicrounits": 385,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 7,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "direct-flash",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3453.8660920001566,
+      "costMicrounits": 211,
+      "knownCostMicrounits": 211,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 31,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 4978.865514999954,
+      "costMicrounits": 401,
+      "knownCostMicrounits": 401,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 23,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5335.785132999998,
+      "costMicrounits": 595,
+      "knownCostMicrounits": 595,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 11,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5699.729527000105,
+      "costMicrounits": 556,
+      "knownCostMicrounits": 556,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 31,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5039.64151700004,
+      "costMicrounits": 561,
+      "knownCostMicrounits": 561,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "historical-best",
+      "seed": 7,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0003",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 7341.602035999997,
+      "costMicrounits": 1569,
+      "knownCostMicrounits": 1569,
+      "modelCalls": 4,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-flash",
+      "seed": 23,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "direct-flash",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 2915.278168999823,
+      "costMicrounits": 214,
+      "knownCostMicrounits": 214,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 19,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5369.214890999952,
+      "costMicrounits": 523,
+      "knownCostMicrounits": 523,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "contextual-bandit",
+      "seed": 23,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 4911.89546800009,
+      "costMicrounits": 407,
+      "knownCostMicrounits": 407,
+      "modelCalls": 2,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "fixed",
+      "seed": 11,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 5625.063550000079,
+      "costMicrounits": 515,
+      "knownCostMicrounits": 515,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 19,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0613",
+      "state": "failed",
+      "verifiedSuccess": false,
+      "correctness": "inconclusive",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 8014.044635999948,
+      "costMicrounits": 1851,
+      "knownCostMicrounits": 1851,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 11,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "direct-pro",
+      "state": "failed",
+      "verifiedSuccess": false,
+      "correctness": "failed",
+      "tddCompliance": "failed",
+      "totalWallTimeMs": 3975.298598999856,
+      "costMicrounits": 601,
+      "knownCostMicrounits": 601,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-without-bank",
+      "seed": 23,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0205",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 9642.503590000095,
+      "costMicrounits": 1603,
+      "knownCostMicrounits": 1603,
+      "modelCalls": 3,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 31,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "direct-pro",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 3448.711127999937,
+      "costMicrounits": 629,
+      "knownCostMicrounits": 629,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "direct-pro",
+      "seed": 7,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "direct-pro",
+      "state": "inconclusive",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "inconclusive",
+      "totalWallTimeMs": 4001.6234379999805,
+      "costMicrounits": 887,
+      "knownCostMicrounits": 887,
+      "modelCalls": 1,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "cheapest",
+      "seed": 31,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0001",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 4874.102560999803,
+      "costMicrounits": 494,
+      "knownCostMicrounits": 494,
+      "modelCalls": 2,
+      "historyHash": null,
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    },
+    {
+      "mode": "metaaco-with-bank",
+      "seed": 11,
+      "repeat": 4,
+      "attemptId": "repeat-4",
+      "routeId": "route-0613",
+      "state": "succeeded",
+      "verifiedSuccess": true,
+      "correctness": "passed",
+      "tddCompliance": "passed",
+      "totalWallTimeMs": 8400.085257000057,
+      "costMicrounits": 1605,
+      "knownCostMicrounits": 1605,
+      "modelCalls": 3,
+      "historyHash": "202efbc26cc3055be9732cf1c9c8080ef21af180db1dfa68a57a855dd563ae61",
+      "feedback": {
+        "sha256": "3db3a87cb9329710d14c7765167bff508e72dfc2cd910833d1acce2995436403",
+        "sizeBytes": 978
+      }
+    }
+  ]
+}
