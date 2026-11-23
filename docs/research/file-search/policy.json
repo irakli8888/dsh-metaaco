@@ -1,0 +1,56 @@
+{
+  "file": [
+    [
+      "path",
+      "text",
+      "follow"
+    ],
+    [
+      "stop",
+      "path",
+      "text",
+      "follow"
+    ],
+    [
+      "text",
+      "path",
+      "follow"
+    ]
+  ],
+  "identifier": [
+    [
+      "path",
+      "text",
+      "follow"
+    ],
+    [
+      "stop",
+      "path",
+      "text",
+      "follow"
+    ],
+    [
+      "text",
+      "path",
+      "follow"
+    ]
+  ],
+  "description": [
+    [
+      "follow",
+      "path",
+      "text"
+    ],
+    [
+      "stop",
+      "path",
+      "text",
+      "follow"
+    ],
+    [
+      "text",
+      "path",
+      "follow"
+    ]
+  ]
+}

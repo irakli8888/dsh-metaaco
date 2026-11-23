@@ -1,0 +1,488 @@
+{
+  "schema_version": 1,
+  "python": "3.13.3",
+  "system": "Darwin arm64",
+  "hashes": {
+    "docs/research/file-search/queries.tsv": "c1db632dfb8fe7cc844b0d7f4d1735e843e9e1fcc03e602996754e9bc8909ead",
+    "python/file_search_benchmark.py": "0112346f7058e90392d12ee5c8144a326affd30357965e89c6b382d074ba1139",
+    "python/file_search.py": "72ae4cc22845897c078e21b2bec900128ecb8a5132daab0e990647c41bfd82a2",
+    "python/skill_decisions.py": "e8fbb66ff22abc754f2933adc50fb9333d6ee829f4c6539c0de4f5d24547b483",
+    "python/vendor/rcpsp/core.py": "a272ca88bf08661a50f7acb9d4affff6657012ffb9ccfeb353dee58761bc9099",
+    "python/vendor/rcpsp/metaACO.py": "8989c0f0055e393c383f65acf92d80b1fd45d988f38c1049d9fae8a36334bb07",
+    "test/search/test_file_search.py": "677aa3e50e323a73950e2a54e7fec79c71dbb5c704a1c17239f6a12018cc4d5d"
+  },
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "repeats": 3,
+  "max_tool_steps": 3,
+  "max_solver_evaluations_per_context_and_seed": 60,
+  "training_queries": 12,
+  "test_queries": 20,
+  "index": {
+    "metaaco": {
+      "revision": "85a501d25fa74e35a5846d78ca9bfc89ef87b52b",
+      "files": 169,
+      "read_ms": 25.800167,
+      "build_ms": 147.004083,
+      "update_ms": 0.205125,
+      "update_path": ".github/workflows/offline.yml"
+    },
+    "harness": {
+      "revision": "22ddee3792402c3e70ec5f86a63c3e3e895a2f60",
+      "files": 19051,
+      "read_ms": 631.294958,
+      "build_ms": 17819.31475,
+      "update_ms": 0.167583,
+      "update_path": ".agents/notes/AGENTS.md"
+    }
+  },
+  "training": [
+    {
+      "seed": 42,
+      "ms": 455.537292,
+      "contexts": {
+        "file": {
+          "choices": {
+            "strong": "strong:stop",
+            "start": "start:path",
+            "weak": "weak:text"
+          },
+          "score": 10,
+          "evaluations": 60,
+          "unique_policies": 18,
+          "queries": 3
+        },
+        "identifier": {
+          "choices": {
+            "strong": "strong:stop",
+            "start": "start:path",
+            "weak": "weak:text"
+          },
+          "score": 14,
+          "evaluations": 60,
+          "unique_policies": 17,
+          "queries": 5
+        },
+        "description": {
+          "choices": {
+            "weak": "weak:text",
+            "start": "start:follow",
+            "strong": "strong:stop"
+          },
+          "score": 258,
+          "evaluations": 60,
+          "unique_policies": 21,
+          "queries": 4
+        }
+      }
+    },
+    {
+      "seed": 43,
+      "ms": 15.622875,
+      "contexts": {
+        "file": {
+          "choices": {
+            "start": "start:path",
+            "weak": "weak:path",
+            "strong": "strong:follow"
+          },
+          "score": 10,
+          "evaluations": 60,
+          "unique_policies": 22,
+          "queries": 3
+        },
+        "identifier": {
+          "choices": {
+            "start": "start:path",
+            "weak": "weak:path",
+            "strong": "strong:stop"
+          },
+          "score": 14,
+          "evaluations": 60,
+          "unique_policies": 18,
+          "queries": 5
+        },
+        "description": {
+          "choices": {
+            "strong": "strong:stop",
+            "weak": "weak:follow",
+            "start": "start:follow"
+          },
+          "score": 258,
+          "evaluations": 60,
+          "unique_policies": 19,
+          "queries": 4
+        }
+      }
+    },
+    {
+      "seed": 44,
+      "ms": 19.436791,
+      "contexts": {
+        "file": {
+          "choices": {
+            "strong": "strong:follow",
+            "weak": "weak:follow",
+            "start": "start:path"
+          },
+          "score": 10,
+          "evaluations": 60,
+          "unique_policies": 23,
+          "queries": 3
+        },
+        "identifier": {
+          "choices": {
+            "strong": "strong:stop",
+            "weak": "weak:path",
+            "start": "start:path"
+          },
+          "score": 14,
+          "evaluations": 60,
+          "unique_policies": 24,
+          "queries": 5
+        },
+        "description": {
+          "choices": {
+            "strong": "strong:stop",
+            "weak": "weak:path",
+            "start": "start:follow"
+          },
+          "score": 258,
+          "evaluations": 60,
+          "unique_policies": 24,
+          "queries": 4
+        }
+      }
+    }
+  ],
+  "a_missing_reason": "Stock model-driven Harness was not run; the offline series has no authorized model budget.",
+  "overall": {
+    "A": {
+      "n": 60,
+      "completed": 0,
+      "hit1": null,
+      "hit5": null,
+      "median_ms": null,
+      "p95_ms": null,
+      "steps_mean": null,
+      "model_calls": null,
+      "model_input_bytes": null,
+      "input_tokens": null,
+      "output_tokens": null
+    },
+    "B": {
+      "n": 60,
+      "completed": 60,
+      "hit1": 0.7,
+      "hit5": 0.8,
+      "median_ms": 0.8933960000000001,
+      "p95_ms": 101.763417,
+      "steps_mean": 3,
+      "model_calls": 0,
+      "model_input_bytes": 0,
+      "input_tokens": 0,
+      "output_tokens": 0
+    },
+    "C": {
+      "n": 60,
+      "completed": 60,
+      "hit1": 0.7333333333333333,
+      "hit5": 0.7833333333333333,
+      "median_ms": 0.906167,
+      "p95_ms": 93.048083,
+      "steps_mean": 2.7666666666666666,
+      "model_calls": 0,
+      "model_input_bytes": 0,
+      "input_tokens": 0,
+      "output_tokens": 0
+    },
+    "D": {
+      "n": 60,
+      "completed": 60,
+      "hit1": 0.7,
+      "hit5": 0.8,
+      "median_ms": 1.2085625,
+      "p95_ms": 126.042875,
+      "steps_mean": 3,
+      "model_calls": 0,
+      "model_input_bytes": 0,
+      "input_tokens": 0,
+      "output_tokens": 0
+    }
+  },
+  "by_kind": {
+    "call": {
+      "A": {
+        "n": 12,
+        "completed": 0,
+        "hit1": null,
+        "hit5": null,
+        "median_ms": null,
+        "p95_ms": null,
+        "steps_mean": null,
+        "model_calls": null,
+        "model_input_bytes": null,
+        "input_tokens": null,
+        "output_tokens": null
+      },
+      "B": {
+        "n": 12,
+        "completed": 12,
+        "hit1": 0.75,
+        "hit5": 0.75,
+        "median_ms": 21.734229,
+        "p95_ms": 131.707959,
+        "steps_mean": 3,
+        "model_calls": 0,
+        "model_input_bytes": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "C": {
+        "n": 12,
+        "completed": 12,
+        "hit1": 0.75,
+        "hit5": 0.75,
+        "median_ms": 21.826124999999998,
+        "p95_ms": 114.466,
+        "steps_mean": 3,
+        "model_calls": 0,
+        "model_input_bytes": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "D": {
+        "n": 12,
+        "completed": 12,
+        "hit1": 0.75,
+        "hit5": 0.75,
+        "median_ms": 40.911041499999996,
+        "p95_ms": 130.48925,
+        "steps_mean": 3,
+        "model_calls": 0,
+        "model_input_bytes": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    "config": {
+      "A": {
+        "n": 9,
+        "completed": 0,
+        "hit1": null,
+        "hit5": null,
+        "median_ms": null,
+        "p95_ms": null,
+        "steps_mean": null,
+        "model_calls": null,
+        "model_input_bytes": null,
+        "input_tokens": null,
+        "output_tokens": null
+      },
+      "B": {
+        "n": 9,
+        "completed": 9,
+        "hit1": 0.0,
+        "hit5": 0.0,
+        "median_ms": 1.038125,
+        "p95_ms": 62.487875,
+        "steps_mean": 3,
+        "model_calls": 0,
+        "model_input_bytes": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "C": {
+        "n": 9,
+        "completed": 9,
+        "hit1": 0.0,
+        "hit5": 0.0,
+        "median_ms": 0.672208,
+        "p95_ms": 68.600417,
+        "steps_mean": 2.7777777777777777,
+        "model_calls": 0,
+        "model_input_bytes": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "D": {
+        "n": 9,
+        "completed": 9,
+        "hit1": 0.0,
+        "hit5": 0.0,
+        "median_ms": 1.218833,
+        "p95_ms": 100.055708,
+        "steps_mean": 3,
+        "model_calls": 0,
+        "model_input_bytes": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    "filename": {
+      "A": {
+        "n": 15,
+        "completed": 0,
+        "hit1": null,
+        "hit5": null,
+        "median_ms": null,
+        "p95_ms": null,
+        "steps_mean": null,
+        "model_calls": null,
+        "model_input_bytes": null,
+        "input_tokens": null,
+        "output_tokens": null
+      },
+      "B": {
+        "n": 15,
+        "completed": 15,
+        "hit1": 1.0,
+        "hit5": 1.0,
+        "median_ms": 0.966708,
+        "p95_ms": 80.654042,
+        "steps_mean": 3,
+        "model_calls": 0,
+        "model_input_bytes": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "C": {
+        "n": 15,
+        "completed": 15,
+        "hit1": 1.0,
+        "hit5": 1.0,
+        "median_ms": 0.986125,
+        "p95_ms": 84.418416,
+        "steps_mean": 2.8666666666666667,
+        "model_calls": 0,
+        "model_input_bytes": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "D": {
+        "n": 15,
+        "completed": 15,
+        "hit1": 1.0,
+        "hit5": 1.0,
+        "median_ms": 1.319041,
+        "p95_ms": 120.166541,
+        "steps_mean": 3,
+        "model_calls": 0,
+        "model_input_bytes": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    "logic": {
+      "A": {
+        "n": 12,
+        "completed": 0,
+        "hit1": null,
+        "hit5": null,
+        "median_ms": null,
+        "p95_ms": null,
+        "steps_mean": null,
+        "model_calls": null,
+        "model_input_bytes": null,
+        "input_tokens": null,
+        "output_tokens": null
+      },
+      "B": {
+        "n": 12,
+        "completed": 12,
+        "hit1": 0.5,
+        "hit5": 1.0,
+        "median_ms": 0.570229,
+        "p95_ms": 52.567333,
+        "steps_mean": 3,
+        "model_calls": 0,
+        "model_input_bytes": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "C": {
+        "n": 12,
+        "completed": 12,
+        "hit1": 0.6666666666666666,
+        "hit5": 0.9166666666666666,
+        "median_ms": 0.089812,
+        "p95_ms": 52.976916,
+        "steps_mean": 2.1666666666666665,
+        "model_calls": 0,
+        "model_input_bytes": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "D": {
+        "n": 12,
+        "completed": 12,
+        "hit1": 0.5,
+        "hit5": 1.0,
+        "median_ms": 0.79275,
+        "p95_ms": 93.249333,
+        "steps_mean": 3,
+        "model_calls": 0,
+        "model_input_bytes": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    },
+    "symbol": {
+      "A": {
+        "n": 12,
+        "completed": 0,
+        "hit1": null,
+        "hit5": null,
+        "median_ms": null,
+        "p95_ms": null,
+        "steps_mean": null,
+        "model_calls": null,
+        "model_input_bytes": null,
+        "input_tokens": null,
+        "output_tokens": null
+      },
+      "B": {
+        "n": 12,
+        "completed": 12,
+        "hit1": 1.0,
+        "hit5": 1.0,
+        "median_ms": 21.6716455,
+        "p95_ms": 101.763417,
+        "steps_mean": 3,
+        "model_calls": 0,
+        "model_input_bytes": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "C": {
+        "n": 12,
+        "completed": 12,
+        "hit1": 1.0,
+        "hit5": 1.0,
+        "median_ms": 21.330645999999998,
+        "p95_ms": 93.048083,
+        "steps_mean": 3,
+        "model_calls": 0,
+        "model_input_bytes": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "D": {
+        "n": 12,
+        "completed": 12,
+        "hit1": 1.0,
+        "hit5": 1.0,
+        "median_ms": 52.0834165,
+        "p95_ms": 126.042875,
+        "steps_mean": 3,
+        "model_calls": 0,
+        "model_input_bytes": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      }
+    }
+  }
+}
