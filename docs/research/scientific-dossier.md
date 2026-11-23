@@ -636,3 +636,15 @@ same-task/same-seed статистику и positive memory seed внутри н
 feedback lineages изолируют seed. Пилотные/held-out исходы не импортируются.
 Локальные RED/GREEN, контрольные мутации и integration с synthetic API подтвердили
 обновление истории 0→1→2→3 и её попадание в поиск; платная серия ещё не запускалась.
+
+Учебная серия запущена 23 ноября 2026 на Lenovo:
+/home/irakli/agent-lab/multitask-train-v1.3B97MAvm/study/.
+Source 491850693a55eec5c834718291b79ed05b4b864b, archive SHA-256
+9dd80e507d6102bf96843eea026d55d08aa8eb5bd527eea06fbc7df7a1c896d3,
+configHash 24b376c399ee152952e2dbf1ddf0461e92563c2876a72a47fb3b49702aee69f7.
+[Реестр старта](data/multitask-training-v1-launch.json) содержит хеши задач и
+доказательств. Перед вызовами все 3 задачи прошли Docker baseline/RED/GREEN/REFACTOR,
+6 Node-проверок включили 8 synthetic online attempts с историей 0→1→2→3;
+35 Python чистого commit прошли. Локальные 185 unit/41 integration прошли,
+1 Docker skipped, 36 Python включают один незакоммиченный тест владельца.
+Итоги реальной серии ещё не установлены; протокол и код во время неё не меняются.

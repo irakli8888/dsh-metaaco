@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "491850693a55eec5c834718291b79ed05b4b864b",
+  "archiveSha256": "9dd80e507d6102bf96843eea026d55d08aa8eb5bd527eea06fbc7df7a1c896d3",
+  "configHash": "24b376c399ee152952e2dbf1ddf0461e92563c2876a72a47fb3b49702aee69f7",
+  "startedAt": "2026-11-23T10:28:00.747Z",
+  "maximumAttempts": 24,
+  "budgetMicrounits": 5000000,
+  "reserveFloor": 2704882,
+  "splits": {
+    "train": [
+      "lease-queue-train-v1",
+      "wallet-ledger-train-v1",
+      "ttl-cache-train-v1"
+    ],
+    "validation": [],
+    "test": []
+  },
+  "node": "v24.22.1",
+  "python": "Python 3.14.4",
+  "packages": {
+    "@deepseek-ai/cordis": "4.0.5",
+    "@deepseek-ai/dsh-workflow-ptc": "0.2.1-rc.2",
+    "@deepseek-ai/dsh-agent": "0.2.1-rc.2"
+  },
+  "taskHashes": {
+    "lease-queue-train-v1": {
+      "baseSnapshot": "26a686ea3ec98781f510fc377229ba6b0dfd7604b35599d047ef03fbcfba0ad5",
+      "testSpec": "a9607b9b83d86429a3336c437ddc816b0624f5a6cdbc9ea91fa80078bf9cfe02"
+    },
+    "wallet-ledger-train-v1": {
+      "baseSnapshot": "ab923153c428c5f9818cc6aabb0277ba3e45f9c4bb679440eadba4721c974f5d",
+      "testSpec": "be692c4b7b2feee869c5e9775f6988c886b5011b089bd782eea3d264c9afd82a"
+    },
+    "ttl-cache-train-v1": {
+      "baseSnapshot": "848bdae6d1912b3b10c6c35d9a16db3cc364c7c6c960824c03eb0227d998dab5",
+      "testSpec": "e66d59f8ea4bd567836c634a268d86fb6199c87bf9ad84b5ae33cefdb53c5407"
+    }
+  },
+  "offlineChecks": {
+    "localUnit": 185,
+    "localIntegration": 41,
+    "localIntegrationSkipped": 1,
+    "localPython": 36,
+    "ownerExtraPythonTest": 1,
+    "serverPython": 35,
+    "serverNodeChecks": 6,
+    "serverSyntheticTrainingAttempts": 8,
+    "dockerCalibratedTasks": 3
+  },
+  "evidenceSha256": {
+    "offline-training.log": "33b74ac06db5929836e1e222bf304f6bd33a990e746aebceb923950eea69c4cc",
+    "docker-calibration.json": "f7e5d17613c73e330f71819030e942aa0f580be405b16b9cfec27967871987aa",
+    "manifest.json": "94519248ad4dc7b19358847f95ea2308813d15b8a94b4adada1e4fa0e99fc159",
+    "offline-python.log": "945e15efd20f0b71b1664296c8daa2fab49dd7ebe6e1ed5d6b69090ee45719a5"
+  }
+}
