@@ -218,3 +218,21 @@ class FeasibleInitializationTests(unittest.TestCase):
         self.assertEqual(limited['evaluations'],1)
         with self.assertRaisesRegex(ValueError,'No feasible'):
             search_decisions({'model':['cheap']},lambda c:None,initial_choices={'model':'cheap'},max_evaluations=2)
+
+class TrainingSearchTests(unittest.TestCase):
+    def test_constraints_and_observed_warm_seed_use_real_budget(self):
+        from skill_decisions import plan_skill_graph
+        from test_metaaco_dag import problem
+        def route(model):return {'model':{'provider':'offline','model':model},'seconds':10,'costMicrounits':1,'prompt':'Code'}
+        catalog={k:[route('cheap'),route('strong')]for k in ['implement','refactor','design','integrate','implement-a','implement-b']}
+        first=plan_skill_graph(catalog,problem()['plan']['resources'],100,ensure_feasible_start=True,component_design_required=True,
+                              required_layout='components',required_routes={'integrate':{'provider':'offline','model':'strong'}})
+        self.assertEqual(first['choices']['layout'],'components')
+        self.assertEqual(next(t for t in first['problem']['plan']['tasks']if t['id']=='integrate')['model']['model'],'strong')
+        tasks=first['problem']['plan']['tasks']
+        identity=[[t['id'],t['model']['provider'],t['model']['model'],sorted(t['dependsOn'])]for t in sorted(tasks,key=lambda t:t['id'])]
+        result=plan_skill_graph(catalog,problem()['plan']['resources'],100,ensure_feasible_start=True,component_design_required=True,
+                               quality_evidence=[{'route':identity,'attempts':2,'successes':2}],warm_start_choices=[first['choices']])
+        self.assertEqual(result['choices']['layout'],'components')
+        self.assertLessEqual(result['evaluations'],100)
+        self.assertEqual(result['initialization']['memorySeeds'],1)

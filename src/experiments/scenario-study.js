@@ -47,7 +47,7 @@ export function prepareScenarioJob(scenario,{method='metaaco',seed=7}={}) {
     history:'empty; no stock observations',forecastSource:'uncalibrated equal 10-second duration and explicit input/output token priors; tariff bounds separate'}
 }
 
-export async function planScenarioJob(job,{signal}={}) {
+export async function planScenarioJob(job,{signal,training=null}={}) {
   const unavailableModels=job.schemaVersion>=2&&job.policy.maxCostMicrounits!==null
     ? models.filter(model=>job.prices[model].upperBoundMicrounits>job.policy.maxCostMicrounits):[]
   const skills=Object.fromEntries(Object.entries(job.skills).map(([skill,routes])=>[skill,
@@ -62,7 +62,9 @@ export async function planScenarioJob(job,{signal}={}) {
     try{
       const path=join(dir,'input.json')
       await writeFile(path,JSON.stringify({skills,resources:job.resources,budgetMicrounits:job.policy.maxCostMicrounits,
-        qualityEvidence:[],componentDesignRequired:true,ensureFeasibleStart:job.schemaVersion>=2}),{mode:0o600})
+        qualityEvidence:training?.qualityEvidence??[],componentDesignRequired:true,ensureFeasibleStart:job.schemaVersion>=2,
+        requiredLayout:training?.requiredLayout??null,requiredRoutes:training?.requiredRoutes??null,
+        warmStartChoices:training?.warmStartChoices??[],exploreTraining:training?.exploreTraining===true}),{mode:0o600})
       const {stdout}=await promisify(execFile)('python3',['-B',fileURLToPath(new URL('../../python/skill_decisions.py',import.meta.url)),path,'--seed',String(job.seed)],{signal,timeout:30000,maxBuffer:4*1024*1024})
       const selection=JSON.parse(stdout)
       const byId=new Map(selection.problem.plan.tasks.map(task=>[task.id,task]))
