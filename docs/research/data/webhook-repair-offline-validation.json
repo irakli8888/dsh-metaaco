@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "fbea6c9cf14ecd71e8afbd485101a33a9a6cfd54",
+  "sourceArchiveSha256": "29a554d4371e5e18ce43aaf1d8cf135563ead30f02764a75f54ad94cd5133f6e",
+  "kind": "offline-validation-not-training",
+  "paidApiCalls": 0,
+  "server": {
+    "nodeChecks": 15,
+    "pythonChecks": 34,
+    "skipped": 0,
+    "mockApi": true,
+    "dockerImage": "sha256:116b800c3754b440ee0aa3ed2f20f5bf3d99a554bfd9adeea09ea8017f6e85f5",
+    "pythonSource": "packaged python/vendor"
+  },
+  "local": {
+    "unitPassed": 174,
+    "integrationPassed": 35,
+    "integrationSkipped": 1,
+    "pythonPassed": 35,
+    "caveat": "Local Python total includes one uncommitted owner test; clean commit on Lenovo has 34."
+  },
+  "logSha256": {
+    "offline-python.log": "ac20d33dd781cbe5d1f87289d717f8aa9fc9900ff3f5aa8807eb28ff7224da20",
+    "offline-node.log": "57c5a2744d7097655e7bea9d203e55afaf6ece2b3664e206525b3aa27d1a03c5"
+  }
+}

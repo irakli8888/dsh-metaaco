@@ -35,3 +35,14 @@ test('Pro uses its own wire model, tariff and reservation', async () => {
   assert.equal((await Array.fromAsync(call.stream(config))).at(-1).reason.kind, 'stop')
   assert.throws(() => quote({ ...config, model: 'constructor' }), /unsupported/i)
 })
+
+test('configured output limit is identical on wire and conservative reservation',async()=>{
+  const {adapter,quote}=api.createDeepSeekAdapter({key:'fixture',maxTokens:8192,fetchImpl:async(_,options)=>{
+    assert.equal(JSON.parse(options.body).max_tokens,8192)
+    return Response.json({model:'deepseek-flash',choices:[{finish_reason:'stop',message:{content:'{}'}}],usage:{prompt_tokens:1,prompt_cache_miss_tokens:1,prompt_cache_hit_tokens:0,completion_tokens:1,total_tokens:2}})
+  }})
+  const options={provider:'deepseek',model:'deepseek-flash',system:'Implement'}
+  assert.equal(quote(options).upperBoundMicrounits,309831)
+  await Array.fromAsync(adapter.stream(options))
+  for(const maxTokens of [0,1.5,NaN,8193])assert.throws(()=>api.createDeepSeekAdapter({key:'fixture',maxTokens}),/limit/i)
+})

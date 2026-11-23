@@ -12,7 +12,7 @@ import { validateRequest } from '../contracts/bank.js'
 import { validateSnapshot, validateSpec } from '../evaluation/runner.js'
 import { EXPERIMENT_MODES, summarizeExperiment } from './index.js'
 
-function validate(config) {
+export function validateStudyConfig(config, { correctnessOnly = false } = {}) {
   if (config.schemaVersion !== 1 || !/^[a-z0-9-]+$/.test(config.studyId)) throw Error('Invalid online study')
   validateRequest(config.task.request); validateSpec(config.task.request.testSpec); validateSnapshot(config.task.baseSnapshot)
   validatePolicy(config.policy)
@@ -22,13 +22,16 @@ function validate(config) {
   if (!Number.isSafeInteger(config.attemptsPerCell) || config.attemptsPerCell < 1 || config.attemptsPerCell > 100) throw Error('Invalid attempt count')
   if (!Array.isArray(config.seeds) || !config.seeds.length || config.seeds.length > 32 || new Set(config.seeds).size !== config.seeds.length) throw Error('Invalid seeds')
   config.seeds.forEach(seed => seededIndex(seed, 'validation', 1))
-  if (!Array.isArray(config.modes) || !config.modes.length || new Set(config.modes).size !== config.modes.length || config.modes.some(m => !EXPERIMENT_MODES.includes(m))) throw Error('Invalid modes')
+  if (!Array.isArray(config.modes) || !config.modes.length || new Set(config.modes).size !== config.modes.length || config.modes.some(m => !EXPERIMENT_MODES.includes(m) && !(correctnessOnly && ['direct-flash','direct-pro'].includes(m)))) throw Error('Invalid modes')
   if (!config.routes.length || new Set(config.routes.map(r => r.id)).size !== config.routes.length) throw Error('Invalid routes')
   for (const route of config.routes) {
     validateDag(route.plan)
     if (!/^[a-z0-9-]+$/.test(route.id) || !Number.isSafeInteger(route.costMicrounits) || route.costMicrounits < 0 || !Number.isFinite(route.wallTimeMs) || route.wallTimeMs <= 0) throw Error('Invalid route estimates')
     const refactor = route.plan.tasks.find(t => t.id === route.refactorTaskId)
-    if (!route.plan.tasks.some(t => t.id === route.greenTaskId) || !refactor?.dependsOn.includes(route.greenTaskId)) throw Error('Invalid TDD route')
+    const direct = correctnessOnly && ['direct-flash','direct-pro'].includes(route.id)
+    if (direct) {
+      if (route.plan.tasks.length !== 1 || route.plan.tasks[0].id !== route.greenTaskId || route.refactorTaskId !== null) throw Error('Invalid direct route')
+    } else if (!route.plan.tasks.some(t => t.id === route.greenTaskId) || !refactor?.dependsOn.includes(route.greenTaskId)) throw Error('Invalid TDD route')
     if (route.plan.resources.agentSlots > config.policy.maxConcurrency || route.plan.tasks.some(t => !t.model || !config.policy.allowedModels.includes(`${t.model.provider}/${t.model.model}`))) throw Error('Route outside policy')
     if (config.policy.maxCostMicrounits !== null && route.costMicrounits > config.policy.maxCostMicrounits) throw Error('Route cost outside policy')
   }
@@ -83,7 +86,7 @@ export async function runOnlineStudy({out, config: input, createRuntime, search,
   signal?.throwIfAborted()
   if (!isAbsolute(out)) throw Error('Absolute output path required')
   const config = structuredClone(input)
-  validate(config)
+  validateStudyConfig(config)
   if (typeof createRuntime !== 'function') throw Error('Trusted runtime factory required')
   if (config.modes.some(m => m.startsWith('metaaco-')) && typeof search !== 'function') throw Error('Trusted skill search required')
   await mkdir(out, {mode:0o700})

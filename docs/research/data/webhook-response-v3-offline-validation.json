@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "3fd51633a51b94470d576bee3f69a68d1e6033a0",
+  "archiveSha256": "9d7d04b9b2f87a0a1fda349dff94d57079fc9f7899805545005d1a3b79fb7430",
+  "kind": "offline-validation-not-training",
+  "paidApiCalls": 0,
+  "server": {
+    "nodePassed": 26,
+    "pythonPassed": 34,
+    "skipped": 0,
+    "syntheticApi": true,
+    "v3MethodsRunInDocker": 5,
+    "dockerImage": "sha256:116b800c3754b440ee0aa3ed2f20f5bf3d99a554bfd9adeea09ea8017f6e85f5",
+    "pythonSource": "packaged vendor"
+  },
+  "local": {
+    "unitPassed": 180,
+    "integrationPassed": 40,
+    "integrationSkipped": 1,
+    "pythonPassed": 35,
+    "caveat": "One additional uncommitted owner Python test included locally; clean commit has 34."
+  },
+  "responseContract": {
+    "schemaVersion": 2,
+    "readOnlyFiles": [
+      "README.md"
+    ]
+  },
+  "taskHashes": {
+    "baseSnapshot": "908b883e19c29b03a444824ae79149695f569374502c8017a7f149c7c9e3e5da",
+    "testSpec": "b8caa792303533e6119500ad5a847a839e063eb06e6657538df318c99042452e",
+    "contracts": "fad03da2e570983374e445bd5f43914d292ef1666f32a3382f69d289a7bcfd75",
+    "responseContract": "ea28fc25a52d792e60392e79837bbff17c9722be8a7fe395688955958c38a94a"
+  },
+  "logSha256": {
+    "preview-v3.json": "ab76c2e4b671e5deea0a872c7e4ea744fca254da03b37f6adbf486458f6bb846",
+    "offline-python.log": "72bec049f9a4c41dcf5dc84db245574a869920a7cbe6e12c1f15f9d24119b051",
+    "offline-node.log": "75e38619190d0619605147ec29c2f0761f2bfee3ffc3ebd051bdcaa791ff3ea8"
+  }
+}

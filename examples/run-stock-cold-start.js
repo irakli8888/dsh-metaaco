@@ -9,7 +9,7 @@ import { coldStartProtocol, validateColdStartProtocol } from './cold-start-proto
 import { task, models, catalog, prompts } from './stock-route-catalog.js'
 import { createDeepSeekRuntime } from './deepseek-runtime.js'
 
-const {values}=parseArgs({options:{execute:{type:'boolean'},out:{type:'string'}}})
+export async function createStockStudyConfig() {
 const design=coldStartProtocol()
 const preview=validateColdStartProtocol(design)
 const routeCost=plan=>plan.tasks.reduce((n,t)=>n+(t.model.model===models[0]?301229:1324056),0)
@@ -26,6 +26,14 @@ async function hashes(directory,prefix='') {
   }
   return result
 }
+function sourceCommit() {
+  try { return execFileSync('git', ['rev-parse', 'HEAD'], {cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore']}).trim() }
+  catch {
+    const revision = process.env.METAACO_SOURCE_COMMIT
+    if (!/^[a-f0-9]{40}$/.test(revision ?? '')) throw Error('An exported tree requires METAACO_SOURCE_COMMIT with its full source commit')
+    return revision
+  }
+}
 const config={schemaVersion:1,studyId:'stock-cold-start-online-v1',task,trainTaskIds:[task.request.taskId],
   modes:design.modes,seeds:design.seeds,attemptsPerCell:design.attemptsPerCell,fixedRouteId:'route-0001',routes,skills,
   evaluationDockerImage:design.dockerImage,
@@ -33,16 +41,24 @@ const config={schemaVersion:1,studyId:'stock-cold-start-online-v1',task,trainTas
     normalization:{wallTimeMs:120000,costMicrounits:1000000},currency:'USD',allowedModels:models.map(m=>'deepseek/'+m),
     allowedTools:[],maxConcurrency:2,maxWallTimeMs:120000,maxCostMicrounits:11916504,minQuality:null},
   runtimeConfig:{source:'createDeepSeekRuntime',designHash:preview.sha256,
-    commit:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),
+    commit:sourceCommit(),
     files:{src:await hashes('src'),python:await hashes('python'),examples:await hashes('examples')},
     reward:'verified-success=1; failed/timeout/cancelled/interrupted=-1; inconclusive=null',
     contextualFeatures:'intercept-only, one fixed task',exploration:'least-observed-among-visited',
     initialForecasts:'Flash=4s, Pro=8s; technical cost reservations, not measured prices',
     seriesLimitMicrounits:null}}
+return {config,preview}
+}
+
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+const {values}=parseArgs({options:{execute:{type:'boolean'},out:{type:'string'}}})
+const {config,preview}=await createStockStudyConfig()
 if(!values.execute) console.log(JSON.stringify({...preview,implementation:'online-v1',maximumModelCalls:700*8,readyForPaidExecution:false,runnerImplemented:true,requiresLivePreflight:true},null,2))
 else {
   if(!values.out||!process.env.DEEPSEEK_API_KEY?.trim()) throw Error('Provide a fresh output path and DEEPSEEK_API_KEY')
   const result=await runOnlineStudy({out:values.out,config,allowLlm:true,search:searchOnlineSkills,
     createRuntime:args=>createDeepSeekRuntime({...args,key:process.env.DEEPSEEK_API_KEY})})
   console.log(JSON.stringify(result.summary,null,2))
+}
+
 }
