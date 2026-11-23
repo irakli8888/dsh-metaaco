@@ -1,0 +1,33 @@
+id	repo	split	kind	query	target
+01	metaaco	tune	filename	Where is metaaco_dag.py?	python/metaaco_dag.py
+02	metaaco	tune	symbol	Where is normalizeUsage defined?	src/metrics/pricing.js
+03	metaaco	tune	config	Which configuration file defines offline GitHub Actions jobs?	.github/workflows/offline.yml
+04	metaaco	tune	logic	Where does a workflow run dispose of its children after cancellation?	index.js
+05	metaaco	tune	call	Follow createSelectorSnapshot to the implementation that freezes training outcomes.	src/selector/index.js
+06	metaaco	tune	logic	Where are component file ownership conflicts checked when applying patches?	src/orchestration/snapshot-patch.js
+07	harness	tune	filename	Find grep.ts in the filesystem search package.	packages/fs/tool-fs-search/src/grep.ts
+08	harness	tune	symbol	Where is buildGlobCommand implemented?	packages/fs/tool-fs-search/src/glob.ts
+09	harness	tune	config	Which manifest declares the @vscode/ripgrep dependency for filesystem search?	packages/fs/tool-fs-search/package.json
+10	harness	tune	logic	Where are long previews truncated on UTF-8 byte boundaries?	packages/fs/tool-fs-search/src/search-core.ts
+11	harness	tune	call	Where does applyGlobTool register the glob tool?	packages/fs/tool-fs-search/src/glob.ts
+12	harness	tune	filename	Find ripgrep.d.ts.	packages/fs/tool-fs-search/src/ripgrep.d.ts
+13	metaaco	test	filename	Where is cordis.patch.yml?	cordis.patch.yml
+14	metaaco	test	filename	Find strategy-templates.js.	src/strategy-templates.js
+15	metaaco	test	filename	Which directory contains agent_problem.py?	python/agent_problem.py
+16	metaaco	test	symbol	Where is ColonyBanditController defined?	python/vendor/rcpsp/metaACO.py
+17	metaaco	test	symbol	Where is SerialScheduleGenerator implemented?	python/vendor/rcpsp/core.py
+18	metaaco	test	config	Where in the pnpm workspace configuration are packages approved to run build scripts?	pnpm-workspace.yaml
+19	metaaco	test	config	Which manifest defines the package exports and Node version requirement?	package.json
+20	metaaco	test	logic	Где проверяется расписание на превышение доступных ресурсов?	python/vendor/rcpsp/core.py
+21	metaaco	test	logic	Where does LinUCB compute the context score from observations and exploration?	src/selector/linucb.js
+22	metaaco	test	logic	Where is the failure when a budget reservation would exceed the remaining balance?	src/bank/accounting.js
+23	metaaco	test	call	Follow advanceFeedback to where the feedback snapshot is created and promoted.	src/feedback/index.js
+24	metaaco	test	call	Where does runSuite actually execute commands against the snapshot?	src/evaluation/runner.js
+25	harness	test	filename	Find BENCHMARK.md.	BENCHMARK.md
+26	harness	test	filename	Find replaced-externals.ts.	packages/experimental/webworker-runtime/src/node/external_packages/replaced-externals.ts
+27	harness	test	symbol	Where is buildGrepCommand defined?	packages/fs/tool-fs-search/src/grep.ts
+28	harness	test	symbol	Where is resolveRgPath implemented?	packages/fs/tool-fs-search/src/search-core.ts
+29	harness	test	config	Which manifest declares the CLI workspace dependencies including the headless bundle?	apps/cli/package.json
+30	harness	test	logic	Where does glob sample over-cap results across top-level directories?	packages/fs/tool-fs-search/src/glob.ts
+31	harness	test	call	The grep tool calls classifyRunFailure indirectly. Where is the failed subprocess classified?	packages/fs/tool-fs-search/src/search-core.ts
+32	harness	test	call	Where is the webworker replacement for the ripgrep npm package implemented?	packages/experimental/webworker-runtime/src/node/external_packages/ripgrep.ts
